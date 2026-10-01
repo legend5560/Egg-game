@@ -16,12 +16,26 @@ export class GameScene extends Phaser.Scene {
    * @returns {void}
    */
   create() {
-  const { width, height } = this.scale;
+    const { width, height } = this.scale;
 
-  this.add.image(width / 2, height / 2, ASSET_KEYS.BACKGROUND);
+    // Background
+    this.add.image(width / 2, height / 2, ASSET_KEYS.BACKGROUND).setDepth(0);
 
-  // 2. The jar, pinned to the middle of the screen so position can't be the issue
-  const jar = this.add.image(width / 2, height, ASSET_KEYS.JAR);
+    // Jar: centered on the bottom edge, so half of it is cut off
+    this.add.image(width / 2, height, ASSET_KEYS.JAR).setDepth(10);
 
-}
+    // Player's username, set in PreloadScene after login
+    const player = this.registry.get('player');
+
+    this.add
+      .text(width / 2, height / 2, player?.username || 'Player', {
+        fontFamily: 'Arial, sans-serif',
+        fontSize: '24px',
+        color: '#ffffff',
+        stroke: '#000000',
+        strokeThickness: 4,
+      })
+      .setOrigin(0.5)
+      .setDepth(100);
+  }
 }
