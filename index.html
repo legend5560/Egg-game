@@ -13,6 +13,17 @@
   </head>
   <body>
     <div class="container" id="game-container"></div>
+
+    <div id="login-overlay" hidden>
+      <div class="login-card">
+        <h2>Sign in</h2>
+        <input id="login-email" type="email" placeholder="Email" autocomplete="email" />
+        <input id="login-password" type="password" placeholder="Password" autocomplete="current-password" />
+        <button id="login-btn">Sign In</button>
+        <p id="login-error"></p>
+      </div>
+    </div>
+
     <script src="src/main.js" type="module"></script>
   </body>
 </html>
