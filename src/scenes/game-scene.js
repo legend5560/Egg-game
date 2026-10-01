@@ -32,17 +32,18 @@ export class GameScene extends Phaser.Scene {
 
   layout(gameSize) {
     const { width, height } = gameSize;
+    const unit = Math.min(width, height); // one number everything scales from
 
-    // Background: scaled down (or up) to cover the whole screen
+    // Background: scaled to cover the whole screen
     const bgScale = Math.max(width / this.bg.width, height / this.bg.height);
     this.bg.setScale(bgScale).setPosition(width / 2, height / 2);
 
-    // Jar: 60% of the screen width (max 320px), half cut off at the bottom
-    const jarWidth = Math.min(width * 0.6, 320);
-    this.jar.setScale(jarWidth / this.jar.width).setPosition(width / 2, height);
+    // Jar: fits 70% of the screen's short side, but never scales above 100%.
+    // Centered on the bottom edge, so the bottom half is cut off.
+    const jarScale = Math.min(1, (unit * 0.7) / this.jar.width);
+    this.jar.setScale(jarScale).setPosition(width / 2, height);
 
-    // Username: font size follows the screen width
-    const fontSize = Phaser.Math.Clamp(Math.round(width / 15), 18, 32);
-    this.nameText.setFontSize(fontSize).setPosition(width / 2, height / 2);
+    // Username: font size follows the screen size
+    this.nameText.setFontSize(Math.round(unit * 0.06)).setPosition(width / 2, height / 2);
   }
 }
