@@ -1,7 +1,7 @@
 import Phaser from '../lib/phaser.js';
 import { SCENE_KEYS } from '../common/scene-keys.js';
 import { IMAGE_ASSETS, TEXTURE_ATLAS_ASSETS } from '../common/assets.js';
-//import { requireUser } from '../common/auth.js';
+import { waitForParentAuth } from '../common/auth.js';
 
 export class PreloadScene extends Phaser.Scene {
   constructor() {
@@ -20,7 +20,13 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   async create() {
+    // Name sent by the website if the game is embedded and the visitor is logged in
+    const parentPlayer = await waitForParentAuth();
 
+    this.registry.set('player', {
+      uid: parentPlayer?.uid || null,
+      username: parentPlayer?.username || 'Player',
+    });
 
     this.scene.start(SCENE_KEYS.GAME_SCENE);
   }

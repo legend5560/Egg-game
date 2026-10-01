@@ -16,6 +16,44 @@ const firebaseConfig = {
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
+// ---- NEW: login info passed down from the website that embeds the game ----
+
+// Pages allowed to tell the game who the player is.
+// Include whichever domains actually serve the page with the iframe.
+const ALLOWED_PARENTS = [
+  'https://alistermonstertamer.com',
+  'https://alister.manakeep.com',
+];
+
+// Resolves with { uid, username, idToken } from the parent page, or null if
+// the game isn't embedded or the visitor isn't logged in on the website
+export function waitForParentAuth(timeoutMs = 1500) {
+  return new Promise((resolve) => {
+    if (window.parent === window) {      // not inside an iframe
+      resolve(null);
+      return;
+    }
+
+    const finish = (value) => {
+      clearTimeout(timer);
+      window.removeEventListener('message', onMessage);
+      resolve(value);
+    };
+
+    const onMessage = (e) => {
+      if (!ALLOWED_PARENTS.includes(e.origin)) return;
+      if (!e.data || e.data.type !== 'auth') return;
+      finish({ uid: e.data.uid, username: e.data.username, idToken: e.data.idToken });
+    };
+
+    const timer = setTimeout(() => finish(null), timeoutMs);
+    window.addEventListener('message', onMessage);
+    window.parent.postMessage({ type: 'game-ready' }, '*'); // carries no data
+  });
+}
+
+// ---- Existing code below ----
+
 // Waits for Firebase to restore any saved session, then returns the user or null
 function getCurrentUser() {
   return new Promise((resolve) => {
