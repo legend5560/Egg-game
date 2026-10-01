@@ -20,5 +20,6 @@ export class GameScene extends Phaser.Scene {
     // add game background
     this.add.image(width / 2, height / 2, ASSET_KEYS.BACKGROUND);
     this.add.image(width/2, height, ASSET_KEYS.JAR);
+    console.log("hello")
   }
 }
