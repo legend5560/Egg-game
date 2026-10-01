@@ -24,7 +24,7 @@ export class GameScene extends Phaser.Scene {
   this.add.rectangle(width / 2, height - 50, 100, 100, 0xff0000).setDepth(50);
 
   // 2. The jar, pinned to the middle of the screen so position can't be the issue
-  const jar = this.add.image(width / 2, height / 2, ASSET_KEYS.JAR).setDepth(20);
+  const jar = this.add.image(width / 2, height, ASSET_KEYS.JAR);
 
   console.log('JAR KEY:', ASSET_KEYS.JAR);
   console.log('exists:', this.textures.exists(ASSET_KEYS.JAR));
