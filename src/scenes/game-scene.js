@@ -16,10 +16,19 @@ export class GameScene extends Phaser.Scene {
    * @returns {void}
    */
   create() {
-    const {width, height} = this.scale;
-    // add game background
-    this.add.image(width / 2, height / 2, ASSET_KEYS.BACKGROUND);
-    this.add.image(width / 2, height, ASSET_KEYS.JAR).setOrigin(0.5, 1);
-    console.log("hello")
-  }
+  const { width, height } = this.scale;
+
+  this.add.image(width / 2, height / 2, ASSET_KEYS.BACKGROUND);
+
+  // 1. Bright box at the jar's spot: proves this position is on-screen and drawn on top
+  this.add.rectangle(width / 2, height - 50, 100, 100, 0xff0000).setDepth(50);
+
+  // 2. The jar, pinned to the middle of the screen so position can't be the issue
+  const jar = this.add.image(width / 2, height / 2, ASSET_KEYS.JAR).setDepth(20);
+
+  console.log('JAR KEY:', ASSET_KEYS.JAR);
+  console.log('exists:', this.textures.exists(ASSET_KEYS.JAR));
+  console.log('size:', jar.width, jar.height);
+  console.log('all textures:', this.textures.getTextureKeys());
+}
 }
