@@ -99,10 +99,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		var self = this;
 		this.stop();
 		
-		var PARENT_ORIGIN = "https://alistermonstertamer.com";   // the site that embeds the game
+		var PARENT_ORIGIN = "https://alistermonstertamer.com";
 		
-		// Only attach the listener once, even if the playhead returns to this frame
-		if (!exportRoot.authListenerAttached) {
+		// Running on its own (Animate preview or the GitHub link), not inside your site:
+		// skip login so you can test. Delete this block before launch.
+		if (window.parent === window) {
+		    exportRoot.user = { uid: "dev-user", username: "dev" };
+		    this.gotoAndStop("game");
+		}
+		else if (!exportRoot.authListenerAttached) {
 		    exportRoot.authListenerAttached = true;
 		    exportRoot.user = null;
 		    exportRoot.idToken = null;
@@ -114,18 +119,22 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        var d = e.data;
 		        if (!d || d.type !== "auth") return;
 		
+		        console.log("game got auth message:", d.uid ? "signed in" : "signed out", d.username);
 		        exportRoot.gotAuth = true;
 		
 		        if (d.uid && d.idToken) {
-		            var wasSignedOut = !exportRoot.user;
 		            exportRoot.user = { uid: d.uid, username: d.username };
-		            exportRoot.idToken = d.idToken;       // refreshed roughly hourly
-		            if (wasSignedOut) exportRoot.gotoAndStop("game");
+		            exportRoot.idToken = d.idToken;
 		        } else {
 		            exportRoot.user = null;
 		            exportRoot.idToken = null;
-		            exportRoot.gotoAndStop("menu");       // back to "log in on the site"
 		        }
+		
+		        // Leave the menu once we've heard from the site
+		        if (exportRoot.currentLabel === "menu") exportRoot.gotoAndStop("game");
+		
+		        // Refresh the name text if the game screen is already showing
+		        if (exportRoot.onUserChange) exportRoot.onUserChange();
 		    });
 		
 		    // Tell the site we're listening; retry in case it wasn't ready yet
@@ -136,23 +145,33 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    }, 500);
 		    window.parent.postMessage({ type: "game-ready" }, PARENT_ORIGIN);
 		}
-		this.gotoAndStop("game");
 	}
 	this.frame_1 = function() {
 		var self = this;
 		this.stop();
 		
+		// --- Player name ---
 		function showName() {
 		    var u = exportRoot.user;
 		    self.nameText.text = (u && u.username) ? u.username : "Player";
 		}
+		showName();
+		exportRoot.onUserChange = showName;
 		
-		showName();                      // set it now
-		exportRoot.onUserChange = showName;   // and again if login arrives later
+		// --- Floating egg ---
+		var startY = self.egg.y;
+		var time = 0;
 		
-		// Clean up when leaving this screen
+		function floatEgg(evt) {
+		    time += evt.delta / 1000;
+		    self.egg.y = startY + Math.sin(time * 1.5) * 15;
+		}
+		createjs.Ticker.addEventListener("tick", floatEgg);
+		
+		// --- Clean up when leaving this screen ---
 		this.cleanup = function() {
 		    exportRoot.onUserChange = null;
+		    createjs.Ticker.removeEventListener("tick", floatEgg);
 		};
 		var self = this;
 		var startY = self.egg.y;
@@ -206,7 +225,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790976885163", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790977251943", id:"index_atlas_"}
 	],
 	preloads: []
 };
