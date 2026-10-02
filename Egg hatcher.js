@@ -3,7 +3,7 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"Egg hatcher_atlas_", frames: [[0,0,468,468]]}
+		{name:"Egg hatcher_atlas_", frames: [[0,0,468,468],[0,470,592,96]]}
 ];
 
 
@@ -14,6 +14,13 @@ lib.ssMetadata = [
 (lib.CachedTexturedBitmap_3 = function() {
 	this.initialize(ss["Egg hatcher_atlas_"]);
 	this.gotoAndStop(0);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_4 = function() {
+	this.initialize(ss["Egg hatcher_atlas_"]);
+	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -102,6 +109,13 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
 
+	// Login
+	this.instance = new lib.CachedTexturedBitmap_4();
+	this.instance.parent = this;
+	this.instance.setTransform(331.1,24.15,0.5,0.5);
+
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+
 	// Layer_1
 	this.egg = new lib.egg();
 	this.egg.name = "egg";
@@ -111,7 +125,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(835.5,539.5,-246,-86);
+p.nominalBounds = new cjs.Rectangle(811.1,344.2,-184,109.30000000000001);
 // library properties:
 lib.properties = {
 	id: '6EA4766156B7B04292821C2C02025349',
@@ -121,7 +135,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/Egg hatcher_atlas_.png?1790974268080", id:"Egg hatcher_atlas_"}
+		{src:"images/Egg hatcher_atlas_.png?1790974360370", id:"Egg hatcher_atlas_"}
 	],
 	preloads: []
 };
