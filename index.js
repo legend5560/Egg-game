@@ -11,7 +11,7 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_10 = function() {
+(lib.CachedTexturedBitmap_11 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
@@ -38,7 +38,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_10();
+	this.instance = new lib.CachedTexturedBitmap_11();
 	this.instance.parent = this;
 	this.instance.setTransform(-0.5,-0.5,0.5,0.5);
 
@@ -49,7 +49,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 // stage content:
 (lib.Egggame = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
+	this.initialize(mode,startPosition,loop,{menu:0,game:1});
 
 	// timeline functions:
 	this.frame_0 = function() {
@@ -129,6 +129,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    }, 500);
 		    window.parent.postMessage({ type: "game-ready" }, PARENT_ORIGIN);
 		}
+		this.gotoAndStop("game");
+	}
+	this.frame_1 = function() {
 		var self = this;
 		var startY = self.egg.y;
 		var time = 0;
@@ -140,18 +143,31 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
+
+	// Layer_2
+	this.nameText = new cjs.Text("Player name here", "16px 'Times New Roman'", "#FFFFFF");
+	this.nameText.name = "nameText";
+	this.nameText.textAlign = "center";
+	this.nameText.lineHeight = 20;
+	this.nameText.lineWidth = 120;
+	this.nameText.parent = this;
+	this.nameText.setTransform(465.45,47.35,3.2393,3.2393);
+	this.nameText._off = true;
+
+	this.timeline.addTween(cjs.Tween.get(this.nameText).wait(1).to({_off:false},0).wait(1));
 
 	// Layer_1
 	this.egg = new lib.egg();
 	this.egg.name = "egg";
 	this.egg.parent = this;
 	this.egg.setTransform(472.5,336.5,1,1,0,0,0,116.5,116.5);
+	this.egg._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1).to({_off:false},0).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(835.5,539.5,-246,-86);
+p.nominalBounds = new cjs.Rectangle(0,0,666.1,453.5);
 // library properties:
 lib.properties = {
 	id: '6EA4766156B7B04292821C2C02025349',
@@ -161,7 +177,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790975433831", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790975637279", id:"index_atlas_"}
 	],
 	preloads: []
 };
