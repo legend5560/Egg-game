@@ -133,6 +133,21 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	}
 	this.frame_1 = function() {
 		var self = this;
+		this.stop();
+		
+		function showName() {
+		    var u = exportRoot.user;
+		    self.nameText.text = (u && u.username) ? u.username : "Player";
+		}
+		
+		showName();                      // set it now
+		exportRoot.onUserChange = showName;   // and again if login arrives later
+		
+		// Clean up when leaving this screen
+		this.cleanup = function() {
+		    exportRoot.onUserChange = null;
+		};
+		var self = this;
 		var startY = self.egg.y;
 		var time = 0;
 		
@@ -177,7 +192,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790975637279", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790975680768", id:"index_atlas_"}
 	],
 	preloads: []
 };
