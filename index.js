@@ -3,7 +3,7 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"index_atlas_", frames: [[0,0,468,468]]}
+		{name:"index_atlas_", frames: [[0,0,468,468],[0,470,222,320]]}
 ];
 
 
@@ -14,6 +14,13 @@ lib.ssMetadata = [
 (lib.CachedTexturedBitmap_11 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(0);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_12 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -160,6 +167,13 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
 
+	// Layer_3
+	this.instance = new lib.CachedTexturedBitmap_12();
+	this.instance.parent = this;
+	this.instance.setTransform(667.6,241.9,0.5,0.5);
+
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(2));
+
 	// Layer_2
 	this.nameText = new cjs.Text("Player name here", "16px 'Times New Roman'", "#FFFFFF");
 	this.nameText.name = "nameText";
@@ -182,7 +196,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1).to({_off:false},0).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(0,0,666.1,453.5);
+p.nominalBounds = new cjs.Rectangle(744.9,360.9,33.700000000000045,92.60000000000002);
 // library properties:
 lib.properties = {
 	id: '6EA4766156B7B04292821C2C02025349',
@@ -192,7 +206,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790975680768", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790976042563", id:"index_atlas_"}
 	],
 	preloads: []
 };
