@@ -3,7 +3,7 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"Index_atlas_", frames: [[0,0,468,468]]}
+		{name:"index_atlas_", frames: [[0,0,468,468]]}
 ];
 
 
@@ -11,8 +11,8 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_5 = function() {
-	this.initialize(ss["Index_atlas_"]);
+(lib.CachedTexturedBitmap_10 = function() {
+	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
@@ -38,7 +38,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_5();
+	this.instance = new lib.CachedTexturedBitmap_10();
 	this.instance.parent = this;
 	this.instance.setTransform(-0.5,-0.5,0.5,0.5);
 
@@ -146,22 +146,22 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.egg = new lib.egg();
 	this.egg.name = "egg";
 	this.egg.parent = this;
-	this.egg.setTransform(650.55,336.5,1,1,0,0,0,116.5,116.5);
+	this.egg.setTransform(472.5,336.5,1,1,0,0,0,116.5,116.5);
 
 	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(1173.6,579.5,-405.9999999999999,-126);
+p.nominalBounds = new cjs.Rectangle(835.5,539.5,-246,-86);
 // library properties:
 lib.properties = {
 	id: '6EA4766156B7B04292821C2C02025349',
-	width: 1280,
-	height: 720,
+	width: 960,
+	height: 640,
 	fps: 30,
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/Index_atlas_.png?1790974999384", id:"Index_atlas_"}
+		{src:"images/index_atlas_.png?1790975433831", id:"index_atlas_"}
 	],
 	preloads: []
 };
