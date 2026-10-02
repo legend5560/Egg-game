@@ -18,7 +18,7 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_12 = function() {
+(lib.CachedTexturedBitmap_13 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
@@ -168,7 +168,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
 
 	// Layer_3
-	this.instance = new lib.CachedTexturedBitmap_12();
+	this.instance = new lib.CachedTexturedBitmap_13();
 	this.instance.parent = this;
 	this.instance.setTransform(667.6,241.9,0.5,0.5);
 
@@ -196,17 +196,17 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1).to({_off:false},0).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(744.9,360.9,33.700000000000045,92.60000000000002);
+p.nominalBounds = new cjs.Rectangle(904.9,400.9,-126.29999999999995,52.60000000000002);
 // library properties:
 lib.properties = {
 	id: '6EA4766156B7B04292821C2C02025349',
-	width: 960,
-	height: 640,
+	width: 1280,
+	height: 720,
 	fps: 30,
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790976042563", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790976370696", id:"index_atlas_"}
 	],
 	preloads: []
 };
