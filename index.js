@@ -729,8 +729,8 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/CachedTexturedBitmap_3.png?1790985449216", id:"CachedTexturedBitmap_3"},
-		{src:"images/index_atlas_.png?1790985449207", id:"index_atlas_"}
+		{src:"images/CachedTexturedBitmap_3.png", id:"CachedTexturedBitmap_3"},
+		{src:"images/index_atlas_.png", id:"index_atlas_"}
 	],
 	preloads: []
 };
