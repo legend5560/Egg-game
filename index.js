@@ -99,7 +99,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		var self = this;
 		this.stop();
 		
-		var PARENT_ORIGIN = "https://YOUR-WEBSITE.com";   // the site that embeds the game
+		var PARENT_ORIGIN = "https://alistermonstertamer.com";   // the site that embeds the game
 		
 		// Only attach the listener once, even if the playhead returns to this frame
 		if (!exportRoot.authListenerAttached) {
@@ -206,7 +206,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790976370696", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790976885163", id:"index_atlas_"}
 	],
 	preloads: []
 };
