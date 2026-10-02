@@ -3,7 +3,7 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"Egg hatcher_atlas_", frames: [[0,0,468,468],[0,470,592,96]]}
+		{name:"Index_atlas_", frames: [[0,0,468,468]]}
 ];
 
 
@@ -11,16 +11,9 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_3 = function() {
-	this.initialize(ss["Egg hatcher_atlas_"]);
+(lib.CachedTexturedBitmap_5 = function() {
+	this.initialize(ss["Index_atlas_"]);
 	this.gotoAndStop(0);
-}).prototype = p = new cjs.Sprite();
-
-
-
-(lib.CachedTexturedBitmap_4 = function() {
-	this.initialize(ss["Egg hatcher_atlas_"]);
-	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -45,7 +38,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_3();
+	this.instance = new lib.CachedTexturedBitmap_5();
 	this.instance.parent = this;
 	this.instance.setTransform(-0.5,-0.5,0.5,0.5);
 
@@ -97,6 +90,46 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		// --- Mobile-only
 		var self = this;
+		this.stop();
+		
+		var PARENT_ORIGIN = "https://YOUR-WEBSITE.com";   // the site that embeds the game
+		
+		// Only attach the listener once, even if the playhead returns to this frame
+		if (!exportRoot.authListenerAttached) {
+		    exportRoot.authListenerAttached = true;
+		    exportRoot.user = null;
+		    exportRoot.idToken = null;
+		    exportRoot.gotAuth = false;
+		
+		    window.addEventListener("message", function(e) {
+		        if (e.origin !== PARENT_ORIGIN) return;
+		        if (e.source !== window.parent) return;
+		        var d = e.data;
+		        if (!d || d.type !== "auth") return;
+		
+		        exportRoot.gotAuth = true;
+		
+		        if (d.uid && d.idToken) {
+		            var wasSignedOut = !exportRoot.user;
+		            exportRoot.user = { uid: d.uid, username: d.username };
+		            exportRoot.idToken = d.idToken;       // refreshed roughly hourly
+		            if (wasSignedOut) exportRoot.gotoAndStop("game");
+		        } else {
+		            exportRoot.user = null;
+		            exportRoot.idToken = null;
+		            exportRoot.gotoAndStop("menu");       // back to "log in on the site"
+		        }
+		    });
+		
+		    // Tell the site we're listening; retry in case it wasn't ready yet
+		    var tries = 0;
+		    var timer = setInterval(function() {
+		        if (exportRoot.gotAuth || ++tries > 20) return clearInterval(timer);
+		        window.parent.postMessage({ type: "game-ready" }, PARENT_ORIGIN);
+		    }, 500);
+		    window.parent.postMessage({ type: "game-ready" }, PARENT_ORIGIN);
+		}
+		var self = this;
 		var startY = self.egg.y;
 		var time = 0;
 		
@@ -109,33 +142,26 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
 
-	// Login
-	this.instance = new lib.CachedTexturedBitmap_4();
-	this.instance.parent = this;
-	this.instance.setTransform(331.1,24.15,0.5,0.5);
-
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
-
 	// Layer_1
 	this.egg = new lib.egg();
 	this.egg.name = "egg";
 	this.egg.parent = this;
-	this.egg.setTransform(472.5,336.5,1,1,0,0,0,116.5,116.5);
+	this.egg.setTransform(650.55,336.5,1,1,0,0,0,116.5,116.5);
 
 	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(811.1,344.2,-184,109.30000000000001);
+p.nominalBounds = new cjs.Rectangle(1173.6,579.5,-405.9999999999999,-126);
 // library properties:
 lib.properties = {
 	id: '6EA4766156B7B04292821C2C02025349',
-	width: 960,
-	height: 640,
+	width: 1280,
+	height: 720,
 	fps: 30,
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/Egg hatcher_atlas_.png?1790974360370", id:"Egg hatcher_atlas_"}
+		{src:"images/Index_atlas_.png?1790974999384", id:"Index_atlas_"}
 	],
 	preloads: []
 };
