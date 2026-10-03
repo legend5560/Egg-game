@@ -2196,22 +2196,22 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        );
 		
 		
-		        // Moderate sizes so the rows don't overlap
 		        hatchFontSize = Math.max(
-		            16,
-		            Math.min(22, H * 0.024)
+		            17,
+		            Math.min(23, H * 0.025)
 		        );
 		
 		
+		        // Larger timer
 		        timerFontSize = Math.max(
-		            48,
-		            Math.min(62, H * 0.068)
+		            58,
+		            Math.min(76, H * 0.082)
 		        );
 		
 		
 		        labelFontSize = Math.max(
-		            11,
-		            Math.min(15, H * 0.016)
+		            10,
+		            Math.min(14, H * 0.015)
 		        );
 		
 		    } else {
@@ -2330,65 +2330,64 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // MOBILE
+		    // MOBILE LAYOUT
 		    // --------------------------------------------------
 		
 		    if (portrait) {
 		
-		        // ----------------------------------------------
-		        // USE THE ACTUAL BAR HEIGHT
-		        // ----------------------------------------------
-		
-		        var topPadding = 7;
-		        var bottomPadding = 7;
-		
-		        var usableHeight =
-		            barHeight -
-		            topPadding -
-		            bottomPadding;
-		
-		
-		        // ----------------------------------------------
-		        // TOTAL TEXT HEIGHT
-		        // ----------------------------------------------
+		        // --------------------------------------------------
+		        // ACTUAL TEXT HEIGHTS
+		        // --------------------------------------------------
 		
 		        var hatchHeight =
-		            hatchFontSize;
+		            hatchText.getMeasuredHeight();
 		
 		        var timerHeight =
-		            timerFontSize;
+		            hatchTimer.getMeasuredHeight();
 		
 		        var labelHeight =
-		            labelFontSize;
+		            timerLabels.getMeasuredHeight();
 		
 		
-		        // ----------------------------------------------
-		        // SPACING BETWEEN ROWS
-		        // ----------------------------------------------
+		        // --------------------------------------------------
+		        // SAFE PADDING
+		        // --------------------------------------------------
 		
-		        var totalTextHeight =
+		        var topPadding = 6;
+		        var bottomPadding = 6;
+		
+		
+		        // --------------------------------------------------
+		        // TOTAL CONTENT HEIGHT
+		        // --------------------------------------------------
+		
+		        var contentHeight =
 		            hatchHeight +
 		            timerHeight +
 		            labelHeight;
 		
 		
-		        var remainingSpace =
-		            usableHeight -
-		            totalTextHeight;
+		        // --------------------------------------------------
+		        // AVAILABLE SPACE FOR GAPS
+		        // --------------------------------------------------
+		
+		        var availableGapSpace =
+		            barHeight -
+		            topPadding -
+		            bottomPadding -
+		            contentHeight;
 		
 		
-		        // Divide the remaining space between
-		        // the three rows.
-		        var rowGap =
+		        var gap =
 		            Math.max(
-		                2,
-		                remainingSpace / 2
+		                1,
+		                availableGapSpace / 2
 		            );
 		
 		
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		        // ROW 1
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		
 		        hatchText.x =
 		            W / 2;
@@ -2398,9 +2397,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            topPadding;
 		
 		
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		        // ROW 2
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		
 		        hatchTimer.x =
 		            W / 2;
@@ -2408,12 +2407,12 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        hatchTimer.y =
 		            hatchText.y +
 		            hatchHeight +
-		            rowGap;
+		            gap;
 		
 		
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		        // ROW 3
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		
 		        timerLabels.x =
 		            W / 2;
@@ -2421,7 +2420,32 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        timerLabels.y =
 		            hatchTimer.y +
 		            timerHeight +
-		            rowGap;
+		            gap;
+		
+		
+		        // --------------------------------------------------
+		        // FINAL SAFETY CHECK
+		        // --------------------------------------------------
+		
+		        var labelBottom =
+		            timerLabels.y +
+		            labelHeight;
+		
+		
+		        if (
+		            labelBottom >
+		            H - bottomPadding
+		        ) {
+		
+		            var correction =
+		                labelBottom -
+		                (H - bottomPadding);
+		
+		
+		            hatchText.y -= correction;
+		            hatchTimer.y -= correction;
+		            timerLabels.y -= correction;
+		        }
 		
 		
 		    } else {
@@ -2490,7 +2514,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790999560503", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790999849311", id:"index_atlas_"}
 	],
 	preloads: []
 };
