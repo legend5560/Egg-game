@@ -2196,22 +2196,24 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        );
 		
 		
+		        // Larger hatch message
 		        hatchFontSize = Math.max(
-		            17,
-		            Math.min(23, H * 0.025)
+		            20,
+		            Math.min(28, H * 0.030)
 		        );
 		
 		
-		        // Larger timer
+		        // Large countdown
 		        timerFontSize = Math.max(
 		            58,
 		            Math.min(76, H * 0.082)
 		        );
 		
 		
+		        // Larger HOURS / MINUTES / SECONDS
 		        labelFontSize = Math.max(
-		            10,
-		            Math.min(14, H * 0.015)
+		            13,
+		            Math.min(18, H * 0.020)
 		        );
 		
 		    } else {
@@ -2514,7 +2516,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790999849311", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791000256560", id:"index_atlas_"}
 	],
 	preloads: []
 };
