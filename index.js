@@ -2196,22 +2196,25 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        );
 		
 		
-		        // Larger mobile text
+		        // ----------------------------------------------
+		        // MUCH LARGER MOBILE TEXT
+		        // ----------------------------------------------
+		
 		        hatchFontSize = Math.max(
-		            16,
-		            Math.min(22, H * 0.024)
+		            22,
+		            Math.min(30, H * 0.034)
 		        );
 		
 		
 		        timerFontSize = Math.max(
-		            48,
-		            Math.min(62, H * 0.068)
+		            64,
+		            Math.min(82, H * 0.090)
 		        );
 		
 		
 		        labelFontSize = Math.max(
-		            11,
-		            Math.min(15, H * 0.016)
+		            14,
+		            Math.min(19, H * 0.021)
 		        );
 		
 		    } else {
@@ -2336,33 +2339,36 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    if (portrait) {
 		
 		        // ----------------------------------------------
-		        // ROW 1
+		        // HATCH MESSAGE
 		        // ----------------------------------------------
 		
-		        hatchText.x = W / 2;
+		        hatchText.x =
+		            W / 2;
 		
 		        hatchText.y =
-		            barTop + 8;
+		            barTop + 5;
 		
 		
 		        // ----------------------------------------------
-		        // ROW 2
+		        // TIMER
 		        // ----------------------------------------------
 		
-		        hatchTimer.x = W / 2;
+		        hatchTimer.x =
+		            W / 2;
 		
 		        hatchTimer.y =
-		            barTop + 32;
+		            barTop + 29;
 		
 		
 		        // ----------------------------------------------
-		        // ROW 3
+		        // TIMER LABELS
 		        // ----------------------------------------------
 		
-		        timerLabels.x = W / 2;
+		        timerLabels.x =
+		            W / 2;
 		
 		        timerLabels.y =
-		            barTop + 92;
+		            barTop + 91;
 		
 		
 		    } else {
@@ -2371,19 +2377,22 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        // DESKTOP LAYOUT
 		        // ----------------------------------------------
 		
-		        hatchText.x = W / 2;
+		        hatchText.x =
+		            W / 2;
 		
 		        hatchText.y =
 		            barTop + 10;
 		
 		
-		        hatchTimer.x = W / 2;
+		        hatchTimer.x =
+		            W / 2;
 		
 		        hatchTimer.y =
 		            barTop + 24;
 		
 		
-		        timerLabels.x = W / 2;
+		        timerLabels.x =
+		            W / 2;
 		
 		        timerLabels.y =
 		            barTop + 63;
@@ -2428,7 +2437,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790999281294", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790999393433", id:"index_atlas_"}
 	],
 	preloads: []
 };
