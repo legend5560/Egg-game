@@ -1006,6 +1006,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
+		// ENABLE TOUCH
+		// --------------------------------------------------
+		
+		if (exportRoot.stage) {
+		    createjs.Touch.enable(exportRoot.stage);
+		}
+		
+		
+		// --------------------------------------------------
 		// MENU BUTTON
 		// --------------------------------------------------
 		
@@ -1076,30 +1085,50 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
-		// HOVER ON
+		// HOVER ON - PC
 		// --------------------------------------------------
 		
 		settingsBtn.addEventListener("rollover", function () {
 		
-		    // Bright light-blue outline
 		    drawMenuBg("#8fd8ff");
-		
-		    // Bright light-blue hamburger lines
 		    drawMenuLines("#8fd8ff");
 		
 		});
 		
 		
 		// --------------------------------------------------
-		// HOVER OFF
+		// HOVER OFF - PC
 		// --------------------------------------------------
 		
 		settingsBtn.addEventListener("rollout", function () {
 		
-		    // Normal outline
 		    drawMenuBg("#527896");
+		    drawMenuLines("#b9d8eb");
 		
-		    // Normal hamburger lines
+		});
+		
+		
+		// --------------------------------------------------
+		// PRESS DOWN - MOUSE / TOUCH
+		// --------------------------------------------------
+		
+		settingsBtn.addEventListener("mousedown", function () {
+		
+		    // Pressed appearance
+		    drawMenuBg("#8fd8ff");
+		    drawMenuLines("#8fd8ff");
+		
+		});
+		
+		
+		// --------------------------------------------------
+		// RELEASE - MOUSE / TOUCH
+		// --------------------------------------------------
+		
+		settingsBtn.addEventListener("pressup", function () {
+		
+		    // Return to normal appearance
+		    drawMenuBg("#527896");
 		    drawMenuLines("#b9d8eb");
 		
 		});
@@ -1321,7 +1350,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790996230255", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790997026199", id:"index_atlas_"}
 	],
 	preloads: []
 };
