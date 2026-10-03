@@ -1733,6 +1733,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
+		// COUNTDOWN
+		// --------------------------------------------------
+		
+		var countdownSeconds = 30;
+		
+		var countdownTimer = null;
+		
+		
+		// --------------------------------------------------
 		// HATCH TEXT
 		// --------------------------------------------------
 		
@@ -1752,7 +1761,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		var hatchTimer = new createjs.Text(
-		    "00:00:00",
+		    "00:00:30",
 		    "37px 'Marcellus'",
 		    "#e8f5ff"
 		);
@@ -1775,6 +1784,94 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		timerLabels.textAlign = "center";
 		
 		bottomBar.addChild(timerLabels);
+		
+		
+		// --------------------------------------------------
+		// UPDATE COUNTDOWN DISPLAY
+		// --------------------------------------------------
+		
+		function updateCountdown() {
+		
+		    var totalSeconds = Math.max(
+		        0,
+		        countdownSeconds
+		    );
+		
+		    var hours = Math.floor(
+		        totalSeconds / 3600
+		    );
+		
+		    var minutes = Math.floor(
+		        (totalSeconds % 3600) / 60
+		    );
+		
+		    var seconds = totalSeconds % 60;
+		
+		
+		    var hourText =
+		        hours < 10
+		            ? "0" + hours
+		            : hours;
+		
+		
+		    var minuteText =
+		        minutes < 10
+		            ? "0" + minutes
+		            : minutes;
+		
+		
+		    var secondText =
+		        seconds < 10
+		            ? "0" + seconds
+		            : seconds;
+		
+		
+		    hatchTimer.text =
+		        hourText +
+		        ":" +
+		        minuteText +
+		        ":" +
+		        secondText;
+		}
+		
+		
+		// --------------------------------------------------
+		// START COUNTDOWN
+		// --------------------------------------------------
+		
+		function startCountdown() {
+		
+		    // Prevent duplicate timers
+		    if (countdownTimer) {
+		        clearInterval(countdownTimer);
+		    }
+		
+		
+		    countdownSeconds = 30;
+		
+		    updateCountdown();
+		
+		
+		    countdownTimer = setInterval(function() {
+		
+		        countdownSeconds--;
+		
+		        if (countdownSeconds < 0) {
+		            countdownSeconds = 0;
+		        }
+		
+		        updateCountdown();
+		
+		
+		        if (countdownSeconds <= 0) {
+		
+		            clearInterval(countdownTimer);
+		            countdownTimer = null;
+		
+		        }
+		
+		    }, 1000);
+		}
 		
 		
 		// --------------------------------------------------
@@ -1806,11 +1903,28 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        // MOBILE / PORTRAIT
 		        // ----------------------------------------------
 		
-		        barHeight = Math.max(108, H * 0.15);
+		        barHeight = Math.max(
+		            118,
+		            H * 0.16
+		        );
 		
-		        hatchFontSize = Math.max(14, H * 0.020);
-		        timerFontSize = Math.max(48, H * 0.070);
-		        labelFontSize = Math.max(10, H * 0.014);
+		
+		        hatchFontSize = Math.max(
+		            13,
+		            Math.min(18, H * 0.020)
+		        );
+		
+		
+		        timerFontSize = Math.max(
+		            40,
+		            Math.min(54, H * 0.060)
+		        );
+		
+		
+		        labelFontSize = Math.max(
+		            9,
+		            Math.min(12, H * 0.013)
+		        );
 		
 		    } else {
 		
@@ -1818,11 +1932,28 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        // DESKTOP / LANDSCAPE
 		        // ----------------------------------------------
 		
-		        barHeight = Math.max(82, H * 0.11);
+		        barHeight = Math.max(
+		            82,
+		            H * 0.11
+		        );
 		
-		        hatchFontSize = Math.max(10, H * 0.014);
-		        timerFontSize = Math.max(37, H * 0.052);
-		        labelFontSize = Math.max(8, H * 0.011);
+		
+		        hatchFontSize = Math.max(
+		            10,
+		            H * 0.014
+		        );
+		
+		
+		        timerFontSize = Math.max(
+		            37,
+		            H * 0.052
+		        );
+		
+		
+		        labelFontSize = Math.max(
+		            8,
+		            H * 0.011
+		        );
 		    }
 		
 		
@@ -1890,9 +2021,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        hatchFontSize +
 		        "px 'DM Sans'";
 		
+		
 		    hatchTimer.font =
 		        timerFontSize +
 		        "px 'Marcellus'";
+		
 		
 		    timerLabels.font =
 		        "bold " +
@@ -1901,42 +2034,71 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // TEXT LAYOUT
+		    // BAR TOP
 		    // --------------------------------------------------
 		
-		    var barTop = H - barHeight;
+		    var barTop =
+		        H - barHeight;
 		
+		
+		    // --------------------------------------------------
+		    // MOBILE LAYOUT
+		    // --------------------------------------------------
 		
 		    if (portrait) {
 		
 		        // ----------------------------------------------
-		        // MOBILE / PORTRAIT
+		        // ROW 1
 		        // ----------------------------------------------
 		
-		        // Keep everything tightly stacked
 		        hatchText.x = W / 2;
-		        hatchText.y = barTop + 9;
+		
+		        hatchText.y =
+		            barTop + 8;
+		
+		
+		        // ----------------------------------------------
+		        // ROW 2
+		        // ----------------------------------------------
 		
 		        hatchTimer.x = W / 2;
-		        hatchTimer.y = barTop + 28;
+		
+		        hatchTimer.y =
+		            barTop + 32;
+		
+		
+		        // ----------------------------------------------
+		        // ROW 3
+		        // ----------------------------------------------
 		
 		        timerLabels.x = W / 2;
-		        timerLabels.y = barTop + 82;
+		
+		        timerLabels.y =
+		            barTop + 88;
+		
 		
 		    } else {
 		
 		        // ----------------------------------------------
-		        // DESKTOP / LANDSCAPE
+		        // DESKTOP LAYOUT
 		        // ----------------------------------------------
 		
 		        hatchText.x = W / 2;
-		        hatchText.y = barTop + 10;
+		
+		        hatchText.y =
+		            barTop + 10;
+		
 		
 		        hatchTimer.x = W / 2;
-		        hatchTimer.y = barTop + 24;
+		
+		        hatchTimer.y =
+		            barTop + 24;
+		
 		
 		        timerLabels.x = W / 2;
-		        timerLabels.y = barTop + 63;
+		
+		        timerLabels.y =
+		            barTop + 63;
 		    }
 		}
 		
@@ -1946,6 +2108,13 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		layoutBottomBar();
+		
+		
+		// --------------------------------------------------
+		// START COUNTDOWN
+		// --------------------------------------------------
+		
+		startCountdown();
 	}
 
 	// actions tween:
@@ -1971,7 +2140,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790998060037", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790998473550", id:"index_atlas_"}
 	],
 	preloads: []
 };
