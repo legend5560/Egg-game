@@ -2196,25 +2196,22 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        );
 		
 		
-		        // ----------------------------------------------
-		        // MUCH LARGER MOBILE TEXT
-		        // ----------------------------------------------
-		
+		        // Moderate sizes so the rows don't overlap
 		        hatchFontSize = Math.max(
-		            22,
-		            Math.min(30, H * 0.034)
+		            16,
+		            Math.min(22, H * 0.024)
 		        );
 		
 		
 		        timerFontSize = Math.max(
-		            64,
-		            Math.min(82, H * 0.090)
+		            48,
+		            Math.min(62, H * 0.068)
 		        );
 		
 		
 		        labelFontSize = Math.max(
-		            14,
-		            Math.min(19, H * 0.021)
+		            11,
+		            Math.min(15, H * 0.016)
 		        );
 		
 		    } else {
@@ -2333,49 +2330,105 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // MOBILE LAYOUT
+		    // MOBILE
 		    // --------------------------------------------------
 		
 		    if (portrait) {
 		
 		        // ----------------------------------------------
-		        // HATCH MESSAGE
+		        // USE THE ACTUAL BAR HEIGHT
+		        // ----------------------------------------------
+		
+		        var topPadding = 7;
+		        var bottomPadding = 7;
+		
+		        var usableHeight =
+		            barHeight -
+		            topPadding -
+		            bottomPadding;
+		
+		
+		        // ----------------------------------------------
+		        // TOTAL TEXT HEIGHT
+		        // ----------------------------------------------
+		
+		        var hatchHeight =
+		            hatchFontSize;
+		
+		        var timerHeight =
+		            timerFontSize;
+		
+		        var labelHeight =
+		            labelFontSize;
+		
+		
+		        // ----------------------------------------------
+		        // SPACING BETWEEN ROWS
+		        // ----------------------------------------------
+		
+		        var totalTextHeight =
+		            hatchHeight +
+		            timerHeight +
+		            labelHeight;
+		
+		
+		        var remainingSpace =
+		            usableHeight -
+		            totalTextHeight;
+		
+		
+		        // Divide the remaining space between
+		        // the three rows.
+		        var rowGap =
+		            Math.max(
+		                2,
+		                remainingSpace / 2
+		            );
+		
+		
+		        // ----------------------------------------------
+		        // ROW 1
 		        // ----------------------------------------------
 		
 		        hatchText.x =
 		            W / 2;
 		
 		        hatchText.y =
-		            barTop + 5;
+		            barTop +
+		            topPadding;
 		
 		
 		        // ----------------------------------------------
-		        // TIMER
+		        // ROW 2
 		        // ----------------------------------------------
 		
 		        hatchTimer.x =
 		            W / 2;
 		
 		        hatchTimer.y =
-		            barTop + 29;
+		            hatchText.y +
+		            hatchHeight +
+		            rowGap;
 		
 		
 		        // ----------------------------------------------
-		        // TIMER LABELS
+		        // ROW 3
 		        // ----------------------------------------------
 		
 		        timerLabels.x =
 		            W / 2;
 		
 		        timerLabels.y =
-		            barTop + 91;
+		            hatchTimer.y +
+		            timerHeight +
+		            rowGap;
 		
 		
 		    } else {
 		
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		        // DESKTOP LAYOUT
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		
 		        hatchText.x =
 		            W / 2;
@@ -2437,7 +2490,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790999393433", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790999560503", id:"index_atlas_"}
 	],
 	preloads: []
 };
