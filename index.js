@@ -636,7 +636,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    createjs.Ticker.removeEventListener("tick", floatEgg);
 		    if (self.cleanupCards) self.cleanupCards();
 		};
-		var BAR_H = 66;
+		// --------------------------------------------------
+		// TOP BAR
+		// --------------------------------------------------
 		
 		var topBar = new createjs.Container();
 		var barBg = new createjs.Shape();
@@ -660,6 +662,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    "#dbeaf5"
 		);
 		
+		self.nameText.textAlign = "left";
+		
 		topBar.addChild(self.nameText);
 		
 		
@@ -668,6 +672,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		function showName() {
+		
 		    var u = exportRoot.user;
 		
 		    self.nameText.text = (u && u.username)
@@ -687,27 +692,34 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		var gemContainer = new createjs.Container();
 		
 		
-		// Gem amount
+		// --------------------------------------------------
+		// GEM AMOUNT
+		// --------------------------------------------------
+		
 		var gemAmount = new createjs.Text(
 		    "120",
 		    "bold 14px 'DM Sans'",
 		    "#e8f5ff"
 		);
 		
+		gemAmount.textAlign = "left";
 		gemAmount.x = 0;
 		gemAmount.y = -7;
 		
 		gemContainer.addChild(gemAmount);
 		
 		
-		// STAR GEMS label
+		// --------------------------------------------------
+		// STAR GEMS LABEL
+		// --------------------------------------------------
+		
 		var gemLabel = new createjs.Text(
 		    "STAR GEMS",
 		    "bold 7px 'DM Sans'",
 		    "#7199b7"
 		);
 		
-		gemLabel.letterSpacing = 1;
+		gemLabel.textAlign = "left";
 		gemLabel.x = 30;
 		gemLabel.y = -5;
 		
@@ -724,49 +736,175 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		var menuBg = new createjs.Shape();
 		
-		menuBg.graphics
-		    .setStrokeStyle(1)
-		    .beginStroke("#527896")
-		    .beginFill("#173b5d")
-		    .drawRoundRect(0, 0, 36, 36, 8);
-		
 		settingsBtn.addChild(menuBg);
 		
 		
-		// Hamburger line 1
+		// --------------------------------------------------
+		// HAMBURGER LINES
+		// --------------------------------------------------
+		
 		var line1 = new createjs.Shape();
-		
-		line1.graphics
-		    .setStrokeStyle(1)
-		    .beginStroke("#b9d8eb")
-		    .moveTo(10, 11)
-		    .lineTo(26, 11);
-		
-		
-		// Hamburger line 2
 		var line2 = new createjs.Shape();
-		
-		line2.graphics
-		    .setStrokeStyle(1)
-		    .beginStroke("#b9d8eb")
-		    .moveTo(10, 17)
-		    .lineTo(26, 17);
-		
-		
-		// Hamburger line 3
 		var line3 = new createjs.Shape();
-		
-		line3.graphics
-		    .setStrokeStyle(1)
-		    .beginStroke("#b9d8eb")
-		    .moveTo(10, 23)
-		    .lineTo(26, 23);
 		
 		settingsBtn.addChild(line1);
 		settingsBtn.addChild(line2);
 		settingsBtn.addChild(line3);
 		
+		
+		// --------------------------------------------------
+		// DRAW MENU BUTTON
+		// --------------------------------------------------
+		
+		function drawMenuButton(size, color) {
+		
+		    var radius = size * 0.22;
+		
+		    var buttonW = size;
+		    var buttonH = size;
+		
+		    var lineLeft = size * 0.28;
+		    var lineRight = size * 0.72;
+		
+		    var line1Y = size * 0.31;
+		    var line2Y = size * 0.50;
+		    var line3Y = size * 0.69;
+		
+		
+		    // ----------------------------------------------
+		    // Background
+		    // ----------------------------------------------
+		
+		    menuBg.graphics.clear();
+		
+		    menuBg.graphics
+		        .setStrokeStyle(1)
+		        .beginStroke(color)
+		        .beginFill("#173b5d")
+		        .drawRoundRect(
+		            0,
+		            0,
+		            buttonW,
+		            buttonH,
+		            radius
+		        );
+		
+		
+		    // ----------------------------------------------
+		    // Hamburger lines
+		    // ----------------------------------------------
+		
+		    line1.graphics.clear()
+		        .setStrokeStyle(1)
+		        .beginStroke("#b9d8eb")
+		        .moveTo(lineLeft, line1Y)
+		        .lineTo(lineRight, line1Y);
+		
+		
+		    line2.graphics.clear()
+		        .setStrokeStyle(1)
+		        .beginStroke("#b9d8eb")
+		        .moveTo(lineLeft, line2Y)
+		        .lineTo(lineRight, line2Y);
+		
+		
+		    line3.graphics.clear()
+		        .setStrokeStyle(1)
+		        .beginStroke("#b9d8eb")
+		        .moveTo(lineLeft, line3Y)
+		        .lineTo(lineRight, line3Y);
+		}
+		
+		
+		// Initial desktop size
+		drawMenuButton(36, "#527896");
+		
 		topBar.addChild(settingsBtn);
+		
+		
+		// --------------------------------------------------
+		// MENU BUTTON TOUCH / MOUSE FEEDBACK
+		// --------------------------------------------------
+		
+		settingsBtn.cursor = "pointer";
+		
+		
+		// Center registration point
+		settingsBtn.regX = 18;
+		settingsBtn.regY = 18;
+		
+		
+		// --------------------------------------------------
+		// HOVER ON
+		// --------------------------------------------------
+		
+		settingsBtn.addEventListener("rollover", function() {
+		
+		    drawMenuButton(
+		        settingsBtn.buttonSize,
+		        "#8fd8ff"
+		    );
+		
+		});
+		
+		
+		// --------------------------------------------------
+		// HOVER OFF
+		// --------------------------------------------------
+		
+		settingsBtn.addEventListener("rollout", function() {
+		
+		    drawMenuButton(
+		        settingsBtn.buttonSize,
+		        "#527896"
+		    );
+		
+		});
+		
+		
+		// --------------------------------------------------
+		// PRESS DOWN
+		// --------------------------------------------------
+		
+		settingsBtn.addEventListener("mousedown", function() {
+		
+		    settingsBtn.scaleX = 0.88;
+		    settingsBtn.scaleY = 0.88;
+		
+		    drawMenuButton(
+		        settingsBtn.buttonSize,
+		        "#8fd8ff"
+		    );
+		
+		});
+		
+		
+		// --------------------------------------------------
+		// RELEASE
+		// --------------------------------------------------
+		
+		settingsBtn.addEventListener("pressup", function() {
+		
+		    settingsBtn.scaleX = 1;
+		    settingsBtn.scaleY = 1;
+		
+		    drawMenuButton(
+		        settingsBtn.buttonSize,
+		        "#527896"
+		    );
+		
+		});
+		
+		
+		// --------------------------------------------------
+		// BUTTON CLICK
+		// --------------------------------------------------
+		
+		settingsBtn.addEventListener("click", function() {
+		
+		    // Put your menu-opening code here
+		
+		});
 		
 		
 		// --------------------------------------------------
@@ -776,28 +914,116 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		function layoutTopBar() {
 		
 		    var W = lib.properties.width;
+		    var H = lib.properties.height;
+		
+		    var portrait = H > W;
 		
 		
-		    // ----------------------------------------------
-		    // Background
-		    // ----------------------------------------------
+		    // --------------------------------------------------
+		    // RESPONSIVE SIZING
+		    // --------------------------------------------------
+		
+		    var BAR_H;
+		
+		    var nameFontSize;
+		    var gemFontSize;
+		    var gemLabelFontSize;
+		    var menuSize;
+		
+		
+		    if (portrait) {
+		
+		        // ----------------------------------------------
+		        // MOBILE / PORTRAIT
+		        // ----------------------------------------------
+		
+		        BAR_H = Math.max(
+		            82,
+		            H * 0.11
+		        );
+		
+		        nameFontSize = Math.max(
+		            32,
+		            H * 0.043
+		        );
+		
+		        gemFontSize = Math.max(
+		            18,
+		            H * 0.025
+		        );
+		
+		        gemLabelFontSize = Math.max(
+		            9,
+		            H * 0.013
+		        );
+		
+		        menuSize = Math.max(
+		            44,
+		            H * 0.060
+		        );
+		
+		    } else {
+		
+		        // ----------------------------------------------
+		        // DESKTOP / LANDSCAPE
+		        // ----------------------------------------------
+		
+		        BAR_H = Math.max(
+		            66,
+		            H * 0.09
+		        );
+		
+		        nameFontSize = Math.max(
+		            28,
+		            H * 0.039
+		        );
+		
+		        gemFontSize = Math.max(
+		            14,
+		            H * 0.019
+		        );
+		
+		        gemLabelFontSize = Math.max(
+		            7,
+		            H * 0.010
+		        );
+		
+		        menuSize = 36;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // BACKGROUND
+		    // --------------------------------------------------
 		
 		    barBg.graphics.clear();
+		
 		
 		    // Main dark navy header
 		    barBg.graphics
 		        .beginFill("#092642")
-		        .drawRect(0, 0, W, BAR_H);
+		        .drawRect(
+		            0,
+		            0,
+		            W,
+		            BAR_H
+		        );
+		
 		
 		    // Slightly darker bottom edge
 		    barBg.graphics
 		        .beginFill("#08233d")
-		        .drawRect(0, BAR_H - 2, W, 2);
+		        .drawRect(
+		            0,
+		            BAR_H - 2,
+		            W,
+		            2
+		        );
 		
 		
-		    // ----------------------------------------------
-		    // White Gradient Accent Line
-		    // ----------------------------------------------
+		    // --------------------------------------------------
+		    // WHITE GRADIENT ACCENT LINE
+		    // --------------------------------------------------
 		
 		    barBg.graphics
 		        .beginLinearGradientFill(
@@ -812,42 +1038,125 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            W,
 		            0
 		        )
-		        .drawRect(0, BAR_H - 1, W, 1);
+		        .drawRect(
+		            0,
+		            BAR_H - 1,
+		            W,
+		            1
+		        );
 		
 		
-		    // ----------------------------------------------
-		    // Username - TOP LEFT
-		    // ----------------------------------------------
+		    // --------------------------------------------------
+		    // UPDATE FONT SIZES
+		    // --------------------------------------------------
 		
-		    self.nameText.x = 32;
-		    self.nameText.y = 22;
-		
-		
-		    // ----------------------------------------------
-		    // Star Gems - TOP RIGHT
-		    // ----------------------------------------------
-		
-		    gemContainer.x = W - 170;
-		    gemContainer.y = BAR_H / 2;
+		    self.nameText.font =
+		        nameFontSize +
+		        "px 'Marcellus'";
 		
 		
-		    // ----------------------------------------------
-		    // Menu button - FAR RIGHT
-		    // ----------------------------------------------
-		
-		    settingsBtn.x = W - 52;
-		    settingsBtn.y = 15;
+		    gemAmount.font =
+		        "bold " +
+		        gemFontSize +
+		        "px 'DM Sans'";
 		
 		
-		    // ----------------------------------------------
-		    // Hide old UI elements
-		    // ----------------------------------------------
+		    gemLabel.font =
+		        "bold " +
+		        gemLabelFontSize +
+		        "px 'DM Sans'";
+		
+		
+		    // --------------------------------------------------
+		    // USERNAME - TOP LEFT
+		    // --------------------------------------------------
+		
+		    self.nameText.x = portrait ? 24 : 32;
+		
+		    self.nameText.y =
+		        portrait
+		            ? (BAR_H - nameFontSize) / 2 - 2
+		            : 22;
+		
+		
+		    // --------------------------------------------------
+		    // GEM LABEL
+		    // --------------------------------------------------
+		
+		    gemAmount.x = 0;
+		
+		    gemAmount.y =
+		        portrait
+		            ? -gemFontSize * 0.55
+		            : -7;
+		
+		
+		    gemLabel.x =
+		        portrait
+		            ? gemFontSize * 1.9
+		            : 30;
+		
+		    gemLabel.y =
+		        portrait
+		            ? -gemFontSize * 0.35
+		            : -5;
+		
+		
+		    // --------------------------------------------------
+		    // STAR GEMS - TOP RIGHT
+		    // --------------------------------------------------
+		
+		    var gemWidth =
+		        portrait
+		            ? 125
+		            : 170;
+		
+		
+		    gemContainer.x =
+		        W -
+		        gemWidth;
+		
+		
+		    gemContainer.y =
+		        BAR_H / 2;
+		
+		
+		    // --------------------------------------------------
+		    // MENU BUTTON
+		    // --------------------------------------------------
+		
+		    settingsBtn.buttonSize = menuSize;
+		
+		    settingsBtn.regX = menuSize / 2;
+		    settingsBtn.regY = menuSize / 2;
+		
+		    drawMenuButton(
+		        menuSize,
+		        "#527896"
+		    );
+		
+		
+		    settingsBtn.x =
+		        W -
+		        (portrait ? menuSize / 2 + 14 : 52);
+		
+		
+		    settingsBtn.y =
+		        BAR_H / 2;
+		
+		
+		    // --------------------------------------------------
+		    // HIDE OLD UI ELEMENTS
+		    // --------------------------------------------------
 		
 		    if (self.timerText) {
 		        self.timerText.visible = false;
 		    }
 		
-		    if (self.settingsBtn && self.settingsBtn !== settingsBtn) {
+		    if (
+		        self.settingsBtn &&
+		        self.settingsBtn !== settingsBtn
+		    ) {
 		        self.settingsBtn.visible = false;
 		    }
 		}
@@ -859,142 +1168,523 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		layoutTopBar();
 		(function(self) {
+		
 		    var W = lib.properties.width;
 		    var H = lib.properties.height;
 		    var portrait = H > W;
 		
-		    // ---------- Settings ----------
+		
+		    // --------------------------------------------------
+		    // SETTINGS
+		    // --------------------------------------------------
+		
 		    var CARD_COUNT    = 5;
-		    var CARD_SIZE     = portrait ? 0.17 : 0.12;  // card width, share of stage width
-		    var ROW_SPAN      = portrait ? 0.92 : 0.72;  // share of stage width the arc spreads across
-		    var GAP_BELOW_EGG = 0.02;                    // space under the egg, share of stage height
-		    var CARDS_RAISE   = 0.09;                    // extra lift for the whole arc, share of stage height
-		    var LIFT          = 0.40;                    // how high the outer cards rise (share of card height)
+		    var CARD_SIZE     = portrait ? 0.17 : 0.12;
+		    var ROW_SPAN      = portrait ? 0.92 : 0.72;
+		    var GAP_BELOW_EGG = 0.02;
+		    var CARDS_RAISE   = 0.09;
+		    var LIFT          = 0.40;
 		
-		    // Hover
-		    var HOVER_LIFT = 0.12;                       // how far a hovered card rises (share of card height)
-		    var HOVER_TIME = 150;                        // milliseconds to rise
 		
-		    // Golden middle card
+		    // --------------------------------------------------
+		    // HOVER
+		    // --------------------------------------------------
+		
+		    var HOVER_LIFT = 0.12;
+		    var HOVER_TIME = 150;
+		
+		
+		    // --------------------------------------------------
+		    // TOUCH PRESS
+		    // --------------------------------------------------
+		
+		    var PRESS_SCALE = 0.88;
+		
+		
+		    // --------------------------------------------------
+		    // GOLDEN MIDDLE CARD
+		    // --------------------------------------------------
+		
 		    var GOLD_INDEX = Math.floor(CARD_COUNT / 2);
-		    var GOLD = { hue: -154, saturation: 50, brightness: 45 };
+		
+		    var GOLD = {
+		        hue: -154,
+		        saturation: 50,
+		        brightness: 45
+		    };
+		
+		
+		    // --------------------------------------------------
+		    // CARD STORAGE
+		    // --------------------------------------------------
 		
 		    var cards = [];
 		    var alive = true;
 		
-		    // Hover only makes sense with a mouse; touch screens have no hover
-		    var canHover = !!(window.matchMedia && window.matchMedia("(hover: hover)").matches);
+		
+		    // --------------------------------------------------
+		    // HOVER DETECTION
+		    // --------------------------------------------------
+		
+		    var canHover = !!(
+		        window.matchMedia &&
+		        window.matchMedia("(hover: hover)").matches
+		    );
+		
+		
+		    // --------------------------------------------------
+		    // CREATE CARDS
+		    // --------------------------------------------------
 		
 		    function createCards() {
+		
 		        if (!lib.MonsterCard) {
-		            console.error("MonsterCard not found. Check AS Linkage on the symbol.");
+		
+		            console.error(
+		                "MonsterCard not found. Check AS Linkage on the symbol."
+		            );
+		
 		            return;
 		        }
-		        if (canHover) self.stage.enableMouseOver(20);   // needed for rollover/rollout
+		
+		
+		        // Enable mouse rollover only when a mouse is available
+		        if (canHover) {
+		            self.stage.enableMouseOver(20);
+		        }
+		
 		
 		        for (var i = 0; i < CARD_COUNT; i++) {
+		
 		            var card = new lib.MonsterCard();
+		
 		            card.slotIndex = i;
 		            card.monster = null;
 		            card.cursor = "pointer";
-		            if (card.label) card.label.text = "Select a monster";
-		            card.addEventListener("click", onCardClick);
-		            if (canHover) {
-		                card.addEventListener("rollover", onCardOver);
-		                card.addEventListener("rollout", onCardOut);
+		
+		
+		            // --------------------------------------------------
+		            // DEFAULT LABEL
+		            // --------------------------------------------------
+		
+		            if (card.label) {
+		                card.label.text = "Select a monster";
 		            }
+		
+		
+		            // --------------------------------------------------
+		            // CLICK
+		            // --------------------------------------------------
+		
+		            card.addEventListener("click", onCardClick);
+		
+		
+		            // --------------------------------------------------
+		            // MOUSE HOVER
+		            // --------------------------------------------------
+		
+		            if (canHover) {
+		
+		                card.addEventListener(
+		                    "rollover",
+		                    onCardOver
+		                );
+		
+		                card.addEventListener(
+		                    "rollout",
+		                    onCardOut
+		                );
+		            }
+		
+		
+		            // --------------------------------------------------
+		            // TOUCH / MOUSE PRESS
+		            // --------------------------------------------------
+		
+		            card.addEventListener(
+		                "mousedown",
+		                onCardPress
+		            );
+		
+		            card.addEventListener(
+		                "pressup",
+		                onCardRelease
+		            );
+		
+		
+		            // --------------------------------------------------
+		            // ADD TO STAGE
+		            // --------------------------------------------------
+		
 		            self.addChild(card);
+		
 		            cards.push(card);
 		        }
 		    }
 		
+		
+		    // --------------------------------------------------
+		    // CARD CLICK
+		    // --------------------------------------------------
+		
 		    function onCardClick(evt) {
-		        console.log("Card tapped:", evt.currentTarget.slotIndex);
+		
+		        console.log(
+		            "Card tapped:",
+		            evt.currentTarget.slotIndex
+		        );
+		
 		    }
 		
-		    // ---------- Hover tween ----------
-		    function onCardOver(evt) { moveCard(evt.currentTarget, true); }
-		    function onCardOut(evt)  { moveCard(evt.currentTarget, false); }
 		
-		    function moveCard(card, up) {
-		        var targetY = up ? card.homeY - card.hoverDist : card.homeY;
-		        createjs.Tween.get(card, { override: true })     // override: cancels any tween still running
-		            .to({ y: targetY }, up ? HOVER_TIME : HOVER_TIME + 50, createjs.Ease.quadOut);
+		    // --------------------------------------------------
+		    // CARD PRESS
+		    // --------------------------------------------------
+		
+		    function onCardPress(evt) {
+		
+		        var card = evt.currentTarget;
+		
+		        // Cancel any hover movement
+		        createjs.Tween.removeTweens(card);
+		
+		        // Remember normal scale
+		        card.normalScale = card.cardScale;
+		
+		        // Shrink toward the center
+		        card.scaleX = card.cardScale * PRESS_SCALE;
+		        card.scaleY = card.cardScale * PRESS_SCALE;
+		
 		    }
 		
-		    function layoutCards() {
-		        var n = cards.length;
-		        if (!n) return;
 		
-		        var b = cards[0].nominalBounds;
-		        var cardW = W * CARD_SIZE;
-		        var scale = cardW / b.width;
-		        var cardH = b.height * scale;
+		    // --------------------------------------------------
+		    // CARD RELEASE
+		    // --------------------------------------------------
 		
-		        // Read-only look at the egg's resting position
-		        var eggX = self.egg.x;
-		        var restY = (typeof self.eggRestY === "number") ? self.eggRestY : self.egg.y;
-		        var eb = self.egg.nominalBounds;
-		        var eggBottom = restY + (eb ? (eb.y + eb.height) * self.egg.scaleY : 130);
+		    function onCardRelease(evt) {
 		
-		        // Vertical center of the middle (lowest) card, kept on screen
-		        var baseY = Math.min(eggBottom + H * (GAP_BELOW_EGG - CARDS_RAISE) + cardH / 2,
-		                             H - cardH / 2 - 20);
-		        var lift = cardH * LIFT;
+		        var card = evt.currentTarget;
 		
-		        var half = (W * ROW_SPAN - cardW) / 2;   // middle to outer card centers
-		        var mid = (n - 1) / 2;
+		        // Restore normal scale
+		        card.scaleX = card.cardScale;
+		        card.scaleY = card.cardScale;
 		
-		        for (var i = 0; i < n; i++) {
-		            var t = mid ? (i - mid) / mid : 0;   // -1 far left ... 0 middle ... +1 far right
-		            var c = cards[i];
+		        // Restore hover position if the pointer is still over it
+		        if (canHover && card.isPointerInside) {
 		
-		            c.scaleX = c.scaleY = scale;
-		            c.regX = b.x + b.width / 2;
-		            c.regY = b.y + b.height / 2;
-		            c.x = eggX + t * half;
-		            c.y = baseY - lift * t * t;          // curve: middle stays, edges rise
+		            moveCard(card, true);
 		
-		            // Remember the resting spot and how far to rise on hover
-		            c.homeY = c.y;
-		            c.hoverDist = cardH * HOVER_LIFT;
+		        } else {
 		
-		            // Hit area stretched downward by the hover distance, so the card
-		            // doesn't flicker when it rises out from under the mouse
-		            var hit = new createjs.Shape();
-		            hit.graphics.beginFill("#000")
-		                .drawRect(b.x, b.y, b.width, b.height + c.hoverDist / scale);
-		            c.hitArea = hit;
+		            moveCard(card, false);
 		
-		            if (i === GOLD_INDEX && createjs.ColorMatrixFilter) {
-		                var m = new createjs.ColorMatrix()
-		                    .adjustColor(GOLD.brightness, 0, GOLD.saturation, GOLD.hue);
-		                c.filters = [new createjs.ColorMatrixFilter(m)];
-		            }
-		            c.cache(b.x, b.y, b.width, b.height, scale * 2);
 		        }
 		    }
 		
-		    // Wait one tick so the egg is already in its final spot
+		
+		    // --------------------------------------------------
+		    // HOVER ON
+		    // --------------------------------------------------
+		
+		    function onCardOver(evt) {
+		
+		        var card = evt.currentTarget;
+		
+		        card.isPointerInside = true;
+		
+		        moveCard(card, true);
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // HOVER OFF
+		    // --------------------------------------------------
+		
+		    function onCardOut(evt) {
+		
+		        var card = evt.currentTarget;
+		
+		        card.isPointerInside = false;
+		
+		        moveCard(card, false);
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // HOVER TWEEN
+		    // --------------------------------------------------
+		
+		    function moveCard(card, up) {
+		
+		        var targetY = up
+		            ? card.homeY - card.hoverDist
+		            : card.homeY;
+		
+		
+		        createjs.Tween.get(card, {
+		            override: true
+		        })
+		        .to(
+		            {
+		                y: targetY
+		            },
+		            up ? HOVER_TIME : HOVER_TIME + 50,
+		            createjs.Ease.quadOut
+		        );
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // LAYOUT CARDS
+		    // --------------------------------------------------
+		
+		    function layoutCards() {
+		
+		        var n = cards.length;
+		
+		        if (!n) {
+		            return;
+		        }
+		
+		
+		        var b = cards[0].nominalBounds;
+		
+		        var cardW = W * CARD_SIZE;
+		
+		        var scale = cardW / b.width;
+		
+		        var cardH = b.height * scale;
+		
+		
+		        // --------------------------------------------------
+		        // EGG POSITION
+		        // --------------------------------------------------
+		
+		        var eggX = self.egg.x;
+		
+		        var restY =
+		            (typeof self.eggRestY === "number")
+		                ? self.eggRestY
+		                : self.egg.y;
+		
+		
+		        var eb = self.egg.nominalBounds;
+		
+		
+		        var eggBottom =
+		            restY +
+		            (
+		                eb
+		                    ? (eb.y + eb.height) * self.egg.scaleY
+		                    : 130
+		            );
+		
+		
+		        // --------------------------------------------------
+		        // CARD BASE POSITION
+		        // --------------------------------------------------
+		
+		        var baseY = Math.min(
+		            eggBottom +
+		            H * (GAP_BELOW_EGG - CARDS_RAISE) +
+		            cardH / 2,
+		
+		            H - cardH / 2 - 20
+		        );
+		
+		
+		        var lift = cardH * LIFT;
+		
+		
+		        var half =
+		            (W * ROW_SPAN - cardW) / 2;
+		
+		
+		        var mid = (n - 1) / 2;
+		
+		
+		        // --------------------------------------------------
+		        // POSITION EACH CARD
+		        // --------------------------------------------------
+		
+		        for (var i = 0; i < n; i++) {
+		
+		            var t = mid
+		                ? (i - mid) / mid
+		                : 0;
+		
+		
+		            var c = cards[i];
+		
+		
+		            // --------------------------------------------------
+		            // STORE NORMAL SCALE
+		            // --------------------------------------------------
+		
+		            c.cardScale = scale;
+		
+		
+		            c.scaleX = scale;
+		            c.scaleY = scale;
+		
+		
+		            // --------------------------------------------------
+		            // CENTER REGISTRATION POINT
+		            // --------------------------------------------------
+		
+		            c.regX =
+		                b.x +
+		                b.width / 2;
+		
+		            c.regY =
+		                b.y +
+		                b.height / 2;
+		
+		
+		            // --------------------------------------------------
+		            // POSITION
+		            // --------------------------------------------------
+		
+		            c.x =
+		                eggX +
+		                t * half;
+		
+		
+		            c.y =
+		                baseY -
+		                lift * t * t;
+		
+		
+		            // --------------------------------------------------
+		            // STORE HOME POSITION
+		            // --------------------------------------------------
+		
+		            c.homeY = c.y;
+		
+		            c.hoverDist =
+		                cardH * HOVER_LIFT;
+		
+		
+		            // --------------------------------------------------
+		            // HIT AREA
+		            // --------------------------------------------------
+		
+		            var hit = new createjs.Shape();
+		
+		            hit.graphics
+		                .beginFill("#000")
+		                .drawRect(
+		                    b.x,
+		                    b.y,
+		                    b.width,
+		                    b.height +
+		                    c.hoverDist / scale
+		                );
+		
+		
+		            c.hitArea = hit;
+		
+		
+		            // --------------------------------------------------
+		            // GOLD MIDDLE CARD
+		            // --------------------------------------------------
+		
+		            if (
+		                i === GOLD_INDEX &&
+		                createjs.ColorMatrixFilter
+		            ) {
+		
+		                var m =
+		                    new createjs.ColorMatrix()
+		                        .adjustColor(
+		                            GOLD.brightness,
+		                            0,
+		                            GOLD.saturation,
+		                            GOLD.hue
+		                        );
+		
+		
+		                c.filters = [
+		                    new createjs.ColorMatrixFilter(m)
+		                ];
+		            }
+		
+		
+		            // --------------------------------------------------
+		            // CACHE
+		            // --------------------------------------------------
+		
+		            c.cache(
+		                b.x,
+		                b.y,
+		                b.width,
+		                b.height,
+		                scale * 2
+		            );
+		        }
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // WAIT ONE TICK
+		    // --------------------------------------------------
+		
 		    function buildOnce() {
-		        createjs.Ticker.removeEventListener("tick", buildOnce);
-		        if (!alive) return;
+		
+		        createjs.Ticker.removeEventListener(
+		            "tick",
+		            buildOnce
+		        );
+		
+		
+		        if (!alive) {
+		            return;
+		        }
+		
+		
 		        createCards();
+		
 		        layoutCards();
 		    }
-		    createjs.Ticker.addEventListener("tick", buildOnce);
 		
-		    // Called by the main script's cleanup
+		
+		    createjs.Ticker.addEventListener(
+		        "tick",
+		        buildOnce
+		    );
+		
+		
+		    // --------------------------------------------------
+		    // CLEANUP
+		    // --------------------------------------------------
+		
 		    self.cleanupCards = function() {
+		
 		        alive = false;
-		        createjs.Ticker.removeEventListener("tick", buildOnce);
+		
+		
+		        createjs.Ticker.removeEventListener(
+		            "tick",
+		            buildOnce
+		        );
+		
+		
 		        cards.forEach(function(c) {
+		
 		            createjs.Tween.removeTweens(c);
+		
 		            c.removeAllEventListeners();
+		
 		            self.removeChild(c);
+		
 		        });
+		
+		
 		        cards = [];
 		    };
+		
+		
 		})(this);
 		// --------------------------------------------------
 		// ENABLE MOUSE OVER
@@ -1083,6 +1773,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		settingsBtn.cursor = "pointer";
 		
+		// Center registration point so the button scales
+		// toward its center instead of its top-left corner.
+		settingsBtn.regX = 18;
+		settingsBtn.regY = 18;
+		
 		
 		// --------------------------------------------------
 		// HOVER ON - PC
@@ -1114,7 +1809,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		settingsBtn.addEventListener("mousedown", function () {
 		
-		    // Pressed appearance
+		    // Shrink button while pressed
+		    settingsBtn.scaleX = 0.88;
+		    settingsBtn.scaleY = 0.88;
+		
+		    // Bright pressed appearance
 		    drawMenuBg("#8fd8ff");
 		    drawMenuLines("#8fd8ff");
 		
@@ -1126,6 +1825,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		settingsBtn.addEventListener("pressup", function () {
+		
+		    // Return to normal size
+		    settingsBtn.scaleX = 1;
+		    settingsBtn.scaleY = 1;
 		
 		    // Return to normal appearance
 		    drawMenuBg("#527896");
@@ -1160,8 +1863,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    var W = lib.properties.width;
 		
-		    settingsBtn.x = W - 52;
-		    settingsBtn.y = 15;
+		    settingsBtn.x = W - 34;
+		    settingsBtn.y = 33;
 		}
 		
 		
@@ -1173,8 +1876,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		// BOTTOM EGG HATCH BAR
 		// --------------------------------------------------
-		
-		var BOTTOM_BAR_H = 82;
 		
 		var bottomBar = new createjs.Container();
 		var bottomBarBg = new createjs.Shape();
@@ -1242,10 +1943,49 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    var W = lib.properties.width;
 		    var H = lib.properties.height;
 		
+		    var portrait = H > W;
 		
-		    // ----------------------------------------------
+		
+		    // --------------------------------------------------
+		    // RESPONSIVE SIZING
+		    // --------------------------------------------------
+		
+		    var barHeight;
+		
+		    var hatchFontSize;
+		    var timerFontSize;
+		    var labelFontSize;
+		
+		
+		    if (portrait) {
+		
+		        // ----------------------------------------------
+		        // MOBILE / PORTRAIT
+		        // ----------------------------------------------
+		
+		        barHeight = Math.max(108, H * 0.15);
+		
+		        hatchFontSize = Math.max(14, H * 0.020);
+		        timerFontSize = Math.max(48, H * 0.070);
+		        labelFontSize = Math.max(10, H * 0.014);
+		
+		    } else {
+		
+		        // ----------------------------------------------
+		        // DESKTOP / LANDSCAPE
+		        // ----------------------------------------------
+		
+		        barHeight = Math.max(82, H * 0.11);
+		
+		        hatchFontSize = Math.max(10, H * 0.014);
+		        timerFontSize = Math.max(37, H * 0.052);
+		        labelFontSize = Math.max(8, H * 0.011);
+		    }
+		
+		
+		    // --------------------------------------------------
 		    // BACKGROUND
-		    // ----------------------------------------------
+		    // --------------------------------------------------
 		
 		    bottomBarBg.graphics.clear();
 		
@@ -1253,26 +1993,29 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        .beginFill("#092642")
 		        .drawRect(
 		            0,
-		            H - BOTTOM_BAR_H,
+		            H - barHeight,
 		            W,
-		            BOTTOM_BAR_H
+		            barHeight
 		        );
 		
 		
-		    // Slightly darker top edge
+		    // --------------------------------------------------
+		    // SLIGHTLY DARKER TOP EDGE
+		    // --------------------------------------------------
+		
 		    bottomBarBg.graphics
 		        .beginFill("#08233d")
 		        .drawRect(
 		            0,
-		            H - BOTTOM_BAR_H,
+		            H - barHeight,
 		            W,
 		            2
 		        );
 		
 		
-		    // ----------------------------------------------
+		    // --------------------------------------------------
 		    // WHITE GRADIENT ACCENT LINE
-		    // ----------------------------------------------
+		    // --------------------------------------------------
 		
 		    bottomBarBg.graphics
 		        .beginLinearGradientFill(
@@ -1289,34 +2032,67 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        )
 		        .drawRect(
 		            0,
-		            H - BOTTOM_BAR_H,
+		            H - barHeight,
 		            W,
 		            1
 		        );
 		
 		
-		    // ----------------------------------------------
+		    // --------------------------------------------------
+		    // UPDATE FONT SIZES
+		    // --------------------------------------------------
+		
+		    hatchText.font =
+		        "bold " +
+		        hatchFontSize +
+		        "px 'DM Sans'";
+		
+		
+		    hatchTimer.font =
+		        timerFontSize +
+		        "px 'Marcellus'";
+		
+		
+		    timerLabels.font =
+		        "bold " +
+		        labelFontSize +
+		        "px 'DM Sans'";
+		
+		
+		    // --------------------------------------------------
 		    // HATCH TEXT
-		    // ----------------------------------------------
+		    // --------------------------------------------------
 		
 		    hatchText.x = W / 2;
-		    hatchText.y = H - BOTTOM_BAR_H + 10;
+		
+		    hatchText.y =
+		        H -
+		        barHeight +
+		        (portrait ? 12 : 10);
 		
 		
-		    // ----------------------------------------------
+		    // --------------------------------------------------
 		    // TIMER
-		    // ----------------------------------------------
+		    // --------------------------------------------------
 		
 		    hatchTimer.x = W / 2;
-		    hatchTimer.y = H - BOTTOM_BAR_H + 24;
+		
+		    hatchTimer.y =
+		        H -
+		        barHeight +
+		        (portrait ? 30 : 24);
 		
 		
-		    // ----------------------------------------------
+		    // --------------------------------------------------
 		    // TIMER LABELS
-		    // ----------------------------------------------
+		    // --------------------------------------------------
 		
 		    timerLabels.x = W / 2;
-		    timerLabels.y = H - BOTTOM_BAR_H + 63;
+		
+		    timerLabels.y =
+		        H -
+		        barHeight +
+		        (portrait ? 82 : 63);
 		}
 		
 		
@@ -1350,7 +2126,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790997026199", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790997660515", id:"index_atlas_"}
 	],
 	preloads: []
 };
