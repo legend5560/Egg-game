@@ -3,7 +3,7 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"index_atlas_", frames: [[0,0,468,468]]}
+		{name:"index_atlas_", frames: [[470,1028,188,188],[470,834,192,192],[470,1218,51,51],[896,1370,894,20],[988,828,894,540],[988,0,980,826],[0,0,986,832],[0,1304,894,148],[0,834,468,468]]}
 ];
 
 
@@ -11,9 +11,65 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_8 = function() {
+(lib.CachedTexturedBitmap_29 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(0);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_30 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(1);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_31 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(2);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_33 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(3);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_36 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(4);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_38 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(5);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_41 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(6);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_42 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(7);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_8 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(8);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -32,6 +88,58 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	prototype.frameBounds = frameBounds;
 	return prototype;
 	}
+
+
+(lib.MonsterCard = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer_2
+	this.label = new cjs.Text("Add Monster", "50px 'Marcellus'", "#FFFFFF");
+	this.label.name = "label";
+	this.label.textAlign = "center";
+	this.label.lineHeight = 65;
+	this.label.lineWidth = 438;
+	this.label.parent = this;
+	this.label.setTransform(245.1,334.45);
+
+	this.timeline.addTween(cjs.Tween.get(this.label).wait(1));
+
+	// Layer_1
+	this.instance = new lib.CachedTexturedBitmap_33();
+	this.instance.parent = this;
+	this.instance.setTransform(21.5,310.5,0.5,0.5);
+
+	this.instance_1 = new lib.CachedTexturedBitmap_42();
+	this.instance_1.parent = this;
+	this.instance_1.setTransform(21.5,328.5,0.5,0.5);
+
+	this.instance_2 = new lib.CachedTexturedBitmap_31();
+	this.instance_2.parent = this;
+	this.instance_2.setTransform(232.3,143.85,0.5,0.5);
+
+	this.instance_3 = new lib.CachedTexturedBitmap_30();
+	this.instance_3.parent = this;
+	this.instance_3.setTransform(197,108.5,0.5,0.5);
+
+	this.instance_4 = new lib.CachedTexturedBitmap_29();
+	this.instance_4.parent = this;
+	this.instance_4.setTransform(198,109.5,0.5,0.5);
+
+	this.instance_5 = new lib.CachedTexturedBitmap_36();
+	this.instance_5.parent = this;
+	this.instance_5.setTransform(21.5,21.5,0.5,0.5);
+
+	this.instance_6 = new lib.CachedTexturedBitmap_41();
+	this.instance_6.parent = this;
+	this.instance_6.setTransform(-1.5,-1.5,0.5,0.5);
+
+	this.instance_7 = new lib.CachedTexturedBitmap_38();
+	this.instance_7.parent = this;
+	this.instance_7.setTransform(0,0,0.5,0.5);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_7},{t:this.instance_6},{t:this.instance_5},{t:this.instance_4},{t:this.instance_3},{t:this.instance_2},{t:this.instance_1},{t:this.instance}]}).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.MonsterCard, new cjs.Rectangle(-1.5,-1.5,493,416), null);
 
 
 (lib.egg = function(mode,startPosition,loop) {
@@ -138,6 +246,365 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    }, 500);
 		    window.parent.postMessage({ type: "game-ready" }, PARENT_ORIGIN);
 		}
+		// ==================================================
+		// MONSTER CLASS
+		// ==================================================
+		
+		class Monster {
+		
+		    constructor(data) {
+		
+		        data = data || {};
+		
+		        // IDENTITY
+		        this.monsterId = data.monsterId || 0;
+		        this.name = data.name || "";
+		        this.nickname = data.nickname || "";
+		        this.shiny = data.shiny || false;
+		
+		        // TYPE
+		        this.type1 = data.type1 || "";
+		        this.type2 = data.type2 || "";
+		
+		        // BASE STATS
+		        this.baseHp = data.baseHp || 10;
+		        this.baseAttack = data.baseAttack || 10;
+		        this.baseDefense = data.baseDefense || 10;
+		        this.baseSpAttack = data.baseSpAttack || 10;
+		        this.baseSpDefense = data.baseSpDefense || 10;
+		        this.baseSpeed = data.baseSpeed || 10;
+		
+		        // LEVEL
+		        this.level = data.level || 1;
+		
+		        // EXPERIENCE
+		        this.experience = data.experience || 0;
+		        this.experienceCap = data.experienceCap || 0;
+		        this.baseExpYield = data.baseExpYield || 64;
+		        this.growthRate = data.growthRate || "MEDIUM_SLOW";
+		
+		        // GENDER
+		        this.gender = data.gender || "";
+		        this.genderRate = data.genderRate || 50;
+		
+		        // NATURE
+		        this.nature = data.nature || "";
+		
+		        // FLAGS
+		        this.wild = data.wild || false;
+		        this.human = data.human || false;
+		
+		        // ITEMS
+		        this.heldItem = data.heldItem || null;
+		        this.storedItem = data.storedItem || null;
+		
+		        // DISPLAY
+		        this.sprite = null;
+		    }
+		
+		
+		    // ==================================================
+		    // DISPLAY NAME
+		    // ==================================================
+		
+		    getDisplayName() {
+		
+		        if (this.nickname !== "") {
+		            return this.nickname;
+		        }
+		
+		        return this.name;
+		    }
+		
+		
+		    // ==================================================
+		    // TYPE VALIDATION
+		    // ==================================================
+		
+		    isValidType(type) {
+		
+		        return Monster.TYPES.indexOf(type) !== -1;
+		    }
+		
+		
+		    // ==================================================
+		    // NATURE MODIFIERS
+		    // ==================================================
+		
+		    getNatureModifiers() {
+		
+		        if (Monster.NATURE_MODIFIERS[this.nature]) {
+		            return Monster.NATURE_MODIFIERS[this.nature];
+		        }
+		
+		        return {
+		            increase: null,
+		            decrease: null
+		        };
+		    }
+		}
+		
+		
+		// ==================================================
+		// TYPES
+		// ==================================================
+		
+		Monster.TYPES = [
+		    "Spectrum",
+		    "Willpower",
+		    "Hope",
+		    "Fear",
+		    "Rage",
+		    "Love",
+		    "Joy",
+		    "Envy",
+		    "Sorrow",
+		    "Pride"
+		];
+		
+		
+		// ==================================================
+		// NATURE MODIFIERS
+		// ==================================================
+		
+		Monster.NATURE_MODIFIERS = {
+		
+		    Steadfast: {
+		        increase: "baseDefense",
+		        decrease: "baseSpAttack"
+		    },
+		
+		    Solitary: {
+		        increase: "baseAttack",
+		        decrease: "baseDefense"
+		    },
+		
+		    Courageous: {
+		        increase: "baseAttack",
+		        decrease: "baseSpeed"
+		    },
+		
+		    Daring: {
+		        increase: "baseAttack",
+		        decrease: "baseSpDefense"
+		    },
+		
+		    Mischievous: {
+		        increase: "baseAttack",
+		        decrease: "baseSpDefense"
+		    },
+		
+		    Chill: {
+		        increase: null,
+		        decrease: null
+		    },
+		
+		    Agreeable: {
+		        increase: "baseSpDefense",
+		        decrease: "baseSpeed"
+		    },
+		
+		    Sincere: {
+		        increase: "baseDefense",
+		        decrease: "baseSpeed"
+		    },
+		
+		    Playful: {
+		        increase: "baseSpeed",
+		        decrease: "baseSpDefense"
+		    },
+		
+		    Carefree: {
+		        increase: "baseSpDefense",
+		        decrease: "baseSpAttack"
+		    },
+		
+		    Skittish: {
+		        increase: "baseSpeed",
+		        decrease: "baseAttack"
+		    },
+		
+		    Rash: {
+		        increase: "baseSpeed",
+		        decrease: "baseDefense"
+		    },
+		
+		    Resolute: {
+		        increase: null,
+		        decrease: null
+		    },
+		
+		    Cheerful: {
+		        increase: "baseSpeed",
+		        decrease: "baseSpDefense"
+		    },
+		
+		    Innocent: {
+		        increase: "baseSpeed",
+		        decrease: "baseSpDefense"
+		    },
+		
+		    Whimsical: {
+		        increase: "baseSpAttack",
+		        decrease: "baseAttack"
+		    },
+		
+		    Serene: {
+		        increase: "baseSpAttack",
+		        decrease: "baseDefense"
+		    },
+		
+		    Reserved: {
+		        increase: "baseSpAttack",
+		        decrease: "baseSpeed"
+		    },
+		
+		    Brazen: {
+		        increase: "baseSpAttack",
+		        decrease: "baseAttack"
+		    },
+		
+		    Reckless: {
+		        increase: "baseSpAttack",
+		        decrease: "baseSpDefense"
+		    },
+		
+		    Gentle: {
+		        increase: "baseSpDefense",
+		        decrease: "baseAttack"
+		    },
+		
+		    Tender: {
+		        increase: "baseSpDefense",
+		        decrease: "baseDefense"
+		    },
+		
+		    Shy: {
+		        increase: "baseSpDefense",
+		        decrease: "baseSpAttack"
+		    },
+		
+		    Cautious: {
+		        increase: "baseSpDefense",
+		        decrease: "baseSpAttack"
+		    },
+		
+		    Humble: {
+		        increase: null,
+		        decrease: null
+		    }
+		};
+		var terradon = new Monster({
+		
+		    monsterId: 1,
+		    name: "Terradon",
+		    nickname: "",
+		    shiny: false,
+		
+		    type1: "Fear",
+		    type2: "",
+		
+		    baseHp: 44,
+		    baseAttack: 48,
+		    baseDefense: 65,
+		    baseSpAttack: 50,
+		    baseSpDefense: 62,
+		    baseSpeed: 47,
+		
+		    level: 1,
+		
+		    experience: 0,
+		    experienceCap: 0,
+		    baseExpYield: 64,
+		    growthRate: "MEDIUM_SLOW",
+		
+		    gender: "",
+		    genderRate: 50,
+		
+		    nature: "",
+		
+		    wild: true,
+		    human: false,
+		
+		    heldItem: null,
+		    storedItem: null,
+		
+		});
+		
+		
+		var sluggity = new Monster({
+		
+		    monsterId: 2,
+		    name: "Sluggity",
+		    nickname: "",
+		    shiny: false,
+		
+		    type1: "Will",
+		    type2: "",
+		
+		    baseHp: 50,
+		    baseAttack: 44,
+		    baseDefense: 54,
+		    baseSpAttack: 63,
+		    baseSpDefense: 65,
+		    baseSpeed: 40,
+		
+		    level: 1,
+		
+		    experience: 0,
+		    experienceCap: 0,
+		    baseExpYield: 64,
+		    growthRate: "MEDIUM_SLOW",
+		
+		    gender: "",
+		    genderRate: 50,
+		
+		    nature: "",
+		
+		    wild: true,
+		    human: false,
+		
+		    heldItem: null,
+		    storedItem: null,
+		});
+		
+		
+		var starn = new Monster({
+		
+		    monsterId: 3,
+		    name: "Starn",
+		    nickname: "",
+		    shiny: false,
+		
+		    type1: "Hope",
+		    type2: "",
+		
+		    baseHp: 45,
+		    baseAttack: 50,
+		    baseDefense: 40,
+		    baseSpAttack: 70,
+		    baseSpDefense: 55,
+		    baseSpeed: 56,
+		
+		    level: 1,
+		
+		    experience: 0,
+		    experienceCap: 0,
+		    baseExpYield: 64,
+		    growthRate: "MEDIUM_SLOW",
+		
+		    gender: "",
+		    genderRate: 50,
+		
+		    nature: "",
+		
+		    wild: true,
+		    human: false,
+		
+		    heldItem: null,
+		    storedItem: null,
+		
+		});
 	}
 	this.frame_1 = function() {
 		var self = this;
@@ -146,7 +613,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		exportRoot.onUserChange = showName;
 		
 		// --- Floating egg ---
+		var startY = self.egg.y + 10;
+		var time = 0;
+		
+		// ---------- Floating egg ----------
+		var EGG_RAISE = 0.15;                      // how far to move the egg up (share of stage height)
+		self.egg.y -= lib.properties.height * EGG_RAISE;
+		
 		var startY = self.egg.y;
+		self.eggRestY = startY;                    // the cards script reads this (it never moves the egg)
 		var time = 0;
 		
 		function floatEgg(evt) {
@@ -155,10 +630,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		}
 		createjs.Ticker.addEventListener("tick", floatEgg);
 		
-		// --- Clean up when leaving this screen ---
+		// ---------- Clean up when leaving this screen ----------
 		this.cleanup = function() {
 		    exportRoot.onUserChange = null;
 		    createjs.Ticker.removeEventListener("tick", floatEgg);
+		    if (self.cleanupCards) self.cleanupCards();
 		};
 		var BAR_H = 66;
 		
@@ -382,6 +858,144 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		layoutTopBar();
+		(function(self) {
+		    var W = lib.properties.width;
+		    var H = lib.properties.height;
+		    var portrait = H > W;
+		
+		    // ---------- Settings ----------
+		    var CARD_COUNT    = 5;
+		    var CARD_SIZE     = portrait ? 0.17 : 0.12;  // card width, share of stage width
+		    var ROW_SPAN      = portrait ? 0.92 : 0.72;  // share of stage width the arc spreads across
+		    var GAP_BELOW_EGG = 0.02;                    // space under the egg, share of stage height
+		    var CARDS_RAISE   = 0.09;                    // extra lift for the whole arc, share of stage height
+		    var LIFT          = 0.40;                    // how high the outer cards rise (share of card height)
+		
+		    // Hover
+		    var HOVER_LIFT = 0.12;                       // how far a hovered card rises (share of card height)
+		    var HOVER_TIME = 150;                        // milliseconds to rise
+		
+		    // Golden middle card
+		    var GOLD_INDEX = Math.floor(CARD_COUNT / 2);
+		    var GOLD = { hue: -154, saturation: 50, brightness: 45 };
+		
+		    var cards = [];
+		    var alive = true;
+		
+		    // Hover only makes sense with a mouse; touch screens have no hover
+		    var canHover = !!(window.matchMedia && window.matchMedia("(hover: hover)").matches);
+		
+		    function createCards() {
+		        if (!lib.MonsterCard) {
+		            console.error("MonsterCard not found. Check AS Linkage on the symbol.");
+		            return;
+		        }
+		        if (canHover) self.stage.enableMouseOver(20);   // needed for rollover/rollout
+		
+		        for (var i = 0; i < CARD_COUNT; i++) {
+		            var card = new lib.MonsterCard();
+		            card.slotIndex = i;
+		            card.monster = null;
+		            card.cursor = "pointer";
+		            if (card.label) card.label.text = "Select a monster";
+		            card.addEventListener("click", onCardClick);
+		            if (canHover) {
+		                card.addEventListener("rollover", onCardOver);
+		                card.addEventListener("rollout", onCardOut);
+		            }
+		            self.addChild(card);
+		            cards.push(card);
+		        }
+		    }
+		
+		    function onCardClick(evt) {
+		        console.log("Card tapped:", evt.currentTarget.slotIndex);
+		    }
+		
+		    // ---------- Hover tween ----------
+		    function onCardOver(evt) { moveCard(evt.currentTarget, true); }
+		    function onCardOut(evt)  { moveCard(evt.currentTarget, false); }
+		
+		    function moveCard(card, up) {
+		        var targetY = up ? card.homeY - card.hoverDist : card.homeY;
+		        createjs.Tween.get(card, { override: true })     // override: cancels any tween still running
+		            .to({ y: targetY }, up ? HOVER_TIME : HOVER_TIME + 50, createjs.Ease.quadOut);
+		    }
+		
+		    function layoutCards() {
+		        var n = cards.length;
+		        if (!n) return;
+		
+		        var b = cards[0].nominalBounds;
+		        var cardW = W * CARD_SIZE;
+		        var scale = cardW / b.width;
+		        var cardH = b.height * scale;
+		
+		        // Read-only look at the egg's resting position
+		        var eggX = self.egg.x;
+		        var restY = (typeof self.eggRestY === "number") ? self.eggRestY : self.egg.y;
+		        var eb = self.egg.nominalBounds;
+		        var eggBottom = restY + (eb ? (eb.y + eb.height) * self.egg.scaleY : 130);
+		
+		        // Vertical center of the middle (lowest) card, kept on screen
+		        var baseY = Math.min(eggBottom + H * (GAP_BELOW_EGG - CARDS_RAISE) + cardH / 2,
+		                             H - cardH / 2 - 20);
+		        var lift = cardH * LIFT;
+		
+		        var half = (W * ROW_SPAN - cardW) / 2;   // middle to outer card centers
+		        var mid = (n - 1) / 2;
+		
+		        for (var i = 0; i < n; i++) {
+		            var t = mid ? (i - mid) / mid : 0;   // -1 far left ... 0 middle ... +1 far right
+		            var c = cards[i];
+		
+		            c.scaleX = c.scaleY = scale;
+		            c.regX = b.x + b.width / 2;
+		            c.regY = b.y + b.height / 2;
+		            c.x = eggX + t * half;
+		            c.y = baseY - lift * t * t;          // curve: middle stays, edges rise
+		
+		            // Remember the resting spot and how far to rise on hover
+		            c.homeY = c.y;
+		            c.hoverDist = cardH * HOVER_LIFT;
+		
+		            // Hit area stretched downward by the hover distance, so the card
+		            // doesn't flicker when it rises out from under the mouse
+		            var hit = new createjs.Shape();
+		            hit.graphics.beginFill("#000")
+		                .drawRect(b.x, b.y, b.width, b.height + c.hoverDist / scale);
+		            c.hitArea = hit;
+		
+		            if (i === GOLD_INDEX && createjs.ColorMatrixFilter) {
+		                var m = new createjs.ColorMatrix()
+		                    .adjustColor(GOLD.brightness, 0, GOLD.saturation, GOLD.hue);
+		                c.filters = [new createjs.ColorMatrixFilter(m)];
+		            }
+		            c.cache(b.x, b.y, b.width, b.height, scale * 2);
+		        }
+		    }
+		
+		    // Wait one tick so the egg is already in its final spot
+		    function buildOnce() {
+		        createjs.Ticker.removeEventListener("tick", buildOnce);
+		        if (!alive) return;
+		        createCards();
+		        layoutCards();
+		    }
+		    createjs.Ticker.addEventListener("tick", buildOnce);
+		
+		    // Called by the main script's cleanup
+		    self.cleanupCards = function() {
+		        alive = false;
+		        createjs.Ticker.removeEventListener("tick", buildOnce);
+		        cards.forEach(function(c) {
+		            createjs.Tween.removeTweens(c);
+		            c.removeAllEventListeners();
+		            self.removeChild(c);
+		        });
+		        cards = [];
+		    };
+		})(this);
 		// --------------------------------------------------
 		// ENABLE MOUSE OVER
 		// --------------------------------------------------
@@ -682,14 +1296,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		layoutBottomBar();
-		var self = this;
-		var startY = self.egg.y;
-		var time = 0;
-		
-		createjs.Ticker.addEventListener("tick", function(evt) {
-		    time += evt.delta / 1000;
-		    self.egg.y = startY + Math.sin(time * 2) * 15;
-		});
 	}
 
 	// actions tween:
@@ -715,7 +1321,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790996230255", id:"index_atlas_"}
 	],
 	preloads: []
 };
