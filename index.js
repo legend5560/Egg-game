@@ -1263,6 +1263,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
+		    // ENABLE TOUCH
+		    // --------------------------------------------------
+		
+		    if (self.stage) {
+		        createjs.Touch.enable(self.stage);
+		    }
+		
+		
+		    // --------------------------------------------------
 		    // CREATE CARDS
 		    // --------------------------------------------------
 		
@@ -1288,9 +1297,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		            var card = new lib.MonsterCard();
 		
+		
+		            // --------------------------------------------------
+		            // CARD DATA
+		            // --------------------------------------------------
+		
 		            card.slotIndex = i;
 		            card.monster = null;
 		            card.cursor = "pointer";
+		            card.isPointerInside = false;
 		
 		
 		            // --------------------------------------------------
@@ -1306,7 +1321,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            // CLICK
 		            // --------------------------------------------------
 		
-		            card.addEventListener("click", onCardClick);
+		            card.addEventListener(
+		                "click",
+		                onCardClick
+		            );
 		
 		
 		            // --------------------------------------------------
@@ -1343,6 +1361,21 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		            // --------------------------------------------------
+		            // DIRECT TOUCH FALLBACK
+		            // --------------------------------------------------
+		
+		            card.addEventListener(
+		                "touchstart",
+		                onCardPress
+		            );
+		
+		            card.addEventListener(
+		                "touchend",
+		                onCardRelease
+		            );
+		
+		
+		            // --------------------------------------------------
 		            // ADD TO STAGE
 		            // --------------------------------------------------
 		
@@ -1359,11 +1392,25 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    function onCardClick(evt) {
 		
+		        var card = evt.currentTarget;
+		
 		        console.log(
 		            "Card tapped:",
-		            evt.currentTarget.slotIndex
+		            card.slotIndex
 		        );
 		
+		
+		        // --------------------------------------------------
+		        // PUT YOUR BUTTON ACTION HERE
+		        // --------------------------------------------------
+		
+		        // Example:
+		        //
+		        // console.log("Selected card:", card.slotIndex);
+		        //
+		        // card.monster = terradon;
+		        //
+		        // Do whatever should happen when the card is selected.
 		    }
 		
 		
@@ -1375,16 +1422,35 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        var card = evt.currentTarget;
 		
-		        // Cancel any hover movement
+		
+		        // Cancel hover movement
 		        createjs.Tween.removeTweens(card);
 		
+		
 		        // Remember normal scale
-		        card.normalScale = card.cardScale;
+		        if (
+		            typeof card.cardScale === "number"
+		        ) {
+		            card.normalScale = card.cardScale;
+		        }
 		
-		        // Shrink toward the center
-		        card.scaleX = card.cardScale * PRESS_SCALE;
-		        card.scaleY = card.cardScale * PRESS_SCALE;
 		
+		        // --------------------------------------------------
+		        // PRESS ANIMATION
+		        // --------------------------------------------------
+		
+		        if (
+		            typeof card.cardScale === "number"
+		        ) {
+		
+		            card.scaleX =
+		                card.cardScale *
+		                PRESS_SCALE;
+		
+		            card.scaleY =
+		                card.cardScale *
+		                PRESS_SCALE;
+		        }
 		    }
 		
 		
@@ -1396,19 +1462,43 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        var card = evt.currentTarget;
 		
-		        // Restore normal scale
-		        card.scaleX = card.cardScale;
-		        card.scaleY = card.cardScale;
 		
-		        // Restore hover position if the pointer is still over it
-		        if (canHover && card.isPointerInside) {
+		        // --------------------------------------------------
+		        // RESTORE NORMAL SCALE
+		        // --------------------------------------------------
 		
-		            moveCard(card, true);
+		        if (
+		            typeof card.cardScale === "number"
+		        ) {
+		
+		            card.scaleX =
+		                card.cardScale;
+		
+		            card.scaleY =
+		                card.cardScale;
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // RESTORE HOVER POSITION
+		        // --------------------------------------------------
+		
+		        if (
+		            canHover &&
+		            card.isPointerInside
+		        ) {
+		
+		            moveCard(
+		                card,
+		                true
+		            );
 		
 		        } else {
 		
-		            moveCard(card, false);
-		
+		            moveCard(
+		                card,
+		                false
+		            );
 		        }
 		    }
 		
@@ -1423,7 +1513,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        card.isPointerInside = true;
 		
-		        moveCard(card, true);
+		        moveCard(
+		            card,
+		            true
+		        );
 		    }
 		
 		
@@ -1437,7 +1530,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        card.isPointerInside = false;
 		
-		        moveCard(card, false);
+		        moveCard(
+		            card,
+		            false
+		        );
 		    }
 		
 		
@@ -1447,19 +1543,25 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    function moveCard(card, up) {
 		
-		        var targetY = up
-		            ? card.homeY - card.hoverDist
-		            : card.homeY;
+		        var targetY =
+		            up
+		                ? card.homeY - card.hoverDist
+		                : card.homeY;
 		
 		
-		        createjs.Tween.get(card, {
-		            override: true
-		        })
+		        createjs.Tween.get(
+		            card,
+		            {
+		                override: true
+		            }
+		        )
 		        .to(
 		            {
 		                y: targetY
 		            },
-		            up ? HOVER_TIME : HOVER_TIME + 50,
+		            up
+		                ? HOVER_TIME
+		                : HOVER_TIME + 50,
 		            createjs.Ease.quadOut
 		        );
 		    }
@@ -1473,25 +1575,35 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        var n = cards.length;
 		
+		
 		        if (!n) {
 		            return;
 		        }
 		
 		
-		        var b = cards[0].nominalBounds;
+		        var b =
+		            cards[0].nominalBounds;
 		
-		        var cardW = W * CARD_SIZE;
 		
-		        var scale = cardW / b.width;
+		        var cardW =
+		            W * CARD_SIZE;
 		
-		        var cardH = b.height * scale;
+		
+		        var scale =
+		            cardW / b.width;
+		
+		
+		        var cardH =
+		            b.height * scale;
 		
 		
 		        // --------------------------------------------------
 		        // EGG POSITION
 		        // --------------------------------------------------
 		
-		        var eggX = self.egg.x;
+		        var eggX =
+		            self.egg.x;
+		
 		
 		        var restY =
 		            (typeof self.eggRestY === "number")
@@ -1499,14 +1611,20 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                : self.egg.y;
 		
 		
-		        var eb = self.egg.nominalBounds;
+		        var eb =
+		            self.egg.nominalBounds;
 		
 		
 		        var eggBottom =
 		            restY +
 		            (
 		                eb
-		                    ? (eb.y + eb.height) * self.egg.scaleY
+		                    ? (
+		                        eb.y +
+		                        eb.height
+		                    ) *
+		                    self.egg.scaleY
+		
 		                    : 130
 		            );
 		
@@ -1515,48 +1633,77 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        // CARD BASE POSITION
 		        // --------------------------------------------------
 		
-		        var baseY = Math.min(
-		            eggBottom +
-		            H * (GAP_BELOW_EGG - CARDS_RAISE) +
-		            cardH / 2,
+		        var baseY =
+		            Math.min(
+		                eggBottom +
+		                H *
+		                (
+		                    GAP_BELOW_EGG -
+		                    CARDS_RAISE
+		                ) +
+		                cardH / 2,
 		
-		            H - cardH / 2 - 20
-		        );
+		                H -
+		                cardH / 2 -
+		                20
+		            );
 		
 		
-		        var lift = cardH * LIFT;
+		        var lift =
+		            cardH *
+		            LIFT;
 		
 		
 		        var half =
-		            (W * ROW_SPAN - cardW) / 2;
+		            (
+		                W *
+		                ROW_SPAN -
+		                cardW
+		            ) / 2;
 		
 		
-		        var mid = (n - 1) / 2;
+		        var mid =
+		            (n - 1) / 2;
 		
 		
 		        // --------------------------------------------------
 		        // POSITION EACH CARD
 		        // --------------------------------------------------
 		
-		        for (var i = 0; i < n; i++) {
+		        for (
+		            var i = 0;
+		            i < n;
+		            i++
+		        ) {
 		
-		            var t = mid
-		                ? (i - mid) / mid
-		                : 0;
+		            var t =
+		                mid
+		                    ? (
+		                        i -
+		                        mid
+		                    ) /
+		                    mid
+		
+		                    : 0;
 		
 		
-		            var c = cards[i];
+		            var c =
+		                cards[i];
 		
 		
 		            // --------------------------------------------------
 		            // STORE NORMAL SCALE
 		            // --------------------------------------------------
 		
-		            c.cardScale = scale;
+		            c.cardScale =
+		                scale;
 		
 		
-		            c.scaleX = scale;
-		            c.scaleY = scale;
+		            c.scaleX =
+		                scale;
+		
+		            c.scaleY =
+		                scale;
 		
 		
 		            // --------------------------------------------------
@@ -1566,6 +1713,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            c.regX =
 		                b.x +
 		                b.width / 2;
+		
 		
 		            c.regY =
 		                b.y +
@@ -1578,29 +1726,37 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		            c.x =
 		                eggX +
-		                t * half;
+		                t *
+		                half;
 		
 		
 		            c.y =
 		                baseY -
-		                lift * t * t;
+		                lift *
+		                t *
+		                t;
 		
 		
 		            // --------------------------------------------------
 		            // STORE HOME POSITION
 		            // --------------------------------------------------
 		
-		            c.homeY = c.y;
+		            c.homeY =
+		                c.y;
+		
 		
 		            c.hoverDist =
-		                cardH * HOVER_LIFT;
+		                cardH *
+		                HOVER_LIFT;
 		
 		
 		            // --------------------------------------------------
 		            // HIT AREA
 		            // --------------------------------------------------
 		
-		            var hit = new createjs.Shape();
+		            var hit =
+		                new createjs.Shape();
+		
 		
 		            hit.graphics
 		                .beginFill("#000")
@@ -1609,11 +1765,13 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                    b.y,
 		                    b.width,
 		                    b.height +
-		                    c.hoverDist / scale
+		                    c.hoverDist /
+		                    scale
 		                );
 		
 		
-		            c.hitArea = hit;
+		            c.hitArea =
+		                hit;
 		
 		
 		            // --------------------------------------------------
@@ -1700,15 +1858,16 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        );
 		
 		
-		        cards.forEach(function(c) {
+		        cards.forEach(
+		            function(c) {
 		
-		            createjs.Tween.removeTweens(c);
+		                createjs.Tween.removeTweens(c);
 		
-		            c.removeAllEventListeners();
+		                c.removeAllEventListeners();
 		
-		            self.removeChild(c);
-		
-		        });
+		                self.removeChild(c);
+		            }
+		        );
 		
 		
 		        cards = [];
@@ -1737,7 +1896,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		var countdownSeconds = 30;
-		
 		var countdownTimer = null;
 		
 		
@@ -1813,12 +1971,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            ? "0" + hours
 		            : hours;
 		
-		
 		    var minuteText =
 		        minutes < 10
 		            ? "0" + minutes
 		            : minutes;
-		
 		
 		    var secondText =
 		        seconds < 10
@@ -1841,11 +1997,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		function startCountdown() {
 		
-		    // Prevent duplicate timers
 		    if (countdownTimer) {
 		        clearInterval(countdownTimer);
 		    }
-		
 		
 		    countdownSeconds = 30;
 		
@@ -1867,7 +2021,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		            clearInterval(countdownTimer);
 		            countdownTimer = null;
-		
 		        }
 		
 		    }, 1000);
@@ -1909,21 +2062,22 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        );
 		
 		
+		        // Larger mobile text
 		        hatchFontSize = Math.max(
-		            13,
-		            Math.min(18, H * 0.020)
+		            16,
+		            Math.min(22, H * 0.024)
 		        );
 		
 		
 		        timerFontSize = Math.max(
-		            40,
-		            Math.min(54, H * 0.060)
+		            48,
+		            Math.min(62, H * 0.068)
 		        );
 		
 		
 		        labelFontSize = Math.max(
-		            9,
-		            Math.min(12, H * 0.013)
+		            11,
+		            Math.min(15, H * 0.016)
 		        );
 		
 		    } else {
@@ -2074,7 +2228,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        timerLabels.x = W / 2;
 		
 		        timerLabels.y =
-		            barTop + 88;
+		            barTop + 92;
 		
 		
 		    } else {
@@ -2140,7 +2294,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790998473550", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790998892544", id:"index_atlas_"}
 	],
 	preloads: []
 };
