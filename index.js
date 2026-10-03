@@ -760,9 +760,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    var radius = size * 0.22;
 		
-		    var buttonW = size;
-		    var buttonH = size;
-		
 		    var lineLeft = size * 0.28;
 		    var lineRight = size * 0.72;
 		
@@ -784,8 +781,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        .drawRoundRect(
 		            0,
 		            0,
-		            buttonW,
-		            buttonH,
+		            size,
+		            size,
 		            radius
 		        );
 		
@@ -816,7 +813,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		}
 		
 		
-		// Initial desktop size
+		// --------------------------------------------------
+		// INITIAL DESKTOP SIZE
+		// --------------------------------------------------
+		
 		drawMenuButton(36, "#527896");
 		
 		topBar.addChild(settingsBtn);
@@ -828,6 +828,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		settingsBtn.cursor = "pointer";
 		
+		settingsBtn.buttonSize = 36;
 		
 		// Center registration point
 		settingsBtn.regX = 18;
@@ -998,8 +999,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    barBg.graphics.clear();
 		
-		
-		    // Main dark navy header
 		    barBg.graphics
 		        .beginFill("#092642")
 		        .drawRect(
@@ -1010,7 +1009,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        );
 		
 		
-		    // Slightly darker bottom edge
+		    // --------------------------------------------------
+		    // SLIGHTLY DARKER BOTTOM EDGE
+		    // --------------------------------------------------
+		
 		    barBg.graphics
 		        .beginFill("#08233d")
 		        .drawRect(
@@ -1080,7 +1082,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // GEM LABEL
+		    // GEM AMOUNT
 		    // --------------------------------------------------
 		
 		    gemAmount.x = 0;
@@ -1090,6 +1092,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            ? -gemFontSize * 0.55
 		            : -7;
 		
+		
+		    // --------------------------------------------------
+		    // STAR GEMS LABEL
+		    // --------------------------------------------------
 		
 		    gemLabel.x =
 		        portrait
@@ -1103,25 +1109,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // STAR GEMS - TOP RIGHT
-		    // --------------------------------------------------
-		
-		    var gemWidth =
-		        portrait
-		            ? 125
-		            : 170;
-		
-		
-		    gemContainer.x =
-		        W -
-		        gemWidth;
-		
-		
-		    gemContainer.y =
-		        BAR_H / 2;
-		
-		
-		    // --------------------------------------------------
 		    // MENU BUTTON
 		    // --------------------------------------------------
 		
@@ -1130,19 +1117,62 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    settingsBtn.regX = menuSize / 2;
 		    settingsBtn.regY = menuSize / 2;
 		
+		    settingsBtn.scaleX = 1;
+		    settingsBtn.scaleY = 1;
+		
 		    drawMenuButton(
 		        menuSize,
 		        "#527896"
 		    );
 		
 		
+		    // --------------------------------------------------
+		    // MENU BUTTON POSITION
+		    // --------------------------------------------------
+		
 		    settingsBtn.x =
 		        W -
-		        (portrait ? menuSize / 2 + 14 : 52);
-		
+		        (portrait
+		            ? menuSize / 2 + 14
+		            : 52);
 		
 		    settingsBtn.y =
 		        BAR_H / 2;
+		
+		
+		    // --------------------------------------------------
+		    // STAR GEMS - TOP RIGHT
+		    // --------------------------------------------------
+		
+		    gemContainer.y = BAR_H / 2;
+		
+		
+		    // Left edge of menu button
+		    var menuLeft =
+		        settingsBtn.x -
+		        menuSize / 2;
+		
+		
+		    // Space between gems and menu
+		    var gemMenuGap =
+		        portrait
+		            ? 28
+		            : 20;
+		
+		
+		    // Width reserved for gem display
+		    var gemDisplayWidth =
+		        portrait
+		            ? 125
+		            : 170;
+		
+		
+		    // Position gems safely to the LEFT
+		    // of the menu button
+		    gemContainer.x =
+		        menuLeft -
+		        gemMenuGap -
+		        gemDisplayWidth;
 		
 		
 		    // --------------------------------------------------
@@ -1687,193 +1717,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		})(this);
 		// --------------------------------------------------
-		// ENABLE MOUSE OVER
-		// --------------------------------------------------
-		
-		if (exportRoot.stage) {
-		    exportRoot.stage.enableMouseOver(20);
-		}
-		
-		
-		// --------------------------------------------------
-		// ENABLE TOUCH
-		// --------------------------------------------------
-		
-		if (exportRoot.stage) {
-		    createjs.Touch.enable(exportRoot.stage);
-		}
-		
-		
-		// --------------------------------------------------
-		// MENU BUTTON
-		// --------------------------------------------------
-		
-		var settingsBtn = new createjs.Container();
-		
-		
-		// --------------------------------------------------
-		// BUTTON BACKGROUND
-		// --------------------------------------------------
-		
-		var menuBg = new createjs.Shape();
-		
-		function drawMenuBg(color) {
-		
-		    menuBg.graphics.clear()
-		        .setStrokeStyle(1)
-		        .beginStroke(color)
-		        .beginFill("#173b5d")
-		        .drawRoundRect(0, 0, 36, 36, 8);
-		}
-		
-		drawMenuBg("#527896");
-		
-		settingsBtn.addChild(menuBg);
-		
-		
-		// --------------------------------------------------
-		// HAMBURGER LINES
-		// --------------------------------------------------
-		
-		var line1 = new createjs.Shape();
-		var line2 = new createjs.Shape();
-		var line3 = new createjs.Shape();
-		
-		function drawMenuLines(color) {
-		
-		    line1.graphics.clear()
-		        .setStrokeStyle(1)
-		        .beginStroke(color)
-		        .moveTo(10, 11)
-		        .lineTo(26, 11);
-		
-		    line2.graphics.clear()
-		        .setStrokeStyle(1)
-		        .beginStroke(color)
-		        .moveTo(10, 17)
-		        .lineTo(26, 17);
-		
-		    line3.graphics.clear()
-		        .setStrokeStyle(1)
-		        .beginStroke(color)
-		        .moveTo(10, 23)
-		        .lineTo(26, 23);
-		}
-		
-		drawMenuLines("#b9d8eb");
-		
-		settingsBtn.addChild(line1);
-		settingsBtn.addChild(line2);
-		settingsBtn.addChild(line3);
-		
-		
-		// --------------------------------------------------
-		// BUTTON SETTINGS
-		// --------------------------------------------------
-		
-		settingsBtn.cursor = "pointer";
-		
-		// Center registration point so the button scales
-		// toward its center instead of its top-left corner.
-		settingsBtn.regX = 18;
-		settingsBtn.regY = 18;
-		
-		
-		// --------------------------------------------------
-		// HOVER ON - PC
-		// --------------------------------------------------
-		
-		settingsBtn.addEventListener("rollover", function () {
-		
-		    drawMenuBg("#8fd8ff");
-		    drawMenuLines("#8fd8ff");
-		
-		});
-		
-		
-		// --------------------------------------------------
-		// HOVER OFF - PC
-		// --------------------------------------------------
-		
-		settingsBtn.addEventListener("rollout", function () {
-		
-		    drawMenuBg("#527896");
-		    drawMenuLines("#b9d8eb");
-		
-		});
-		
-		
-		// --------------------------------------------------
-		// PRESS DOWN - MOUSE / TOUCH
-		// --------------------------------------------------
-		
-		settingsBtn.addEventListener("mousedown", function () {
-		
-		    // Shrink button while pressed
-		    settingsBtn.scaleX = 0.88;
-		    settingsBtn.scaleY = 0.88;
-		
-		    // Bright pressed appearance
-		    drawMenuBg("#8fd8ff");
-		    drawMenuLines("#8fd8ff");
-		
-		});
-		
-		
-		// --------------------------------------------------
-		// RELEASE - MOUSE / TOUCH
-		// --------------------------------------------------
-		
-		settingsBtn.addEventListener("pressup", function () {
-		
-		    // Return to normal size
-		    settingsBtn.scaleX = 1;
-		    settingsBtn.scaleY = 1;
-		
-		    // Return to normal appearance
-		    drawMenuBg("#527896");
-		    drawMenuLines("#b9d8eb");
-		
-		});
-		
-		
-		// --------------------------------------------------
-		// BUTTON CLICK
-		// --------------------------------------------------
-		
-		settingsBtn.addEventListener("click", function () {
-		
-		    // Put your menu-opening code here
-		
-		});
-		
-		
-		// --------------------------------------------------
-		// ADD BUTTON TO STAGE
-		// --------------------------------------------------
-		
-		self.addChild(settingsBtn);
-		
-		
-		// --------------------------------------------------
-		// RESPONSIVE POSITION
-		// --------------------------------------------------
-		
-		function layoutMenuButton() {
-		
-		    var W = lib.properties.width;
-		
-		    settingsBtn.x = W - 34;
-		    settingsBtn.y = 33;
-		}
-		
-		
-		// --------------------------------------------------
-		// INITIAL POSITION
-		// --------------------------------------------------
-		
-		layoutMenuButton();
-		// --------------------------------------------------
 		// BOTTOM EGG HATCH BAR
 		// --------------------------------------------------
 		
@@ -2047,11 +1890,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        hatchFontSize +
 		        "px 'DM Sans'";
 		
-		
 		    hatchTimer.font =
 		        timerFontSize +
 		        "px 'Marcellus'";
-		
 		
 		    timerLabels.font =
 		        "bold " +
@@ -2060,39 +1901,43 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // HATCH TEXT
+		    // TEXT LAYOUT
 		    // --------------------------------------------------
 		
-		    hatchText.x = W / 2;
-		
-		    hatchText.y =
-		        H -
-		        barHeight +
-		        (portrait ? 12 : 10);
+		    var barTop = H - barHeight;
 		
 		
-		    // --------------------------------------------------
-		    // TIMER
-		    // --------------------------------------------------
+		    if (portrait) {
 		
-		    hatchTimer.x = W / 2;
+		        // ----------------------------------------------
+		        // MOBILE / PORTRAIT
+		        // ----------------------------------------------
 		
-		    hatchTimer.y =
-		        H -
-		        barHeight +
-		        (portrait ? 30 : 24);
+		        // Keep everything tightly stacked
+		        hatchText.x = W / 2;
+		        hatchText.y = barTop + 9;
 		
+		        hatchTimer.x = W / 2;
+		        hatchTimer.y = barTop + 28;
 		
-		    // --------------------------------------------------
-		    // TIMER LABELS
-		    // --------------------------------------------------
+		        timerLabels.x = W / 2;
+		        timerLabels.y = barTop + 82;
 		
-		    timerLabels.x = W / 2;
+		    } else {
 		
-		    timerLabels.y =
-		        H -
-		        barHeight +
-		        (portrait ? 82 : 63);
+		        // ----------------------------------------------
+		        // DESKTOP / LANDSCAPE
+		        // ----------------------------------------------
+		
+		        hatchText.x = W / 2;
+		        hatchText.y = barTop + 10;
+		
+		        hatchTimer.x = W / 2;
+		        hatchTimer.y = barTop + 24;
+		
+		        timerLabels.x = W / 2;
+		        timerLabels.y = barTop + 63;
+		    }
 		}
 		
 		
@@ -2126,7 +1971,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790997660515", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790998060037", id:"index_atlas_"}
 	],
 	preloads: []
 };
