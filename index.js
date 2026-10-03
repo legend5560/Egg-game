@@ -202,49 +202,183 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		var PARENT_ORIGIN = "https://alistermonstertamer.com";
 		
-		// Running on its own (Animate preview or the GitHub link), not inside your site:
-		// skip login so you can test. Delete this block before launch.
-		if (window.parent === window) {
-		    exportRoot.user = { uid: "dev-user", username: "Developer here" };
-		    this.gotoAndStop("game");
+		
+		// --------------------------------------------------
+		// CAPITALIZE USERNAME
+		// --------------------------------------------------
+		
+		function capitalizeUsername(username) {
+		
+		    if (!username) {
+		        return username;
+		    }
+		
+		    return username.charAt(0).toUpperCase() +
+		           username.slice(1);
 		}
+		
+		
+		// --------------------------------------------------
+		// RUNNING ON ITS OWN
+		// --------------------------------------------------
+		// Animate preview or GitHub link.
+		// Skip login so you can test.
+		// Delete this block before launch.
+		
+		if (window.parent === window) {
+		
+		    exportRoot.user = {
+		        uid: "dev-user",
+		        username: capitalizeUsername("Developer here")
+		    };
+		
+		    this.gotoAndStop("game");
+		
+		}
+		
+		
+		// --------------------------------------------------
+		// RUNNING INSIDE YOUR WEBSITE
+		// --------------------------------------------------
+		
 		else if (!exportRoot.authListenerAttached) {
+		
 		    exportRoot.authListenerAttached = true;
+		
 		    exportRoot.user = null;
 		    exportRoot.idToken = null;
 		    exportRoot.gotAuth = false;
 		
-		    window.addEventListener("message", function(e) {
-		        if (e.origin !== PARENT_ORIGIN) return;
-		        if (e.source !== window.parent) return;
-		        var d = e.data;
-		        if (!d || d.type !== "auth") return;
 		
-		        console.log("game got auth message:", d.uid ? "signed in" : "signed out", d.username);
-		        exportRoot.gotAuth = true;
+		    // --------------------------------------------------
+		    // RECEIVE AUTH FROM PARENT WEBSITE
+		    // --------------------------------------------------
 		
-		        if (d.uid && d.idToken) {
-		            exportRoot.user = { uid: d.uid, username: d.username };
-		            exportRoot.idToken = d.idToken;
-		        } else {
-		            exportRoot.user = null;
-		            exportRoot.idToken = null;
+		    window.addEventListener(
+		        "message",
+		        function(e) {
+		
+		            if (e.origin !== PARENT_ORIGIN) {
+		                return;
+		            }
+		
+		            if (e.source !== window.parent) {
+		                return;
+		            }
+		
+		            var d = e.data;
+		
+		            if (!d || d.type !== "auth") {
+		                return;
+		            }
+		
+		
+		            console.log(
+		                "game got auth message:",
+		                d.uid
+		                    ? "signed in"
+		                    : "signed out",
+		                d.username
+		            );
+		
+		
+		            exportRoot.gotAuth = true;
+		
+		
+		            // --------------------------------------------------
+		            // SIGNED IN
+		            // --------------------------------------------------
+		
+		            if (d.uid && d.idToken) {
+		
+		                exportRoot.user = {
+		                    uid: d.uid,
+		                    username: capitalizeUsername(d.username)
+		                };
+		
+		                exportRoot.idToken = d.idToken;
+		
+		            }
+		
+		
+		            // --------------------------------------------------
+		            // SIGNED OUT
+		            // --------------------------------------------------
+		
+		            else {
+		
+		                exportRoot.user = null;
+		                exportRoot.idToken = null;
+		
+		            }
+		
+		
+		            // --------------------------------------------------
+		            // LEAVE MENU
+		            // --------------------------------------------------
+		
+		            if (
+		                exportRoot.currentLabel === "menu"
+		            ) {
+		
+		                exportRoot.gotoAndStop("game");
+		
+		            }
+		
+		
+		            // --------------------------------------------------
+		            // REFRESH NAME TEXT
+		            // --------------------------------------------------
+		
+		            if (exportRoot.onUserChange) {
+		
+		                exportRoot.onUserChange();
+		
+		            }
+		
 		        }
+		    );
 		
-		        // Leave the menu once we've heard from the site
-		        if (exportRoot.currentLabel === "menu") exportRoot.gotoAndStop("game");
 		
-		        // Refresh the name text if the game screen is already showing
-		        if (exportRoot.onUserChange) exportRoot.onUserChange();
-		    });
+		    // --------------------------------------------------
+		    // TELL PARENT WEBSITE WE ARE READY
+		    // --------------------------------------------------
 		
-		    // Tell the site we're listening; retry in case it wasn't ready yet
 		    var tries = 0;
-		    var timer = setInterval(function() {
-		        if (exportRoot.gotAuth || ++tries > 20) return clearInterval(timer);
-		        window.parent.postMessage({ type: "game-ready" }, PARENT_ORIGIN);
-		    }, 500);
-		    window.parent.postMessage({ type: "game-ready" }, PARENT_ORIGIN);
+		
+		    var timer = setInterval(
+		        function() {
+		
+		            if (
+		                exportRoot.gotAuth ||
+		                ++tries > 20
+		            ) {
+		
+		                clearInterval(timer);
+		
+		                return;
+		            }
+		
+		
+		            window.parent.postMessage(
+		                {
+		                    type: "game-ready"
+		                },
+		                PARENT_ORIGIN
+		            );
+		
+		        },
+		        500
+		    );
+		
+		
+		    // Initial ready message
+		    window.parent.postMessage(
+		        {
+		            type: "game-ready"
+		        },
+		        PARENT_ORIGIN
+		    );
 		}
 		// ==================================================
 		// MONSTER CLASS
@@ -2294,7 +2428,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1790998892544", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1790999281294", id:"index_atlas_"}
 	],
 	preloads: []
 };
