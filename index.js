@@ -3,7 +3,7 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"index_atlas_", frames: [[1502,0,468,468],[0,834,980,826],[0,0,986,832],[982,834,894,540],[1178,1376,188,188],[982,1376,194,194],[1884,565,28,28],[1884,532,31,31],[988,664,451,108],[1502,470,451,7],[1441,664,451,96],[1884,479,51,51],[988,514,894,148],[988,774,894,20],[988,0,512,512]]}
+		{name:"index_atlas_", frames: [[514,834,468,468],[988,0,980,826],[0,0,986,832],[988,828,894,540],[1508,1370,188,188],[1312,1370,194,194],[514,1313,26,26],[930,1304,51,51],[896,1313,28,28],[896,1370,414,99],[514,1304,414,7],[896,1471,414,88],[0,1348,894,148],[0,1498,894,20],[0,834,512,512]]}
 ];
 
 
@@ -53,42 +53,42 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_64 = function() {
+(lib.CachedTexturedBitmap_69 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(6);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_65 = function() {
+(lib.CachedTexturedBitmap_7 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(7);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_66 = function() {
+(lib.CachedTexturedBitmap_70 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(8);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_67 = function() {
+(lib.CachedTexturedBitmap_71 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(9);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_68 = function() {
+(lib.CachedTexturedBitmap_72 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(10);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_7 = function() {
+(lib.CachedTexturedBitmap_73 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(11);
 }).prototype = p = new cjs.Sprite();
@@ -199,13 +199,13 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.hatchButtonText).wait(1));
 
 	// Layer_4
-	this.instance = new lib.CachedTexturedBitmap_65();
+	this.instance = new lib.CachedTexturedBitmap_70();
 	this.instance.parent = this;
-	this.instance.setTransform(23.65,40.15,1.0946,1.0946);
+	this.instance.setTransform(23.65,40.15,1.1924,1.1924);
 
-	this.instance_1 = new lib.CachedTexturedBitmap_64();
+	this.instance_1 = new lib.CachedTexturedBitmap_69();
 	this.instance_1.parent = this;
-	this.instance_1.setTransform(432,41.4,1.0946,1.0946);
+	this.instance_1.setTransform(432.05,41.4,1.1924,1.1924);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_1},{t:this.instance}]}).wait(1));
 
@@ -216,17 +216,17 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	mask.setTransform(247,59);
 
 	// Layer_3
-	this.instance_2 = new lib.CachedTexturedBitmap_68();
+	this.instance_2 = new lib.CachedTexturedBitmap_73();
 	this.instance_2.parent = this;
-	this.instance_2.setTransform(0,2.95,1.0946,1.0946);
+	this.instance_2.setTransform(0,2.95,1.1924,1.1924);
 
-	this.instance_3 = new lib.CachedTexturedBitmap_67();
+	this.instance_3 = new lib.CachedTexturedBitmap_72();
 	this.instance_3.parent = this;
-	this.instance_3.setTransform(0,110,1.0946,1.0946);
+	this.instance_3.setTransform(0,110,1.1924,1.1924);
 
-	this.instance_4 = new lib.CachedTexturedBitmap_66();
+	this.instance_4 = new lib.CachedTexturedBitmap_71();
 	this.instance_4.parent = this;
-	this.instance_4.setTransform(0,0,1.0946,1.0946);
+	this.instance_4.setTransform(0,0,1.1924,1.1924);
 
 	var maskedShapeInstanceList = [this.instance_2,this.instance_3,this.instance_4];
 
@@ -2657,6 +2657,86 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
+		// HATCH BUTTON
+		// --------------------------------------------------
+		
+		var hatchButton = self.Hatch;
+		
+		if (hatchButton) {
+		
+		    hatchButton.cursor = "pointer";
+		
+		    // --------------------------------------------------
+		    // HATCH BUTTON TEXT
+		    // --------------------------------------------------
+		
+		    if (hatchButton.hatchButtonText) {
+		
+		        hatchButton.hatchButtonText.font =
+		            "bold 50px 'DM Sans'";
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// PAGE INDICATOR DOTS
+		// --------------------------------------------------
+		
+		var pageDots = new createjs.Container();
+		
+		self.addChild(pageDots);
+		
+		
+		// --------------------------------------------------
+		// DOT SETTINGS
+		// --------------------------------------------------
+		
+		var DOT_COUNT = 5;
+		var DOT_RADIUS = 4;
+		var DOT_SPACING = 18;
+		
+		
+		// --------------------------------------------------
+		// CREATE DOTS
+		// --------------------------------------------------
+		
+		for (var i = 0; i < DOT_COUNT; i++) {
+		
+		    var dot = new createjs.Shape();
+		
+		    // First dot is gray
+		    if (i === 0) {
+		
+		        dot.graphics
+		            .beginFill("#777777")
+		            .drawCircle(
+		                0,
+		                0,
+		                DOT_RADIUS
+		            );
+		
+		    } else {
+		
+		        dot.graphics
+		            .beginFill("#FFFFFF")
+		            .drawCircle(
+		                0,
+		                0,
+		                DOT_RADIUS
+		            );
+		    }
+		
+		    dot.alpha = 0.85;
+		
+		    dot.x =
+		        (i - (DOT_COUNT - 1) / 2) *
+		        DOT_SPACING;
+		
+		    pageDots.addChild(dot);
+		}
+		
+		
+		// --------------------------------------------------
 		// UPDATE COUNTDOWN DISPLAY
 		// --------------------------------------------------
 		
@@ -2700,6 +2780,28 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        minuteText +
 		        ":" +
 		        secondText;
+		
+		
+		    // --------------------------------------------------
+		    // UPDATE HATCH BUTTON TEXT
+		    // --------------------------------------------------
+		
+		    if (
+		        hatchButton &&
+		        hatchButton.hatchButtonText
+		    ) {
+		
+		        if (totalSeconds > 0) {
+		
+		            hatchButton.hatchButtonText.text =
+		                "Change the rarity.";
+		
+		        } else {
+		
+		            hatchButton.hatchButtonText.text =
+		                "Hatch the egg";
+		        }
+		    }
 		}
 		
 		
@@ -2736,63 +2838,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        }
 		
 		    }, 1000);
-		}
-		
-		
-		// --------------------------------------------------
-		// HATCH BUTTON
-		// --------------------------------------------------
-		
-		// Hatch is now an actual Animate stage instance
-		var hatchButton = self.Hatch;
-		
-		if (hatchButton) {
-		
-		    hatchButton.cursor = "pointer";
-		}
-		
-		
-		// --------------------------------------------------
-		// PAGE INDICATOR DOTS
-		// --------------------------------------------------
-		
-		var pageDots = new createjs.Container();
-		
-		self.addChild(pageDots);
-		
-		
-		// --------------------------------------------------
-		// DOT SETTINGS
-		// --------------------------------------------------
-		
-		var DOT_COUNT = 5;
-		var DOT_RADIUS = 4;
-		var DOT_SPACING = 18;
-		
-		
-		// --------------------------------------------------
-		// CREATE DOTS
-		// --------------------------------------------------
-		
-		for (var i = 0; i < DOT_COUNT; i++) {
-		
-		    var dot = new createjs.Shape();
-		
-		    dot.graphics
-		        .beginFill("#FFFFFF")
-		        .drawCircle(
-		            0,
-		            0,
-		            DOT_RADIUS
-		        );
-		
-		    dot.alpha = 0.85;
-		
-		    dot.x =
-		        (i - (DOT_COUNT - 1) / 2) *
-		        DOT_SPACING;
-		
-		    pageDots.addChild(dot);
 		}
 		
 		
@@ -3121,7 +3166,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // HATCH BUTTON
+		    // HATCH BUTTON POSITION
 		    // --------------------------------------------------
 		
 		    if (hatchButton) {
@@ -3129,14 +3174,14 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        hatchButton.x =
 		            W / 2;
 		
-		        // Shifted higher
+		        // Button shifted higher
 		        hatchButton.y =
 		            barTop - 28;
 		    }
 		
 		
 		    // --------------------------------------------------
-		    // PAGE DOTS
+		    // PAGE DOTS POSITION
 		    // --------------------------------------------------
 		
 		    pageDots.x =
@@ -3144,7 +3189,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    if (hatchButton) {
 		
-		        // Dots stay above the button
 		        pageDots.y =
 		            hatchButton.y - 42;
 		
@@ -3187,7 +3231,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.Hatch = new lib.Hatch();
 	this.Hatch.name = "Hatch";
 	this.Hatch.parent = this;
-	this.Hatch.setTransform(641.05,637,0.4568,0.4568,0,0,0,247.1,59);
+	this.Hatch.setTransform(641.05,637,0.4193,0.4193,0,0,0,247.2,59);
 	this.Hatch._off = true;
 
 	this.timeline.addTween(cjs.Tween.get(this.Hatch).wait(1).to({_off:false},0).wait(1));
@@ -3202,7 +3246,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1).to({_off:false},0).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(0,0,834.3,664.1);
+p.nominalBounds = new cjs.Rectangle(0,0,834.3,661.9);
 // library properties:
 lib.properties = {
 	id: '6EA4766156B7B04292821C2C02025349',
@@ -3212,7 +3256,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791083062454", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791083880018", id:"index_atlas_"}
 	],
 	preloads: []
 };
