@@ -2722,17 +2722,38 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    function updateHatchButtonScale(scaleMultiplier) {
 		
-		        createjs.Tween.removeTweens(hatchButton);
+		        if (!hatchButton) {
+		            return;
+		        }
+		
+		        var portrait =
+		            lib.properties.height >
+		            lib.properties.width;
+		
+		
+		        // Mobile button is 2.5x larger
+		        var mobileScale =
+		            portrait
+		                ? 2.50
+		                : 1.00;
+		
+		
+		        createjs.Tween.removeTweens(
+		            hatchButton
+		        );
+		
 		
 		        createjs.Tween.get(hatchButton)
 		            .to(
 		                {
 		                    scaleX:
 		                        hatchBaseScaleX *
+		                        mobileScale *
 		                        scaleMultiplier,
 		
 		                    scaleY:
 		                        hatchBaseScaleY *
+		                        mobileScale *
 		                        scaleMultiplier
 		                },
 		                80,
@@ -2751,7 +2772,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		            hatchHovered = true;
 		
-		            // 96% of normal size
+		            // 96% of current size
 		            updateHatchButtonScale(0.96);
 		        }
 		    );
@@ -2785,7 +2806,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		            hatchPressed = true;
 		
-		            // 90% while held
+		            // 90% of current size
 		            updateHatchButtonScale(0.90);
 		        }
 		    );
@@ -2925,7 +2946,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // TIMER ALWAYS STAYS AS TIME
+		    // TIMER
 		    // --------------------------------------------------
 		
 		    hatchTimer.text =
@@ -3367,7 +3388,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        if (portrait) {
 		
 		            hatchButton.y =
-		                barTop - 45;
+		                barTop - 70;
 		
 		        } else {
 		
@@ -3418,8 +3439,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    if (portrait) {
 		
 		        // Make dots 2x larger
-		        // without making their spacing excessively large
-		
 		        pageDots.scaleX = 2;
 		        pageDots.scaleY = 2;
 		
@@ -3441,13 +3460,14 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        if (hatchButton) {
 		
+		            // Dots moved higher
 		            pageDots.y =
-		                hatchButton.y - 52;
+		                hatchButton.y - 75;
 		
 		        } else {
 		
 		            pageDots.y =
-		                barTop - 70;
+		                barTop - 95;
 		        }
 		
 		    } else {
@@ -3541,7 +3561,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791085080311", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791085677244", id:"index_atlas_"}
 	],
 	preloads: []
 };
