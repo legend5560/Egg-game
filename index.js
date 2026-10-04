@@ -3,7 +3,7 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"index_atlas_", frames: [[514,834,468,468],[988,0,980,826],[0,0,986,832],[988,828,894,540],[1508,1370,188,188],[1312,1370,194,194],[514,1313,26,26],[930,1304,51,51],[896,1313,28,28],[896,1370,414,99],[514,1304,414,7],[896,1471,414,88],[0,1348,894,148],[0,1498,894,20],[0,834,512,512]]}
+		{name:"index_atlas_", frames: [[514,834,468,468],[514,1304,28,28],[896,1370,414,99],[1508,1560,414,7],[896,1471,414,88],[988,0,980,826],[0,0,986,832],[988,828,894,540],[1508,1370,188,188],[1312,1370,194,194],[1698,1370,51,51],[0,1348,894,148],[0,1498,894,20],[960,1304,26,26],[896,1304,62,62],[1884,828,84,117],[0,834,512,512]]}
 ];
 
 
@@ -11,107 +11,121 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_1 = function() {
+(lib.CachedTexturedBitmap_15 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_2 = function() {
+(lib.CachedTexturedBitmap_17 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_3 = function() {
+(lib.CachedTexturedBitmap_18 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(2);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_4 = function() {
+(lib.CachedTexturedBitmap_19 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(3);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_5 = function() {
+(lib.CachedTexturedBitmap_20 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(4);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_6 = function() {
+(lib.CachedTexturedBitmap_21 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(5);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_69 = function() {
+(lib.CachedTexturedBitmap_22 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(6);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_7 = function() {
+(lib.CachedTexturedBitmap_23 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(7);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_70 = function() {
+(lib.CachedTexturedBitmap_24 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(8);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_71 = function() {
+(lib.CachedTexturedBitmap_25 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(9);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_72 = function() {
+(lib.CachedTexturedBitmap_26 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(10);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_73 = function() {
+(lib.CachedTexturedBitmap_27 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(11);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_8 = function() {
+(lib.CachedTexturedBitmap_28 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(12);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_9 = function() {
+(lib.CachedTexturedBitmap_30 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(13);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.eggsketches2 = function() {
+(lib.CachedTexturedBitmap_34 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(14);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_35 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(15);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.eggsketches2 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(16);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -132,6 +146,19 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	}
 
 
+(lib.Stars = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer_1
+	this.instance = new lib.CachedTexturedBitmap_34();
+	this.instance.parent = this;
+	this.instance.setTransform(-15.5,0,0.5,0.5);
+
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.Stars, new cjs.Rectangle(-15.5,0,31,31), null);
+
+
 (lib.MonsterCard = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -147,35 +174,35 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.label).wait(1));
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_9();
+	this.instance = new lib.CachedTexturedBitmap_28();
 	this.instance.parent = this;
 	this.instance.setTransform(21.5,310.5,0.5,0.5);
 
-	this.instance_1 = new lib.CachedTexturedBitmap_8();
+	this.instance_1 = new lib.CachedTexturedBitmap_27();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(21.5,328.5,0.5,0.5);
 
-	this.instance_2 = new lib.CachedTexturedBitmap_7();
+	this.instance_2 = new lib.CachedTexturedBitmap_26();
 	this.instance_2.parent = this;
 	this.instance_2.setTransform(232.3,143.85,0.5,0.5);
 
-	this.instance_3 = new lib.CachedTexturedBitmap_6();
+	this.instance_3 = new lib.CachedTexturedBitmap_25();
 	this.instance_3.parent = this;
 	this.instance_3.setTransform(196.5,108,0.5,0.5);
 
-	this.instance_4 = new lib.CachedTexturedBitmap_5();
+	this.instance_4 = new lib.CachedTexturedBitmap_24();
 	this.instance_4.parent = this;
 	this.instance_4.setTransform(198,109.5,0.5,0.5);
 
-	this.instance_5 = new lib.CachedTexturedBitmap_4();
+	this.instance_5 = new lib.CachedTexturedBitmap_23();
 	this.instance_5.parent = this;
 	this.instance_5.setTransform(21.5,21.5,0.5,0.5);
 
-	this.instance_6 = new lib.CachedTexturedBitmap_3();
+	this.instance_6 = new lib.CachedTexturedBitmap_22();
 	this.instance_6.parent = this;
 	this.instance_6.setTransform(-1.5,-1.5,0.5,0.5);
 
-	this.instance_7 = new lib.CachedTexturedBitmap_2();
+	this.instance_7 = new lib.CachedTexturedBitmap_21();
 	this.instance_7.parent = this;
 	this.instance_7.setTransform(0,0,0.5,0.5);
 
@@ -199,11 +226,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.hatchButtonText).wait(1));
 
 	// Layer_4
-	this.instance = new lib.CachedTexturedBitmap_70();
+	this.instance = new lib.CachedTexturedBitmap_17();
 	this.instance.parent = this;
 	this.instance.setTransform(23.65,40.15,1.1924,1.1924);
 
-	this.instance_1 = new lib.CachedTexturedBitmap_69();
+	this.instance_1 = new lib.CachedTexturedBitmap_30();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(432.05,41.4,1.1924,1.1924);
 
@@ -216,15 +243,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	mask.setTransform(247,59);
 
 	// Layer_3
-	this.instance_2 = new lib.CachedTexturedBitmap_73();
+	this.instance_2 = new lib.CachedTexturedBitmap_20();
 	this.instance_2.parent = this;
 	this.instance_2.setTransform(0,2.95,1.1924,1.1924);
 
-	this.instance_3 = new lib.CachedTexturedBitmap_72();
+	this.instance_3 = new lib.CachedTexturedBitmap_19();
 	this.instance_3.parent = this;
 	this.instance_3.setTransform(0,110,1.1924,1.1924);
 
-	this.instance_4 = new lib.CachedTexturedBitmap_71();
+	this.instance_4 = new lib.CachedTexturedBitmap_18();
 	this.instance_4.parent = this;
 	this.instance_4.setTransform(0,0,1.1924,1.1924);
 
@@ -252,6 +279,19 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 }).prototype = getMCSymbolPrototype(lib.eggs, new cjs.Rectangle(-22,-13,556.7,556.7), null);
 
 
+(lib.Cryst = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer_2
+	this.instance = new lib.CachedTexturedBitmap_35();
+	this.instance.parent = this;
+	this.instance.setTransform(-20.85,0,0.5,0.5);
+
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.Cryst, new cjs.Rectangle(-20.8,0,42,58.5), null);
+
+
 (lib.egg = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -263,7 +303,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
 
 	// Layer_1
-	this.instance_1 = new lib.CachedTexturedBitmap_1();
+	this.instance_1 = new lib.CachedTexturedBitmap_15();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(-0.5,-0.5,0.5,0.5);
 
@@ -1066,6 +1106,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		self.nameText.textAlign = "left";
 		
+		
 		topBar.addChild(self.nameText);
 		
 		
@@ -1077,9 +1118,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    var u = exportRoot.user;
 		
-		    self.nameText.text = (u && u.username)
-		        ? u.username
-		        : "Player";
+		    self.nameText.text =
+		        (u && u.username)
+		            ? u.username
+		            : "Player";
 		}
 		
 		showName();
@@ -1093,6 +1135,19 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		var gemContainer = new createjs.Container();
 		
+		var gemBg = new createjs.Shape();
+		
+		gemContainer.addChild(gemBg);
+		
+		
+		// --------------------------------------------------
+		// STAR GEM ICON
+		// --------------------------------------------------
+		
+		var gemIcon = new lib.Stars();
+		
+		gemContainer.addChild(gemIcon);
+		
 		
 		// --------------------------------------------------
 		// GEM AMOUNT
@@ -1105,7 +1160,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		);
 		
 		gemAmount.textAlign = "left";
-		gemAmount.x = 0;
+		
+		gemAmount.x = 22;
 		gemAmount.y = -7;
 		
 		gemContainer.addChild(gemAmount);
@@ -1122,7 +1178,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		);
 		
 		gemLabel.textAlign = "left";
-		gemLabel.x = 30;
+		
+		// Hide STAR GEMS text
+		gemLabel.visible = false;
+		
+		gemLabel.x = 52;
 		gemLabel.y = -5;
 		
 		gemContainer.addChild(gemLabel);
@@ -1131,7 +1191,68 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
-		// MENU BUTTON
+		// CRYST
+		// --------------------------------------------------
+		
+		var crystContainer = new createjs.Container();
+		
+		var crystBg = new createjs.Shape();
+		
+		crystContainer.addChild(crystBg);
+		
+		
+		// --------------------------------------------------
+		// CRYST ICON
+		// --------------------------------------------------
+		
+		var crystIcon = new lib.Cryst();
+		
+		crystContainer.addChild(crystIcon);
+		
+		
+		// --------------------------------------------------
+		// CRYST AMOUNT
+		// --------------------------------------------------
+		
+		var crystAmount = new createjs.Text(
+		    "0",
+		    "bold 14px 'DM Sans'",
+		    "#e8f5ff"
+		);
+		
+		crystAmount.textAlign = "left";
+		
+		crystAmount.x = 22;
+		crystAmount.y = -7;
+		
+		crystContainer.addChild(crystAmount);
+		
+		
+		// --------------------------------------------------
+		// CRYST LABEL
+		// --------------------------------------------------
+		
+		var crystLabel = new createjs.Text(
+		    "CRYST",
+		    "bold 7px 'DM Sans'",
+		    "#7199b7"
+		);
+		
+		crystLabel.textAlign = "left";
+		
+		// Hide CRYST text
+		crystLabel.visible = false;
+		
+		crystLabel.x = 52;
+		crystLabel.y = -5;
+		
+		crystContainer.addChild(crystLabel);
+		
+		topBar.addChild(crystContainer);
+		
+		
+		// --------------------------------------------------
+		// SETTINGS / MENU BUTTON
 		// --------------------------------------------------
 		
 		var settingsBtn = new createjs.Container();
@@ -1140,10 +1261,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		settingsBtn.addChild(menuBg);
 		
-		
-		// --------------------------------------------------
-		// HAMBURGER LINES
-		// --------------------------------------------------
 		
 		var line1 = new createjs.Shape();
 		var line2 = new createjs.Shape();
@@ -1170,9 +1287,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    var line3Y = size * 0.69;
 		
 		
-		    // ----------------------------------------------
 		    // Background
-		    // ----------------------------------------------
 		
 		    menuBg.graphics.clear();
 		
@@ -1189,129 +1304,137 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        );
 		
 		
-		    // ----------------------------------------------
-		    // Hamburger lines
-		    // ----------------------------------------------
+		    // Line 1
 		
 		    line1.graphics.clear()
 		        .setStrokeStyle(1)
 		        .beginStroke("#b9d8eb")
-		        .moveTo(lineLeft, line1Y)
-		        .lineTo(lineRight, line1Y);
+		        .moveTo(
+		            lineLeft,
+		            line1Y
+		        )
+		        .lineTo(
+		            lineRight,
+		            line1Y
+		        );
 		
+		
+		    // Line 2
 		
 		    line2.graphics.clear()
 		        .setStrokeStyle(1)
 		        .beginStroke("#b9d8eb")
-		        .moveTo(lineLeft, line2Y)
-		        .lineTo(lineRight, line2Y);
+		        .moveTo(
+		            lineLeft,
+		            line2Y
+		        )
+		        .lineTo(
+		            lineRight,
+		            line2Y
+		        );
 		
+		
+		    // Line 3
 		
 		    line3.graphics.clear()
 		        .setStrokeStyle(1)
 		        .beginStroke("#b9d8eb")
-		        .moveTo(lineLeft, line3Y)
-		        .lineTo(lineRight, line3Y);
+		        .moveTo(
+		            lineLeft,
+		            line3Y
+		        )
+		        .lineTo(
+		            lineRight,
+		            line3Y
+		        );
 		}
 		
 		
-		// --------------------------------------------------
-		// INITIAL DESKTOP SIZE
-		// --------------------------------------------------
-		
-		drawMenuButton(36, "#527896");
+		drawMenuButton(
+		    36,
+		    "#527896"
+		);
 		
 		topBar.addChild(settingsBtn);
-		
-		
-		// --------------------------------------------------
-		// MENU BUTTON TOUCH / MOUSE FEEDBACK
-		// --------------------------------------------------
 		
 		settingsBtn.cursor = "pointer";
 		
 		settingsBtn.buttonSize = 36;
 		
-		// Center registration point
 		settingsBtn.regX = 18;
 		settingsBtn.regY = 18;
 		
 		
 		// --------------------------------------------------
-		// HOVER ON
+		// MENU BUTTON EVENTS
 		// --------------------------------------------------
 		
-		settingsBtn.addEventListener("rollover", function() {
+		settingsBtn.addEventListener(
+		    "rollover",
+		    function() {
 		
-		    drawMenuButton(
-		        settingsBtn.buttonSize,
-		        "#8fd8ff"
-		    );
-		
-		});
-		
-		
-		// --------------------------------------------------
-		// HOVER OFF
-		// --------------------------------------------------
-		
-		settingsBtn.addEventListener("rollout", function() {
-		
-		    drawMenuButton(
-		        settingsBtn.buttonSize,
-		        "#527896"
-		    );
-		
-		});
+		        drawMenuButton(
+		            settingsBtn.buttonSize,
+		            "#8fd8ff"
+		        );
+		    }
+		);
 		
 		
-		// --------------------------------------------------
-		// PRESS DOWN
-		// --------------------------------------------------
+		settingsBtn.addEventListener(
+		    "rollout",
+		    function() {
 		
-		settingsBtn.addEventListener("mousedown", function() {
-		
-		    settingsBtn.scaleX = 0.88;
-		    settingsBtn.scaleY = 0.88;
-		
-		    drawMenuButton(
-		        settingsBtn.buttonSize,
-		        "#8fd8ff"
-		    );
-		
-		});
+		        drawMenuButton(
+		            settingsBtn.buttonSize,
+		            "#527896"
+		        );
+		    }
+		);
 		
 		
-		// --------------------------------------------------
-		// RELEASE
-		// --------------------------------------------------
+		settingsBtn.addEventListener(
+		    "mousedown",
+		    function() {
 		
-		settingsBtn.addEventListener("pressup", function() {
+		        settingsBtn.scaleX = 0.88;
+		        settingsBtn.scaleY = 0.88;
 		
-		    settingsBtn.scaleX = 1;
-		    settingsBtn.scaleY = 1;
-		
-		    drawMenuButton(
-		        settingsBtn.buttonSize,
-		        "#527896"
-		    );
-		
-		});
+		        drawMenuButton(
+		            settingsBtn.buttonSize,
+		            "#8fd8ff"
+		        );
+		    }
+		);
 		
 		
-		// --------------------------------------------------
-		// BUTTON CLICK
-		// --------------------------------------------------
+		settingsBtn.addEventListener(
+		    "pressup",
+		    function() {
 		
-		settingsBtn.addEventListener("click", function() {
+		        settingsBtn.scaleX = 1;
+		        settingsBtn.scaleY = 1;
 		
-		    // Put your menu-opening code here
+		        drawMenuButton(
+		            settingsBtn.buttonSize,
+		            "#527896"
+		        );
+		    }
+		);
 		
-		});
+		
+		settingsBtn.addEventListener(
+		    "click",
+		    function() {
+		
+		        // Put your menu-opening code here
+		
+		    }
+		);
 		
 		
 		// --------------------------------------------------
-		// LAYOUT
+		// RESPONSIVE TOP BAR LAYOUT
 		// --------------------------------------------------
 		
 		function layoutTopBar() {
@@ -1323,11 +1446,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // RESPONSIVE SIZING
+		    // RESPONSIVE SIZES
 		    // --------------------------------------------------
 		
 		    var BAR_H;
-		
 		    var nameFontSize;
 		    var gemFontSize;
 		    var gemLabelFontSize;
@@ -1335,10 +1457,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    if (portrait) {
-		
-		        // ----------------------------------------------
-		        // MOBILE / PORTRAIT
-		        // ----------------------------------------------
 		
 		        BAR_H = Math.max(
 		            82,
@@ -1367,10 +1485,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    } else {
 		
-		        // ----------------------------------------------
-		        // DESKTOP / LANDSCAPE
-		        // ----------------------------------------------
-		
 		        BAR_H = Math.max(
 		            66,
 		            H * 0.09
@@ -1396,8 +1510,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // BACKGROUND — VERTICAL GRADIENT
-		    // DARKER TOP → LIGHTER BOTTOM
+		    // BAR BACKGROUND
 		    // --------------------------------------------------
 		
 		    barBg.graphics.clear();
@@ -1409,7 +1522,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                "#092642",
 		                "#123B5C"
 		            ],
-		            [0, 0.5, 1],
+		            [
+		                0,
+		                0.5,
+		                1
+		            ],
 		            0,
 		            0,
 		            0,
@@ -1424,7 +1541,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // SLIGHTLY DARKER BOTTOM EDGE
+		    // BOTTOM DARK LINE
 		    // --------------------------------------------------
 		
 		    barBg.graphics
@@ -1438,7 +1555,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // WHITE GRADIENT ACCENT LINE
+		    // GRADIENT HIGHLIGHT LINE
 		    // --------------------------------------------------
 		
 		    barBg.graphics
@@ -1448,7 +1565,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                "rgba(255, 255, 255, 0.66)",
 		                "rgba(255, 255, 255, 0.45)"
 		            ],
-		            [0, 0.15, 0.85],
+		            [
+		                0,
+		                0.15,
+		                0.85
+		            ],
 		            0,
 		            0,
 		            W,
@@ -1463,7 +1584,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // UPDATE FONT SIZES
+		    // FONT SIZES
 		    // --------------------------------------------------
 		
 		    self.nameText.font =
@@ -1483,8 +1604,20 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        "px 'DM Sans'";
 		
 		
+		    crystAmount.font =
+		        "bold " +
+		        gemFontSize +
+		        "px 'DM Sans'";
+		
+		
+		    crystLabel.font =
+		        "bold " +
+		        gemLabelFontSize +
+		        "px 'DM Sans'";
+		
+		
 		    // --------------------------------------------------
-		    // USERNAME - TOP LEFT
+		    // PLAYER NAME
 		    // --------------------------------------------------
 		
 		    self.nameText.x =
@@ -1499,7 +1632,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // MENU BUTTON
+		    // SETTINGS BUTTON
 		    // --------------------------------------------------
 		
 		    settingsBtn.buttonSize = menuSize;
@@ -1513,15 +1646,12 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    settingsBtn.scaleX = 1;
 		    settingsBtn.scaleY = 1;
 		
+		
 		    drawMenuButton(
 		        menuSize,
 		        "#527896"
 		    );
 		
-		
-		    // --------------------------------------------------
-		    // MENU BUTTON POSITION
-		    // --------------------------------------------------
 		
 		    settingsBtn.x =
 		        W -
@@ -1531,65 +1661,66 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                : 52
 		        );
 		
+		
 		    settingsBtn.y =
 		        BAR_H / 2;
 		
 		
 		    // --------------------------------------------------
-		    // STAR GEMS - TOP RIGHT
+		    // CURRENCY BOX SIZES
 		    // --------------------------------------------------
 		
-		    gemContainer.y =
-		        BAR_H / 2;
+		    var currencyPaddingLeft = 10;
+		    var currencyPaddingRight = 10;
 		
-		
-		    // --------------------------------------------------
-		    // ACTUAL GEM CONTENT WIDTH
-		    // --------------------------------------------------
-		
-		    var gemAmountWidth =
-		        gemAmount.getMeasuredWidth();
-		
-		    var gemLabelWidth =
-		        gemLabel.getMeasuredWidth();
-		
-		    var gemContentRight =
-		        Math.max(
-		            gemAmount.x + gemAmountWidth,
-		            gemLabel.x + gemLabelWidth
-		        );
-		
-		
-		    // --------------------------------------------------
-		    // SPACE BETWEEN GEMS AND MENU
-		    // --------------------------------------------------
-		
-		    var gemMenuGap =
+		    var currencyGap =
 		        portrait
-		            ? 28
-		            : 20;
+		            ? 10
+		            : 10;
 		
 		
-		    // --------------------------------------------------
-		    // RIGHT-ALIGN GEM DISPLAY
-		    // --------------------------------------------------
+		    // ==================================================
+		    // STAR GEMS ICON
+		    // ==================================================
 		
-		    var menuLeft =
-		        settingsBtn.x -
-		        menuSize / 2;
-		
-		
-		    gemContainer.x =
-		        menuLeft -
-		        gemMenuGap -
-		        gemContentRight;
+		    var gemIconSize =
+		        portrait
+		            ? gemFontSize * 1.25
+		            : gemFontSize * 1.15;
 		
 		
-		    // --------------------------------------------------
-		    // GEM AMOUNT
-		    // --------------------------------------------------
+		    var gemBounds =
+		        gemIcon.getBounds();
 		
-		    gemAmount.x = 0;
+		
+		    if (gemBounds) {
+		
+		        gemIcon.scaleX =
+		            gemIconSize /
+		            gemBounds.width;
+		
+		        gemIcon.scaleY =
+		            gemIconSize /
+		            gemBounds.height;
+		    }
+		
+		
+		    gemIcon.x =
+		        currencyPaddingLeft;
+		
+		    gemIcon.y =
+		        -gemIconSize / 2;
+		
+		
+		    // ==================================================
+		    // STAR GEMS TEXT
+		    // ==================================================
+		
+		    gemAmount.x =
+		        gemIconSize +
+		        currencyPaddingLeft +
+		        6;
+		
 		
 		    gemAmount.y =
 		        portrait
@@ -1597,14 +1728,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            : -7;
 		
 		
-		    // --------------------------------------------------
-		    // STAR GEMS LABEL
-		    // --------------------------------------------------
-		
 		    gemLabel.x =
 		        portrait
-		            ? gemFontSize * 1.9
-		            : 30;
+		            ? gemFontSize * 2.9 + 4
+		            : 52 + 4;
+		
 		
 		    gemLabel.y =
 		        portrait
@@ -1612,41 +1740,229 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            : -5;
 		
 		
-		    // --------------------------------------------------
-		    // RECALCULATE GEM POSITION AFTER TEXT UPDATE
-		    // --------------------------------------------------
+		    // ==================================================
+		    // STAR GEMS BOX SIZE
+		    // ==================================================
 		
-		    gemAmountWidth =
+		    var gemAmountWidth =
 		        gemAmount.getMeasuredWidth();
 		
-		    gemLabelWidth =
+		    var gemLabelWidth =
 		        gemLabel.getMeasuredWidth();
 		
-		    gemContentRight =
+		
+		    var gemContentRight =
 		        Math.max(
-		            gemAmount.x + gemAmountWidth,
-		            gemLabel.x + gemLabelWidth
+		            gemAmount.x +
+		                gemAmountWidth,
+		
+		            gemLabel.x +
+		                gemLabelWidth
 		        );
 		
 		
-		    gemContainer.x =
-		        menuLeft -
-		        gemMenuGap -
-		        gemContentRight;
+		    var gemBoxWidth =
+		        gemContentRight +
+		        currencyPaddingRight;
+		
+		
+		    var gemBoxHeight =
+		        portrait
+		            ? gemFontSize * 2.15
+		            : 34;
+		
+		
+		    // ==================================================
+		    // STAR GEMS BOX
+		    // ==================================================
+		
+		    gemBg.graphics.clear();
+		
+		    gemBg.graphics
+		        .setStrokeStyle(1)
+		        .beginStroke("#527896")
+		        .beginFill("rgba(8, 35, 61, 0.85)")
+		        .drawRoundRect(
+		            0,
+		            -gemBoxHeight / 2,
+		            gemBoxWidth,
+		            gemBoxHeight,
+		            8
+		        );
+		
+		
+		    // ==================================================
+		    // CRYST ICON
+		    // ==================================================
+		
+		    var crystIconSize =
+		        portrait
+		            ? gemFontSize * 1.25
+		            : gemFontSize * 1.15;
+		
+		
+		    var crystBounds =
+		        crystIcon.getBounds();
+		
+		
+		    if (crystBounds) {
+		
+		        crystIcon.scaleX =
+		            crystIconSize /
+		            crystBounds.width;
+		
+		        crystIcon.scaleY =
+		            crystIconSize /
+		            crystBounds.height;
+		    }
+		
+		
+		    crystIcon.x =
+		        currencyPaddingLeft;
+		
+		    crystIcon.y =
+		        -crystIconSize / 2;
+		
+		
+		    // ==================================================
+		    // CRYST TEXT
+		    // ==================================================
+		
+		    crystAmount.x =
+		        crystIconSize +
+		        currencyPaddingLeft +
+		        6;
+		
+		
+		    crystAmount.y =
+		        portrait
+		            ? -gemFontSize * 0.55
+		            : -7;
+		
+		
+		    crystLabel.x =
+		        portrait
+		            ? gemFontSize * 2.9 + 4
+		            : 52 + 4;
+		
+		
+		    crystLabel.y =
+		        portrait
+		            ? -gemFontSize * 0.35
+		            : -5;
+		
+		
+		    // ==================================================
+		    // CRYST BOX SIZE
+		    // ==================================================
+		
+		    var crystAmountWidth =
+		        crystAmount.getMeasuredWidth();
+		
+		    var crystLabelWidth =
+		        crystLabel.getMeasuredWidth();
+		
+		
+		    var crystContentRight =
+		        Math.max(
+		            crystAmount.x +
+		                crystAmountWidth,
+		
+		            crystLabel.x +
+		                crystLabelWidth
+		        );
+		
+		
+		    var crystBoxWidth =
+		        crystContentRight +
+		        currencyPaddingRight;
+		
+		
+		    var crystBoxHeight =
+		        portrait
+		            ? gemFontSize * 2.15
+		            : 34;
+		
+		
+		    // ==================================================
+		    // CRYST BOX
+		    // ==================================================
+		
+		    crystBg.graphics.clear();
+		
+		    crystBg.graphics
+		        .setStrokeStyle(1)
+		        .beginStroke("#527896")
+		        .beginFill("rgba(8, 35, 61, 0.85)")
+		        .drawRoundRect(
+		            0,
+		            -crystBoxHeight / 2,
+		            crystBoxWidth,
+		            crystBoxHeight,
+		            8
+		        );
+		
+		
+		    // ==================================================
+		    // POSITION CURRENCY BOXES
+		    // ==================================================
+		
+		    var menuLeft =
+		        settingsBtn.x -
+		        menuSize / 2;
+		
+		
+		    var menuGap =
+		        portrait
+		            ? 28
+		            : 20;
 		
 		
 		    // --------------------------------------------------
-		    // HIDE OLD UI ELEMENTS
+		    // CRYST
+		    // Immediately to the LEFT of the menu
+		    // --------------------------------------------------
+		
+		    crystContainer.x =
+		        menuLeft -
+		        menuGap -
+		        crystBoxWidth;
+		
+		
+		    crystContainer.y =
+		        BAR_H / 2;
+		
+		
+		    // --------------------------------------------------
+		    // STAR GEMS
+		    // Immediately to the LEFT of Cryst
+		    // --------------------------------------------------
+		
+		    gemContainer.x =
+		        crystContainer.x -
+		        currencyGap -
+		        gemBoxWidth;
+		
+		
+		    gemContainer.y =
+		        BAR_H / 2;
+		
+		
+		    // --------------------------------------------------
+		    // HIDE OLD TIMER UI
 		    // --------------------------------------------------
 		
 		    if (self.timerText) {
+		
 		        self.timerText.visible = false;
 		    }
+		
 		
 		    if (
 		        self.settingsBtn &&
 		        self.settingsBtn !== settingsBtn
 		    ) {
+		
 		        self.settingsBtn.visible = false;
 		    }
 		}
@@ -3462,7 +3778,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		            // Dots moved higher
 		            pageDots.y =
-		                hatchButton.y - 90;
+		                hatchButton.y - 75;
 		
 		        } else {
 		
@@ -3561,7 +3877,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791091019850", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791136588322", id:"index_atlas_"}
 	],
 	preloads: []
 };
