@@ -2587,6 +2587,24 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		})(this);
+		var self = this;
+		this.stop();
+		
+		exportRoot.onUserChange = showName;
+		
+		
+		// --------------------------------------------------
+		// FLOATING EGG
+		// --------------------------------------------------
+		
+		var startY = self.egg.y + 10;
+		var time = 0;
+		
+		var EGG_RAISE = 0.15;
+		
+		self.egg.y -= lib.properties.height * EGG_RAISE;
+		
+		
 		// --------------------------------------------------
 		// BOTTOM EGG HATCH BAR
 		// --------------------------------------------------
@@ -2662,15 +2680,29 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		var hatchButton = self.Hatch;
 		
+		
+		// --------------------------------------------------
+		// HATCH BUTTON BASE SCALE
+		// --------------------------------------------------
+		
 		var hatchBaseScaleX = 1;
 		var hatchBaseScaleY = 1;
 		
 		var hatchHovered = false;
 		var hatchPressed = false;
 		
+		
 		if (hatchButton) {
 		
 		    hatchButton.cursor = "pointer";
+		
+		
+		    // --------------------------------------------------
+		    // SAVE ORIGINAL SCALE
+		    // --------------------------------------------------
+		
+		    hatchBaseScaleX = hatchButton.scaleX;
+		    hatchBaseScaleY = hatchButton.scaleY;
 		
 		
 		    // --------------------------------------------------
@@ -2685,66 +2717,27 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // SAVE ORIGINAL SCALE
+		    // UPDATE BUTTON SCALE
 		    // --------------------------------------------------
 		
-		    hatchBaseScaleX = hatchButton.scaleX;
-		    hatchBaseScaleY = hatchButton.scaleY;
+		    function updateHatchButtonScale(scaleMultiplier) {
 		
+		        createjs.Tween.removeTweens(hatchButton);
 		
-		    // --------------------------------------------------
-		    // UPDATE HATCH BUTTON SCALE
-		    // --------------------------------------------------
+		        createjs.Tween.get(hatchButton)
+		            .to(
+		                {
+		                    scaleX:
+		                        hatchBaseScaleX *
+		                        scaleMultiplier,
 		
-		    function updateHatchButtonScale() {
-		
-		        var targetScale = 1;
-		
-		
-		        // Held down
-		        if (hatchPressed) {
-		
-		            targetScale = 0.90;
-		
-		
-		        // Hovered
-		        } else if (hatchHovered) {
-		
-		            targetScale = 0.96;
-		        }
-		
-		
-		        // Mobile button is 20% larger
-		        var portrait =
-		            lib.properties.height >
-		            lib.properties.width;
-		
-		
-		        var mobileScale = portrait
-		            ? 1.20
-		            : 1.00;
-		
-		
-		        createjs.Tween.get(
-		            hatchButton,
-		            {
-		                override: true
-		            }
-		        ).to(
-		            {
-		                scaleX:
-		                    hatchBaseScaleX *
-		                    mobileScale *
-		                    targetScale,
-		
-		                scaleY:
-		                    hatchBaseScaleY *
-		                    mobileScale *
-		                    targetScale
-		            },
-		            80,
-		            createjs.Ease.quadOut
-		        );
+		                    scaleY:
+		                        hatchBaseScaleY *
+		                        scaleMultiplier
+		                },
+		                80,
+		                createjs.Ease.quadOut
+		            );
 		    }
 		
 		
@@ -2754,28 +2747,29 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    hatchButton.on(
 		        "mouseover",
-		        function() {
+		        function () {
 		
 		            hatchHovered = true;
 		
-		            updateHatchButtonScale();
+		            // 96% of normal size
+		            updateHatchButtonScale(0.96);
 		        }
 		    );
 		
 		
 		    // --------------------------------------------------
-		    // STOP HOVER
+		    // MOUSE OUT
 		    // --------------------------------------------------
 		
 		    hatchButton.on(
 		        "mouseout",
-		        function() {
+		        function () {
 		
 		            hatchHovered = false;
 		
 		            if (!hatchPressed) {
 		
-		                updateHatchButtonScale();
+		                updateHatchButtonScale(1.00);
 		            }
 		        }
 		    );
@@ -2787,11 +2781,12 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    hatchButton.on(
 		        "mousedown",
-		        function() {
+		        function () {
 		
 		            hatchPressed = true;
 		
-		            updateHatchButtonScale();
+		            // 90% while held
+		            updateHatchButtonScale(0.90);
 		        }
 		    );
 		
@@ -2802,11 +2797,18 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    hatchButton.on(
 		        "pressup",
-		        function() {
+		        function () {
 		
 		            hatchPressed = false;
 		
-		            updateHatchButtonScale();
+		            if (hatchHovered) {
+		
+		                updateHatchButtonScale(0.96);
+		
+		            } else {
+		
+		                updateHatchButtonScale(1.00);
+		            }
 		        }
 		    );
 		}
@@ -2839,7 +2841,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    var dot = new createjs.Shape();
 		
 		
-		    // First dot is gray
+		    // --------------------------------------------------
+		    // FIRST DOT = GRAY
+		    // --------------------------------------------------
+		
 		    if (i === 0) {
 		
 		        dot.graphics
@@ -2865,6 +2870,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    dot.alpha = 0.85;
 		
 		
+		    // Desktop spacing
 		    dot.x =
 		        (i - (DOT_COUNT - 1) / 2) *
 		        DOT_SPACING;
@@ -2896,7 +2902,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    );
 		
 		
-		    var seconds = totalSeconds % 60;
+		    var seconds =
+		        totalSeconds % 60;
 		
 		
 		    var hourText =
@@ -2918,22 +2925,30 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // UPDATE TIMER DISPLAY
+		    // TIMER ALWAYS STAYS AS TIME
 		    // --------------------------------------------------
 		
-		    if (totalSeconds <= 0) {
+		    hatchTimer.text =
+		        hourText +
+		        ":" +
+		        minuteText +
+		        ":" +
+		        secondText;
 		
-		        hatchTimer.text =
-		            "READY TO HATCH";
+		
+		    // --------------------------------------------------
+		    // UPDATE LABEL
+		    // --------------------------------------------------
+		
+		    if (totalSeconds > 0) {
+		
+		        timerLabels.text =
+		            "HOURS   •   MINUTES   •   SECONDS";
 		
 		    } else {
 		
-		        hatchTimer.text =
-		            hourText +
-		            ":" +
-		            minuteText +
-		            ":" +
-		            secondText;
+		        timerLabels.text =
+		            "READY TO HATCH";
 		    }
 		
 		
@@ -2980,7 +2995,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    countdownTimer = setInterval(
-		        function() {
+		        function () {
 		
 		            countdownSeconds--;
 		
@@ -3046,28 +3061,19 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        hatchFontSize = Math.max(
 		            20,
-		            Math.min(
-		                28,
-		                H * 0.030
-		            )
+		            Math.min(28, H * 0.030)
 		        );
 		
 		
 		        timerFontSize = Math.max(
 		            58,
-		            Math.min(
-		                76,
-		                H * 0.082
-		            )
+		            Math.min(76, H * 0.082)
 		        );
 		
 		
 		        labelFontSize = Math.max(
 		            13,
-		            Math.min(
-		                18,
-		                H * 0.020
-		            )
+		            Math.min(18, H * 0.020)
 		        );
 		
 		    } else {
@@ -3107,7 +3113,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    bottomBarBg.graphics.clear();
 		
-		
 		    bottomBarBg.graphics
 		        .beginLinearGradientFill(
 		            [
@@ -3115,11 +3120,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                "#092642",
 		                "#061A2D"
 		            ],
-		            [
-		                0,
-		                0.5,
-		                1
-		            ],
+		            [0, 0.5, 1],
 		            0,
 		            H - barHeight,
 		            0,
@@ -3158,11 +3159,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                "rgba(255, 255, 255, 0.66)",
 		                "rgba(255, 255, 255, 0.45)"
 		            ],
-		            [
-		                0,
-		                0.15,
-		                0.85
-		            ],
+		            [0, 0.15, 0.85],
 		            0,
 		            0,
 		            W,
@@ -3270,7 +3267,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        hatchText.x =
 		            W / 2;
 		
-		
 		        hatchText.y =
 		            barTop +
 		            topPadding;
@@ -3282,7 +3278,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        hatchTimer.x =
 		            W / 2;
-		
 		
 		        hatchTimer.y =
 		            hatchText.y +
@@ -3296,7 +3291,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        timerLabels.x =
 		            W / 2;
-		
 		
 		        timerLabels.y =
 		            hatchTimer.y +
@@ -3323,16 +3317,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                (H - bottomPadding);
 		
 		
-		            hatchText.y -=
-		                correction;
-		
-		
-		            hatchTimer.y -=
-		                correction;
-		
-		
-		            timerLabels.y -=
-		                correction;
+		            hatchText.y -= correction;
+		            hatchTimer.y -= correction;
+		            timerLabels.y -= correction;
 		        }
 		
 		    } else {
@@ -3344,7 +3331,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        hatchText.x =
 		            W / 2;
 		
-		
 		        hatchText.y =
 		            barTop + 10;
 		
@@ -3352,14 +3338,12 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        hatchTimer.x =
 		            W / 2;
 		
-		
 		        hatchTimer.y =
 		            barTop + 24;
 		
 		
 		        timerLabels.x =
 		            W / 2;
-		
 		
 		        timerLabels.y =
 		            barTop + 63;
@@ -3376,68 +3360,127 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            W / 2;
 		
 		
-		        hatchButton.y =
-		            barTop - 28;
+		        // --------------------------------------------------
+		        // MOBILE BUTTON MOVED HIGHER
+		        // --------------------------------------------------
+		
+		        if (portrait) {
+		
+		            hatchButton.y =
+		                barTop - 45;
+		
+		        } else {
+		
+		            hatchButton.y =
+		                barTop - 28;
+		        }
 		
 		
-		        // Only update scale if the button is not
-		        // currently being animated by hover/press.
+		        // --------------------------------------------------
+		        // RESPONSIVE BUTTON SCALE
+		        // --------------------------------------------------
+		
 		        if (
 		            !hatchHovered &&
 		            !hatchPressed
 		        ) {
 		
-		            var mobileScale =
+		            var buttonScale =
 		                portrait
-		                    ? 1.20
+		                    ? 2.50
 		                    : 1.00;
 		
 		
 		            hatchButton.scaleX =
 		                hatchBaseScaleX *
-		                mobileScale;
+		                buttonScale;
 		
 		
 		            hatchButton.scaleY =
 		                hatchBaseScaleY *
-		                mobileScale;
+		                buttonScale;
 		        }
 		    }
 		
 		
 		    // --------------------------------------------------
-		    // PAGE DOTS POSITION
+		    // PAGE DOTS
 		    // --------------------------------------------------
 		
 		    pageDots.x =
 		        W / 2;
 		
 		
-		    if (hatchButton) {
-		
-		        pageDots.y =
-		            hatchButton.y - 42;
-		
-		    } else {
-		
-		        pageDots.y =
-		            barTop - 70;
-		    }
-		
-		
 		    // --------------------------------------------------
-		    // PAGE DOT MOBILE SCALE
+		    // MOBILE DOTS
 		    // --------------------------------------------------
 		
 		    if (portrait) {
 		
-		        pageDots.scaleX = 1.5;
-		        pageDots.scaleY = 1.5;
+		        // Make dots 2x larger
+		        // without making their spacing excessively large
+		
+		        pageDots.scaleX = 2;
+		        pageDots.scaleY = 2;
+		
+		
+		        // Slightly wider spacing
+		        for (
+		            var d = 0;
+		            d < pageDots.numChildren;
+		            d++
+		        ) {
+		
+		            pageDots.getChildAt(d).x =
+		                (
+		                    d -
+		                    (DOT_COUNT - 1) / 2
+		                ) * 24;
+		        }
+		
+		
+		        if (hatchButton) {
+		
+		            pageDots.y =
+		                hatchButton.y - 52;
+		
+		        } else {
+		
+		            pageDots.y =
+		                barTop - 70;
+		        }
 		
 		    } else {
 		
 		        pageDots.scaleX = 1;
 		        pageDots.scaleY = 1;
+		
+		
+		        // Desktop spacing
+		        for (
+		            var d2 = 0;
+		            d2 < pageDots.numChildren;
+		            d2++
+		        ) {
+		
+		            pageDots.getChildAt(d2).x =
+		                (
+		                    d2 -
+		                    (DOT_COUNT - 1) / 2
+		                ) * DOT_SPACING;
+		        }
+		
+		
+		        if (hatchButton) {
+		
+		            pageDots.y =
+		                hatchButton.y - 42;
+		
+		        } else {
+		
+		            pageDots.y =
+		                barTop - 70;
+		        }
 		    }
 		}
 		
@@ -3498,7 +3541,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791084573793", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791085080311", id:"index_atlas_"}
 	],
 	preloads: []
 };
