@@ -3462,7 +3462,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		            // Dots moved higher
 		            pageDots.y =
-		                hatchButton.y - 75;
+		                hatchButton.y - 90;
 		
 		        } else {
 		
@@ -3561,7 +3561,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791085677244", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791091019850", id:"index_atlas_"}
 	],
 	preloads: []
 };
