@@ -3,7 +3,7 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"index_atlas_", frames: [[514,834,468,468],[988,0,980,826],[0,0,986,832],[988,828,894,540],[1092,1370,188,188],[896,1370,194,194],[1970,0,51,51],[0,1348,894,148],[0,1498,894,20],[0,834,512,512]]}
+		{name:"index_atlas_", frames: [[1502,0,468,468],[0,834,980,826],[0,0,986,832],[982,834,894,540],[1178,1376,188,188],[982,1376,194,194],[1884,565,28,28],[1884,532,31,31],[988,664,451,108],[1502,470,451,7],[1441,664,451,96],[1884,479,51,51],[988,514,894,148],[988,774,894,20],[988,0,512,512]]}
 ];
 
 
@@ -11,7 +11,7 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_10 = function() {
+(lib.CachedTexturedBitmap_1 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
@@ -53,30 +53,65 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_7 = function() {
+(lib.CachedTexturedBitmap_64 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(6);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_8 = function() {
+(lib.CachedTexturedBitmap_65 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(7);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_9 = function() {
+(lib.CachedTexturedBitmap_66 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(8);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.eggsketches2 = function() {
+(lib.CachedTexturedBitmap_67 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(9);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_68 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(10);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_7 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(11);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_8 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(12);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_9 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(13);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.eggsketches2 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(14);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -149,6 +184,61 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 }).prototype = getMCSymbolPrototype(lib.MonsterCard, new cjs.Rectangle(-1.5,-1.5,493,416), null);
 
 
+(lib.Hatch = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer_6
+	this.hatchButtonText = new cjs.Text("Hatch the egg", "italic 60px 'DM Sans 36pt SemiBold'", "#3E4C54");
+	this.hatchButtonText.name = "hatchButtonText";
+	this.hatchButtonText.textAlign = "center";
+	this.hatchButtonText.lineHeight = 79;
+	this.hatchButtonText.lineWidth = 396;
+	this.hatchButtonText.parent = this;
+	this.hatchButtonText.setTransform(245.2789,32.4441,0.8732,0.8732);
+
+	this.timeline.addTween(cjs.Tween.get(this.hatchButtonText).wait(1));
+
+	// Layer_4
+	this.instance = new lib.CachedTexturedBitmap_65();
+	this.instance.parent = this;
+	this.instance.setTransform(23.65,40.15,1.0946,1.0946);
+
+	this.instance_1 = new lib.CachedTexturedBitmap_64();
+	this.instance_1.parent = this;
+	this.instance_1.setTransform(432,41.4,1.0946,1.0946);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_1},{t:this.instance}]}).wait(1));
+
+	// Layer_2 (mask)
+	var mask = new cjs.Shape();
+	mask._off = true;
+	mask.graphics.p("EgkFAJOQhCAAgvgvQgvgvAAhCIAAtbQAAhCAvgvQAvgvBCAAMBILAAAQBCAAAvAvQAvAvAABCIAANbQAABCgvAvQgvAvhCAAg");
+	mask.setTransform(247,59);
+
+	// Layer_3
+	this.instance_2 = new lib.CachedTexturedBitmap_68();
+	this.instance_2.parent = this;
+	this.instance_2.setTransform(0,2.95,1.0946,1.0946);
+
+	this.instance_3 = new lib.CachedTexturedBitmap_67();
+	this.instance_3.parent = this;
+	this.instance_3.setTransform(0,110,1.0946,1.0946);
+
+	this.instance_4 = new lib.CachedTexturedBitmap_66();
+	this.instance_4.parent = this;
+	this.instance_4.setTransform(0,0,1.0946,1.0946);
+
+	var maskedShapeInstanceList = [this.instance_2,this.instance_3,this.instance_4];
+
+	for(var shapedInstanceItr = 0; shapedInstanceItr < maskedShapeInstanceList.length; shapedInstanceItr++) {
+		maskedShapeInstanceList[shapedInstanceItr].mask = mask;
+	}
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_4},{t:this.instance_3},{t:this.instance_2}]}).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.Hatch, new cjs.Rectangle(0,0,493.7,118), null);
+
+
 (lib.eggs = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -173,7 +263,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
 
 	// Layer_1
-	this.instance_1 = new lib.CachedTexturedBitmap_10();
+	this.instance_1 = new lib.CachedTexturedBitmap_1();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(-0.5,-0.5,0.5,0.5);
 
@@ -805,10 +895,47 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
-		// EGG SHAKE
+		// EGG HOVER
 		// --------------------------------------------------
 		
 		self.egg.cursor = "pointer";
+		
+		var eggOriginalScaleX = self.egg.scaleX;
+		var eggOriginalScaleY = self.egg.scaleY;
+		
+		var EGG_HOVER_SCALE = 0.97;
+		var EGG_HOVER_TIME = 100;
+		
+		
+		// Hover ON
+		self.egg.on("rollover", function () {
+		
+		    createjs.Tween.removeTweens(self.egg);
+		
+		    createjs.Tween.get(self.egg)
+		        .to({
+		            scaleX: eggOriginalScaleX * EGG_HOVER_SCALE,
+		            scaleY: eggOriginalScaleY * EGG_HOVER_SCALE
+		        }, EGG_HOVER_TIME, createjs.Ease.quadOut);
+		});
+		
+		
+		// Hover OFF
+		self.egg.on("rollout", function () {
+		
+		    createjs.Tween.removeTweens(self.egg);
+		
+		    createjs.Tween.get(self.egg)
+		        .to({
+		            scaleX: eggOriginalScaleX,
+		            scaleY: eggOriginalScaleY
+		        }, EGG_HOVER_TIME, createjs.Ease.quadOut);
+		});
+		
+		
+		// --------------------------------------------------
+		// EGG SHAKE
+		// --------------------------------------------------
 		
 		self.egg.on("click", function () {
 		
@@ -825,14 +952,34 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    var originalX = self.egg.x;
 		    var originalRotation = self.egg.rotation;
 		
-		    var shakeAmount = 16;
-		    var rotationAmount = 8;
+		
+		    // --------------------------------------------------
+		    // RANDOM SHAKE VALUES
+		    // --------------------------------------------------
+		
+		    // Random X amount between 12 and 20
+		    var shakeAmount =
+		        12 + Math.random() * 8;
+		
+		    // Random rotation between 5 and 10 degrees
+		    var rotationAmount =
+		        5 + Math.random() * 5;
+		
+		    // Randomly choose the initial direction
+		    var xDirection =
+		        Math.random() < 0.5 ? -1 : 1;
+		
+		    var rotationDirection =
+		        Math.random() < 0.5 ? -1 : 1;
+		
 		
 		    function shakeEgg(evt) {
 		
+		
 		        shakeTime += evt.delta;
 		
-		        var progress = shakeTime / shakeDuration;
+		        var progress =
+		            shakeTime / shakeDuration;
 		
 		        if (progress >= 1) {
 		
@@ -842,29 +989,54 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		            self.eggShaking = false;
 		
-		            createjs.Ticker.removeEventListener("tick", shakeEgg);
+		            createjs.Ticker.removeEventListener(
+		                "tick",
+		                shakeEgg
+		            );
+		
 		            return;
 		        }
 		
-		        // Fade shake toward the end
+		
+		        // --------------------------------------------------
+		        // FADE SHAKE TOWARD THE END
+		        // --------------------------------------------------
+		
 		        var strength = 1 - progress;
 		
-		        // Left / right shake
+		
+		        // --------------------------------------------------
+		        // RANDOMIZED LEFT / RIGHT SHAKE
+		        // --------------------------------------------------
+		
 		        self.egg.x =
 		            originalX +
-		            Math.sin(progress * Math.PI * 12) *
+		            Math.sin(
+		                progress * Math.PI * 12
+		            ) *
 		            shakeAmount *
-		            strength;
+		            strength *
+		            xDirection;
 		
-		        // Slight rotation
+		
+		        // --------------------------------------------------
+		        // RANDOMIZED ROTATION
+		        // --------------------------------------------------
+		
 		        self.egg.rotation =
 		            originalRotation +
-		            Math.sin(progress * Math.PI * 8) *
+		            Math.sin(
+		                progress * Math.PI * 8
+		            ) *
 		            rotationAmount *
-		            strength;
+		            strength *
+		            rotationDirection;
 		    }
 		
-		    createjs.Ticker.addEventListener("tick", shakeEgg);
+		    createjs.Ticker.addEventListener(
+		        "tick",
+		        shakeEgg
+		    );
 		});
 		// --------------------------------------------------
 		// TOP BAR
@@ -1503,6 +1675,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    var CARDS_RAISE   = 0.09;
 		    var LIFT          = 0.40;
 		
+		    // Move cards higher on desktop only
+		    var DESKTOP_CARDS_RAISE = 0.09;
+		
 		
 		    // --------------------------------------------------
 		    // HOVER
@@ -2004,6 +2179,16 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		        // --------------------------------------------------
+		        // DESKTOP CARD OFFSET
+		        // --------------------------------------------------
+		
+		        var desktopRaise =
+		            portrait
+		                ? 0
+		                : H * DESKTOP_CARDS_RAISE;
+		
+		
+		        // --------------------------------------------------
 		        // CARD BASE POSITION
 		        // --------------------------------------------------
 		
@@ -2015,7 +2200,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                    GAP_BELOW_EGG -
 		                    CARDS_RAISE
 		                ) +
-		                cardH / 2,
+		                cardH / 2 -
+		                desktopRaise,
 		
 		                H -
 		                cardH / 2 -
@@ -2554,6 +2740,63 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
+		// HATCH BUTTON
+		// --------------------------------------------------
+		
+		// Hatch is now an actual Animate stage instance
+		var hatchButton = self.Hatch;
+		
+		if (hatchButton) {
+		
+		    hatchButton.cursor = "pointer";
+		}
+		
+		
+		// --------------------------------------------------
+		// PAGE INDICATOR DOTS
+		// --------------------------------------------------
+		
+		var pageDots = new createjs.Container();
+		
+		self.addChild(pageDots);
+		
+		
+		// --------------------------------------------------
+		// DOT SETTINGS
+		// --------------------------------------------------
+		
+		var DOT_COUNT = 5;
+		var DOT_RADIUS = 4;
+		var DOT_SPACING = 18;
+		
+		
+		// --------------------------------------------------
+		// CREATE DOTS
+		// --------------------------------------------------
+		
+		for (var i = 0; i < DOT_COUNT; i++) {
+		
+		    var dot = new createjs.Shape();
+		
+		    dot.graphics
+		        .beginFill("#FFFFFF")
+		        .drawCircle(
+		            0,
+		            0,
+		            DOT_RADIUS
+		        );
+		
+		    dot.alpha = 0.85;
+		
+		    dot.x =
+		        (i - (DOT_COUNT - 1) / 2) *
+		        DOT_SPACING;
+		
+		    pageDots.addChild(dot);
+		}
+		
+		
+		// --------------------------------------------------
 		// LAYOUT
 		// --------------------------------------------------
 		
@@ -2588,21 +2831,18 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        );
 		
 		
-		        // Larger hatch message
 		        hatchFontSize = Math.max(
 		            20,
 		            Math.min(28, H * 0.030)
 		        );
 		
 		
-		        // Large countdown
 		        timerFontSize = Math.max(
 		            58,
 		            Math.min(76, H * 0.082)
 		        );
 		
 		
-		        // Larger HOURS / MINUTES / SECONDS
 		        labelFontSize = Math.max(
 		            13,
 		            Math.min(18, H * 0.020)
@@ -2852,7 +3092,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            timerLabels.y -= correction;
 		        }
 		
-		
 		    } else {
 		
 		        // --------------------------------------------------
@@ -2879,6 +3118,41 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        timerLabels.y =
 		            barTop + 63;
 		    }
+		
+		
+		    // --------------------------------------------------
+		    // HATCH BUTTON
+		    // --------------------------------------------------
+		
+		    if (hatchButton) {
+		
+		        hatchButton.x =
+		            W / 2;
+		
+		        // Shifted higher
+		        hatchButton.y =
+		            barTop - 28;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // PAGE DOTS
+		    // --------------------------------------------------
+		
+		    pageDots.x =
+		        W / 2;
+		
+		    if (hatchButton) {
+		
+		        // Dots stay above the button
+		        pageDots.y =
+		            hatchButton.y - 42;
+		
+		    } else {
+		
+		        pageDots.y =
+		            barTop - 70;
+		    }
 		}
 		
 		
@@ -2894,10 +3168,29 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		startCountdown();
+		
+		
+		// --------------------------------------------------
+		// RESPONSIVE LAYOUT UPDATE
+		// --------------------------------------------------
+		
+		createjs.Ticker.addEventListener(
+		    "tick",
+		    layoutBottomBar
+		);
 	}
 
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
+
+	// Layer_4
+	this.Hatch = new lib.Hatch();
+	this.Hatch.name = "Hatch";
+	this.Hatch.parent = this;
+	this.Hatch.setTransform(641.05,637,0.4568,0.4568,0,0,0,247.1,59);
+	this.Hatch._off = true;
+
+	this.timeline.addTween(cjs.Tween.get(this.Hatch).wait(1).to({_off:false},0).wait(1));
 
 	// Layer_1
 	this.egg = new lib.egg();
@@ -2909,7 +3202,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1).to({_off:false},0).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(0,0,834.3,533.6);
+p.nominalBounds = new cjs.Rectangle(0,0,834.3,664.1);
 // library properties:
 lib.properties = {
 	id: '6EA4766156B7B04292821C2C02025349',
@@ -2919,7 +3212,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791073067558", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791083062454", id:"index_atlas_"}
 	],
 	preloads: []
 };
