@@ -3,7 +3,7 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"index_atlas_", frames: [[470,1028,188,188],[470,834,192,192],[470,1218,51,51],[896,1370,894,20],[988,828,894,540],[988,0,980,826],[0,0,986,832],[0,1304,894,148],[0,834,468,468]]}
+		{name:"index_atlas_", frames: [[514,834,468,468],[988,0,980,826],[0,0,986,832],[988,828,894,540],[1092,1370,188,188],[896,1370,194,194],[1970,0,51,51],[0,1348,894,148],[0,1498,894,20],[0,834,512,512]]}
 ];
 
 
@@ -11,65 +11,72 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_29 = function() {
+(lib.CachedTexturedBitmap_10 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_30 = function() {
+(lib.CachedTexturedBitmap_2 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_31 = function() {
+(lib.CachedTexturedBitmap_3 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(2);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_33 = function() {
+(lib.CachedTexturedBitmap_4 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(3);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_36 = function() {
+(lib.CachedTexturedBitmap_5 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(4);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_38 = function() {
+(lib.CachedTexturedBitmap_6 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(5);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_41 = function() {
+(lib.CachedTexturedBitmap_7 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(6);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_42 = function() {
+(lib.CachedTexturedBitmap_8 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(7);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_8 = function() {
+(lib.CachedTexturedBitmap_9 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(8);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.eggsketches2 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(9);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -105,35 +112,35 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.label).wait(1));
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_33();
+	this.instance = new lib.CachedTexturedBitmap_9();
 	this.instance.parent = this;
 	this.instance.setTransform(21.5,310.5,0.5,0.5);
 
-	this.instance_1 = new lib.CachedTexturedBitmap_42();
+	this.instance_1 = new lib.CachedTexturedBitmap_8();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(21.5,328.5,0.5,0.5);
 
-	this.instance_2 = new lib.CachedTexturedBitmap_31();
+	this.instance_2 = new lib.CachedTexturedBitmap_7();
 	this.instance_2.parent = this;
 	this.instance_2.setTransform(232.3,143.85,0.5,0.5);
 
-	this.instance_3 = new lib.CachedTexturedBitmap_30();
+	this.instance_3 = new lib.CachedTexturedBitmap_6();
 	this.instance_3.parent = this;
-	this.instance_3.setTransform(197,108.5,0.5,0.5);
+	this.instance_3.setTransform(196.5,108,0.5,0.5);
 
-	this.instance_4 = new lib.CachedTexturedBitmap_29();
+	this.instance_4 = new lib.CachedTexturedBitmap_5();
 	this.instance_4.parent = this;
 	this.instance_4.setTransform(198,109.5,0.5,0.5);
 
-	this.instance_5 = new lib.CachedTexturedBitmap_36();
+	this.instance_5 = new lib.CachedTexturedBitmap_4();
 	this.instance_5.parent = this;
 	this.instance_5.setTransform(21.5,21.5,0.5,0.5);
 
-	this.instance_6 = new lib.CachedTexturedBitmap_41();
+	this.instance_6 = new lib.CachedTexturedBitmap_3();
 	this.instance_6.parent = this;
 	this.instance_6.setTransform(-1.5,-1.5,0.5,0.5);
 
-	this.instance_7 = new lib.CachedTexturedBitmap_38();
+	this.instance_7 = new lib.CachedTexturedBitmap_2();
 	this.instance_7.parent = this;
 	this.instance_7.setTransform(0,0,0.5,0.5);
 
@@ -142,17 +149,37 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 }).prototype = getMCSymbolPrototype(lib.MonsterCard, new cjs.Rectangle(-1.5,-1.5,493,416), null);
 
 
-(lib.egg = function(mode,startPosition,loop) {
+(lib.eggs = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_8();
+	this.instance = new lib.eggsketches2();
 	this.instance.parent = this;
-	this.instance.setTransform(-0.5,-0.5,0.5,0.5);
+	this.instance.setTransform(-22,-13,1.0873,1.0873);
 
 	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
 
-}).prototype = getMCSymbolPrototype(lib.egg, new cjs.Rectangle(-0.5,-0.5,234,234), null);
+}).prototype = getMCSymbolPrototype(lib.eggs, new cjs.Rectangle(-22,-13,556.7,556.7), null);
+
+
+(lib.egg = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer_2
+	this.instance = new lib.eggs();
+	this.instance.parent = this;
+	this.instance.setTransform(114.85,88,0.7021,0.7021,0,0,0,255.7,255.9);
+
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+
+	// Layer_1
+	this.instance_1 = new lib.CachedTexturedBitmap_10();
+	this.instance_1.parent = this;
+	this.instance_1.setTransform(-0.5,-0.5,0.5,0.5);
+
+	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.egg, new cjs.Rectangle(-80.1,-100.8,390.9,390.90000000000003), null);
 
 
 // stage content:
@@ -741,28 +768,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		});
 	}
 	this.frame_1 = function() {
-		var self = this;
-		this.stop();
-		
+		//this is for the players username
 		exportRoot.onUserChange = showName;
-		
-		// --- Floating egg ---
-		var startY = self.egg.y + 10;
-		var time = 0;
-		
-		// ---------- Floating egg ----------
-		var EGG_RAISE = 0.15;                      // how far to move the egg up (share of stage height)
-		self.egg.y -= lib.properties.height * EGG_RAISE;
-		
-		var startY = self.egg.y;
-		self.eggRestY = startY;                    // the cards script reads this (it never moves the egg)
-		var time = 0;
-		
-		function floatEgg(evt) {
-		    time += evt.delta / 1000;
-		    self.egg.y = startY + Math.sin(time * 1.5) * 15;
-		}
-		createjs.Ticker.addEventListener("tick", floatEgg);
 		
 		// ---------- Clean up when leaving this screen ----------
 		this.cleanup = function() {
@@ -770,6 +777,95 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    createjs.Ticker.removeEventListener("tick", floatEgg);
 		    if (self.cleanupCards) self.cleanupCards();
 		};
+		var self = this;
+		this.stop();
+		
+		// --------------------------------------------------
+		// FLOATING EGG
+		// --------------------------------------------------
+		
+		var EGG_RAISE = 0.15;
+		
+		// Raise egg
+		self.egg.y -= lib.properties.height * EGG_RAISE;
+		
+		var startY = self.egg.y;
+		self.eggRestY = startY;
+		
+		var time = 0;
+		
+		function floatEgg(evt) {
+		    time += evt.delta / 1000;
+		
+		    // Floating controls ONLY Y
+		    self.egg.y = startY + Math.sin(time * 1.5) * 15;
+		}
+		
+		createjs.Ticker.addEventListener("tick", floatEgg);
+		
+		
+		// --------------------------------------------------
+		// EGG SHAKE
+		// --------------------------------------------------
+		
+		self.egg.cursor = "pointer";
+		
+		self.egg.on("click", function () {
+		
+		    // Don't start another shake while already shaking
+		    if (self.eggShaking) {
+		        return;
+		    }
+		
+		    self.eggShaking = true;
+		
+		    var shakeTime = 0;
+		    var shakeDuration = 350;
+		
+		    var originalX = self.egg.x;
+		    var originalRotation = self.egg.rotation;
+		
+		    var shakeAmount = 16;
+		    var rotationAmount = 8;
+		
+		    function shakeEgg(evt) {
+		
+		        shakeTime += evt.delta;
+		
+		        var progress = shakeTime / shakeDuration;
+		
+		        if (progress >= 1) {
+		
+		            // Return to original values
+		            self.egg.x = originalX;
+		            self.egg.rotation = originalRotation;
+		
+		            self.eggShaking = false;
+		
+		            createjs.Ticker.removeEventListener("tick", shakeEgg);
+		            return;
+		        }
+		
+		        // Fade shake toward the end
+		        var strength = 1 - progress;
+		
+		        // Left / right shake
+		        self.egg.x =
+		            originalX +
+		            Math.sin(progress * Math.PI * 12) *
+		            shakeAmount *
+		            strength;
+		
+		        // Slight rotation
+		        self.egg.rotation =
+		            originalRotation +
+		            Math.sin(progress * Math.PI * 8) *
+		            rotationAmount *
+		            strength;
+		    }
+		
+		    createjs.Ticker.addEventListener("tick", shakeEgg);
+		});
 		// --------------------------------------------------
 		// TOP BAR
 		// --------------------------------------------------
@@ -811,7 +907,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    self.nameText.text = (u && u.username)
 		        ? u.username
-		        : "Marcellus";
+		        : "Player";
 		}
 		
 		showName();
@@ -1128,13 +1224,25 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // BACKGROUND
+		    // BACKGROUND — VERTICAL GRADIENT
+		    // DARKER TOP → LIGHTER BOTTOM
 		    // --------------------------------------------------
 		
 		    barBg.graphics.clear();
 		
 		    barBg.graphics
-		        .beginFill("#092642")
+		        .beginLinearGradientFill(
+		            [
+		                "#061A2D",
+		                "#092642",
+		                "#123B5C"
+		            ],
+		            [0, 0.5, 1],
+		            0,
+		            0,
+		            0,
+		            BAR_H
+		        )
 		        .drawRect(
 		            0,
 		            0,
@@ -1207,12 +1315,102 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    // USERNAME - TOP LEFT
 		    // --------------------------------------------------
 		
-		    self.nameText.x = portrait ? 24 : 32;
+		    self.nameText.x =
+		        portrait
+		            ? 24
+		            : 32;
 		
 		    self.nameText.y =
 		        portrait
 		            ? (BAR_H - nameFontSize) / 2 - 2
 		            : 22;
+		
+		
+		    // --------------------------------------------------
+		    // MENU BUTTON
+		    // --------------------------------------------------
+		
+		    settingsBtn.buttonSize = menuSize;
+		
+		    settingsBtn.regX =
+		        menuSize / 2;
+		
+		    settingsBtn.regY =
+		        menuSize / 2;
+		
+		    settingsBtn.scaleX = 1;
+		    settingsBtn.scaleY = 1;
+		
+		    drawMenuButton(
+		        menuSize,
+		        "#527896"
+		    );
+		
+		
+		    // --------------------------------------------------
+		    // MENU BUTTON POSITION
+		    // --------------------------------------------------
+		
+		    settingsBtn.x =
+		        W -
+		        (
+		            portrait
+		                ? menuSize / 2 + 14
+		                : 52
+		        );
+		
+		    settingsBtn.y =
+		        BAR_H / 2;
+		
+		
+		    // --------------------------------------------------
+		    // STAR GEMS - TOP RIGHT
+		    // --------------------------------------------------
+		
+		    gemContainer.y =
+		        BAR_H / 2;
+		
+		
+		    // --------------------------------------------------
+		    // ACTUAL GEM CONTENT WIDTH
+		    // --------------------------------------------------
+		
+		    var gemAmountWidth =
+		        gemAmount.getMeasuredWidth();
+		
+		    var gemLabelWidth =
+		        gemLabel.getMeasuredWidth();
+		
+		    var gemContentRight =
+		        Math.max(
+		            gemAmount.x + gemAmountWidth,
+		            gemLabel.x + gemLabelWidth
+		        );
+		
+		
+		    // --------------------------------------------------
+		    // SPACE BETWEEN GEMS AND MENU
+		    // --------------------------------------------------
+		
+		    var gemMenuGap =
+		        portrait
+		            ? 28
+		            : 20;
+		
+		
+		    // --------------------------------------------------
+		    // RIGHT-ALIGN GEM DISPLAY
+		    // --------------------------------------------------
+		
+		    var menuLeft =
+		        settingsBtn.x -
+		        menuSize / 2;
+		
+		
+		    gemContainer.x =
+		        menuLeft -
+		        gemMenuGap -
+		        gemContentRight;
 		
 		
 		    // --------------------------------------------------
@@ -1243,70 +1441,26 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // MENU BUTTON
+		    // RECALCULATE GEM POSITION AFTER TEXT UPDATE
 		    // --------------------------------------------------
 		
-		    settingsBtn.buttonSize = menuSize;
+		    gemAmountWidth =
+		        gemAmount.getMeasuredWidth();
 		
-		    settingsBtn.regX = menuSize / 2;
-		    settingsBtn.regY = menuSize / 2;
+		    gemLabelWidth =
+		        gemLabel.getMeasuredWidth();
 		
-		    settingsBtn.scaleX = 1;
-		    settingsBtn.scaleY = 1;
-		
-		    drawMenuButton(
-		        menuSize,
-		        "#527896"
-		    );
-		
-		
-		    // --------------------------------------------------
-		    // MENU BUTTON POSITION
-		    // --------------------------------------------------
-		
-		    settingsBtn.x =
-		        W -
-		        (portrait
-		            ? menuSize / 2 + 14
-		            : 52);
-		
-		    settingsBtn.y =
-		        BAR_H / 2;
+		    gemContentRight =
+		        Math.max(
+		            gemAmount.x + gemAmountWidth,
+		            gemLabel.x + gemLabelWidth
+		        );
 		
 		
-		    // --------------------------------------------------
-		    // STAR GEMS - TOP RIGHT
-		    // --------------------------------------------------
-		
-		    gemContainer.y = BAR_H / 2;
-		
-		
-		    // Left edge of menu button
-		    var menuLeft =
-		        settingsBtn.x -
-		        menuSize / 2;
-		
-		
-		    // Space between gems and menu
-		    var gemMenuGap =
-		        portrait
-		            ? 28
-		            : 20;
-		
-		
-		    // Width reserved for gem display
-		    var gemDisplayWidth =
-		        portrait
-		            ? 125
-		            : 170;
-		
-		
-		    // Position gems safely to the LEFT
-		    // of the menu button
 		    gemContainer.x =
 		        menuLeft -
 		        gemMenuGap -
-		        gemDisplayWidth;
+		        gemContentRight;
 		
 		
 		    // --------------------------------------------------
@@ -1363,6 +1517,27 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    // --------------------------------------------------
 		
 		    var PRESS_SCALE = 0.88;
+		
+		
+		    // --------------------------------------------------
+		    // CARD INTRO ANIMATION
+		    // --------------------------------------------------
+		
+		    // "left"  = cards start on the right and move left
+		    // "right" = cards start on the left and move right
+		    var INTRO_DIRECTION = "left";
+		
+		    // Distance the cards start from their final position
+		    var INTRO_DISTANCE = 75;
+		
+		    // How long each card takes to move into place
+		    var INTRO_TIME = 550;
+		
+		    // Delay between each card starting
+		    var INTRO_DELAY = 100;
+		
+		    // Fade cards in during the intro
+		    var INTRO_FADE = true;
 		
 		
 		    // --------------------------------------------------
@@ -1438,7 +1613,13 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		            card.slotIndex = i;
 		            card.monster = null;
-		            card.cursor = "pointer";
+		
+		            // LOCK INPUT UNTIL INTRO IS COMPLETE
+		            card.introDone = false;
+		
+		            // Don't show pointer cursor during intro
+		            card.cursor = null;
+		
 		            card.isPointerInside = false;
 		
 		
@@ -1447,7 +1628,12 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            // --------------------------------------------------
 		
 		            if (card.label) {
-		                card.label.text = "Select a monster";
+		
+		                if (i === GOLD_INDEX) {
+		                    card.label.text = "Select a legend";
+		                } else {
+		                    card.label.text = "Select a monster";
+		                }
 		            }
 		
 		
@@ -1528,6 +1714,16 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        var card = evt.currentTarget;
 		
+		
+		        // --------------------------------------------------
+		        // IGNORE INPUT DURING INTRO
+		        // --------------------------------------------------
+		
+		        if (!card.introDone) {
+		            return;
+		        }
+		
+		
 		        console.log(
 		            "Card tapped:",
 		            card.slotIndex
@@ -1555,6 +1751,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    function onCardPress(evt) {
 		
 		        var card = evt.currentTarget;
+		
+		
+		        // --------------------------------------------------
+		        // IGNORE INPUT DURING INTRO
+		        // --------------------------------------------------
+		
+		        if (!card.introDone) {
+		            return;
+		        }
 		
 		
 		        // Cancel hover movement
@@ -1595,6 +1800,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    function onCardRelease(evt) {
 		
 		        var card = evt.currentTarget;
+		
+		
+		        // --------------------------------------------------
+		        // IGNORE INPUT DURING INTRO
+		        // --------------------------------------------------
+		
+		        if (!card.introDone) {
+		            return;
+		        }
 		
 		
 		        // --------------------------------------------------
@@ -1645,6 +1859,16 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        var card = evt.currentTarget;
 		
+		
+		        // --------------------------------------------------
+		        // IGNORE INPUT DURING INTRO
+		        // --------------------------------------------------
+		
+		        if (!card.introDone) {
+		            return;
+		        }
+		
+		
 		        card.isPointerInside = true;
 		
 		        moveCard(
@@ -1662,6 +1886,16 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        var card = evt.currentTarget;
 		
+		
+		        // --------------------------------------------------
+		        // IGNORE INPUT DURING INTRO
+		        // --------------------------------------------------
+		
+		        if (!card.introDone) {
+		            return;
+		        }
+		
+		
 		        card.isPointerInside = false;
 		
 		        moveCard(
@@ -1676,6 +1910,12 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    // --------------------------------------------------
 		
 		    function moveCard(card, up) {
+		
+		        // Extra safety check
+		        if (!card.introDone) {
+		            return;
+		        }
+		
 		
 		        var targetY =
 		            up
@@ -1875,6 +2115,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            // STORE HOME POSITION
 		            // --------------------------------------------------
 		
+		            c.homeX =
+		                c.x;
+		
 		            c.homeY =
 		                c.y;
 		
@@ -1949,6 +2192,153 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
+		    // CARD INTRO ANIMATION
+		    // --------------------------------------------------
+		
+		    function animateCardsIn() {
+		
+		        if (!cards.length) {
+		            return;
+		        }
+		
+		
+		        for (
+		            var i = 0;
+		            i < cards.length;
+		            i++
+		        ) {
+		
+		            var card =
+		                cards[i];
+		
+		
+		            // --------------------------------------------------
+		            // LOCK CARD INPUT
+		            // --------------------------------------------------
+		
+		            card.introDone = false;
+		            card.cursor = null;
+		
+		
+		            var targetX =
+		                card.homeX;
+		
+		
+		            var targetY =
+		                card.homeY;
+		
+		
+		            var startX;
+		
+		
+		            // --------------------------------------------------
+		            // START POSITION
+		            // --------------------------------------------------
+		
+		            if (
+		                INTRO_DIRECTION === "right"
+		            ) {
+		
+		                // Start on the left
+		                // and move right
+		
+		                startX =
+		                    targetX -
+		                    INTRO_DISTANCE;
+		
+		            } else {
+		
+		                // Start on the right
+		                // and move left
+		
+		                startX =
+		                    targetX +
+		                    INTRO_DISTANCE;
+		            }
+		
+		
+		            card.x =
+		                startX;
+		
+		
+		            card.y =
+		                targetY;
+		
+		
+		            // --------------------------------------------------
+		            // FADE
+		            // --------------------------------------------------
+		
+		            if (INTRO_FADE) {
+		
+		                card.alpha = 0;
+		
+		            } else {
+		
+		                card.alpha = 1;
+		            }
+		
+		
+		            // --------------------------------------------------
+		            // REMOVE EXISTING TWEENS
+		            // --------------------------------------------------
+		
+		            createjs.Tween.removeTweens(card);
+		
+		
+		            // --------------------------------------------------
+		            // STAGGER DELAY
+		            // --------------------------------------------------
+		
+		            var delay =
+		                i *
+		                INTRO_DELAY;
+		
+		
+		            // --------------------------------------------------
+		            // TWEEN PROPERTIES
+		            // --------------------------------------------------
+		
+		            var tweenProperties = {
+		                x: targetX
+		            };
+		
+		
+		            if (INTRO_FADE) {
+		
+		                tweenProperties.alpha = 1;
+		            }
+		
+		
+		            // --------------------------------------------------
+		            // SLIDE + OVERSHOOT
+		            // --------------------------------------------------
+		
+		            createjs.Tween.get(card)
+		                .wait(delay)
+		                .to(
+		                    tweenProperties,
+		                    INTRO_TIME,
+		                    createjs.Ease.backOut
+		                )
+		                .call(
+		                    function(card) {
+		
+		                        // --------------------------------------------------
+		                        // INTRO COMPLETE
+		                        // --------------------------------------------------
+		
+		                        card.introDone = true;
+		                        card.cursor = "pointer";
+		
+		                    },
+		                    [card]
+		                );
+		        }
+		    }
+		
+		
+		    // --------------------------------------------------
 		    // WAIT ONE TICK
 		    // --------------------------------------------------
 		
@@ -1968,6 +2358,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        createCards();
 		
 		        layoutCards();
+		
+		        animateCardsIn();
 		    }
 		
 		
@@ -2248,13 +2640,24 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // BACKGROUND
+		    // BACKGROUND — VERTICAL GRADIENT
 		    // --------------------------------------------------
 		
 		    bottomBarBg.graphics.clear();
 		
 		    bottomBarBg.graphics
-		        .beginFill("#092642")
+		        .beginLinearGradientFill(
+		            [
+		                "#123B5C",
+		                "#092642",
+		                "#061A2D"
+		            ],
+		            [0, 0.5, 1],
+		            0,
+		            H - barHeight,
+		            0,
+		            H
+		        )
 		        .drawRect(
 		            0,
 		            H - barHeight,
@@ -2506,17 +2909,17 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1).to({_off:false},0).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = new cjs.Rectangle(0,0,757,477);
+p.nominalBounds = new cjs.Rectangle(0,0,834.3,533.6);
 // library properties:
 lib.properties = {
 	id: '6EA4766156B7B04292821C2C02025349',
 	width: 1280,
 	height: 720,
-	fps: 30,
+	fps: 60,
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791000256560", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791073067558", id:"index_atlas_"}
 	],
 	preloads: []
 };
