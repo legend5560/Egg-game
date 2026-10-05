@@ -3838,10 +3838,14 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
-		// COUNTDOWN
+		// EGG LOCK STATUS & TIMERS
 		// --------------------------------------------------
 		
-		var countdownSeconds = 30;
+		var EGG_COUNT = 5;
+		var eggLocked = [false, true, true, true, true];
+		var eggTimers = [30, 0, 0, 0, 0];
+		
+		var currentEggIndex = 0;
 		var countdownTimer = null;
 		
 		
@@ -4130,10 +4134,14 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		self.setActiveDot = function (index) {
 		
+		    currentEggIndex = index;
+		
 		    for (var j = 0; j < DOT_COUNT; j++) {
 		
 		        styleDot(pageDots.getChildAt(j), j === index);
 		    }
+		
+		    updateCountdown();
 		};
 		
 		
@@ -4143,61 +4151,70 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		function updateCountdown() {
 		
-		    var totalSeconds = Math.max(
-		        0,
-		        countdownSeconds
-		    );
+		    var isLocked =
+		        eggLocked[currentEggIndex];
 		
-		
-		    var hours = Math.floor(
-		        totalSeconds / 3600
-		    );
-		
-		
-		    var minutes = Math.floor(
-		        (totalSeconds % 3600) / 60
-		    );
-		
-		
-		    var seconds =
-		        totalSeconds % 60;
-		
-		
-		    var hourText =
-		        hours < 10
-		            ? "0" + hours
-		            : hours;
-		
-		
-		    var minuteText =
-		        minutes < 10
-		            ? "0" + minutes
-		            : minutes;
-		
-		
-		    var secondText =
-		        seconds < 10
-		            ? "0" + seconds
-		            : seconds;
+		    var totalSeconds =
+		        isLocked
+		            ? -1
+		            : Math.max(0, eggTimers[currentEggIndex]);
 		
 		
 		    // --------------------------------------------------
-		    // TIMER
+		    // TIMER TEXT
 		    // --------------------------------------------------
 		
-		    hatchTimer.text =
-		        hourText +
-		        ":" +
-		        minuteText +
-		        ":" +
-		        secondText;
+		    if (isLocked) {
+		
+		        hatchTimer.text = "--:--:--";
+		
+		    } else {
+		
+		        var hours = Math.floor(
+		            totalSeconds / 3600
+		        );
+		
+		        var minutes = Math.floor(
+		            (totalSeconds % 3600) / 60
+		        );
+		
+		        var seconds =
+		            totalSeconds % 60;
+		
+		        var hourText =
+		            hours < 10
+		                ? "0" + hours
+		                : hours;
+		
+		        var minuteText =
+		            minutes < 10
+		                ? "0" + minutes
+		                : minutes;
+		
+		        var secondText =
+		            seconds < 10
+		                ? "0" + seconds
+		                : seconds;
+		
+		        hatchTimer.text =
+		            hourText +
+		            ":" +
+		            minuteText +
+		            ":" +
+		            secondText;
+		    }
 		
 		
 		    // --------------------------------------------------
 		    // UPDATE LABEL
 		    // --------------------------------------------------
 		
-		    if (totalSeconds > 0) {
+		    if (isLocked) {
+		
+		        timerLabels.text =
+		            "LOCKED";
+		
+		    } else if (totalSeconds > 0) {
 		
 		        timerLabels.text =
 		            "HOURS   •   MINUTES   •   SECONDS";
@@ -4218,7 +4235,12 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        hatchButton.hatchButtonText
 		    ) {
 		
-		        if (totalSeconds > 0) {
+		        if (isLocked) {
+		
+		            hatchButton.hatchButtonText.text =
+		                "Egg locked";
+		
+		        } else if (totalSeconds > 0) {
 		
 		            hatchButton.hatchButtonText.text =
 		                "Change the rarity.";
@@ -4245,28 +4267,25 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        );
 		    }
 		
-		
-		    countdownSeconds = 30;
-		
 		    updateCountdown();
-		
 		
 		    countdownTimer = setInterval(
 		        function () {
 		
-		            countdownSeconds--;
-		
-		
-		            if (countdownSeconds < 0) {
-		
-		                countdownSeconds = 0;
+		            if (eggLocked[currentEggIndex]) {
+		                return;
 		            }
 		
+		            eggTimers[currentEggIndex]--;
+		
+		            if (eggTimers[currentEggIndex] < 0) {
+		
+		                eggTimers[currentEggIndex] = 0;
+		            }
 		
 		            updateCountdown();
 		
-		
-		            if (countdownSeconds <= 0) {
+		            if (eggTimers[currentEggIndex] <= 0) {
 		
 		                clearInterval(
 		                    countdownTimer
@@ -4797,7 +4816,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791163808375", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791164449125", id:"index_atlas_"}
 	],
 	preloads: []
 };
