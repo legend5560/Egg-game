@@ -3,8 +3,8 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"index_atlas_", frames: [[988,872,980,826],[0,872,986,832],[0,0,992,870],[994,0,992,870]]},
-		{name:"index_atlas_2", frames: [[514,911,84,117],[900,683,29,21],[944,521,894,540],[710,625,188,188],[514,625,194,194],[870,975,51,51],[470,1438,894,148],[870,1063,894,20],[870,911,62,62],[0,1038,468,468],[470,1038,398,398],[944,0,939,519],[0,0,942,522],[900,655,26,26],[900,625,28,28],[514,524,414,99],[0,1508,414,7],[514,821,414,88],[870,1028,46,29],[928,655,4,12],[0,524,512,512]]}
+		{name:"index_atlas_", frames: [[994,0,992,870],[0,0,992,870],[988,872,980,826],[0,872,986,832]]},
+		{name:"index_atlas_2", frames: [[470,1038,398,398],[928,655,4,12],[900,683,29,21],[944,0,939,519],[0,0,942,522],[944,521,894,540],[710,625,188,188],[514,911,84,117],[514,625,194,194],[870,975,51,51],[470,1438,894,148],[870,1063,894,20],[870,911,62,62],[0,1038,468,468],[900,655,26,26],[900,625,28,28],[514,524,414,99],[0,1508,414,7],[514,821,414,88],[870,1028,46,29],[0,524,512,512]]}
 ];
 
 
@@ -27,22 +27,22 @@ lib.ssMetadata = [
 
 
 (lib.CachedTexturedBitmap_11 = function() {
-	this.initialize(ss["index_atlas_"]);
-	this.gotoAndStop(0);
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(2);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_12 = function() {
 	this.initialize(ss["index_atlas_"]);
-	this.gotoAndStop(1);
+	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_13 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(2);
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 
 
@@ -62,57 +62,57 @@ lib.ssMetadata = [
 
 
 (lib.CachedTexturedBitmap_16 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(5);
-}).prototype = p = new cjs.Sprite();
-
-
-
-(lib.CachedTexturedBitmap_17 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(6);
-}).prototype = p = new cjs.Sprite();
-
-
-
-(lib.CachedTexturedBitmap_18 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(7);
-}).prototype = p = new cjs.Sprite();
-
-
-
-(lib.CachedTexturedBitmap_19 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(8);
-}).prototype = p = new cjs.Sprite();
-
-
-
-(lib.CachedTexturedBitmap_2 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(9);
-}).prototype = p = new cjs.Sprite();
-
-
-
-(lib.CachedTexturedBitmap_20 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(10);
-}).prototype = p = new cjs.Sprite();
-
-
-
-(lib.CachedTexturedBitmap_21 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(2);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_22 = function() {
+(lib.CachedTexturedBitmap_17 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(3);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_18 = function() {
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(5);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_19 = function() {
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(6);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_2 = function() {
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(7);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_20 = function() {
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(8);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_21 = function() {
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(9);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_22 = function() {
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(10);
 }).prototype = p = new cjs.Sprite();
 
 
@@ -207,7 +207,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_19();
+	this.instance = new lib.CachedTexturedBitmap_24();
 	this.instance.parent = this;
 	this.instance.setTransform(-15.5,0,0.5,0.5);
 
@@ -231,35 +231,35 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.label).wait(1));
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_18();
+	this.instance = new lib.CachedTexturedBitmap_23();
 	this.instance.parent = this;
 	this.instance.setTransform(21.5,310.5,0.5,0.5);
 
-	this.instance_1 = new lib.CachedTexturedBitmap_17();
+	this.instance_1 = new lib.CachedTexturedBitmap_22();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(21.5,328.5,0.5,0.5);
 
-	this.instance_2 = new lib.CachedTexturedBitmap_16();
+	this.instance_2 = new lib.CachedTexturedBitmap_21();
 	this.instance_2.parent = this;
 	this.instance_2.setTransform(232.3,143.85,0.5,0.5);
 
-	this.instance_3 = new lib.CachedTexturedBitmap_15();
+	this.instance_3 = new lib.CachedTexturedBitmap_20();
 	this.instance_3.parent = this;
 	this.instance_3.setTransform(196.5,108,0.5,0.5);
 
-	this.instance_4 = new lib.CachedTexturedBitmap_14();
+	this.instance_4 = new lib.CachedTexturedBitmap_19();
 	this.instance_4.parent = this;
 	this.instance_4.setTransform(198,109.5,0.5,0.5);
 
-	this.instance_5 = new lib.CachedTexturedBitmap_13();
+	this.instance_5 = new lib.CachedTexturedBitmap_18();
 	this.instance_5.parent = this;
 	this.instance_5.setTransform(21.5,21.5,0.5,0.5);
 
-	this.instance_6 = new lib.CachedTexturedBitmap_12();
+	this.instance_6 = new lib.CachedTexturedBitmap_17();
 	this.instance_6.parent = this;
 	this.instance_6.setTransform(-1.5,-1.5,0.5,0.5);
 
-	this.instance_7 = new lib.CachedTexturedBitmap_11();
+	this.instance_7 = new lib.CachedTexturedBitmap_16();
 	this.instance_7.parent = this;
 	this.instance_7.setTransform(0,0,0.5,0.5);
 
@@ -272,15 +272,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_10();
+	this.instance = new lib.CachedTexturedBitmap_11();
 	this.instance.parent = this;
 	this.instance.setTransform(3.25,-0.95,0.5,0.5);
 
-	this.instance_1 = new lib.CachedTexturedBitmap_9();
+	this.instance_1 = new lib.CachedTexturedBitmap_10();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(9.55,11.7,0.5,0.5);
 
-	this.instance_2 = new lib.CachedTexturedBitmap_8();
+	this.instance_2 = new lib.CachedTexturedBitmap_9();
 	this.instance_2.parent = this;
 	this.instance_2.setTransform(-0.95,7.45,0.5,0.5);
 
@@ -304,11 +304,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.hatchButtonText).wait(1));
 
 	// Layer_4
-	this.instance = new lib.CachedTexturedBitmap_4();
+	this.instance = new lib.CachedTexturedBitmap_5();
 	this.instance.parent = this;
 	this.instance.setTransform(23.65,40.15,1.1924,1.1924);
 
-	this.instance_1 = new lib.CachedTexturedBitmap_3();
+	this.instance_1 = new lib.CachedTexturedBitmap_4();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(432.05,41.4,1.1924,1.1924);
 
@@ -321,15 +321,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	mask.setTransform(247,59);
 
 	// Layer_3
-	this.instance_2 = new lib.CachedTexturedBitmap_7();
+	this.instance_2 = new lib.CachedTexturedBitmap_8();
 	this.instance_2.parent = this;
 	this.instance_2.setTransform(0,2.95,1.1924,1.1924);
 
-	this.instance_3 = new lib.CachedTexturedBitmap_6();
+	this.instance_3 = new lib.CachedTexturedBitmap_7();
 	this.instance_3.parent = this;
 	this.instance_3.setTransform(0,110,1.1924,1.1924);
 
-	this.instance_4 = new lib.CachedTexturedBitmap_5();
+	this.instance_4 = new lib.CachedTexturedBitmap_6();
 	this.instance_4.parent = this;
 	this.instance_4.setTransform(0,0,1.1924,1.1924);
 
@@ -361,7 +361,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_2
-	this.instance = new lib.CachedTexturedBitmap_1();
+	this.instance = new lib.CachedTexturedBitmap_2();
 	this.instance.parent = this;
 	this.instance.setTransform(-20.85,0,0.5,0.5);
 
@@ -374,7 +374,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_20();
+	this.instance = new lib.CachedTexturedBitmap_1();
 	this.instance.parent = this;
 	this.instance.setTransform(0,0,0.5,0.5);
 
@@ -419,19 +419,19 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.instance.setTransform(248.5,143.5,1,1,0,0,0,99.5,99.5);
 	this.instance.alpha = 0.6797;
 
-	this.instance_1 = new lib.CachedTexturedBitmap_24();
+	this.instance_1 = new lib.CachedTexturedBitmap_15();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(12.95,13,0.5,0.5);
 
-	this.instance_2 = new lib.CachedTexturedBitmap_23();
+	this.instance_2 = new lib.CachedTexturedBitmap_14();
 	this.instance_2.parent = this;
 	this.instance_2.setTransform(13.75,13.8,0.5,0.5);
 
-	this.instance_3 = new lib.CachedTexturedBitmap_22();
+	this.instance_3 = new lib.CachedTexturedBitmap_13();
 	this.instance_3.parent = this;
 	this.instance_3.setTransform(0,0.05,0.5,0.5);
 
-	this.instance_4 = new lib.CachedTexturedBitmap_21();
+	this.instance_4 = new lib.CachedTexturedBitmap_12();
 	this.instance_4.parent = this;
 	this.instance_4.setTransform(0,0,0.5,0.5);
 
@@ -451,7 +451,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
 
 	// Layer_1
-	this.instance_1 = new lib.CachedTexturedBitmap_2();
+	this.instance_1 = new lib.CachedTexturedBitmap_3();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(-0.5,-0.5,0.5,0.5);
 
@@ -4278,8 +4278,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		function setupEgg(egg) {
 		
-		    // Raise egg
-		    egg.y -= lib.properties.height * EGG_RAISE;
+		    // Raise egg, always measured from its original position
+		    if (egg.baseY === undefined) egg.baseY = egg.y;
+		    egg.y = egg.baseY - H * EGG_RAISE;
 		
 		    // Save its resting position
 		    egg.eggRestY = egg.y;
@@ -4882,9 +4883,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        NAV_BUTTON_ALPHA;
 		});
 		
-		// --------------------------------------------------
-		// CLEANUP (call when leaving this frame)
-		// --------------------------------------------------
 		
 		// --------------------------------------------------
 		// CLEANUP (call when leaving this frame)
@@ -4924,7 +4922,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		};
 		
 		
-		
 		// --------------------------------------------------
 		// INITIAL STATE
 		// --------------------------------------------------
@@ -4939,6 +4936,16 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    createjs.Ticker.removeEventListener("tick", floatEgg);
 		    if (self.cleanupCards) self.cleanupCards();
 		};
+		var self = this;
+		
+		// If this script ran before, remove the old top bar and menu first
+		if (self.topBar) {
+		
+		    self.removeChild(self.topBar);
+		    self.removeChild(self.menuRoot);
+		}
+		
+		
 		// --------------------------------------------------
 		// TOP BAR
 		// --------------------------------------------------
@@ -5959,12 +5966,14 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// The options, in order from top to bottom
 		
 		var MENU_ITEMS = [
+		    { id: "home",       label: "Home" },
 		    { id: "egg",        label: "Egg" },
 		    { id: "monsters",   label: "Monsters" },
 		    { id: "expedition", label: "Expedition" },
-		    { id: "summons",     label: "Summons" },
+		    { id: "summons",    label: "Summons" },
 		    { id: "shop",       label: "Shop" },
-		    { id: "save",       label: "Save" },
+		    { id: "import",     label: "Import" },
+		    { id: "export",     label: "Export" },
 		    { id: "settings",   label: "Settings" }
 		];
 		
@@ -6458,34 +6467,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
-		// UPDATE MENU LABEL BASED ON CURRENT FRAME
-		// --------------------------------------------------
-		
-		function updateMenuLabels() {
-		
-		    if (!menuButtons.length) {
-		        return;
-		    }
-		
-		    var isOnEggFrame =
-		        self.currentLabel === "eggs";
-		
-		    var eggButton = menuButtons[0];
-		
-		    if (isOnEggFrame) {
-		
-		        eggButton.label.text = "Home";
-		
-		    } else {
-		
-		        eggButton.label.text = "Egg";
-		    }
-		
-		    layoutMenu();
-		}
-		
-		
-		// --------------------------------------------------
 		// OPEN / CLOSE / TOGGLE
 		// --------------------------------------------------
 		
@@ -6496,8 +6477,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    }
 		
 		    menuOpen = true;
-		
-		    updateMenuLabels();
 		
 		    layoutMenu();
 		
@@ -6609,49 +6588,73 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
+		// IMPORT / EXPORT
+		// --------------------------------------------------
+		
+		function exportGame() {
+		
+		    var a = document.createElement("a");
+		
+		    a.href = URL.createObjectURL(
+		        new Blob([SaveSystem.exportSave()], { type: "application/json" })
+		    );
+		    a.download = "save.json";
+		    a.click();
+		
+		    URL.revokeObjectURL(a.href);
+		}
+		
+		
+		function importGame() {
+		
+		    var input = document.createElement("input");
+		
+		    input.type = "file";
+		    input.accept = ".json";
+		
+		    input.onchange = function () {
+		
+		        input.files[0].text().then(function (text) {
+		
+		            SaveSystem.importSave(text);
+		            showCurrencies();
+		        });
+		    };
+		
+		    input.click();
+		}
+		
+		
+		// --------------------------------------------------
 		// WHAT EACH OPTION DOES
 		// --------------------------------------------------
 		
-		// id is one of: egg, monsters, expedition,
-		// summons, shop, save, settings
+		// id is one of: home, egg, monsters, expedition,
+		// summons, shop, import, export, settings
 		
 		function onMenuSelect(id) {
 		
 		    switch (id) {
 		
-		        case "egg":
-		
-		            // If on eggs frame, go to game
-		            // Otherwise, go to eggs
-		            if (self.currentLabel === "eggs") {
-		
-		                showScreen("game");
-		
-		            } else {
-		
-		                showScreen("eggs");
-		            }
-		
+		        case "home":
+		            showScreen("game");
 		            break;
 		
+		        case "egg":
+		            showScreen("eggs");
+		            break;
 		
 		        case "monsters":
-		
 		            showScreen("monsters");
-		
 		            break;
 		
-		
-		        case "save":
-		
-		            // Sends any unsaved currency changes right away
-		            if (window.SaveSystem) {
-		
-		                SaveSystem.saveNow();
-		            }
-		
+		        case "import":
+		            if (window.SaveSystem) importGame();
 		            break;
 		
+		        case "export":
+		            if (window.SaveSystem) exportGame();
+		            break;
 		
 		        // Put your other screens here, for example:
 		        //
@@ -6660,11 +6663,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        //     break;
 		
 		        default:
-		
-		            console.log(
-		                "Menu option chosen:",
-		                id
-		            );
+		            console.log("Menu option chosen:", id);
 		    }
 		}
 		
@@ -6697,35 +6696,16 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		}
 		
 		
-		// Things the game screen creates in code stay on the stage
-		// when the playhead moves to another frame, so hide them.
+		// Things the screens create in code stay on the stage
+		// when the playhead moves to another frame, so clean them up.
 		// The top bar and the menu stay on every screen.
 		
 		function hideGameScreen() {
 		
-		    // The monster cards remove themselves
-		    if (self.cleanupCards) {
-		
-		        self.cleanupCards();
-		    }
-		
-		    // Egg arrows
-		    if (typeof eggNavigation !== "undefined") {
-		
-		        eggNavigation.visible = false;
-		    }
-		
-		    // Hatch timer bar
-		    if (typeof bottomBar !== "undefined") {
-		
-		        bottomBar.visible = false;
-		    }
-		
-		    // Page dots
-		    if (typeof pageDots !== "undefined") {
-		
-		        pageDots.visible = false;
-		    }
+		    if (self.cleanupCards) self.cleanupCards();
+		    if (self.cleanupEggs) self.cleanupEggs();
+		    if (self.cleanupEggNavigation) self.cleanupEggNavigation();
+		    if (self.cleanupBottomBar) self.cleanupBottomBar();
 		}
 		
 		
@@ -6751,12 +6731,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    self.gotoAndStop(name);
 		
-		    // Keep the top bar and the menu in front of the new screen
-		    self.addChild(topBar);
-		    self.addChild(menuRoot);
-		
-		    // Update menu labels after changing frames
-		    updateMenuLabels();
+		    // Keep the top bar and the menu in front of the new screen.
+		    // Uses self.topBar so it always points at the newest one.
+		    self.addChild(self.topBar);
+		    self.addChild(self.menuRoot);
 		}
 		
 		
@@ -6850,6 +6828,14 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    createjs.Ticker.addEventListener("tick", waitForSaveSystem);
 		}
+		
+		
+		// --------------------------------------------------
+		// REMEMBER THE TOP BAR (removed on the next run)
+		// --------------------------------------------------
+		
+		self.topBar = topBar;
+		self.menuRoot = menuRoot;
 		(function(self) {
 		
 		
@@ -7745,19 +7731,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		var self = this;
 		this.stop();
 		
-		exportRoot.onUserChange = showName;
-		
-		
-		// --------------------------------------------------
-		// FLOATING EGG
-		// --------------------------------------------------
-		
-		var startY = self.egg.y + 10;
-		var time = 0;
-		
-		var EGG_RAISE = 0.15;
-		
-		self.egg.y -= lib.properties.height * EGG_RAISE;
+		// Clean up the previous run first
+		if (self.cleanupBottomBar) self.cleanupBottomBar();
 		
 		
 		// --------------------------------------------------
@@ -7853,15 +7828,27 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		if (hatchButton) {
 		
+		    // Clear listeners from earlier visits
+		    hatchButton.removeAllEventListeners("mouseover");
+		    hatchButton.removeAllEventListeners("mouseout");
+		    hatchButton.removeAllEventListeners("mousedown");
+		    hatchButton.removeAllEventListeners("pressup");
+		
 		    hatchButton.cursor = "pointer";
 		
 		
 		    // --------------------------------------------------
-		    // SAVE ORIGINAL SCALE
+		    // SAVE ORIGINAL SCALE (only the first time)
 		    // --------------------------------------------------
 		
-		    hatchBaseScaleX = hatchButton.scaleX;
-		    hatchBaseScaleY = hatchButton.scaleY;
+		    if (hatchButton.baseScaleX === undefined) {
+		
+		        hatchButton.baseScaleX = hatchButton.scaleX;
+		        hatchButton.baseScaleY = hatchButton.scaleY;
+		    }
+		
+		    hatchBaseScaleX = hatchButton.baseScaleX;
+		    hatchBaseScaleY = hatchButton.baseScaleY;
 		
 		
 		    // --------------------------------------------------
@@ -8793,6 +8780,25 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    "tick",
 		    layoutBottomBar
 		);
+		
+		
+		// --------------------------------------------------
+		// CLEANUP (called when leaving this frame, or on the next run)
+		// --------------------------------------------------
+		
+		self.cleanupBottomBar = function () {
+		
+		    // Keep the countdown continuous across screens
+		    saveEggTimers();
+		
+		    clearInterval(countdownTimer);
+		    createjs.Ticker.removeEventListener("tick", layoutBottomBar);
+		
+		    self.removeChild(bottomBar);
+		    self.removeChild(pageDots);
+		
+		    self.cleanupBottomBar = null;
+		};
 	}
 	this.frame_2 = function() {
 		this.stop();
@@ -8809,8 +8815,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    // --------------------------------------------------
 		
 		    // Grid
-		    var COLUMNS    = 3;
-		    var PER_PAGE   = 33;      // cards on each page
+		    var COLUMNS    = portrait ? 2 : 4;
+		    var PER_PAGE   = 36;      // cards on each page
 		    var TOTAL_EGGS = 33;      // eggs in the whole game (only page 1 for now)
 		
 		    // Leave room for the top bar at the top of the screen.
@@ -9611,8 +9617,8 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791194768255", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791194768255", id:"index_atlas_2"}
+		{src:"images/index_atlas_.png?1791231013526", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791231013526", id:"index_atlas_2"}
 	],
 	preloads: []
 };
