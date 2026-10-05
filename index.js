@@ -391,25 +391,25 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.guarding.name = "guarding";
 	this.guarding.textAlign = "center";
 	this.guarding.lineHeight = 68;
-	this.guarding.lineWidth = 420;
+	this.guarding.lineWidth = 1233;
 	this.guarding.parent = this;
-	this.guarding.setTransform(248.25,386.95,0.3938,0.3938);
+	this.guarding.setTransform(246.499,386.95,0.3938,0.3938);
 
 	this.MonsterName = new cjs.Text("Monster name", "50px 'Marcellus'", "#FFFFFF");
 	this.MonsterName.name = "MonsterName";
 	this.MonsterName.textAlign = "center";
 	this.MonsterName.lineHeight = 65;
-	this.MonsterName.lineWidth = 363;
+	this.MonsterName.lineWidth = 751;
 	this.MonsterName.parent = this;
-	this.MonsterName.setTransform(253.85,328.3,0.6434,0.6434);
+	this.MonsterName.setTransform(248.0491,328.3,0.6434,0.6434);
 
 	this.type = new cjs.Text("type 1 * type 2", "italic 50px 'DM Sans 36pt SemiBold'", "#A1D9E5");
 	this.type.name = "type";
 	this.type.textAlign = "center";
 	this.type.lineHeight = 68;
-	this.type.lineWidth = 526;
+	this.type.lineWidth = 1353;
 	this.type.parent = this;
-	this.type.setTransform(244.75,291.1,0.3581,0.3581);
+	this.type.setTransform(247.9994,291.1,0.3581,0.3581);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.type},{t:this.MonsterName},{t:this.guarding}]}).wait(1));
 
@@ -4882,6 +4882,48 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        NAV_BUTTON_ALPHA;
 		});
 		
+		// --------------------------------------------------
+		// CLEANUP (call when leaving this frame)
+		// --------------------------------------------------
+		
+		// --------------------------------------------------
+		// CLEANUP (call when leaving this frame)
+		// --------------------------------------------------
+		
+		self.cleanupEggNavigation = function () {
+		
+		    // Stop floating
+		    createjs.Ticker.removeEventListener("tick", floatEggs);
+		
+		    // Remove event listeners
+		    leftButton.removeAllEventListeners();
+		    rightButton.removeAllEventListeners();
+		    egg.removeAllEventListeners();
+		
+		    // Stop any tweens
+		    createjs.Tween.removeTweens(egg);
+		    createjs.Tween.removeTweens(leftButton);
+		    createjs.Tween.removeTweens(rightButton);
+		
+		    // Reset egg position and state
+		    egg.x = egg.eggRestX;
+		    egg.y = egg.eggRestY;
+		    egg.alpha = 1;
+		    egg.rotation = 0;
+		    egg.scaleX = egg.originalScaleX;
+		    egg.scaleY = egg.originalScaleY;
+		    egg.eggShaking = false;
+		    egg.eggSwitching = false;
+		
+		    // Remove from stage
+		    eggNavigation.removeAllEventListeners();
+		    self.removeChild(eggNavigation);
+		
+		    // Clear references
+		    self.cleanupEggNavigation = null;
+		};
+		
+		
 		
 		// --------------------------------------------------
 		// INITIAL STATE
@@ -6416,6 +6458,34 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
+		// UPDATE MENU LABEL BASED ON CURRENT FRAME
+		// --------------------------------------------------
+		
+		function updateMenuLabels() {
+		
+		    if (!menuButtons.length) {
+		        return;
+		    }
+		
+		    var isOnEggFrame =
+		        self.currentLabel === "eggs";
+		
+		    var eggButton = menuButtons[0];
+		
+		    if (isOnEggFrame) {
+		
+		        eggButton.label.text = "Home";
+		
+		    } else {
+		
+		        eggButton.label.text = "Egg";
+		    }
+		
+		    layoutMenu();
+		}
+		
+		
+		// --------------------------------------------------
 		// OPEN / CLOSE / TOGGLE
 		// --------------------------------------------------
 		
@@ -6426,6 +6496,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    }
 		
 		    menuOpen = true;
+		
+		    updateMenuLabels();
 		
 		    layoutMenu();
 		
@@ -6549,8 +6621,23 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        case "egg":
 		
-		            // The discovered eggs screen
-		            showScreen("eggs");
+		            // If on eggs frame, go to game
+		            // Otherwise, go to eggs
+		            if (self.currentLabel === "eggs") {
+		
+		                showScreen("game");
+		
+		            } else {
+		
+		                showScreen("eggs");
+		            }
+		
+		            break;
+		
+		
+		        case "monsters":
+		
+		            showScreen("monsters");
 		
 		            break;
 		
@@ -6667,6 +6754,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    // Keep the top bar and the menu in front of the new screen
 		    self.addChild(topBar);
 		    self.addChild(menuRoot);
+		
+		    // Update menu labels after changing frames
+		    updateMenuLabels();
 		}
 		
 		
@@ -9521,8 +9611,8 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791193213386", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791193213387", id:"index_atlas_2"}
+		{src:"images/index_atlas_.png?1791194768255", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791194768255", id:"index_atlas_2"}
 	],
 	preloads: []
 };
