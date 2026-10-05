@@ -3,7 +3,7 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"index_atlas_", frames: [[1884,828,84,117],[988,828,894,540],[1508,1370,188,188],[1312,1370,194,194],[1698,1370,51,51],[0,1348,894,148],[0,1498,894,20],[896,1304,62,62],[514,1304,46,29],[960,1332,4,12],[592,1304,29,21],[514,834,468,468],[960,1304,26,26],[562,1304,28,28],[896,1370,414,99],[1508,1560,414,7],[896,1471,414,88],[988,0,980,826],[0,0,986,832],[0,834,512,512]]}
+		{name:"index_atlas_", frames: [[1884,828,84,117],[592,1304,29,21],[988,0,980,826],[0,0,986,832],[988,828,894,540],[1508,1370,188,188],[1312,1370,194,194],[1698,1370,51,51],[0,1348,894,148],[0,1498,894,20],[896,1304,62,62],[514,834,468,468],[960,1304,26,26],[562,1304,28,28],[896,1370,414,99],[1508,1560,414,7],[896,1471,414,88],[514,1304,46,29],[960,1332,4,12],[0,834,512,512]]}
 ];
 
 
@@ -171,7 +171,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_16();
+	this.instance = new lib.CachedTexturedBitmap_19();
 	this.instance.parent = this;
 	this.instance.setTransform(-15.5,0,0.5,0.5);
 
@@ -195,35 +195,35 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.label).wait(1));
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_15();
+	this.instance = new lib.CachedTexturedBitmap_18();
 	this.instance.parent = this;
 	this.instance.setTransform(21.5,310.5,0.5,0.5);
 
-	this.instance_1 = new lib.CachedTexturedBitmap_14();
+	this.instance_1 = new lib.CachedTexturedBitmap_17();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(21.5,328.5,0.5,0.5);
 
-	this.instance_2 = new lib.CachedTexturedBitmap_13();
+	this.instance_2 = new lib.CachedTexturedBitmap_16();
 	this.instance_2.parent = this;
 	this.instance_2.setTransform(232.3,143.85,0.5,0.5);
 
-	this.instance_3 = new lib.CachedTexturedBitmap_12();
+	this.instance_3 = new lib.CachedTexturedBitmap_15();
 	this.instance_3.parent = this;
 	this.instance_3.setTransform(196.5,108,0.5,0.5);
 
-	this.instance_4 = new lib.CachedTexturedBitmap_11();
+	this.instance_4 = new lib.CachedTexturedBitmap_14();
 	this.instance_4.parent = this;
 	this.instance_4.setTransform(198,109.5,0.5,0.5);
 
-	this.instance_5 = new lib.CachedTexturedBitmap_10();
+	this.instance_5 = new lib.CachedTexturedBitmap_13();
 	this.instance_5.parent = this;
 	this.instance_5.setTransform(21.5,21.5,0.5,0.5);
 
-	this.instance_6 = new lib.CachedTexturedBitmap_9();
+	this.instance_6 = new lib.CachedTexturedBitmap_12();
 	this.instance_6.parent = this;
 	this.instance_6.setTransform(-1.5,-1.5,0.5,0.5);
 
-	this.instance_7 = new lib.CachedTexturedBitmap_8();
+	this.instance_7 = new lib.CachedTexturedBitmap_11();
 	this.instance_7.parent = this;
 	this.instance_7.setTransform(0,0,0.5,0.5);
 
@@ -236,15 +236,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_19();
+	this.instance = new lib.CachedTexturedBitmap_10();
 	this.instance.parent = this;
 	this.instance.setTransform(3.25,-0.95,0.5,0.5);
 
-	this.instance_1 = new lib.CachedTexturedBitmap_18();
+	this.instance_1 = new lib.CachedTexturedBitmap_9();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(9.55,11.7,0.5,0.5);
 
-	this.instance_2 = new lib.CachedTexturedBitmap_17();
+	this.instance_2 = new lib.CachedTexturedBitmap_8();
 	this.instance_2.parent = this;
 	this.instance_2.setTransform(-0.95,7.45,0.5,0.5);
 
@@ -4377,6 +4377,12 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		var NAV_DISABLED_ALPHA = 0.3;  // how faded the left button is on the first egg
 		
+		// Mobile (portrait): how much bigger the buttons are
+		var NAV_MOBILE_SCALE = 3;
+		
+		// Closest a button may get to the edge of the screen
+		var NAV_SCREEN_MARGIN = 12;
+		
 		
 		// --------------------------------------------------
 		// SAVE ORIGINAL EGG POSITION
@@ -4501,20 +4507,58 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
-		// POSITION BUTTONS
+		// SCALE + POSITION BUTTONS
 		// --------------------------------------------------
+		
+		// Each button is scaled on its own, around its own center.
+		// The eggNavigation container is NOT scaled, because scaling
+		// the container would also multiply the gap between the
+		// buttons and push them off the screen.
+		
+		var navScale =
+		    portrait
+		        ? NAV_MOBILE_SCALE
+		        : 1;
+		
+		leftButton.scaleX = navScale;
+		leftButton.scaleY = navScale;
+		
+		rightButton.scaleX = navScale;
+		rightButton.scaleY = navScale;
+		
+		
+		// Keep the gap as it is, but never let a button
+		// go past the edge of the screen
+		
+		var navHalfWidth =
+		    (NAV_BUTTON_WIDTH * navScale) / 2;
+		
+		var navMaxGap =
+		    Math.min(
+		        navEggX,
+		        W - navEggX
+		    ) -
+		    navHalfWidth -
+		    NAV_SCREEN_MARGIN;
+		
+		var navGap =
+		    Math.min(
+		        NAV_EGG_GAP,
+		        navMaxGap
+		    );
+		
 		
 		// These NEVER update when the egg floats.
 		
 		leftButton.x =
-		    navEggX - NAV_EGG_GAP;
+		    navEggX - navGap;
 		
 		leftButton.y =
 		    navEggY;
 		
 		
 		rightButton.x =
-		    navEggX + NAV_EGG_GAP;
+		    navEggX + navGap;
 		
 		rightButton.y =
 		    navEggY;
@@ -4731,17 +4775,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    rightBg.alpha =
 		        NAV_BUTTON_ALPHA;
 		});
-		
-		
-		// --------------------------------------------------
-		// MOBILE BUTTON SCALE
-		// --------------------------------------------------
-		
-		if (portrait) {
-		
-		    eggNavigation.scaleX = 1;
-		    eggNavigation.scaleY = 1;
-		}
 		
 		
 		// --------------------------------------------------
@@ -7729,7 +7762,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791166450003", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791190779276", id:"index_atlas_"}
 	],
 	preloads: []
 };
