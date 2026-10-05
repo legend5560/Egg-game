@@ -4484,7 +4484,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		var NAV_DISABLED_ALPHA = 0.3;  // how faded the left button is on the first egg
 		
 		// Mobile (portrait): how much bigger the buttons are
-		var NAV_MOBILE_SCALE = 3;
+		var NAV_MOBILE_SCALE = 2;
 		
 		// Closest a button may get to the edge of the screen
 		var NAV_SCREEN_MARGIN = 12;
@@ -5337,6 +5337,56 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
+		// FIT A CURRENCY ICON INSIDE ITS BOX
+		// --------------------------------------------------
+		
+		// Places the icon using its real bounds, so it ends up
+		// inside the box wherever its registration point is.
+		//
+		// icon = the icon symbol
+		// size = width and height of the square the icon fits in
+		// left = where that square starts, from the box's left edge
+		//
+		// The icon is scaled evenly (never stretched) and
+		// centered vertically on the middle of the box.
+		
+		function fitCurrencyIcon(icon, size, left) {
+		
+		    var b =
+		        icon.nominalBounds ||
+		        icon.getBounds();
+		
+		    // Size unknown: leave the icon at its own size
+		    if (!b || !b.width || !b.height) {
+		
+		        icon.x = left;
+		        icon.y = -size / 2;
+		
+		        return;
+		    }
+		
+		    var s =
+		        Math.min(
+		            size / b.width,
+		            size / b.height
+		        );
+		
+		    icon.scaleX = s;
+		    icon.scaleY = s;
+		
+		    // Centered in its square, left to right
+		    icon.x =
+		        left +
+		        (size - b.width * s) / 2 -
+		        b.x * s;
+		
+		    // Centered on the middle of the box, top to bottom
+		    icon.y =
+		        -(b.y + b.height / 2) * s;
+		}
+		
+		
+		// --------------------------------------------------
 		// RESPONSIVE TOP BAR LAYOUT
 		// --------------------------------------------------
 		
@@ -5597,27 +5647,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            : gemFontSize * 1.15;
 		
 		
-		    var gemBounds =
-		        gemIcon.getBounds();
-		
-		
-		    if (gemBounds) {
-		
-		        gemIcon.scaleX =
-		            gemIconSize /
-		            gemBounds.width;
-		
-		        gemIcon.scaleY =
-		            gemIconSize /
-		            gemBounds.height;
-		    }
-		
-		
-		    gemIcon.x =
-		        currencyPaddingLeft;
-		
-		    gemIcon.y =
-		        -gemIconSize / 2;
+		    fitCurrencyIcon(
+		        gemIcon,
+		        gemIconSize,
+		        currencyPaddingLeft
+		    );
 		
 		
 		    // ==================================================
@@ -5702,27 +5736,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            : gemFontSize * 1.15;
 		
 		
-		    var crystBounds =
-		        crystIcon.getBounds();
-		
-		
-		    if (crystBounds) {
-		
-		        crystIcon.scaleX =
-		            crystIconSize /
-		            crystBounds.width;
-		
-		        crystIcon.scaleY =
-		            crystIconSize /
-		            crystBounds.height;
-		    }
-		
-		
-		    crystIcon.x =
-		        currencyPaddingLeft;
-		
-		    crystIcon.y =
-		        -crystIconSize / 2;
+		    fitCurrencyIcon(
+		        crystIcon,
+		        crystIconSize,
+		        currencyPaddingLeft
+		    );
 		
 		
 		    // ==================================================
@@ -6523,11 +6541,19 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		// id is one of: egg, monsters, expedition,
-		// summon, shop, save, settings
+		// summons, shop, save, settings
 		
 		function onMenuSelect(id) {
 		
 		    switch (id) {
+		
+		        case "egg":
+		
+		            // The discovered eggs screen
+		            showScreen("eggs");
+		
+		            break;
+		
 		
 		        case "save":
 		
@@ -6540,10 +6566,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            break;
 		
 		
-		        // Put your screens here, for example:
+		        // Put your other screens here, for example:
 		        //
 		        // case "shop":
-		        //     openShop();
+		        //     showScreen("shop");
 		        //     break;
 		
 		        default:
@@ -6553,6 +6579,94 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                id
 		            );
 		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// SWITCH SCREENS
+		// --------------------------------------------------
+		
+		// Each screen is a frame on the main timeline, found by
+		// its frame label (for example "game" or "eggs").
+		
+		function hasFrameLabel(name) {
+		
+		    var labels = self.labels;
+		
+		    // Cannot check, so try anyway
+		    if (!labels) {
+		        return true;
+		    }
+		
+		    for (var i = 0; i < labels.length; i++) {
+		
+		        if (labels[i].label === name) {
+		
+		            return true;
+		        }
+		    }
+		
+		    return false;
+		}
+		
+		
+		// Things the game screen creates in code stay on the stage
+		// when the playhead moves to another frame, so hide them.
+		// The top bar and the menu stay on every screen.
+		
+		function hideGameScreen() {
+		
+		    // The monster cards remove themselves
+		    if (self.cleanupCards) {
+		
+		        self.cleanupCards();
+		    }
+		
+		    // Egg arrows
+		    if (typeof eggNavigation !== "undefined") {
+		
+		        eggNavigation.visible = false;
+		    }
+		
+		    // Hatch timer bar
+		    if (typeof bottomBar !== "undefined") {
+		
+		        bottomBar.visible = false;
+		    }
+		
+		    // Page dots
+		    if (typeof pageDots !== "undefined") {
+		
+		        pageDots.visible = false;
+		    }
+		}
+		
+		
+		function showScreen(name) {
+		
+		    // Already on that screen
+		    if (self.currentLabel === name) {
+		        return;
+		    }
+		
+		    if (!hasFrameLabel(name)) {
+		
+		        console.error(
+		            'There is no frame labeled "' + name + '". ' +
+		            "Add a keyframe on the labels layer and type the name " +
+		            "in the Label name box."
+		        );
+		
+		        return;
+		    }
+		
+		    hideGameScreen();
+		
+		    self.gotoAndStop(name);
+		
+		    // Keep the top bar and the menu in front of the new screen
+		    self.addChild(topBar);
+		    self.addChild(menuRoot);
 		}
 		
 		
@@ -8590,7 +8704,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    layoutBottomBar
 		);
 	}
-	this.frame_3 = function() {
+	this.frame_2 = function() {
 		this.stop();
 		
 		(function (self) {
@@ -9376,7 +9490,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(2).call(this.frame_3).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1).call(this.frame_2).wait(2));
 
 	// Layer_4
 	this.Hatch = new lib.Hatch();
@@ -9407,8 +9521,8 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791192868927", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791192868927", id:"index_atlas_2"}
+		{src:"images/index_atlas_.png?1791193213386", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791193213387", id:"index_atlas_2"}
 	],
 	preloads: []
 };
