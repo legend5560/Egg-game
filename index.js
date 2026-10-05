@@ -1293,6 +1293,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// so this is just how many "pages" the arrows cycle through.
 		var EGG_COUNT = 5;
 		
+		var W = lib.properties.width;
+		var H = lib.properties.height;
+		var portrait = H > W;
+		
 		
 		// --------------------------------------------------
 		// EGG SWITCH ANIMATION
@@ -1519,7 +1523,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// NAVIGATION SETTINGS
 		// --------------------------------------------------
 		
-		var NAV_BUTTON_SIZE = 46;      // button height
+		var NAV_BUTTON_SIZE = 70;      // button height
 		var NAV_BUTTON_WIDTH = 32;     // button width (smaller than the height)
 		var NAV_BUTTON_RADIUS = 10;
 		
@@ -1886,6 +1890,17 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    rightBg.alpha =
 		        NAV_BUTTON_ALPHA;
 		});
+		
+		
+		// --------------------------------------------------
+		// MOBILE BUTTON SCALE
+		// --------------------------------------------------
+		
+		if (portrait) {
+		
+		    eggNavigation.scaleX = 3;
+		    eggNavigation.scaleY = 3;
+		}
 		
 		
 		// --------------------------------------------------
@@ -4782,7 +4797,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791162633263", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791163808375", id:"index_atlas_"}
 	],
 	preloads: []
 };
