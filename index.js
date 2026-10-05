@@ -3,7 +3,7 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"index_atlas_", frames: [[514,834,468,468],[514,1304,28,28],[896,1370,414,99],[1508,1560,414,7],[896,1471,414,88],[988,0,980,826],[0,0,986,832],[988,828,894,540],[1508,1370,188,188],[1312,1370,194,194],[1698,1370,51,51],[0,1348,894,148],[0,1498,894,20],[960,1304,26,26],[896,1304,62,62],[1884,828,84,117],[0,834,512,512]]}
+		{name:"index_atlas_", frames: [[1884,828,84,117],[988,828,894,540],[1508,1370,188,188],[1312,1370,194,194],[1698,1370,51,51],[0,1348,894,148],[0,1498,894,20],[896,1304,62,62],[514,1304,46,29],[960,1332,4,12],[592,1304,29,21],[514,834,468,468],[960,1304,26,26],[562,1304,28,28],[896,1370,414,99],[1508,1560,414,7],[896,1471,414,88],[988,0,980,826],[0,0,986,832],[0,834,512,512]]}
 ];
 
 
@@ -11,121 +11,142 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_15 = function() {
+(lib.CachedTexturedBitmap_1 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_17 = function() {
+(lib.CachedTexturedBitmap_10 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_18 = function() {
+(lib.CachedTexturedBitmap_11 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(2);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_19 = function() {
+(lib.CachedTexturedBitmap_12 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(3);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_20 = function() {
+(lib.CachedTexturedBitmap_13 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(4);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_21 = function() {
+(lib.CachedTexturedBitmap_14 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(5);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_22 = function() {
+(lib.CachedTexturedBitmap_15 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(6);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_23 = function() {
+(lib.CachedTexturedBitmap_16 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(7);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_24 = function() {
+(lib.CachedTexturedBitmap_17 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(8);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_25 = function() {
+(lib.CachedTexturedBitmap_18 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(9);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_26 = function() {
+(lib.CachedTexturedBitmap_19 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(10);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_27 = function() {
+(lib.CachedTexturedBitmap_2 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(11);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_28 = function() {
+(lib.CachedTexturedBitmap_3 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(12);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_30 = function() {
+(lib.CachedTexturedBitmap_4 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(13);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_34 = function() {
+(lib.CachedTexturedBitmap_5 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(14);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_35 = function() {
+(lib.CachedTexturedBitmap_6 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(15);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.eggsketches2 = function() {
+(lib.CachedTexturedBitmap_7 = function() {
 	this.initialize(ss["index_atlas_"]);
 	this.gotoAndStop(16);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_8 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(17);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_9 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(18);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.eggsketches2 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(19);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -150,7 +171,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_34();
+	this.instance = new lib.CachedTexturedBitmap_16();
 	this.instance.parent = this;
 	this.instance.setTransform(-15.5,0,0.5,0.5);
 
@@ -174,41 +195,62 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.label).wait(1));
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_28();
+	this.instance = new lib.CachedTexturedBitmap_15();
 	this.instance.parent = this;
 	this.instance.setTransform(21.5,310.5,0.5,0.5);
 
-	this.instance_1 = new lib.CachedTexturedBitmap_27();
+	this.instance_1 = new lib.CachedTexturedBitmap_14();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(21.5,328.5,0.5,0.5);
 
-	this.instance_2 = new lib.CachedTexturedBitmap_26();
+	this.instance_2 = new lib.CachedTexturedBitmap_13();
 	this.instance_2.parent = this;
 	this.instance_2.setTransform(232.3,143.85,0.5,0.5);
 
-	this.instance_3 = new lib.CachedTexturedBitmap_25();
+	this.instance_3 = new lib.CachedTexturedBitmap_12();
 	this.instance_3.parent = this;
 	this.instance_3.setTransform(196.5,108,0.5,0.5);
 
-	this.instance_4 = new lib.CachedTexturedBitmap_24();
+	this.instance_4 = new lib.CachedTexturedBitmap_11();
 	this.instance_4.parent = this;
 	this.instance_4.setTransform(198,109.5,0.5,0.5);
 
-	this.instance_5 = new lib.CachedTexturedBitmap_23();
+	this.instance_5 = new lib.CachedTexturedBitmap_10();
 	this.instance_5.parent = this;
 	this.instance_5.setTransform(21.5,21.5,0.5,0.5);
 
-	this.instance_6 = new lib.CachedTexturedBitmap_22();
+	this.instance_6 = new lib.CachedTexturedBitmap_9();
 	this.instance_6.parent = this;
 	this.instance_6.setTransform(-1.5,-1.5,0.5,0.5);
 
-	this.instance_7 = new lib.CachedTexturedBitmap_21();
+	this.instance_7 = new lib.CachedTexturedBitmap_8();
 	this.instance_7.parent = this;
 	this.instance_7.setTransform(0,0,0.5,0.5);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_7},{t:this.instance_6},{t:this.instance_5},{t:this.instance_4},{t:this.instance_3},{t:this.instance_2},{t:this.instance_1},{t:this.instance}]}).wait(1));
 
 }).prototype = getMCSymbolPrototype(lib.MonsterCard, new cjs.Rectangle(-1.5,-1.5,493,416), null);
+
+
+(lib.lock = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer_1
+	this.instance = new lib.CachedTexturedBitmap_19();
+	this.instance.parent = this;
+	this.instance.setTransform(3.25,-0.95,0.5,0.5);
+
+	this.instance_1 = new lib.CachedTexturedBitmap_18();
+	this.instance_1.parent = this;
+	this.instance_1.setTransform(9.55,11.7,0.5,0.5);
+
+	this.instance_2 = new lib.CachedTexturedBitmap_17();
+	this.instance_2.parent = this;
+	this.instance_2.setTransform(-0.95,7.45,0.5,0.5);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_2},{t:this.instance_1},{t:this.instance}]}).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.lock, new cjs.Rectangle(-0.9,-0.9,23,22.9), null);
 
 
 (lib.Hatch = function(mode,startPosition,loop) {
@@ -226,11 +268,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.hatchButtonText).wait(1));
 
 	// Layer_4
-	this.instance = new lib.CachedTexturedBitmap_17();
+	this.instance = new lib.CachedTexturedBitmap_4();
 	this.instance.parent = this;
 	this.instance.setTransform(23.65,40.15,1.1924,1.1924);
 
-	this.instance_1 = new lib.CachedTexturedBitmap_30();
+	this.instance_1 = new lib.CachedTexturedBitmap_3();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(432.05,41.4,1.1924,1.1924);
 
@@ -243,15 +285,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	mask.setTransform(247,59);
 
 	// Layer_3
-	this.instance_2 = new lib.CachedTexturedBitmap_20();
+	this.instance_2 = new lib.CachedTexturedBitmap_7();
 	this.instance_2.parent = this;
 	this.instance_2.setTransform(0,2.95,1.1924,1.1924);
 
-	this.instance_3 = new lib.CachedTexturedBitmap_19();
+	this.instance_3 = new lib.CachedTexturedBitmap_6();
 	this.instance_3.parent = this;
 	this.instance_3.setTransform(0,110,1.1924,1.1924);
 
-	this.instance_4 = new lib.CachedTexturedBitmap_18();
+	this.instance_4 = new lib.CachedTexturedBitmap_5();
 	this.instance_4.parent = this;
 	this.instance_4.setTransform(0,0,1.1924,1.1924);
 
@@ -283,7 +325,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_2
-	this.instance = new lib.CachedTexturedBitmap_35();
+	this.instance = new lib.CachedTexturedBitmap_1();
 	this.instance.parent = this;
 	this.instance.setTransform(-20.85,0,0.5,0.5);
 
@@ -303,7 +345,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
 
 	// Layer_1
-	this.instance_1 = new lib.CachedTexturedBitmap_15();
+	this.instance_1 = new lib.CachedTexturedBitmap_2();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(-0.5,-0.5,0.5,0.5);
 
@@ -318,42 +360,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	// timeline functions:
 	this.frame_0 = function() {
-		var self = this;
-		this.stop(); // keeps the code from re-running if the timeline loops
-		
-		var isMobile = window.matchMedia("(pointer: coarse)").matches &&
-		               navigator.maxTouchPoints > 0;
-		
-		// --- Set stage size: portrait on mobile, landscape on PC ---
-		if (isMobile) {
-		    lib.properties.width = 720;
-		    lib.properties.height = 1280;
-		} else {
-		    lib.properties.width = 1280;
-		    lib.properties.height = 720;
-		}
-		
-		// Resize the canvas itself, then ask Animate's responsive code to refit it
-		self.stage.canvas.width = lib.properties.width;
-		self.stage.canvas.height = lib.properties.height;
-		window.dispatchEvent(new Event("resize"));
-		
-		// --- Position objects for each layout ---
-		function layout() {
-		    var W = lib.properties.width;
-		    var H = lib.properties.height;
-		
-		    // Egg in the center on both layouts
-		    self.egg.x = W / 2;
-		    self.egg.y = H / 2;
-		
-		    // Add your buttons and slots here later, for example:
-		    // if (isMobile) { self.btnFire.x = W * 0.25; self.btnFire.y = H - 100; }
-		    // else          { self.btnFire.x = 100;      self.btnFire.y = H * 0.35; }
-		}
-		layout();
-		
-		// --- Mobile-only
 		var self = this;
 		this.stop();
 		
@@ -537,6 +543,382 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        PARENT_ORIGIN
 		    );
 		}
+		// --------------------------------------------------
+		// SAVE SYSTEM
+		// --------------------------------------------------
+		
+		// Only define it once, even if frame 1 ever runs again
+		if (!window.SaveSystem) {
+		
+		    window.SaveSystem = (function () {
+		
+		        // ---------- Settings ----------
+		        var PROJECT_ID = "alister-1e745";
+		        var DOC_BASE =
+		            "https://firestore.googleapis.com/v1/projects/" + PROJECT_ID +
+		            "/databases/(default)/documents/players/";
+		
+		        var LOCAL_KEY  = "eggGameSave";
+		        var SAVE_DELAY = 1000;              // save 1 second after the last change
+		        var WAIT_DELAY = 5000;              // waiting for sign-in (no request is sent)
+		        var BASE_RETRY = 5000;              // first retry after a failed request
+		        var MAX_RETRY  = 5 * 60 * 1000;     // never wait more than 5 minutes between retries
+		
+		        // Starting amounts for a brand-new player
+		        var DEFAULTS = { starGems: 0, cryst: 0 };
+		        var NAMES = Object.keys(DEFAULTS);
+		
+		        // ---------- State ----------
+		        var data = {};
+		        var dirty = {};              // currencies changed but not saved yet
+		        var listeners = {};
+		        var loaded = false;
+		        var owner = null;            // "cloud:<uid>" or "local"
+		        var loadingFor = null;
+		        var loadPromise = null;
+		        var saveTimer = null;
+		        var loadTimer = null;
+		        var saving = false;
+		        var loadFailures = 0;
+		        var saveFailures = 0;
+		
+		
+		        // ---------- Retry helpers ----------
+		        function backoff(failures) {
+		            return Math.min(BASE_RETRY * Math.pow(2, failures - 1), MAX_RETRY);
+		        }
+		
+		        // Sign-in and rules problems won't fix themselves, so don't keep retrying them
+		        function isFatal(err) {
+		            return /HTTP (401|403)/.test(String(err && err.message));
+		        }
+		
+		
+		        // ---------- Who is playing? ----------
+		        function currentOwner() {
+		            var u = exportRoot.user;
+		            if (u && exportRoot.idToken && u.uid !== "dev-user") {
+		                return "cloud:" + u.uid;
+		            }
+		            return "local";          // logged out, unverified, or testing
+		        }
+		
+		        function uidOf(o) {
+		            return o.slice(6);
+		        }
+		
+		        function authHeaders() {
+		            return {
+		                "Authorization": "Bearer " + exportRoot.idToken,
+		                "Content-Type": "application/json"
+		            };
+		        }
+		
+		
+		        // ---------- Local (browser) storage ----------
+		        function localRead() {
+		            try {
+		                return JSON.parse(localStorage.getItem(LOCAL_KEY)) || {};
+		            } catch (e) {
+		                return {};
+		            }
+		        }
+		
+		        function localWrite() {
+		            try {
+		                localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
+		            } catch (e) {}
+		        }
+		
+		
+		        // ---------- Helpers ----------
+		        function clean(v) {
+		            v = Math.floor(Number(v));
+		            return (isFinite(v) && v > 0) ? v : 0;
+		        }
+		
+		        function notify(name) {
+		            Object.keys(listeners).forEach(function (k) {
+		                try {
+		                    listeners[k](name, name ? data[name] : null);
+		                } catch (e) {
+		                    console.error(e);
+		                }
+		            });
+		        }
+		
+		
+		        // ---------- Loading ----------
+		        function cloudRead() {
+		            return fetch(DOC_BASE + uidOf(owner), { headers: authHeaders() })
+		                .then(function (r) {
+		                    if (r.status === 404) return {};      // no save yet
+		                    if (!r.ok) throw new Error("HTTP " + r.status);
+		                    return r.json();
+		                })
+		                .then(function (doc) {
+		                    var out = {};
+		                    var f = (doc && doc.fields) || {};
+		                    NAMES.forEach(function (n) {
+		                        if (f[n] && f[n].integerValue !== undefined) {
+		                            out[n] = Number(f[n].integerValue);
+		                        }
+		                    });
+		                    return out;
+		                });
+		        }
+		
+		        function load() {
+		            var wanted = currentOwner();
+		
+		            if (loaded && owner === wanted) {
+		                // A fresh login token arrived: retry anything that failed to save
+		                if (Object.keys(dirty).length) queueSave(SAVE_DELAY);
+		                return Promise.resolve(data);
+		            }
+		            if (loadingFor === wanted && loadPromise) return loadPromise;
+		
+		            // A different player, or signed out: start clean
+		            if (owner !== wanted) {
+		                owner = wanted;
+		                loaded = false;
+		                data = {};
+		                dirty = {};
+		                loadFailures = 0;
+		                saveFailures = 0;
+		            }
+		
+		            loadingFor = wanted;
+		
+		            if (loadTimer) {
+		                clearTimeout(loadTimer);
+		                loadTimer = null;
+		            }
+		
+		            var read = (wanted === "local")
+		                ? Promise.resolve(localRead())
+		                : cloudRead();
+		
+		            loadPromise = read.then(function (stored) {
+		
+		                // The player changed while we were loading: load the new one
+		                if (currentOwner() !== wanted) {
+		                    loadingFor = null;
+		                    loadPromise = null;
+		                    return load();
+		                }
+		
+		                loadFailures = 0;
+		
+		                NAMES.forEach(function (n) {
+		                    if (typeof stored[n] === "number") {
+		                        data[n] = clean(stored[n]);
+		                    } else {
+		                        data[n] = DEFAULTS[n];     // new player: save the starting amount
+		                        dirty[n] = true;
+		                    }
+		                });
+		
+		                loaded = true;
+		                loadingFor = null;
+		                loadPromise = null;
+		                notify(null);
+		                queueSave(SAVE_DELAY);
+		                return data;
+		
+		            }).catch(function (err) {
+		                // Never save anything if loading failed, or we could
+		                // overwrite the real balance with the defaults
+		                console.error("SaveSystem: load failed", err);
+		                loadingFor = null;
+		                loadPromise = null;
+		                loadFailures++;
+		
+		                if (isFatal(err)) {
+		                    console.error(
+		                        "SaveSystem: not retrying automatically. " +
+		                        "Check the Firestore rules and that the player is signed in. " +
+		                        "It will try again when the login token refreshes."
+		                    );
+		                } else {
+		                    loadTimer = setTimeout(load, backoff(loadFailures));
+		                }
+		                return null;
+		            });
+		
+		            return loadPromise;
+		        }
+		
+		
+		        // ---------- Saving ----------
+		        function queueSave(delay) {
+		            if (saveTimer) {
+		                clearTimeout(saveTimer);
+		                saveTimer = null;
+		            }
+		            if (!Object.keys(dirty).length) return;
+		
+		            saveTimer = setTimeout(function () {
+		                saveTimer = null;
+		                flush(false);
+		            }, delay);
+		        }
+		
+		        function flush(leaving) {
+		            var names = Object.keys(dirty);
+		            if (!loaded || !names.length) return;
+		
+		            if (owner === "local") {
+		                localWrite();
+		                dirty = {};
+		                return;
+		            }
+		
+		            // Cloud: only save if the same player is still signed in
+		            var u = exportRoot.user;
+		            if (!exportRoot.idToken || !u || ("cloud:" + u.uid) !== owner) {
+		                queueSave(WAIT_DELAY);       // waiting for sign-in, no request sent
+		                return;
+		            }
+		            if (saving && !leaving) {
+		                queueSave(WAIT_DELAY);
+		                return;
+		            }
+		
+		            saving = true;
+		            dirty = {};
+		
+		            var fields = {};
+		            names.forEach(function (n) {
+		                fields[n] = { integerValue: String(data[n]) };
+		            });
+		
+		            // updateMask means only these fields change, so other data
+		            // in the same document (like the egg timer) is left alone
+		            var url = DOC_BASE + uidOf(owner) + "?" +
+		                names.map(function (n) {
+		                    return "updateMask.fieldPaths=" + n;
+		                }).join("&");
+		
+		            fetch(url, {
+		                method: "PATCH",
+		                headers: authHeaders(),
+		                body: JSON.stringify({ fields: fields }),
+		                keepalive: !!leaving      // lets the save finish while the page closes
+		            }).then(function (r) {
+		                if (!r.ok) throw new Error("HTTP " + r.status);
+		                saveFailures = 0;
+		            }).catch(function (err) {
+		                console.error("SaveSystem: save failed", err);
+		                names.forEach(function (n) { dirty[n] = true; });
+		                saveFailures++;
+		
+		                if (isFatal(err)) {
+		                    console.error(
+		                        "SaveSystem: not retrying automatically. " +
+		                        "It will try again on the next change or login refresh."
+		                    );
+		                } else {
+		                    queueSave(backoff(saveFailures));
+		                }
+		            }).then(function () {
+		                saving = false;
+		            });
+		        }
+		
+		        // Save right away when the player leaves or switches tabs
+		        document.addEventListener("visibilitychange", function () {
+		            if (document.visibilityState === "hidden") flush(true);
+		        });
+		        window.addEventListener("pagehide", function () {
+		            flush(true);
+		        });
+		
+		
+		        // ---------- What the rest of the game uses ----------
+		        function get(name) {
+		            return data[name] || 0;
+		        }
+		
+		        function set(name, value) {
+		            if (!loaded || NAMES.indexOf(name) < 0) {
+		                console.warn("SaveSystem: can't set", name, "(not loaded yet, or unknown name)");
+		                return false;
+		            }
+		            value = clean(value);
+		            if (value === data[name]) return true;
+		
+		            data[name] = value;
+		            dirty[name] = true;
+		            notify(name);
+		            queueSave(SAVE_DELAY);
+		            return true;
+		        }
+		
+		        function add(name, amount) {
+		            return set(name, get(name) + amount);
+		        }
+		
+		        // Returns false (and changes nothing) if the player can't afford it
+		        function spend(name, amount) {
+		            if (!loaded || get(name) < amount) return false;
+		            return set(name, get(name) - amount);
+		        }
+		
+		        // One listener per key, so re-registering never creates duplicates
+		        function onChange(key, fn) {
+		            listeners[key] = fn;
+		        }
+		
+		        return {
+		            load: load,
+		            get: get,
+		            set: set,
+		            add: add,
+		            spend: spend,
+		            onChange: onChange,
+		            saveNow: function () { flush(false); },
+		            isLoaded: function () { return loaded; }
+		        };
+		
+		    })();
+		}
+		var self = this;
+		this.stop(); // keeps the code from re-running if the timeline loops
+		
+		var isMobile = window.matchMedia("(pointer: coarse)").matches &&
+		               navigator.maxTouchPoints > 0;
+		
+		// --- Set stage size: portrait on mobile, landscape on PC ---
+		if (isMobile) {
+		    lib.properties.width = 720;
+		    lib.properties.height = 1280;
+		} else {
+		    lib.properties.width = 1280;
+		    lib.properties.height = 720;
+		}
+		
+		// Resize the canvas itself, then ask Animate's responsive code to refit it
+		self.stage.canvas.width = lib.properties.width;
+		self.stage.canvas.height = lib.properties.height;
+		window.dispatchEvent(new Event("resize"));
+		
+		// --- Position objects for each layout ---
+		function layout() {
+		    var W = lib.properties.width;
+		    var H = lib.properties.height;
+		
+		    // Egg in the center on both layouts
+		    self.egg.x = W / 2;
+		    self.egg.y = H / 2;
+		
+		    // Add your buttons and slots here later, for example:
+		    // if (isMobile) { self.btnFire.x = W * 0.25; self.btnFire.y = H - 100; }
+		    // else          { self.btnFire.x = 100;      self.btnFire.y = H * 0.35; }
+		}
+		layout();
+		
+		// --- Mobile-only
 		// ==================================================
 		// MONSTER CLASS
 		// ==================================================
@@ -898,6 +1280,575 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		});
 	}
 	this.frame_1 = function() {
+		var self = this;
+		this.stop();
+		
+		// --------------------------------------------------
+		// EGG SETTINGS
+		// --------------------------------------------------
+		
+		var EGG_RAISE = 0.15;
+		
+		// How many eggs there are in total
+		var EGG_COUNT = 5;
+		
+		// Library class name of the egg symbol. Only used to create
+		// any of egg2 - egg5 that are not already on the stage.
+		var EGG_SYMBOL_NAME = "Egg";
+		
+		// --------------------------------------------------
+		// EGGS
+		// --------------------------------------------------
+		
+		// Finds egg, egg2, egg3, egg4, egg5 on the stage.
+		// Any that are missing are created from the Library symbol.
+		
+		var eggs = [
+		    self.egg
+		];
+		
+		for (var n = 2; n <= EGG_COUNT; n++) {
+		
+		    var extraEgg = self["egg" + n];
+		
+		    if (!extraEgg && lib[EGG_SYMBOL_NAME]) {
+		
+		        extraEgg = new lib[EGG_SYMBOL_NAME]();
+		
+		        // Same size as the first egg
+		        extraEgg.scaleX = self.egg.scaleX;
+		        extraEgg.scaleY = self.egg.scaleY;
+		
+		        // Keep the same layering as the first egg
+		        self.addChildAt(
+		            extraEgg,
+		            self.getChildIndex(self.egg) + 1
+		        );
+		
+		        self["egg" + n] = extraEgg;
+		    }
+		
+		    if (extraEgg) {
+		
+		        eggs.push(extraEgg);
+		
+		    } else {
+		
+		        console.warn(
+		            "egg" + n + " was not found on the stage and could not be created. " +
+		            "Add an instance named egg" + n + ", or check EGG_SYMBOL_NAME."
+		        );
+		    }
+		}
+		
+		// Put every extra egg in the same spot as the first egg
+		for (var j = 1; j < eggs.length; j++) {
+		
+		    eggs[j].x = eggs[0].x;
+		    eggs[j].y = eggs[0].y;
+		}
+		
+		var currentEggIndex = 0;
+		
+		
+		// --------------------------------------------------
+		// EGG FLOATING
+		// --------------------------------------------------
+		
+		function setupEgg(egg) {
+		
+		    // Raise egg
+		    egg.y -= lib.properties.height * EGG_RAISE;
+		
+		    // Save its resting position
+		    egg.eggRestY = egg.y;
+		
+		    // Floating variables
+		    egg.floatTime = Math.random() * Math.PI * 2;
+		
+		    // Store original scale
+		    egg.originalScaleX = egg.scaleX;
+		    egg.originalScaleY = egg.scaleY;
+		
+		    // --------------------------------------------------
+		    // HOVER
+		    // --------------------------------------------------
+		
+		    egg.cursor = "pointer";
+		
+		    egg.on("rollover", function () {
+		
+		        if (egg.eggShaking) {
+		            return;
+		        }
+		
+		        createjs.Tween.removeTweens(egg);
+		
+		        createjs.Tween.get(egg)
+		            .to({
+		                scaleX: egg.originalScaleX * 0.97,
+		                scaleY: egg.originalScaleY * 0.97
+		            }, 100, createjs.Ease.quadOut);
+		    });
+		
+		    egg.on("rollout", function () {
+		
+		        if (egg.eggShaking) {
+		            return;
+		        }
+		
+		        createjs.Tween.removeTweens(egg);
+		
+		        createjs.Tween.get(egg)
+		            .to({
+		                scaleX: egg.originalScaleX,
+		                scaleY: egg.originalScaleY
+		            }, 100, createjs.Ease.quadOut);
+		    });
+		
+		
+		    // --------------------------------------------------
+		    // CLICK / SHAKE
+		    // --------------------------------------------------
+		
+		    egg.on("click", function () {
+		
+		        // Don't start another shake while already shaking
+		        if (egg.eggShaking) {
+		            return;
+		        }
+		
+		        egg.eggShaking = true;
+		
+		        var shakeTime = 0;
+		        var shakeDuration = 350;
+		
+		        var originalX = egg.x;
+		        var originalY = egg.y;
+		        var originalRotation = egg.rotation;
+		
+		        // Random X amount between 12 and 20
+		        var shakeAmount =
+		            12 + Math.random() * 8;
+		
+		        // Random rotation between 5 and 10 degrees
+		        var rotationAmount =
+		            5 + Math.random() * 5;
+		
+		        // Random initial directions
+		        var xDirection =
+		            Math.random() < 0.5 ? -1 : 1;
+		
+		        var rotationDirection =
+		            Math.random() < 0.5 ? -1 : 1;
+		
+		
+		        function shakeEgg(evt) {
+		
+		            shakeTime += evt.delta;
+		
+		            var progress =
+		                shakeTime / shakeDuration;
+		
+		            if (progress >= 1) {
+		
+		                egg.x = originalX;
+		                egg.y = originalY;
+		                egg.rotation = originalRotation;
+		
+		                egg.eggShaking = false;
+		
+		                createjs.Ticker.removeEventListener(
+		                    "tick",
+		                    shakeEgg
+		                );
+		
+		                return;
+		            }
+		
+		            var strength = 1 - progress;
+		
+		
+		            // Shake X
+		            egg.x =
+		                originalX +
+		                Math.sin(
+		                    progress * Math.PI * 12
+		                ) *
+		                shakeAmount *
+		                strength *
+		                xDirection;
+		
+		
+		            // Shake rotation
+		            egg.rotation =
+		                originalRotation +
+		                Math.sin(
+		                    progress * Math.PI * 8
+		                ) *
+		                rotationAmount *
+		                strength *
+		                rotationDirection;
+		        }
+		
+		
+		        createjs.Ticker.addEventListener(
+		            "tick",
+		            shakeEgg
+		        );
+		    });
+		}
+		
+		
+		// --------------------------------------------------
+		// SETUP ALL EGGS
+		// --------------------------------------------------
+		
+		for (var i = 0; i < eggs.length; i++) {
+		
+		    setupEgg(eggs[i]);
+		
+		    // Hide all eggs except the first one
+		    eggs[i].visible = (i === 0);
+		}
+		
+		
+		// --------------------------------------------------
+		// FLOATING UPDATE
+		// --------------------------------------------------
+		
+		function floatEggs(evt) {
+		
+		    var deltaSeconds =
+		        evt.delta / 1000;
+		
+		    for (var i = 0; i < eggs.length; i++) {
+		
+		        var egg = eggs[i];
+		
+		        if (!egg.visible) {
+		            continue;
+		        }
+		
+		        // Don't interfere with the Y position while shaking
+		        if (egg.eggShaking) {
+		            continue;
+		        }
+		
+		        egg.floatTime += deltaSeconds;
+		
+		        egg.y =
+		            egg.eggRestY +
+		            Math.sin(
+		                egg.floatTime * 1.5
+		            ) *
+		            15;
+		    }
+		}
+		
+		createjs.Ticker.addEventListener(
+		    "tick",
+		    floatEggs
+		);
+		
+		
+		// --------------------------------------------------
+		// EGG NAVIGATION
+		// --------------------------------------------------
+		
+		var eggNavigation =
+		    new createjs.Container();
+		
+		self.addChild(eggNavigation);
+		
+		
+		// --------------------------------------------------
+		// NAVIGATION SETTINGS
+		// --------------------------------------------------
+		
+		var NAV_BUTTON_SIZE = 46;      // button height
+		var NAV_BUTTON_WIDTH = 32;     // button width (smaller than the height)
+		var NAV_BUTTON_RADIUS = 10;
+		
+		var NAV_BUTTON_ALPHA = 0.65;
+		
+		var NAV_OUTLINE_COLOR =
+		    "#8FD8FF";
+		
+		var NAV_EGG_GAP = 230;         // distance from the egg to each button
+		
+		var NAV_DISABLED_ALPHA = 0.3;  // how faded the left button is on the first egg
+		
+		
+		// --------------------------------------------------
+		// SAVE ORIGINAL EGG POSITION
+		// --------------------------------------------------
+		
+		// The navigation is positioned using the egg's resting
+		// position. It does NOT use the egg's floating position.
+		
+		var navEggX =
+		    self.egg.x;
+		
+		var navEggY =
+		    self.egg.eggRestY;
+		
+		
+		// --------------------------------------------------
+		// LEFT BUTTON
+		// --------------------------------------------------
+		
+		var leftButton =
+		    new createjs.Container();
+		
+		var leftBg =
+		    new createjs.Shape();
+		
+		leftBg.graphics
+		    .setStrokeStyle(2)
+		    .beginStroke(NAV_OUTLINE_COLOR)
+		    .beginFill("#123B5C")
+		    .drawRoundRect(
+		        -NAV_BUTTON_WIDTH / 2,
+		        -NAV_BUTTON_SIZE / 2,
+		        NAV_BUTTON_WIDTH,
+		        NAV_BUTTON_SIZE,
+		        NAV_BUTTON_RADIUS
+		    );
+		
+		// Button transparency ONLY
+		leftBg.alpha =
+		    NAV_BUTTON_ALPHA;
+		
+		leftButton.addChild(leftBg);
+		
+		
+		// --------------------------------------------------
+		// LEFT ARROW
+		// --------------------------------------------------
+		
+		// Spans x = -5 to 5, so it is centered in the button
+		
+		var leftArrow =
+		    new createjs.Shape();
+		
+		leftArrow.graphics
+		    .setStrokeStyle(2)
+		    .beginStroke("#FFFFFF")
+		    .moveTo(5, -10)
+		    .lineTo(-5, 0)
+		    .lineTo(5, 10);
+		
+		leftButton.addChild(leftArrow);
+		
+		leftButton.cursor = "pointer";
+		
+		
+		// --------------------------------------------------
+		// RIGHT BUTTON
+		// --------------------------------------------------
+		
+		var rightButton =
+		    new createjs.Container();
+		
+		var rightBg =
+		    new createjs.Shape();
+		
+		rightBg.graphics
+		    .setStrokeStyle(2)
+		    .beginStroke(NAV_OUTLINE_COLOR)
+		    .beginFill("#123B5C")
+		    .drawRoundRect(
+		        -NAV_BUTTON_WIDTH / 2,
+		        -NAV_BUTTON_SIZE / 2,
+		        NAV_BUTTON_WIDTH,
+		        NAV_BUTTON_SIZE,
+		        NAV_BUTTON_RADIUS
+		    );
+		
+		// Button transparency ONLY
+		rightBg.alpha =
+		    NAV_BUTTON_ALPHA;
+		
+		rightButton.addChild(rightBg);
+		
+		
+		// --------------------------------------------------
+		// RIGHT ARROW
+		// --------------------------------------------------
+		
+		// Spans x = -5 to 5, so it is centered in the button
+		
+		var rightArrow =
+		    new createjs.Shape();
+		
+		rightArrow.graphics
+		    .setStrokeStyle(2)
+		    .beginStroke("#FFFFFF")
+		    .moveTo(-5, -10)
+		    .lineTo(5, 0)
+		    .lineTo(-5, 10);
+		
+		rightButton.addChild(rightArrow);
+		
+		rightButton.cursor = "pointer";
+		
+		
+		// --------------------------------------------------
+		// ADD BUTTONS
+		// --------------------------------------------------
+		
+		eggNavigation.addChild(leftButton);
+		eggNavigation.addChild(rightButton);
+		
+		
+		// --------------------------------------------------
+		// POSITION BUTTONS
+		// --------------------------------------------------
+		
+		// These NEVER update when the egg floats.
+		
+		leftButton.x =
+		    navEggX - NAV_EGG_GAP;
+		
+		leftButton.y =
+		    navEggY;
+		
+		
+		rightButton.x =
+		    navEggX + NAV_EGG_GAP;
+		
+		rightButton.y =
+		    navEggY;
+		
+		
+		// --------------------------------------------------
+		// LEFT BUTTON STATE
+		// --------------------------------------------------
+		
+		// The left button is disabled on the first egg,
+		// because the left side does not loop around.
+		
+		function updateNavButtons() {
+		
+		    var canGoLeft =
+		        currentEggIndex > 0;
+		
+		    leftButton.alpha =
+		        canGoLeft
+		            ? 1
+		            : NAV_DISABLED_ALPHA;
+		
+		    leftButton.cursor =
+		        canGoLeft
+		            ? "pointer"
+		            : null;
+		
+		    // Reset the hover brightness when it becomes disabled
+		    leftBg.alpha =
+		        NAV_BUTTON_ALPHA;
+		}
+		
+		
+		// --------------------------------------------------
+		// SWITCH EGG
+		// --------------------------------------------------
+		
+		function switchEgg(newIndex) {
+		
+		    // Past the last egg: loop back to the first one
+		    if (newIndex >= eggs.length) {
+		        newIndex = 0;
+		    }
+		
+		    // Before the first egg: do NOT loop, stay where we are
+		    if (newIndex < 0) {
+		        return;
+		    }
+		
+		    currentEggIndex =
+		        newIndex;
+		
+		
+		    // Hide/show eggs
+		    for (var i = 0; i < eggs.length; i++) {
+		
+		        eggs[i].visible =
+		            (i === currentEggIndex);
+		    }
+		
+		
+		    // Update active egg reference
+		    self.egg =
+		        eggs[currentEggIndex];
+		
+		
+		    updateNavButtons();
+		}
+		
+		
+		// --------------------------------------------------
+		// LEFT BUTTON CLICK
+		// --------------------------------------------------
+		
+		leftButton.on("click", function () {
+		
+		    switchEgg(
+		        currentEggIndex - 1
+		    );
+		});
+		
+		
+		// --------------------------------------------------
+		// RIGHT BUTTON CLICK
+		// --------------------------------------------------
+		
+		rightButton.on("click", function () {
+		
+		    switchEgg(
+		        currentEggIndex + 1
+		    );
+		});
+		
+		
+		// --------------------------------------------------
+		// BUTTON HOVER
+		// --------------------------------------------------
+		
+		leftButton.on("rollover", function () {
+		
+		    // No hover effect while disabled
+		    if (currentEggIndex === 0) {
+		        return;
+		    }
+		
+		    leftBg.alpha = 0.85;
+		});
+		
+		leftButton.on("rollout", function () {
+		
+		    leftBg.alpha =
+		        NAV_BUTTON_ALPHA;
+		});
+		
+		
+		rightButton.on("rollover", function () {
+		
+		    rightBg.alpha = 0.85;
+		});
+		
+		rightButton.on("rollout", function () {
+		
+		    rightBg.alpha =
+		        NAV_BUTTON_ALPHA;
+		});
+		
+		
+		// --------------------------------------------------
+		// INITIAL EGG
+		// --------------------------------------------------
+		
+		switchEgg(0);
 		//this is for the players username
 		exportRoot.onUserChange = showName;
 		
@@ -907,177 +1858,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    createjs.Ticker.removeEventListener("tick", floatEgg);
 		    if (self.cleanupCards) self.cleanupCards();
 		};
-		var self = this;
-		this.stop();
-		
-		// --------------------------------------------------
-		// FLOATING EGG
-		// --------------------------------------------------
-		
-		var EGG_RAISE = 0.15;
-		
-		// Raise egg
-		self.egg.y -= lib.properties.height * EGG_RAISE;
-		
-		var startY = self.egg.y;
-		self.eggRestY = startY;
-		
-		var time = 0;
-		
-		function floatEgg(evt) {
-		    time += evt.delta / 1000;
-		
-		    // Floating controls ONLY Y
-		    self.egg.y = startY + Math.sin(time * 1.5) * 15;
-		}
-		
-		createjs.Ticker.addEventListener("tick", floatEgg);
-		
-		
-		// --------------------------------------------------
-		// EGG HOVER
-		// --------------------------------------------------
-		
-		self.egg.cursor = "pointer";
-		
-		var eggOriginalScaleX = self.egg.scaleX;
-		var eggOriginalScaleY = self.egg.scaleY;
-		
-		var EGG_HOVER_SCALE = 0.97;
-		var EGG_HOVER_TIME = 100;
-		
-		
-		// Hover ON
-		self.egg.on("rollover", function () {
-		
-		    createjs.Tween.removeTweens(self.egg);
-		
-		    createjs.Tween.get(self.egg)
-		        .to({
-		            scaleX: eggOriginalScaleX * EGG_HOVER_SCALE,
-		            scaleY: eggOriginalScaleY * EGG_HOVER_SCALE
-		        }, EGG_HOVER_TIME, createjs.Ease.quadOut);
-		});
-		
-		
-		// Hover OFF
-		self.egg.on("rollout", function () {
-		
-		    createjs.Tween.removeTweens(self.egg);
-		
-		    createjs.Tween.get(self.egg)
-		        .to({
-		            scaleX: eggOriginalScaleX,
-		            scaleY: eggOriginalScaleY
-		        }, EGG_HOVER_TIME, createjs.Ease.quadOut);
-		});
-		
-		
-		// --------------------------------------------------
-		// EGG SHAKE
-		// --------------------------------------------------
-		
-		self.egg.on("click", function () {
-		
-		    // Don't start another shake while already shaking
-		    if (self.eggShaking) {
-		        return;
-		    }
-		
-		    self.eggShaking = true;
-		
-		    var shakeTime = 0;
-		    var shakeDuration = 350;
-		
-		    var originalX = self.egg.x;
-		    var originalRotation = self.egg.rotation;
-		
-		
-		    // --------------------------------------------------
-		    // RANDOM SHAKE VALUES
-		    // --------------------------------------------------
-		
-		    // Random X amount between 12 and 20
-		    var shakeAmount =
-		        12 + Math.random() * 8;
-		
-		    // Random rotation between 5 and 10 degrees
-		    var rotationAmount =
-		        5 + Math.random() * 5;
-		
-		    // Randomly choose the initial direction
-		    var xDirection =
-		        Math.random() < 0.5 ? -1 : 1;
-		
-		    var rotationDirection =
-		        Math.random() < 0.5 ? -1 : 1;
-		
-		
-		    function shakeEgg(evt) {
-		
-		
-		        shakeTime += evt.delta;
-		
-		        var progress =
-		            shakeTime / shakeDuration;
-		
-		        if (progress >= 1) {
-		
-		            // Return to original values
-		            self.egg.x = originalX;
-		            self.egg.rotation = originalRotation;
-		
-		            self.eggShaking = false;
-		
-		            createjs.Ticker.removeEventListener(
-		                "tick",
-		                shakeEgg
-		            );
-		
-		            return;
-		        }
-		
-		
-		        // --------------------------------------------------
-		        // FADE SHAKE TOWARD THE END
-		        // --------------------------------------------------
-		
-		        var strength = 1 - progress;
-		
-		
-		        // --------------------------------------------------
-		        // RANDOMIZED LEFT / RIGHT SHAKE
-		        // --------------------------------------------------
-		
-		        self.egg.x =
-		            originalX +
-		            Math.sin(
-		                progress * Math.PI * 12
-		            ) *
-		            shakeAmount *
-		            strength *
-		            xDirection;
-		
-		
-		        // --------------------------------------------------
-		        // RANDOMIZED ROTATION
-		        // --------------------------------------------------
-		
-		        self.egg.rotation =
-		            originalRotation +
-		            Math.sin(
-		                progress * Math.PI * 8
-		            ) *
-		            rotationAmount *
-		            strength *
-		            rotationDirection;
-		    }
-		
-		    createjs.Ticker.addEventListener(
-		        "tick",
-		        shakeEgg
-		    );
-		});
 		// --------------------------------------------------
 		// TOP BAR
 		// --------------------------------------------------
@@ -1106,7 +1886,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		self.nameText.textAlign = "left";
 		
-		
 		topBar.addChild(self.nameText);
 		
 		
@@ -1126,7 +1905,18 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		showName();
 		
-		exportRoot.onUserChange = showName;
+		// Runs when the website sends a new login state
+		// (sign in, sign out, or a refreshed token)
+		exportRoot.onUserChange = function () {
+		
+		    showName();
+		
+		    // Loads a different player's save if the player changed
+		    if (window.SaveSystem) {
+		        SaveSystem.load();
+		        showCurrencies();
+		    }
+		};
 		
 		
 		// --------------------------------------------------
@@ -1154,7 +1944,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		var gemAmount = new createjs.Text(
-		    "120",
+		    "0",
 		    "bold 14px 'DM Sans'",
 		    "#e8f5ff"
 		);
@@ -1260,7 +2050,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		var menuBg = new createjs.Shape();
 		
 		settingsBtn.addChild(menuBg);
-		
 		
 		var line1 = new createjs.Shape();
 		var line2 = new createjs.Shape();
@@ -1426,6 +2215,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		settingsBtn.addEventListener(
 		    "click",
 		    function() {
+		
+		        // TEMPORARY TEST: remove the // to add 10 Star Gems on each click
+		        // SaveSystem.add("starGems", 10);
 		
 		        // Put your menu-opening code here
 		
@@ -1675,7 +2467,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    var currencyGap =
 		        portrait
-		            ? 10
+		            ? 8
 		            : 10;
 		
 		
@@ -1744,26 +2536,19 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    // STAR GEMS BOX SIZE
 		    // ==================================================
 		
-		    var gemAmountWidth =
-		        gemAmount.getMeasuredWidth();
-		
-		    var gemLabelWidth =
-		        gemLabel.getMeasuredWidth();
-		
-		
-		    var gemContentRight =
-		        Math.max(
-		            gemAmount.x +
-		                gemAmountWidth,
-		
-		            gemLabel.x +
-		                gemLabelWidth
-		        );
-		
-		
 		    var gemBoxWidth =
-		        gemContentRight +
+		        gemIconSize +
+		        currencyPaddingLeft +
+		        6 +
+		        gemAmount.getMeasuredWidth() +
 		        currencyPaddingRight;
+		
+		
+		    // Make Star Gems box smaller
+		    gemBoxWidth = Math.max(
+		        gemBoxWidth - 8,
+		        60
+		    );
 		
 		
 		    var gemBoxHeight =
@@ -1859,6 +2644,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    var crystAmountWidth =
 		        crystAmount.getMeasuredWidth();
 		
+		
 		    var crystLabelWidth =
 		        crystLabel.getMeasuredWidth();
 		
@@ -1912,16 +2698,16 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        menuSize / 2;
 		
 		
-		    var menuGap =
-		        portrait
-		            ? 28
-		            : 20;
-		
-		
 		    // --------------------------------------------------
 		    // CRYST
 		    // Immediately to the LEFT of the menu
 		    // --------------------------------------------------
+		
+		    var menuGap =
+		        portrait
+		            ? 18
+		            : 20;
+		
 		
 		    crystContainer.x =
 		        menuLeft -
@@ -1949,6 +2735,21 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
+		    // MOBILE ALIGNMENT
+		    // --------------------------------------------------
+		
+		    if (portrait) {
+		
+		        // Keep both boxes perfectly centered vertically
+		        gemContainer.y =
+		            BAR_H / 2;
+		
+		        crystContainer.y =
+		            BAR_H / 2;
+		    }
+		
+		
+		    // --------------------------------------------------
 		    // HIDE OLD TIMER UI
 		    // --------------------------------------------------
 		
@@ -1973,6 +2774,84 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		layoutTopBar();
+		
+		
+		// --------------------------------------------------
+		// CURRENCY SAVE / LOAD
+		// --------------------------------------------------
+		
+		function formatAmount(n) {
+		
+		    // 12345 becomes "12,345"
+		    return Number(n).toLocaleString("en-US");
+		}
+		
+		
+		// Writes the saved amounts into the top bar
+		function showCurrencies() {
+		
+		    gemAmount.text =
+		        formatAmount(SaveSystem.get("starGems"));
+		
+		    crystAmount.text =
+		        formatAmount(SaveSystem.get("cryst"));
+		
+		    // The box widths depend on the text width
+		    layoutTopBar();
+		}
+		
+		
+		function startCurrencies() {
+		
+		    // Shows 0 until the save has loaded
+		    gemAmount.text = "0";
+		    crystAmount.text = "0";
+		    layoutTopBar();
+		
+		    // Updates the top bar whenever a currency changes
+		    SaveSystem.onChange("topbar", showCurrencies);
+		
+		    if (SaveSystem.isLoaded()) {
+		        showCurrencies();
+		    }
+		
+		    SaveSystem.load();
+		}
+		
+		
+		// The save system layer may not have run yet, so wait for it if needed
+		var saveWaitTicks = 0;
+		
+		function waitForSaveSystem() {
+		
+		    if (window.SaveSystem) {
+		
+		        createjs.Ticker.removeEventListener("tick", waitForSaveSystem);
+		        startCurrencies();
+		        return;
+		    }
+		
+		    saveWaitTicks++;
+		
+		    if (saveWaitTicks > 120) {
+		
+		        createjs.Ticker.removeEventListener("tick", waitForSaveSystem);
+		
+		        console.error(
+		            "SaveSystem not found. Add the save system layer on frame 1."
+		        );
+		    }
+		}
+		
+		
+		if (window.SaveSystem) {
+		
+		    startCurrencies();
+		
+		} else {
+		
+		    createjs.Ticker.addEventListener("tick", waitForSaveSystem);
+		}
 		(function(self) {
 		
 		    var W = lib.properties.width;
@@ -2466,30 +3345,28 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        // EGG POSITION
 		        // --------------------------------------------------
 		
-		        var eggX =
-		            self.egg.x;
+		        var activeEgg = self.egg;
 		
+		        var eggX = activeEgg.x;
 		
+		        // Use the egg's RESTING height, never its bobbing height
 		        var restY =
-		            (typeof self.eggRestY === "number")
-		                ? self.eggRestY
-		                : self.egg.y;
+		            (typeof activeEgg.eggRestY === "number")
+		                ? activeEgg.eggRestY
+		                : (typeof self.eggRestY === "number")
+		                    ? self.eggRestY
+		                    : activeEgg.y;
 		
+		        var eb = activeEgg.nominalBounds;
 		
-		        var eb =
-		            self.egg.nominalBounds;
-		
+		        // Original scale, so a hover squish can't change the result
+		        var eggScaleY = activeEgg.originalScaleY || activeEgg.scaleY;
 		
 		        var eggBottom =
 		            restY +
 		            (
 		                eb
-		                    ? (
-		                        eb.y +
-		                        eb.height
-		                    ) *
-		                    self.egg.scaleY
-		
+		                    ? (eb.y + eb.height) * eggScaleY
 		                    : 130
 		            );
 		
@@ -3179,20 +4056,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // FIRST DOT = GRAY
+		    // FIRST DOT
+		    // WHITE WITH BLUE GLOW
 		    // --------------------------------------------------
 		
 		    if (i === 0) {
-		
-		        dot.graphics
-		            .beginFill("#777777")
-		            .drawCircle(
-		                0,
-		                0,
-		                DOT_RADIUS
-		            );
-		
-		    } else {
 		
 		        dot.graphics
 		            .beginFill("#FFFFFF")
@@ -3201,10 +4069,44 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                0,
 		                DOT_RADIUS
 		            );
+		
+		
+		        // Blue glow
+		        dot.shadow = new createjs.Shadow(
+		            "#2496FF",
+		            0,
+		            0,
+		            8
+		        );
+		
+		    } else {
+		
+		        // --------------------------------------------------
+		        // OTHER DOTS
+		        // DARK BLUE WITH BLUE OUTLINE
+		        // --------------------------------------------------
+		
+		        dot.graphics
+		            .setStrokeStyle(1.5)
+		            .beginStroke("#2789C9")
+		            .beginFill("#123B5C")
+		            .drawCircle(
+		                0,
+		                0,
+		                DOT_RADIUS
+		            );
 		    }
 		
 		
-		    dot.alpha = 0.85;
+		    // First dot stays fully visible
+		    if (i === 0) {
+		
+		        dot.alpha = 1;
+		
+		    } else {
+		
+		        dot.alpha = 0.85;
+		    }
 		
 		
 		    // Desktop spacing
@@ -3877,7 +4779,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791136588322", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791160723308", id:"index_atlas_"}
 	],
 	preloads: []
 };
