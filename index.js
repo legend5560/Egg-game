@@ -1399,7 +1399,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        var shakeDuration = 350;
 		
 		        var originalX = egg.x;
-		        var originalY = egg.y;
 		        var originalRotation = egg.rotation;
 		
 		        // Random X amount between 12 and 20
@@ -1428,7 +1427,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            if (progress >= 1) {
 		
 		                egg.x = originalX;
-		                egg.y = originalY;
 		                egg.rotation = originalRotation;
 		
 		                egg.eggShaking = false;
@@ -1486,17 +1484,12 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// FLOATING UPDATE
 		// --------------------------------------------------
 		
+		// Always runs, even while the egg is shaking.
+		// The shake only changes x and rotation.
+		
 		function floatEggs(evt) {
 		
-		    var deltaSeconds =
-		        evt.delta / 1000;
-		
-		    // Don't interfere with the Y position while shaking
-		    if (egg.eggShaking) {
-		        return;
-		    }
-		
-		    egg.floatTime += deltaSeconds;
+		    egg.floatTime += evt.delta / 1000;
 		
 		    egg.y =
 		        egg.eggRestY +
@@ -4789,7 +4782,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791162396801", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791162633263", id:"index_atlas_"}
 	],
 	preloads: []
 };
