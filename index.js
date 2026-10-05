@@ -3,7 +3,8 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"index_atlas_", frames: [[1884,828,84,117],[592,1304,29,21],[988,0,980,826],[0,0,986,832],[988,828,894,540],[1508,1370,188,188],[1312,1370,194,194],[1698,1370,51,51],[0,1348,894,148],[0,1498,894,20],[896,1304,62,62],[514,834,468,468],[960,1304,26,26],[562,1304,28,28],[896,1370,414,99],[1508,1560,414,7],[896,1471,414,88],[514,1304,46,29],[960,1332,4,12],[0,834,512,512]]}
+		{name:"index_atlas_", frames: [[988,872,980,826],[0,872,986,832],[0,0,992,870],[994,0,992,870]]},
+		{name:"index_atlas_2", frames: [[514,911,84,117],[900,683,29,21],[944,521,894,540],[710,625,188,188],[514,625,194,194],[870,975,51,51],[470,1438,894,148],[870,1063,894,20],[870,911,62,62],[0,1038,468,468],[470,1038,398,398],[944,0,939,519],[0,0,942,522],[900,655,26,26],[900,625,28,28],[514,524,414,99],[0,1508,414,7],[514,821,414,88],[870,1028,46,29],[928,655,4,12],[0,524,512,512]]}
 ];
 
 
@@ -12,14 +13,14 @@ lib.ssMetadata = [
 
 
 (lib.CachedTexturedBitmap_1 = function() {
-	this.initialize(ss["index_atlas_"]);
+	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_10 = function() {
-	this.initialize(ss["index_atlas_"]);
+	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 
@@ -27,126 +28,161 @@ lib.ssMetadata = [
 
 (lib.CachedTexturedBitmap_11 = function() {
 	this.initialize(ss["index_atlas_"]);
-	this.gotoAndStop(2);
+	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_12 = function() {
 	this.initialize(ss["index_atlas_"]);
-	this.gotoAndStop(3);
+	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_13 = function() {
-	this.initialize(ss["index_atlas_"]);
-	this.gotoAndStop(4);
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(2);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_14 = function() {
-	this.initialize(ss["index_atlas_"]);
-	this.gotoAndStop(5);
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(3);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_15 = function() {
-	this.initialize(ss["index_atlas_"]);
-	this.gotoAndStop(6);
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(4);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_16 = function() {
-	this.initialize(ss["index_atlas_"]);
-	this.gotoAndStop(7);
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(5);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_17 = function() {
-	this.initialize(ss["index_atlas_"]);
-	this.gotoAndStop(8);
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(6);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_18 = function() {
-	this.initialize(ss["index_atlas_"]);
-	this.gotoAndStop(9);
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(7);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_19 = function() {
-	this.initialize(ss["index_atlas_"]);
-	this.gotoAndStop(10);
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(8);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_2 = function() {
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(9);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_20 = function() {
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(10);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_21 = function() {
 	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(2);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_22 = function() {
+	this.initialize(ss["index_atlas_"]);
+	this.gotoAndStop(3);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_23 = function() {
+	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(11);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_3 = function() {
-	this.initialize(ss["index_atlas_"]);
+(lib.CachedTexturedBitmap_24 = function() {
+	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(12);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_4 = function() {
-	this.initialize(ss["index_atlas_"]);
+(lib.CachedTexturedBitmap_3 = function() {
+	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(13);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_5 = function() {
-	this.initialize(ss["index_atlas_"]);
+(lib.CachedTexturedBitmap_4 = function() {
+	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(14);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_6 = function() {
-	this.initialize(ss["index_atlas_"]);
+(lib.CachedTexturedBitmap_5 = function() {
+	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(15);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_7 = function() {
-	this.initialize(ss["index_atlas_"]);
+(lib.CachedTexturedBitmap_6 = function() {
+	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(16);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_8 = function() {
-	this.initialize(ss["index_atlas_"]);
+(lib.CachedTexturedBitmap_7 = function() {
+	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(17);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_9 = function() {
-	this.initialize(ss["index_atlas_"]);
+(lib.CachedTexturedBitmap_8 = function() {
+	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(18);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.eggsketches2 = function() {
-	this.initialize(ss["index_atlas_"]);
+(lib.CachedTexturedBitmap_9 = function() {
+	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(19);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.eggsketches2 = function() {
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(20);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -334,6 +370,76 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 }).prototype = getMCSymbolPrototype(lib.Cryst, new cjs.Rectangle(-20.8,0,42,58.5), null);
 
 
+(lib.Path = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer_1
+	this.instance = new lib.CachedTexturedBitmap_20();
+	this.instance.parent = this;
+	this.instance.setTransform(0,0,0.5,0.5);
+
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.Path, new cjs.Rectangle(0,0,199,199), null);
+
+
+(lib.MonsterContainer = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// text
+	this.guarding = new cjs.Text("guarding * slot 2", "italic bold 50px 'DM Sans 24pt ExtraBold'", "#8EAFBF");
+	this.guarding.name = "guarding";
+	this.guarding.textAlign = "center";
+	this.guarding.lineHeight = 68;
+	this.guarding.lineWidth = 420;
+	this.guarding.parent = this;
+	this.guarding.setTransform(248.25,386.95,0.3938,0.3938);
+
+	this.MonsterName = new cjs.Text("Monster name", "50px 'Marcellus'", "#FFFFFF");
+	this.MonsterName.name = "MonsterName";
+	this.MonsterName.textAlign = "center";
+	this.MonsterName.lineHeight = 65;
+	this.MonsterName.lineWidth = 363;
+	this.MonsterName.parent = this;
+	this.MonsterName.setTransform(253.85,328.3,0.6434,0.6434);
+
+	this.type = new cjs.Text("type 1 * type 2", "italic 50px 'DM Sans 36pt SemiBold'", "#A1D9E5");
+	this.type.name = "type";
+	this.type.textAlign = "center";
+	this.type.lineHeight = 68;
+	this.type.lineWidth = 526;
+	this.type.parent = this;
+	this.type.setTransform(244.75,291.1,0.3581,0.3581);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.type},{t:this.MonsterName},{t:this.guarding}]}).wait(1));
+
+	// Layer_1
+	this.instance = new lib.Path();
+	this.instance.parent = this;
+	this.instance.setTransform(248.5,143.5,1,1,0,0,0,99.5,99.5);
+	this.instance.alpha = 0.6797;
+
+	this.instance_1 = new lib.CachedTexturedBitmap_24();
+	this.instance_1.parent = this;
+	this.instance_1.setTransform(12.95,13,0.5,0.5);
+
+	this.instance_2 = new lib.CachedTexturedBitmap_23();
+	this.instance_2.parent = this;
+	this.instance_2.setTransform(13.75,13.8,0.5,0.5);
+
+	this.instance_3 = new lib.CachedTexturedBitmap_22();
+	this.instance_3.parent = this;
+	this.instance_3.setTransform(0,0.05,0.5,0.5);
+
+	this.instance_4 = new lib.CachedTexturedBitmap_21();
+	this.instance_4.parent = this;
+	this.instance_4.setTransform(0,0,0.5,0.5);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_4},{t:this.instance_3},{t:this.instance_2},{t:this.instance_1},{t:this.instance}]}).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.MonsterContainer, new cjs.Rectangle(0,0,496,435.1), null);
+
+
 (lib.egg = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -356,7 +462,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 // stage content:
 (lib.Egggame = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{menu:0,game:1});
+	this.initialize(mode,startPosition,loop,{menu:0,game:1,eggs:2,monsters:3});
 
 	// timeline functions:
 	this.frame_0 = function() {
@@ -4975,6 +5081,21 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
+		// MENU STATE
+		// --------------------------------------------------
+		
+		// Height of the top bar (set by layoutTopBar)
+		var topBarHeight = 0;
+		
+		// Is the dropdown menu open?
+		var menuOpen = false;
+		
+		// Used to keep the menu button highlighted
+		var menuBtnHovered = false;
+		var menuBtnPressed = false;
+		
+		
+		// --------------------------------------------------
 		// SETTINGS / MENU BUTTON
 		// --------------------------------------------------
 		
@@ -4994,22 +5115,12 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
-		// DRAW MENU BUTTON
+		// DRAW MENU BUTTON (BACKGROUND ONLY)
 		// --------------------------------------------------
 		
 		function drawMenuButton(size, color) {
 		
 		    var radius = size * 0.22;
-		
-		    var lineLeft = size * 0.28;
-		    var lineRight = size * 0.72;
-		
-		    var line1Y = size * 0.31;
-		    var line2Y = size * 0.50;
-		    var line3Y = size * 0.69;
-		
-		
-		    // Background
 		
 		    menuBg.graphics.clear();
 		
@@ -5024,51 +5135,123 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            size,
 		            radius
 		        );
+		}
 		
 		
-		    // Line 1
+		// --------------------------------------------------
+		// DRAW MENU BUTTON LINES
+		// --------------------------------------------------
 		
-		    line1.graphics.clear()
-		        .setStrokeStyle(1)
-		        .beginStroke("#b9d8eb")
-		        .moveTo(
-		            lineLeft,
-		            line1Y
-		        )
-		        .lineTo(
-		            lineRight,
-		            line1Y
-		        );
+		// Each line is drawn around its own center, so it can
+		// rotate into an X when the menu opens.
+		
+		function drawMenuLines(size) {
+		
+		    var halfLine = size * 0.22;
+		
+		    var allLines = [line1, line2, line3];
+		
+		    for (var k = 0; k < allLines.length; k++) {
+		
+		        allLines[k].graphics.clear()
+		            .setStrokeStyle(1)
+		            .beginStroke("#b9d8eb")
+		            .moveTo(
+		                -halfLine,
+		                0
+		            )
+		            .lineTo(
+		                halfLine,
+		                0
+		            );
+		
+		        allLines[k].x =
+		            size / 2;
+		    }
 		
 		
-		    // Line 2
-		
-		    line2.graphics.clear()
-		        .setStrokeStyle(1)
-		        .beginStroke("#b9d8eb")
-		        .moveTo(
-		            lineLeft,
-		            line2Y
-		        )
-		        .lineTo(
-		            lineRight,
-		            line2Y
-		        );
+		    // Hamburger positions
+		    line1.restY = size * 0.31;
+		    line2.restY = size * 0.50;
+		    line3.restY = size * 0.69;
 		
 		
-		    // Line 3
+		    // X positions: all three lines meet in the middle
+		    line1.openY = size * 0.50;
+		    line2.openY = size * 0.50;
+		    line3.openY = size * 0.50;
 		
-		    line3.graphics.clear()
-		        .setStrokeStyle(1)
-		        .beginStroke("#b9d8eb")
-		        .moveTo(
-		            lineLeft,
-		            line3Y
-		        )
-		        .lineTo(
-		            lineRight,
-		            line3Y
-		        );
+		    applyMenuIconPose();
+		}
+		
+		
+		// --------------------------------------------------
+		// MENU ICON POSE (NO ANIMATION)
+		// --------------------------------------------------
+		
+		function applyMenuIconPose() {
+		
+		    line1.y = menuOpen ? line1.openY : line1.restY;
+		    line1.rotation = menuOpen ? 45 : 0;
+		
+		    line3.y = menuOpen ? line3.openY : line3.restY;
+		    line3.rotation = menuOpen ? -45 : 0;
+		
+		    line2.y = line2.restY;
+		    line2.alpha = menuOpen ? 0 : 1;
+		    line2.scaleX = menuOpen ? 0.2 : 1;
+		}
+		
+		
+		// --------------------------------------------------
+		// MENU ICON ANIMATION (HAMBURGER <-> X)
+		// --------------------------------------------------
+		
+		function animateMenuIcon() {
+		
+		    var time = 220;
+		    var ease = createjs.Ease.quadOut;
+		
+		    // Top line: moves to the middle and tilts one way
+		    createjs.Tween.get(line1, { override: true })
+		        .to({
+		            y: menuOpen ? line1.openY : line1.restY,
+		            rotation: menuOpen ? 45 : 0
+		        }, time, ease);
+		
+		    // Bottom line: moves to the middle and tilts the other way
+		    createjs.Tween.get(line3, { override: true })
+		        .to({
+		            y: menuOpen ? line3.openY : line3.restY,
+		            rotation: menuOpen ? -45 : 0
+		        }, time, ease);
+		
+		    // Middle line: fades away
+		    createjs.Tween.get(line2, { override: true })
+		        .to({
+		            alpha: menuOpen ? 0 : 1,
+		            scaleX: menuOpen ? 0.2 : 1
+		        }, time, ease);
+		}
+		
+		
+		// --------------------------------------------------
+		// MENU BUTTON BORDER COLOR
+		// --------------------------------------------------
+		
+		function refreshMenuButtonColor() {
+		
+		    var lit =
+		        menuOpen ||
+		        menuBtnHovered ||
+		        menuBtnPressed;
+		
+		    drawMenuButton(
+		        settingsBtn.buttonSize,
+		        lit
+		            ? "#8fd8ff"
+		            : "#527896"
+		    );
 		}
 		
 		
@@ -5086,6 +5269,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		settingsBtn.regX = 18;
 		settingsBtn.regY = 18;
 		
+		drawMenuLines(36);
+		
 		
 		// --------------------------------------------------
 		// MENU BUTTON EVENTS
@@ -5095,10 +5280,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    "rollover",
 		    function() {
 		
-		        drawMenuButton(
-		            settingsBtn.buttonSize,
-		            "#8fd8ff"
-		        );
+		        menuBtnHovered = true;
+		
+		        refreshMenuButtonColor();
 		    }
 		);
 		
@@ -5107,10 +5291,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    "rollout",
 		    function() {
 		
-		        drawMenuButton(
-		            settingsBtn.buttonSize,
-		            "#527896"
-		        );
+		        menuBtnHovered = false;
+		
+		        refreshMenuButtonColor();
 		    }
 		);
 		
@@ -5122,10 +5305,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        settingsBtn.scaleX = 0.88;
 		        settingsBtn.scaleY = 0.88;
 		
-		        drawMenuButton(
-		            settingsBtn.buttonSize,
-		            "#8fd8ff"
-		        );
+		        menuBtnPressed = true;
+		
+		        refreshMenuButtonColor();
 		    }
 		);
 		
@@ -5137,10 +5319,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        settingsBtn.scaleX = 1;
 		        settingsBtn.scaleY = 1;
 		
-		        drawMenuButton(
-		            settingsBtn.buttonSize,
-		            "#527896"
-		        );
+		        menuBtnPressed = false;
+		
+		        refreshMenuButtonColor();
 		    }
 		);
 		
@@ -5149,11 +5330,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    "click",
 		    function() {
 		
-		        // TEMPORARY TEST: remove the // to add 10 Star Gems on each click
-		        // SaveSystem.add("starGems", 10);
-		
-		        // Put your menu-opening code here
-		
+		        // Open the menu, or close it if it is already open
+		        toggleMenu();
 		    }
 		);
 		
@@ -5232,6 +5410,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        menuSize = 36;
 		    }
+		
+		
+		    // Remember the bar height for the dropdown menu
+		    topBarHeight = BAR_H;
 		
 		
 		    // --------------------------------------------------
@@ -5372,10 +5554,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    settingsBtn.scaleY = 1;
 		
 		
-		    drawMenuButton(
-		        menuSize,
-		        "#527896"
+		    drawMenuLines(
+		        menuSize
 		    );
+		
+		    refreshMenuButtonColor();
 		
 		
 		    settingsBtn.x =
@@ -5699,7 +5882,685 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        self.settingsBtn.visible = false;
 		    }
+		
+		
+		    // --------------------------------------------------
+		    // KEEP THE DROPDOWN MENU UNDER THE MENU BUTTON
+		    // --------------------------------------------------
+		
+		    layoutMenu();
 		}
+		
+		
+		// --------------------------------------------------
+		// DROPDOWN MENU
+		// --------------------------------------------------
+		
+		// The options, in order from top to bottom
+		
+		var MENU_ITEMS = [
+		    { id: "egg",        label: "Egg" },
+		    { id: "monsters",   label: "Monsters" },
+		    { id: "expedition", label: "Expedition" },
+		    { id: "summons",     label: "Summons" },
+		    { id: "shop",       label: "Shop" },
+		    { id: "save",       label: "Save" },
+		    { id: "settings",   label: "Settings" }
+		];
+		
+		
+		// Animation settings (milliseconds)
+		
+		var MENU_OPEN_TIME  = 180;
+		var MENU_CLOSE_TIME = 140;
+		
+		// How far the panel slides while it fades in and out
+		var MENU_SLIDE = 10;
+		
+		
+		// Hover only exists with a mouse. On touch screens
+		// the buttons glow while they are being pressed.
+		
+		var menuCanHover = !!(
+		    window.matchMedia &&
+		    window.matchMedia("(hover: hover)").matches
+		);
+		
+		
+		var menuButtons = [];
+		
+		var menuMetrics = {
+		    itemW: 0,
+		    itemH: 0,
+		    itemRadius: 0
+		};
+		
+		
+		// --------------------------------------------------
+		// MENU CONTAINERS
+		// --------------------------------------------------
+		
+		// menuRoot holds everything and is brought to the front
+		// every time the menu opens.
+		
+		var menuRoot = new createjs.Container();
+		
+		menuRoot.visible = false;
+		
+		self.addChild(menuRoot);
+		
+		
+		// Invisible area under the top bar. Clicking it closes the menu.
+		
+		var menuCatcher = new createjs.Shape();
+		
+		menuRoot.addChild(menuCatcher);
+		
+		menuCatcher.addEventListener(
+		    "click",
+		    function () {
+		
+		        closeMenu();
+		    }
+		);
+		
+		
+		// The rounded panel
+		
+		var menuPanel = new createjs.Container();
+		
+		menuPanel.alpha = 0;
+		
+		menuRoot.addChild(menuPanel);
+		
+		
+		var menuPanelBg = new createjs.Shape();
+		
+		menuPanel.addChild(menuPanelBg);
+		
+		
+		// --------------------------------------------------
+		// DRAW ONE MENU BUTTON
+		// --------------------------------------------------
+		
+		function drawMenuItem(item, lit) {
+		
+		    var m = menuMetrics;
+		
+		    item.bg.graphics.clear();
+		
+		    item.bg.graphics
+		        .setStrokeStyle(
+		            lit
+		                ? 1.5
+		                : 1
+		        )
+		        .beginStroke(
+		            lit
+		                ? "#8fd8ff"
+		                : "rgba(82, 120, 150, 0.7)"
+		        )
+		        .beginFill(
+		            lit
+		                ? "#1d5381"
+		                : "rgba(18, 59, 92, 0.75)"
+		        )
+		        .drawRoundRect(
+		            0,
+		            0,
+		            m.itemW,
+		            m.itemH,
+		            m.itemRadius
+		        );
+		}
+		
+		
+		// --------------------------------------------------
+		// MENU BUTTON HIGHLIGHT (GLOW)
+		// --------------------------------------------------
+		
+		function refreshItem(item) {
+		
+		    var lit =
+		        item.hovered ||
+		        item.pressed;
+		
+		    if (lit === item.lit) {
+		        return;
+		    }
+		
+		    item.lit = lit;
+		
+		    drawMenuItem(
+		        item,
+		        lit
+		    );
+		
+		    item.label.color =
+		        lit
+		            ? "#ffffff"
+		            : "#cfe6f5";
+		
+		
+		    // Fade the light blue glow in and out
+		    createjs.Tween.get(
+		        item.glow,
+		        { override: true }
+		    )
+		    .to(
+		        {
+		            alpha:
+		                lit
+		                    ? 1
+		                    : 0
+		        },
+		        140,
+		        createjs.Ease.quadOut
+		    );
+		
+		
+		    // Bring the lit button to the front so its glow
+		    // shows over its neighbors
+		    if (lit) {
+		
+		        menuPanel.addChild(item);
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// CREATE MENU BUTTONS
+		// --------------------------------------------------
+		
+		function createMenuButtons() {
+		
+		    // Needed for hover events
+		    if (menuCanHover && self.stage) {
+		
+		        self.stage.enableMouseOver(20);
+		    }
+		
+		
+		    for (var i = 0; i < MENU_ITEMS.length; i++) {
+		
+		        var item = new createjs.Container();
+		
+		        item.itemId = MENU_ITEMS[i].id;
+		
+		        item.hovered = false;
+		        item.pressed = false;
+		        item.lit = false;
+		
+		
+		        // Light blue glow (hidden until hovered)
+		        var glow = new createjs.Shape();
+		
+		        glow.alpha = 0;
+		        glow.mouseEnabled = false;
+		
+		
+		        // Button background
+		        var bg = new createjs.Shape();
+		
+		
+		        // Button text
+		        var label = new createjs.Text(
+		            MENU_ITEMS[i].label,
+		            "bold 15px 'DM Sans'",
+		            "#cfe6f5"
+		        );
+		
+		        label.textAlign = "left";
+		        label.textBaseline = "middle";
+		        label.mouseEnabled = false;
+		
+		
+		        item.addChild(glow);
+		        item.addChild(bg);
+		        item.addChild(label);
+		
+		        item.glow = glow;
+		        item.bg = bg;
+		        item.label = label;
+		
+		        item.cursor = "pointer";
+		
+		
+		        // ------------------------------------------
+		        // EVENTS
+		        // ------------------------------------------
+		
+		        item.on(
+		            "click",
+		            function (evt) {
+		
+		                onMenuItemClick(evt.currentTarget);
+		            }
+		        );
+		
+		
+		        if (menuCanHover) {
+		
+		            item.on(
+		                "rollover",
+		                function (evt) {
+		
+		                    evt.currentTarget.hovered = true;
+		
+		                    refreshItem(evt.currentTarget);
+		                }
+		            );
+		
+		            item.on(
+		                "rollout",
+		                function (evt) {
+		
+		                    evt.currentTarget.hovered = false;
+		
+		                    refreshItem(evt.currentTarget);
+		                }
+		            );
+		        }
+		
+		
+		        item.on(
+		            "mousedown",
+		            function (evt) {
+		
+		                evt.currentTarget.pressed = true;
+		
+		                refreshItem(evt.currentTarget);
+		            }
+		        );
+		
+		        item.on(
+		            "pressup",
+		            function (evt) {
+		
+		                evt.currentTarget.pressed = false;
+		
+		                refreshItem(evt.currentTarget);
+		            }
+		        );
+		
+		
+		        menuPanel.addChild(item);
+		
+		        menuButtons.push(item);
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// LAYOUT MENU
+		// --------------------------------------------------
+		
+		function layoutMenu() {
+		
+		    if (!menuButtons.length) {
+		        return;
+		    }
+		
+		    var W = lib.properties.width;
+		    var H = lib.properties.height;
+		
+		    var portrait = H > W;
+		
+		    var count = MENU_ITEMS.length;
+		
+		
+		    // --------------------------------------------------
+		    // SIZES
+		    // --------------------------------------------------
+		
+		    var itemH       = portrait ? 76  : 38;
+		    var itemGap     = portrait ? 10  : 6;
+		    var padding     = portrait ? 22  : 14;
+		    var fontSize    = portrait ? 30  : 15;
+		    var panelW      = portrait ? 560 : 320;
+		    var panelRadius = portrait ? 30  : 18;
+		    var itemRadius  = portrait ? 20  : 11;
+		    var glowBlur    = portrait ? 28  : 16;
+		    var textInset   = portrait ? 28  : 16;
+		
+		    var itemW  = panelW - padding * 2;
+		
+		    var panelH =
+		        count * itemH +
+		        (count - 1) * itemGap +
+		        padding * 2;
+		
+		
+		    menuMetrics.itemW = itemW;
+		    menuMetrics.itemH = itemH;
+		    menuMetrics.itemRadius = itemRadius;
+		
+		
+		    // --------------------------------------------------
+		    // PANEL POSITION
+		    // --------------------------------------------------
+		
+		    // Right edge lines up with the menu button,
+		    // just underneath the top bar
+		
+		    var menuRight =
+		        settingsBtn.x +
+		        settingsBtn.buttonSize / 2;
+		
+		    var panelX =
+		        Math.max(
+		            12,
+		            menuRight - panelW
+		        );
+		
+		    var panelY =
+		        topBarHeight +
+		        (portrait ? 12 : 8);
+		
+		
+		    menuPanel.x = panelX;
+		    menuPanel.restY = panelY;
+		
+		    menuPanel.y =
+		        menuOpen
+		            ? panelY
+		            : panelY - MENU_SLIDE;
+		
+		
+		    // --------------------------------------------------
+		    // CLICK-AWAY AREA
+		    // --------------------------------------------------
+		
+		    // Covers the screen under the top bar, so the menu
+		    // button itself stays clickable.
+		
+		    menuCatcher.graphics.clear();
+		
+		    menuCatcher.graphics
+		        .beginFill("rgba(0, 0, 0, 0.02)")
+		        .drawRect(
+		            0,
+		            topBarHeight,
+		            W,
+		            H - topBarHeight
+		        );
+		
+		
+		    // --------------------------------------------------
+		    // PANEL BACKGROUND
+		    // --------------------------------------------------
+		
+		    menuPanelBg.graphics.clear();
+		
+		    menuPanelBg.graphics
+		        .setStrokeStyle(1.5)
+		        .beginStroke("#527896")
+		        .beginLinearGradientFill(
+		            [
+		                "#0d2f4d",
+		                "#071c31"
+		            ],
+		            [
+		                0,
+		                1
+		            ],
+		            0,
+		            0,
+		            0,
+		            panelH
+		        )
+		        .drawRoundRect(
+		            0,
+		            0,
+		            panelW,
+		            panelH,
+		            panelRadius
+		        );
+		
+		    menuPanelBg.shadow =
+		        new createjs.Shadow(
+		            "rgba(0, 0, 0, 0.55)",
+		            0,
+		            8,
+		            24
+		        );
+		
+		
+		    // --------------------------------------------------
+		    // BUTTONS
+		    // --------------------------------------------------
+		
+		    for (var m = 0; m < menuButtons.length; m++) {
+		
+		        var item = menuButtons[m];
+		
+		        item.x = padding;
+		
+		        item.y =
+		            padding +
+		            m * (itemH + itemGap);
+		
+		
+		        // Glow shape
+		        item.glow.graphics.clear();
+		
+		        item.glow.graphics
+		            .beginFill("rgba(143, 216, 255, 0.35)")
+		            .drawRoundRect(
+		                0,
+		                0,
+		                itemW,
+		                itemH,
+		                itemRadius
+		            );
+		
+		        item.glow.shadow =
+		            new createjs.Shadow(
+		                "#8fd8ff",
+		                0,
+		                0,
+		                glowBlur
+		            );
+		
+		
+		        // Background
+		        drawMenuItem(
+		            item,
+		            item.lit
+		        );
+		
+		
+		        // Text
+		        item.label.font =
+		            "bold " +
+		            fontSize +
+		            "px 'DM Sans'";
+		
+		        item.label.x = textInset;
+		        item.label.y = itemH / 2;
+		
+		
+		        // Clickable area
+		        var hit = new createjs.Shape();
+		
+		        hit.graphics
+		            .beginFill("#000")
+		            .drawRect(
+		                0,
+		                0,
+		                itemW,
+		                itemH
+		            );
+		
+		        item.hitArea = hit;
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// OPEN / CLOSE / TOGGLE
+		// --------------------------------------------------
+		
+		function openMenu() {
+		
+		    if (menuOpen) {
+		        return;
+		    }
+		
+		    menuOpen = true;
+		
+		    layoutMenu();
+		
+		
+		    // Bring the menu in front of everything else
+		    self.addChild(menuRoot);
+		
+		    // Only start from the hidden pose if it is fully closed
+		    if (!menuRoot.visible) {
+		
+		        menuPanel.alpha = 0;
+		
+		        menuPanel.y =
+		            menuPanel.restY -
+		            MENU_SLIDE;
+		    }
+		
+		    menuRoot.visible = true;
+		
+		
+		    createjs.Tween.get(
+		        menuPanel,
+		        { override: true }
+		    )
+		    .to(
+		        {
+		            alpha: 1,
+		            y: menuPanel.restY
+		        },
+		        MENU_OPEN_TIME,
+		        createjs.Ease.quadOut
+		    );
+		
+		
+		    animateMenuIcon();
+		    refreshMenuButtonColor();
+		}
+		
+		
+		function closeMenu() {
+		
+		    if (!menuOpen) {
+		        return;
+		    }
+		
+		    menuOpen = false;
+		
+		
+		    // Turn off any glow that is still showing
+		    for (var i = 0; i < menuButtons.length; i++) {
+		
+		        menuButtons[i].hovered = false;
+		        menuButtons[i].pressed = false;
+		
+		        refreshItem(menuButtons[i]);
+		    }
+		
+		
+		    createjs.Tween.get(
+		        menuPanel,
+		        { override: true }
+		    )
+		    .to(
+		        {
+		            alpha: 0,
+		            y: menuPanel.restY - MENU_SLIDE
+		        },
+		        MENU_CLOSE_TIME,
+		        createjs.Ease.quadIn
+		    )
+		    .call(function () {
+		
+		        // Only hide it if it was not opened again meanwhile
+		        if (!menuOpen) {
+		
+		            menuRoot.visible = false;
+		        }
+		    });
+		
+		
+		    animateMenuIcon();
+		    refreshMenuButtonColor();
+		}
+		
+		
+		function toggleMenu() {
+		
+		    if (menuOpen) {
+		
+		        closeMenu();
+		
+		    } else {
+		
+		        openMenu();
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// MENU BUTTON CLICKED
+		// --------------------------------------------------
+		
+		function onMenuItemClick(item) {
+		
+		    closeMenu();
+		
+		    onMenuSelect(item.itemId);
+		}
+		
+		
+		// --------------------------------------------------
+		// WHAT EACH OPTION DOES
+		// --------------------------------------------------
+		
+		// id is one of: egg, monsters, expedition,
+		// summon, shop, save, settings
+		
+		function onMenuSelect(id) {
+		
+		    switch (id) {
+		
+		        case "save":
+		
+		            // Sends any unsaved currency changes right away
+		            if (window.SaveSystem) {
+		
+		                SaveSystem.saveNow();
+		            }
+		
+		            break;
+		
+		
+		        // Put your screens here, for example:
+		        //
+		        // case "shop":
+		        //     openShop();
+		        //     break;
+		
+		        default:
+		
+		            console.log(
+		                "Menu option chosen:",
+		                id
+		            );
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// BUILD THE MENU
+		// --------------------------------------------------
+		
+		createMenuButtons();
 		
 		
 		// --------------------------------------------------
@@ -7729,9 +8590,793 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    layoutBottomBar
 		);
 	}
+	this.frame_3 = function() {
+		this.stop();
+		
+		(function (self) {
+		
+		    var W = lib.properties.width;
+		    var H = lib.properties.height;
+		    var portrait = H > W;
+		
+		
+		    // --------------------------------------------------
+		    // SETTINGS
+		    // --------------------------------------------------
+		
+		    // Grid
+		    var COLUMNS    = 3;
+		    var PER_PAGE   = 33;      // cards on each page
+		    var TOTAL_EGGS = 33;      // eggs in the whole game (only page 1 for now)
+		
+		    // Leave room for the top bar at the top of the screen.
+		    // Set to false if the top bar is not shown on this frame.
+		    var RESERVE_TOP_BAR = true;
+		
+		    // Layout
+		    var MAX_CONTENT_WIDTH = 1200;               // widest the grid and header get on PC
+		    var SIDE_MARGIN       = portrait ? 24 : 40;
+		    var CARD_GAP          = portrait ? 14 : 24;
+		
+		    // Header
+		    var HEADER_HEIGHT = portrait ? 84 : 72;
+		    var TITLE_SIZE    = portrait ? 34 : 30;
+		    var COUNT_SIZE    = portrait ? 22 : 18;
+		
+		    var TITLE_COLOR = "#dbeaf5";
+		    var COUNT_COLOR = "#8DBBD1";
+		
+		    // Light blue dividing line under the header
+		    var LINE_COLOR     = "#8fd8ff";
+		    var LINE_ALPHA     = 0.75;
+		    var LINE_THICKNESS = 2;
+		
+		    // Space above the first row and below the last row
+		    var SCROLL_PAD_TOP    = 20;
+		    var SCROLL_PAD_BOTTOM = 40;
+		
+		    // Scrolling
+		    var DRAG_THRESHOLD = 10;    // how far the pointer must move before it counts as a drag
+		    var FRICTION       = 0.92;  // closer to 1 = glides for longer after letting go
+		
+		    // Text shown on a card for an egg that is not discovered yet
+		    var EMPTY_TYPE = "UNDISCOVERED";
+		    var EMPTY_NAME = "???";
+		
+		
+		    // --------------------------------------------------
+		    // DATA
+		    // --------------------------------------------------
+		
+		    // null = not discovered yet.
+		    // A discovered egg is an object like { type: "LUNAR", name: "Lumi" }.
+		
+		    var eggData = [];
+		
+		    for (var d = 0; d < TOTAL_EGGS; d++) {
+		
+		        eggData.push(null);
+		    }
+		
+		    var currentPage = 0;
+		
+		
+		    // --------------------------------------------------
+		    // CONTAINERS
+		    // --------------------------------------------------
+		
+		    // Viewport: clips the grid so it only shows under the header line
+		    var eggsViewport = new createjs.Container();
+		
+		    self.addChild(eggsViewport);
+		
+		
+		    // Invisible area that lets you start a drag in the gaps between cards
+		    var scrollHit = new createjs.Shape();
+		
+		    eggsViewport.addChild(scrollHit);
+		
+		
+		    // Everything that scrolls
+		    var eggsContent = new createjs.Container();
+		
+		    eggsViewport.addChild(eggsContent);
+		
+		
+		    // The clipping area for the viewport (not added to the stage)
+		    var viewMask = new createjs.Shape();
+		
+		    eggsViewport.mask = viewMask;
+		
+		
+		    // Header: title, count, and the dividing line
+		    var eggsHeader = new createjs.Container();
+		
+		    self.addChild(eggsHeader);
+		
+		
+		    var titleText = new createjs.Text(
+		        "Eggs discovered",
+		        "30px 'Marcellus'",
+		        TITLE_COLOR
+		    );
+		
+		    titleText.textAlign = "left";
+		    titleText.textBaseline = "middle";
+		
+		    eggsHeader.addChild(titleText);
+		
+		
+		    var countText = new createjs.Text(
+		        "0 unique eggs",
+		        "bold 18px 'DM Sans'",
+		        COUNT_COLOR
+		    );
+		
+		    countText.textAlign = "right";
+		    countText.textBaseline = "middle";
+		
+		    eggsHeader.addChild(countText);
+		
+		
+		    var headerLine = new createjs.Shape();
+		
+		    eggsHeader.addChild(headerLine);
+		
+		
+		    // --------------------------------------------------
+		    // STATE
+		    // --------------------------------------------------
+		
+		    var cards = [];
+		
+		    var viewTop = 0;        // y where the scrolling area starts
+		    var maxScroll = 0;      // furthest the grid can scroll
+		
+		    var scrollY = 0;
+		
+		    var dragging = false;
+		    var dragMoved = false;  // true once a press has moved far enough to be a drag
+		    var dragStartY = 0;
+		    var dragStartScroll = 0;
+		    var lastY = 0;
+		    var lastTime = 0;
+		    var velocity = 0;       // scroll speed in pixels per millisecond
+		
+		
+		    // --------------------------------------------------
+		    // HEADER COUNT
+		    // --------------------------------------------------
+		
+		    function countDiscovered() {
+		
+		        var n = 0;
+		
+		        for (var i = 0; i < eggData.length; i++) {
+		
+		            if (eggData[i]) {
+		
+		                n++;
+		            }
+		        }
+		
+		        return n;
+		    }
+		
+		
+		    function updateDiscoveredText() {
+		
+		        var n = countDiscovered();
+		
+		        countText.text =
+		            n +
+		            (
+		                n === 1
+		                    ? " unique egg"
+		                    : " unique eggs"
+		            );
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // CARD TEXT
+		    // --------------------------------------------------
+		
+		    function applyCardText(card) {
+		
+		        var data = eggData[card.eggIndex];
+		
+		        // The "type" label (top)
+		        if (card.type) {
+		
+		            card.type.text =
+		                data
+		                    ? String(data.type).toUpperCase()
+		                    : EMPTY_TYPE;
+		        }
+		
+		        // The "MonsterName" label (second)
+		        if (card.MonsterName) {
+		
+		            card.MonsterName.text =
+		                data
+		                    ? data.name
+		                    : EMPTY_NAME;
+		        }
+		
+		        // Cards are cached, so redraw the cache to show new text
+		        if (card.cacheCanvas) {
+		
+		            card.updateCache();
+		        }
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // CREATE / CLEAR THE CARDS FOR A PAGE
+		    // --------------------------------------------------
+		
+		    function clearCards() {
+		
+		        for (var i = 0; i < cards.length; i++) {
+		
+		            cards[i].removeAllEventListeners();
+		
+		            eggsContent.removeChild(cards[i]);
+		        }
+		
+		        cards = [];
+		    }
+		
+		
+		    function onEggCardClick(evt) {
+		
+		        // A press that turned into a drag is not a tap
+		        if (dragMoved) {
+		            return;
+		        }
+		
+		        var card = evt.currentTarget;
+		
+		        console.log(
+		            "Egg card tapped:",
+		            card.eggIndex
+		        );
+		
+		        // Put what should happen when a card is tapped here
+		    }
+		
+		
+		    function buildPage(page) {
+		
+		        if (!lib.MonsterContainer) {
+		
+		            console.error(
+		                "MonsterContainer not found. Check AS Linkage on the symbol."
+		            );
+		
+		            return;
+		        }
+		
+		        clearCards();
+		
+		        currentPage = page;
+		
+		        var start = page * PER_PAGE;
+		
+		        var end = Math.min(
+		            start + PER_PAGE,
+		            TOTAL_EGGS
+		        );
+		
+		
+		        for (var i = start; i < end; i++) {
+		
+		            var card = new lib.MonsterContainer();
+		
+		            card.eggIndex = i;
+		
+		            card.cursor = "pointer";
+		
+		            // Not used on the eggs screen
+		            if (card.guarding) {
+		
+		                card.guarding.visible = false;
+		            }
+		
+		            card.addEventListener(
+		                "click",
+		                onEggCardClick
+		            );
+		
+		            eggsContent.addChild(card);
+		
+		            cards.push(card);
+		
+		            applyCardText(card);
+		        }
+		
+		
+		        layoutEggs();
+		
+		        setScroll(0);
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // SCROLLING
+		    // --------------------------------------------------
+		
+		    function setScroll(y) {
+		
+		        scrollY = Math.max(
+		            0,
+		            Math.min(
+		                maxScroll,
+		                y
+		            )
+		        );
+		
+		        eggsContent.y =
+		            viewTop -
+		            scrollY;
+		    }
+		
+		
+		    function onPress(evt) {
+		
+		        dragging = true;
+		        dragMoved = false;
+		
+		        // Stop any glide that is still going
+		        velocity = 0;
+		
+		        dragStartY = evt.stageY;
+		        dragStartScroll = scrollY;
+		
+		        lastY = evt.stageY;
+		        lastTime = Date.now();
+		    }
+		
+		
+		    function onDragMove(evt) {
+		
+		        if (!dragging) {
+		            return;
+		        }
+		
+		        var y = evt.stageY;
+		
+		        if (!dragMoved) {
+		
+		            if (Math.abs(y - dragStartY) <= DRAG_THRESHOLD) {
+		                return;
+		            }
+		
+		            // The drag has started. Restart from here so the
+		            // grid does not jump by the threshold distance.
+		            dragMoved = true;
+		
+		            dragStartY = y;
+		            dragStartScroll = scrollY;
+		
+		            lastY = y;
+		            lastTime = Date.now();
+		
+		            return;
+		        }
+		
+		
+		        setScroll(
+		            dragStartScroll -
+		            (y - dragStartY)
+		        );
+		
+		
+		        // Track the speed so the grid can glide after release
+		        var now = Date.now();
+		        var dt = now - lastTime;
+		
+		        if (dt > 0) {
+		
+		            velocity =
+		                velocity * 0.6 +
+		                ((lastY - y) / dt) * 0.4;
+		
+		            lastY = y;
+		            lastTime = now;
+		        }
+		    }
+		
+		
+		    function onRelease() {
+		
+		        if (!dragging) {
+		            return;
+		        }
+		
+		        dragging = false;
+		
+		        // If the finger paused before lifting, don't glide
+		        if (Date.now() - lastTime > 100) {
+		
+		            velocity = 0;
+		        }
+		    }
+		
+		
+		    // Glide after letting go
+		    function scrollTick(evt) {
+		
+		        if (dragging) {
+		            return;
+		        }
+		
+		        if (Math.abs(velocity) < 0.01) {
+		
+		            velocity = 0;
+		
+		            return;
+		        }
+		
+		        setScroll(
+		            scrollY +
+		            velocity *
+		            evt.delta
+		        );
+		
+		        velocity *= Math.pow(
+		            FRICTION,
+		            evt.delta / 16.67
+		        );
+		
+		        // Stop at the top and bottom
+		        if (
+		            scrollY <= 0 ||
+		            scrollY >= maxScroll
+		        ) {
+		
+		            velocity = 0;
+		        }
+		    }
+		
+		
+		    // Mouse wheel (desktop)
+		    var canvas =
+		        self.stage
+		            ? self.stage.canvas
+		            : null;
+		
+		
+		    function onWheel(e) {
+		
+		        e.preventDefault();
+		
+		        velocity = 0;
+		
+		        // Convert page pixels to stage pixels, so the speed
+		        // feels the same however big the game is on screen
+		        var unitsPerPixel =
+		            canvas && canvas.clientWidth
+		                ? W / canvas.clientWidth
+		                : 1;
+		
+		        var amount =
+		            e.deltaY *
+		            (
+		                e.deltaMode === 1
+		                    ? 20
+		                    : 1
+		            ) *
+		            unitsPerPixel;
+		
+		        setScroll(scrollY + amount);
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // LAYOUT
+		    // --------------------------------------------------
+		
+		    function layoutEggs() {
+		
+		        // Same height as the top bar, so the header sits below it
+		        var topOffset =
+		            RESERVE_TOP_BAR
+		                ? (
+		                    portrait
+		                        ? Math.max(82, H * 0.11)
+		                        : Math.max(66, H * 0.09)
+		                )
+		                : 0;
+		
+		
+		        var contentW =
+		            Math.min(
+		                W - SIDE_MARGIN * 2,
+		                MAX_CONTENT_WIDTH
+		            );
+		
+		        var contentLeft =
+		            (W - contentW) / 2;
+		
+		
+		        // ----------------------------------------------
+		        // HEADER
+		        // ----------------------------------------------
+		
+		        var headerMiddle =
+		            topOffset +
+		            HEADER_HEIGHT / 2;
+		
+		        var lineY =
+		            topOffset +
+		            HEADER_HEIGHT;
+		
+		
+		        titleText.font =
+		            TITLE_SIZE +
+		            "px 'Marcellus'";
+		
+		        titleText.x = contentLeft;
+		        titleText.y = headerMiddle;
+		
+		
+		        countText.font =
+		            "bold " +
+		            COUNT_SIZE +
+		            "px 'DM Sans'";
+		
+		        countText.x = contentLeft + contentW;
+		        countText.y = headerMiddle;
+		
+		
+		        headerLine.graphics.clear();
+		
+		        headerLine.graphics
+		            .beginFill(LINE_COLOR)
+		            .drawRect(
+		                contentLeft,
+		                lineY,
+		                contentW,
+		                LINE_THICKNESS
+		            );
+		
+		        headerLine.alpha = LINE_ALPHA;
+		
+		
+		        updateDiscoveredText();
+		
+		
+		        // ----------------------------------------------
+		        // SCROLLING AREA
+		        // ----------------------------------------------
+		
+		        viewTop =
+		            lineY +
+		            LINE_THICKNESS;
+		
+		        var viewH =
+		            H - viewTop;
+		
+		
+		        viewMask.graphics.clear();
+		
+		        viewMask.graphics
+		            .beginFill("#000")
+		            .drawRect(
+		                0,
+		                viewTop,
+		                W,
+		                viewH
+		            );
+		
+		
+		        scrollHit.graphics.clear();
+		
+		        scrollHit.graphics
+		            .beginFill("rgba(0, 0, 0, 0.02)")
+		            .drawRect(
+		                0,
+		                viewTop,
+		                W,
+		                viewH
+		            );
+		
+		
+		        // ----------------------------------------------
+		        // CARDS
+		        // ----------------------------------------------
+		
+		        if (!cards.length) {
+		
+		            maxScroll = 0;
+		
+		            setScroll(0);
+		
+		            return;
+		        }
+		
+		
+		        var b = cards[0].nominalBounds;
+		
+		        var cardW =
+		            (
+		                contentW -
+		                CARD_GAP * (COLUMNS - 1)
+		            ) / COLUMNS;
+		
+		        var scale =
+		            cardW / b.width;
+		
+		        var cardH =
+		            b.height * scale;
+		
+		        var rows =
+		            Math.ceil(
+		                cards.length /
+		                COLUMNS
+		            );
+		
+		
+		        // Sharper cards on high-density screens
+		        var cacheScale =
+		            scale *
+		            Math.max(
+		                1,
+		                Math.min(
+		                    2,
+		                    window.devicePixelRatio || 1
+		                )
+		            );
+		
+		
+		        for (var i = 0; i < cards.length; i++) {
+		
+		            var col = i % COLUMNS;
+		            var row = Math.floor(i / COLUMNS);
+		
+		            var left =
+		                contentLeft +
+		                col * (cardW + CARD_GAP);
+		
+		            var top =
+		                SCROLL_PAD_TOP +
+		                row * (cardH + CARD_GAP);
+		
+		            var c = cards[i];
+		
+		            c.scaleX = scale;
+		            c.scaleY = scale;
+		
+		            c.x = left - b.x * scale;
+		            c.y = top - b.y * scale;
+		
+		            c.cache(
+		                b.x,
+		                b.y,
+		                b.width,
+		                b.height,
+		                cacheScale
+		            );
+		        }
+		
+		
+		        var contentH =
+		            SCROLL_PAD_TOP +
+		            rows * cardH +
+		            (rows - 1) * CARD_GAP +
+		            SCROLL_PAD_BOTTOM;
+		
+		        maxScroll =
+		            Math.max(
+		                0,
+		                contentH - viewH
+		            );
+		
+		        // Keep the current position valid
+		        setScroll(scrollY);
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // PUBLIC FUNCTIONS (for the rest of the game)
+		    // --------------------------------------------------
+		
+		    // Mark an egg as discovered (or pass null to hide it again):
+		    //
+		    //     setEggData(0, { type: "Lunar", name: "Lumi" });
+		
+		    self.setEggData = function (index, data) {
+		
+		        if (index < 0 || index >= TOTAL_EGGS) {
+		            return;
+		        }
+		
+		        eggData[index] = data || null;
+		
+		        updateDiscoveredText();
+		
+		        for (var i = 0; i < cards.length; i++) {
+		
+		            if (cards[i].eggIndex === index) {
+		
+		                applyCardText(cards[i]);
+		            }
+		        }
+		    };
+		
+		
+		    // For the page buttons later: showEggPage(1) builds page 2
+		    self.showEggPage = buildPage;
+		
+		
+		    // --------------------------------------------------
+		    // EVENTS
+		    // --------------------------------------------------
+		
+		    eggsViewport.on("mousedown", onPress);
+		    eggsViewport.on("pressmove", onDragMove);
+		    eggsViewport.on("pressup", onRelease);
+		
+		    createjs.Ticker.addEventListener("tick", scrollTick);
+		
+		    if (canvas) {
+		
+		        canvas.addEventListener(
+		            "wheel",
+		            onWheel,
+		            { passive: false }
+		        );
+		    }
+		
+		    if (self.stage) {
+		
+		        // Needed for finger scrolling on phones
+		        createjs.Touch.enable(self.stage);
+		
+		        // Keep dragging even if the pointer leaves the game
+		        self.stage.mouseMoveOutside = true;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // CLEANUP (call when leaving this frame)
+		    // --------------------------------------------------
+		
+		    self.cleanupEggs = function () {
+		
+		        createjs.Ticker.removeEventListener("tick", scrollTick);
+		
+		        if (canvas) {
+		
+		            canvas.removeEventListener("wheel", onWheel);
+		        }
+		
+		        clearCards();
+		
+		        eggsViewport.removeAllEventListeners();
+		
+		        self.removeChild(eggsViewport);
+		        self.removeChild(eggsHeader);
+		
+		        self.setEggData = null;
+		        self.showEggPage = null;
+		        self.cleanupEggs = null;
+		    };
+		
+		
+		    // --------------------------------------------------
+		    // START
+		    // --------------------------------------------------
+		
+		    buildPage(0);
+		
+		})(this);
+	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(2).call(this.frame_3).wait(1));
 
 	// Layer_4
 	this.Hatch = new lib.Hatch();
@@ -7740,7 +9385,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.Hatch.setTransform(641.05,637,0.4193,0.4193,0,0,0,247.2,59);
 	this.Hatch._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.Hatch).wait(1).to({_off:false},0).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.Hatch).wait(1).to({_off:false},0).to({_off:true},1).wait(2));
 
 	// Layer_1
 	this.egg = new lib.egg();
@@ -7749,7 +9394,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.egg.setTransform(640,360,1,1,0,0,0,116.5,116.5);
 	this.egg._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1).to({_off:false},0).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1).to({_off:false},0).to({_off:true},1).wait(2));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(0,0,834.3,661.9);
@@ -7762,7 +9407,8 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791190779276", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791192868927", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791192868927", id:"index_atlas_2"}
 	],
 	preloads: []
 };
