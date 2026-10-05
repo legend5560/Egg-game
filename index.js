@@ -565,7 +565,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        var MAX_RETRY  = 5 * 60 * 1000;     // never wait more than 5 minutes between retries
 		
 		        // Starting amounts for a brand-new player
-		        var DEFAULTS = { starGems: 0, cryst: 0 };
+		        var DEFAULTS = { 
+		            starGems: 0, 
+		            cryst: 0,
+		            eggEndTimes: "0,0,0,0,0"
+		        };
 		        var NAMES = Object.keys(DEFAULTS);
 		
 		        // ---------- State ----------
@@ -660,7 +664,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                    var out = {};
 		                    var f = (doc && doc.fields) || {};
 		                    NAMES.forEach(function (n) {
-		                        if (f[n] && f[n].integerValue !== undefined) {
+		                        if (n === "eggEndTimes" && f[n] && f[n].stringValue !== undefined) {
+		                            out[n] = f[n].stringValue;
+		                        } else if (f[n] && f[n].integerValue !== undefined) {
 		                            out[n] = Number(f[n].integerValue);
 		                        }
 		                    });
@@ -711,7 +717,14 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                loadFailures = 0;
 		
 		                NAMES.forEach(function (n) {
-		                    if (typeof stored[n] === "number") {
+		                    if (n === "eggEndTimes") {
+		                        if (typeof stored[n] === "string") {
+		                            data[n] = stored[n];
+		                        } else {
+		                            data[n] = DEFAULTS[n];
+		                            dirty[n] = true;
+		                        }
+		                    } else if (typeof stored[n] === "number") {
 		                        data[n] = clean(stored[n]);
 		                    } else {
 		                        data[n] = DEFAULTS[n];     // new player: save the starting amount
@@ -790,7 +803,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		            var fields = {};
 		            names.forEach(function (n) {
-		                fields[n] = { integerValue: String(data[n]) };
+		                if (n === "eggEndTimes") {
+		                    fields[n] = { stringValue: data[n] };
+		                } else {
+		                    fields[n] = { integerValue: String(data[n]) };
+		                }
 		            });
 		
 		            // updateMask means only these fields change, so other data
@@ -845,10 +862,17 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                console.warn("SaveSystem: can't set", name, "(not loaded yet, or unknown name)");
 		                return false;
 		            }
-		            value = clean(value);
-		            if (value === data[name]) return true;
 		
-		            data[name] = value;
+		            if (name === "eggEndTimes") {
+		                // String value, no cleaning
+		                if (value === data[name]) return true;
+		                data[name] = value;
+		            } else {
+		                value = clean(value);
+		                if (value === data[name]) return true;
+		                data[name] = value;
+		            }
+		
 		            dirty[name] = true;
 		            notify(name);
 		            queueSave(SAVE_DELAY);
@@ -938,6 +962,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        // TYPE
 		        this.type1 = data.type1 || "";
 		        this.type2 = data.type2 || "";
+				
+				//Description
+				this.description = data.description || "No description available.";
 		
 		        // BASE STATS
 		        this.baseHp = data.baseHp || 10;
@@ -1167,6 +1194,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        decrease: null
 		    }
 		};
+		//list of monsters
 		var terradon = new Monster({
 		
 		    monsterId: 1,
@@ -1898,8 +1926,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		if (portrait) {
 		
-		    eggNavigation.scaleX = 3;
-		    eggNavigation.scaleY = 3;
+		    eggNavigation.scaleX = 2;
+		    eggNavigation.scaleY = 2;
 		}
 		
 		
@@ -4146,6 +4174,77 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
+		// SAVE EGG TIMERS TO FIRESTORE
+		// --------------------------------------------------
+		
+		function saveEggTimers() {
+		
+		    if (!window.SaveSystem || !window.SaveSystem.isLoaded()) {
+		        return;
+		    }
+		
+		    var endTimes = eggTimers.map(function (secs) {
+		
+		        if (secs <= 0) {
+		            return 0;
+		        }
+		
+		        return Date.now() + secs * 1000;
+		    });
+		
+		    window.SaveSystem.set("eggEndTimes", endTimes.join(","));
+		}
+		
+		
+		// --------------------------------------------------
+		// LOAD EGG TIMERS FROM FIRESTORE
+		// --------------------------------------------------
+		
+		function loadEggTimers() {
+		
+		    if (!window.SaveSystem) {
+		        console.warn("SaveSystem not ready yet");
+		        return;
+		    }
+		
+		    window.SaveSystem.load().then(function () {
+		
+		        var saved = window.SaveSystem.get("eggEndTimes");
+		
+		        if (saved && typeof saved === "string") {
+		
+		            var times = saved.split(",").map(Number);
+		
+		            for (var i = 0; i < EGG_COUNT && i < times.length; i++) {
+		
+		                var endTime = times[i];
+		                var now = Date.now();
+		
+		                if (endTime > now) {
+		
+		                    eggTimers[i] = Math.ceil((endTime - now) / 1000);
+		
+		                } else {
+		
+		                    eggTimers[i] = 0;
+		                }
+		            }
+		        }
+		
+		        updateCountdown();
+		
+		    }).catch(function (err) {
+		        console.error("Failed to load egg timers:", err);
+		    });
+		}
+		
+		// Load timers after a short delay to ensure SaveSystem is ready
+		setTimeout(function () {
+		    loadEggTimers();
+		}, 100);
+		
+		
+		// --------------------------------------------------
 		// UPDATE COUNTDOWN DISPLAY
 		// --------------------------------------------------
 		
@@ -4292,6 +4391,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                );
 		
 		                countdownTimer = null;
+		                saveEggTimers();
 		            }
 		
 		        },
@@ -4816,7 +4916,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791164449125", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791166100732", id:"index_atlas_"}
 	],
 	preloads: []
 };
