@@ -1289,64 +1289,34 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		var EGG_RAISE = 0.15;
 		
-		// How many eggs there are in total
+		// Total number of eggs. There is only one egg on the stage,
+		// so this is just how many "pages" the arrows cycle through.
 		var EGG_COUNT = 5;
 		
-		// Library class name of the egg symbol. Only used to create
-		// any of egg2 - egg5 that are not already on the stage.
-		var EGG_SYMBOL_NAME = "Egg";
 		
 		// --------------------------------------------------
-		// EGGS
+		// EGG SWITCH ANIMATION
 		// --------------------------------------------------
 		
-		// Finds egg, egg2, egg3, egg4, egg5 on the stage.
-		// Any that are missing are created from the Library symbol.
+		// How far the egg slides, as a share of the stage width
+		var EGG_SLIDE_DISTANCE = 0.06;
 		
-		var eggs = [
-		    self.egg
-		];
+		// Milliseconds to fade out, then fade back in
+		var EGG_SLIDE_OUT_TIME = 220;
+		var EGG_SLIDE_IN_TIME  = 320;
 		
-		for (var n = 2; n <= EGG_COUNT; n++) {
+		// true  = the egg slides toward the arrow you pressed, then the
+		//         next egg comes in from the opposite side
+		// false = the egg slides away from the arrow you pressed, and the
+		//         next egg comes in from the arrow's side
+		var EGG_SLIDE_TOWARD_ARROW = true;
 		
-		    var extraEgg = self["egg" + n];
 		
-		    if (!extraEgg && lib[EGG_SYMBOL_NAME]) {
+		// --------------------------------------------------
+		// EGG
+		// --------------------------------------------------
 		
-		        extraEgg = new lib[EGG_SYMBOL_NAME]();
-		
-		        // Same size as the first egg
-		        extraEgg.scaleX = self.egg.scaleX;
-		        extraEgg.scaleY = self.egg.scaleY;
-		
-		        // Keep the same layering as the first egg
-		        self.addChildAt(
-		            extraEgg,
-		            self.getChildIndex(self.egg) + 1
-		        );
-		
-		        self["egg" + n] = extraEgg;
-		    }
-		
-		    if (extraEgg) {
-		
-		        eggs.push(extraEgg);
-		
-		    } else {
-		
-		        console.warn(
-		            "egg" + n + " was not found on the stage and could not be created. " +
-		            "Add an instance named egg" + n + ", or check EGG_SYMBOL_NAME."
-		        );
-		    }
-		}
-		
-		// Put every extra egg in the same spot as the first egg
-		for (var j = 1; j < eggs.length; j++) {
-		
-		    eggs[j].x = eggs[0].x;
-		    eggs[j].y = eggs[0].y;
-		}
+		var egg = self.egg;
 		
 		var currentEggIndex = 0;
 		
@@ -1362,6 +1332,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    // Save its resting position
 		    egg.eggRestY = egg.y;
+		    egg.eggRestX = egg.x;
 		
 		    // Floating variables
 		    egg.floatTime = Math.random() * Math.PI * 2;
@@ -1369,6 +1340,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    // Store original scale
 		    egg.originalScaleX = egg.scaleX;
 		    egg.originalScaleY = egg.scaleY;
+		
+		    // True while the egg is sliding between pages
+		    egg.eggSwitching = false;
 		
 		    // --------------------------------------------------
 		    // HOVER
@@ -1378,7 +1352,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    egg.on("rollover", function () {
 		
-		        if (egg.eggShaking) {
+		        // Hover tweens would cancel the slide, so skip them
+		        if (egg.eggShaking || egg.eggSwitching) {
 		            return;
 		        }
 		
@@ -1393,7 +1368,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    egg.on("rollout", function () {
 		
-		        if (egg.eggShaking) {
+		        if (egg.eggShaking || egg.eggSwitching) {
 		            return;
 		        }
 		
@@ -1413,8 +1388,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    egg.on("click", function () {
 		
-		        // Don't start another shake while already shaking
-		        if (egg.eggShaking) {
+		        // Don't shake while already shaking or sliding
+		        if (egg.eggShaking || egg.eggSwitching) {
 		            return;
 		        }
 		
@@ -1501,16 +1476,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
-		// SETUP ALL EGGS
+		// SETUP EGG
 		// --------------------------------------------------
 		
-		for (var i = 0; i < eggs.length; i++) {
-		
-		    setupEgg(eggs[i]);
-		
-		    // Hide all eggs except the first one
-		    eggs[i].visible = (i === 0);
-		}
+		setupEgg(egg);
 		
 		
 		// --------------------------------------------------
@@ -1522,28 +1491,19 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    var deltaSeconds =
 		        evt.delta / 1000;
 		
-		    for (var i = 0; i < eggs.length; i++) {
-		
-		        var egg = eggs[i];
-		
-		        if (!egg.visible) {
-		            continue;
-		        }
-		
-		        // Don't interfere with the Y position while shaking
-		        if (egg.eggShaking) {
-		            continue;
-		        }
-		
-		        egg.floatTime += deltaSeconds;
-		
-		        egg.y =
-		            egg.eggRestY +
-		            Math.sin(
-		                egg.floatTime * 1.5
-		            ) *
-		            15;
+		    // Don't interfere with the Y position while shaking
+		    if (egg.eggShaking) {
+		        return;
 		    }
+		
+		    egg.floatTime += deltaSeconds;
+		
+		    egg.y =
+		        egg.eggRestY +
+		        Math.sin(
+		            egg.floatTime * 1.5
+		        ) *
+		        15;
 		}
 		
 		createjs.Ticker.addEventListener(
@@ -1588,10 +1548,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// position. It does NOT use the egg's floating position.
 		
 		var navEggX =
-		    self.egg.x;
+		    egg.eggRestX;
 		
 		var navEggY =
-		    self.egg.eggRestY;
+		    egg.eggRestY;
 		
 		
 		// --------------------------------------------------
@@ -1751,13 +1711,55 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
+		// EGG CHANGED
+		// --------------------------------------------------
+		
+		// Runs while the egg is invisible, halfway through the
+		// animation. All five eggs use the same art for now.
+		// Later, change the egg's art, timer, and so on here,
+		// based on the index (0 to 4).
+		//
+		// direction: +1 = right arrow, -1 = left arrow
+		
+		function onEggChanged(index, direction) {
+		
+		    console.log(
+		        "Showing egg",
+		        index + 1,
+		        "of",
+		        EGG_COUNT
+		    );
+		
+		    // Re-layout the monster cards for the new egg
+		    if (self.layoutCards) {
+		
+		        self.layoutCards();
+		    }
+		
+		    // Play the monster cards intro again (they fade and slide in)
+		    // in the direction of the arrow that was pressed
+		    if (self.replayCardsIntro) {
+		
+		        self.replayCardsIntro(direction);
+		    }
+		}
+		
+		
+		// --------------------------------------------------
 		// SWITCH EGG
 		// --------------------------------------------------
 		
-		function switchEgg(newIndex) {
+		// direction: +1 = right arrow, -1 = left arrow
+		
+		function switchEgg(newIndex, direction) {
+		
+		    // Ignore presses while the egg is already sliding
+		    if (egg.eggSwitching) {
+		        return;
+		    }
 		
 		    // Past the last egg: loop back to the first one
-		    if (newIndex >= eggs.length) {
+		    if (newIndex >= EGG_COUNT) {
 		        newIndex = 0;
 		    }
 		
@@ -1769,21 +1771,68 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    currentEggIndex =
 		        newIndex;
 		
+		    updateNavButtons();
 		
-		    // Hide/show eggs
-		    for (var i = 0; i < eggs.length; i++) {
+		    // Mark the new tab in the bottom bar
+		    if (self.setActiveDot) {
 		
-		        eggs[i].visible =
-		            (i === currentEggIndex);
+		        self.setActiveDot(currentEggIndex);
+		    }
+		
+		    egg.eggSwitching = true;
+		
+		
+		    // Fade the monster cards out while the egg slides away
+		    if (self.fadeOutCards) {
+		
+		        self.fadeOutCards(EGG_SLIDE_OUT_TIME);
 		    }
 		
 		
-		    // Update active egg reference
-		    self.egg =
-		        eggs[currentEggIndex];
+		    // Stop any hover tween and undo the hover squish
+		    createjs.Tween.removeTweens(egg);
+		
+		    egg.scaleX = egg.originalScaleX;
+		    egg.scaleY = egg.originalScaleY;
 		
 		
-		    updateNavButtons();
+		    var distance =
+		        lib.properties.width *
+		        EGG_SLIDE_DISTANCE;
+		
+		    // Which way the egg slides out
+		    var exitDirection =
+		        EGG_SLIDE_TOWARD_ARROW
+		            ? direction
+		            : -direction;
+		
+		
+		    // 1. Slide out and fade out
+		    createjs.Tween.get(egg)
+		        .to({
+		            x: egg.eggRestX + exitDirection * distance,
+		            alpha: 0
+		        }, EGG_SLIDE_OUT_TIME, createjs.Ease.quadIn)
+		        .call(function () {
+		
+		            // 2. Swap to the new egg while it can't be seen
+		            onEggChanged(currentEggIndex, direction);
+		
+		            // Start the new egg on the opposite side
+		            egg.x = egg.eggRestX - exitDirection * distance;
+		            egg.alpha = 0;
+		
+		            // 3. Slide in and fade in
+		            createjs.Tween.get(egg)
+		                .to({
+		                    x: egg.eggRestX,
+		                    alpha: 1
+		                }, EGG_SLIDE_IN_TIME, createjs.Ease.quadOut)
+		                .call(function () {
+		
+		                    egg.eggSwitching = false;
+		                });
+		        });
 		}
 		
 		
@@ -1794,7 +1843,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		leftButton.on("click", function () {
 		
 		    switchEgg(
-		        currentEggIndex - 1
+		        currentEggIndex - 1,
+		        -1
 		    );
 		});
 		
@@ -1806,7 +1856,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		rightButton.on("click", function () {
 		
 		    switchEgg(
-		        currentEggIndex + 1
+		        currentEggIndex + 1,
+		        1
 		    );
 		});
 		
@@ -1845,10 +1896,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
-		// INITIAL EGG
+		// INITIAL STATE
 		// --------------------------------------------------
 		
-		switchEgg(0);
+		updateNavButtons();
 		//this is for the players username
 		exportRoot.onUserChange = showName;
 		
@@ -2854,905 +2905,869 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		}
 		(function(self) {
 		
-		    var W = lib.properties.width;
-		    var H = lib.properties.height;
-		    var portrait = H > W;
+		
+		var W = lib.properties.width;
+		var H = lib.properties.height;
+		var portrait = H > W;
 		
 		
-		    // --------------------------------------------------
-		    // SETTINGS
-		    // --------------------------------------------------
+		// --------------------------------------------------
+		// SETTINGS
+		// --------------------------------------------------
 		
-		    var CARD_COUNT    = 5;
-		    var CARD_SIZE     = portrait ? 0.17 : 0.12;
-		    var ROW_SPAN      = portrait ? 0.92 : 0.72;
-		    var GAP_BELOW_EGG = 0.02;
-		    var CARDS_RAISE   = 0.09;
-		    var LIFT          = 0.40;
+		var CARD_COUNT    = 5;
+		var CARD_SIZE     = portrait ? 0.17 : 0.12;
+		var ROW_SPAN      = portrait ? 0.92 : 0.72;
+		var GAP_BELOW_EGG = 0.02;
+		var CARDS_RAISE   = 0.09;
+		var LIFT          = 0.40;
 		
-		    // Move cards higher on desktop only
-		    var DESKTOP_CARDS_RAISE = 0.09;
-		
-		
-		    // --------------------------------------------------
-		    // HOVER
-		    // --------------------------------------------------
-		
-		    var HOVER_LIFT = 0.12;
-		    var HOVER_TIME = 150;
+		var DESKTOP_CARDS_RAISE = 0.09;
 		
 		
-		    // --------------------------------------------------
-		    // TOUCH PRESS
-		    // --------------------------------------------------
+		// --------------------------------------------------
+		// HOVER
+		// --------------------------------------------------
 		
-		    var PRESS_SCALE = 0.88;
-		
-		
-		    // --------------------------------------------------
-		    // CARD INTRO ANIMATION
-		    // --------------------------------------------------
-		
-		    // "left"  = cards start on the right and move left
-		    // "right" = cards start on the left and move right
-		    var INTRO_DIRECTION = "left";
-		
-		    // Distance the cards start from their final position
-		    var INTRO_DISTANCE = 75;
-		
-		    // How long each card takes to move into place
-		    var INTRO_TIME = 550;
-		
-		    // Delay between each card starting
-		    var INTRO_DELAY = 100;
-		
-		    // Fade cards in during the intro
-		    var INTRO_FADE = true;
+		var HOVER_LIFT = 0.12;
+		var HOVER_TIME = 150;
 		
 		
-		    // --------------------------------------------------
-		    // GOLDEN MIDDLE CARD
-		    // --------------------------------------------------
+		// --------------------------------------------------
+		// TOUCH PRESS
+		// --------------------------------------------------
 		
-		    var GOLD_INDEX = Math.floor(CARD_COUNT / 2);
-		
-		    var GOLD = {
-		        hue: -154,
-		        saturation: 50,
-		        brightness: 45
-		    };
+		var PRESS_SCALE = 0.88;
 		
 		
-		    // --------------------------------------------------
-		    // CARD STORAGE
-		    // --------------------------------------------------
+		// --------------------------------------------------
+		// CARD INTRO ANIMATION
+		// --------------------------------------------------
 		
-		    var cards = [];
-		    var alive = true;
-		
-		
-		    // --------------------------------------------------
-		    // HOVER DETECTION
-		    // --------------------------------------------------
-		
-		    var canHover = !!(
-		        window.matchMedia &&
-		        window.matchMedia("(hover: hover)").matches
-		    );
+		// Only used for the first intro, before any arrow is pressed
+		var INTRO_DIRECTION = "left";
+		var INTRO_DISTANCE = 75;
+		var INTRO_TIME = 550;
+		var INTRO_DELAY = 100;
+		var INTRO_FADE = true;
 		
 		
-		    // --------------------------------------------------
-		    // ENABLE TOUCH
-		    // --------------------------------------------------
+		// --------------------------------------------------
+		// GOLDEN MIDDLE CARD
+		// --------------------------------------------------
 		
-		    if (self.stage) {
-		        createjs.Touch.enable(self.stage);
+		var GOLD_INDEX = Math.floor(CARD_COUNT / 2);
+		
+		var GOLD = {
+		    hue: -154,
+		    saturation: 50,
+		    brightness: 45
+		};
+		
+		
+		// --------------------------------------------------
+		// CARD STORAGE
+		// --------------------------------------------------
+		
+		var cards = [];
+		var alive = true;
+		
+		
+		// --------------------------------------------------
+		// HOVER DETECTION
+		// --------------------------------------------------
+		
+		var canHover = !!(
+		    window.matchMedia &&
+		    window.matchMedia("(hover: hover)").matches
+		);
+		
+		
+		// --------------------------------------------------
+		// ENABLE TOUCH
+		// --------------------------------------------------
+		
+		if (self.stage) {
+		    createjs.Touch.enable(self.stage);
+		}
+		
+		
+		// --------------------------------------------------
+		// CREATE CARDS
+		// --------------------------------------------------
+		
+		function createCards() {
+		
+		    if (!lib.MonsterCard) {
+		
+		        console.error(
+		            "MonsterCard not found. Check AS Linkage on the symbol."
+		        );
+		
+		        return;
 		    }
 		
 		
-		    // --------------------------------------------------
-		    // CREATE CARDS
-		    // --------------------------------------------------
-		
-		    function createCards() {
-		
-		        if (!lib.MonsterCard) {
-		
-		            console.error(
-		                "MonsterCard not found. Check AS Linkage on the symbol."
-		            );
-		
-		            return;
-		        }
-		
-		
-		        // Enable mouse rollover only when a mouse is available
-		        if (canHover) {
-		            self.stage.enableMouseOver(20);
-		        }
-		
-		
-		        for (var i = 0; i < CARD_COUNT; i++) {
-		
-		            var card = new lib.MonsterCard();
-		
-		
-		            // --------------------------------------------------
-		            // CARD DATA
-		            // --------------------------------------------------
-		
-		            card.slotIndex = i;
-		            card.monster = null;
-		
-		            // LOCK INPUT UNTIL INTRO IS COMPLETE
-		            card.introDone = false;
-		
-		            // Don't show pointer cursor during intro
-		            card.cursor = null;
-		
-		            card.isPointerInside = false;
-		
-		
-		            // --------------------------------------------------
-		            // DEFAULT LABEL
-		            // --------------------------------------------------
-		
-		            if (card.label) {
-		
-		                if (i === GOLD_INDEX) {
-		                    card.label.text = "Select a legend";
-		                } else {
-		                    card.label.text = "Select a monster";
-		                }
-		            }
-		
-		
-		            // --------------------------------------------------
-		            // CLICK
-		            // --------------------------------------------------
-		
-		            card.addEventListener(
-		                "click",
-		                onCardClick
-		            );
-		
-		
-		            // --------------------------------------------------
-		            // MOUSE HOVER
-		            // --------------------------------------------------
-		
-		            if (canHover) {
-		
-		                card.addEventListener(
-		                    "rollover",
-		                    onCardOver
-		                );
-		
-		                card.addEventListener(
-		                    "rollout",
-		                    onCardOut
-		                );
-		            }
-		
-		
-		            // --------------------------------------------------
-		            // TOUCH / MOUSE PRESS
-		            // --------------------------------------------------
-		
-		            card.addEventListener(
-		                "mousedown",
-		                onCardPress
-		            );
-		
-		            card.addEventListener(
-		                "pressup",
-		                onCardRelease
-		            );
-		
-		
-		            // --------------------------------------------------
-		            // DIRECT TOUCH FALLBACK
-		            // --------------------------------------------------
-		
-		            card.addEventListener(
-		                "touchstart",
-		                onCardPress
-		            );
-		
-		            card.addEventListener(
-		                "touchend",
-		                onCardRelease
-		            );
-		
-		
-		            // --------------------------------------------------
-		            // ADD TO STAGE
-		            // --------------------------------------------------
-		
-		            self.addChild(card);
-		
-		            cards.push(card);
-		        }
+		    if (canHover) {
+		        self.stage.enableMouseOver(20);
 		    }
 		
 		
-		    // --------------------------------------------------
-		    // CARD CLICK
-		    // --------------------------------------------------
+		    for (var i = 0; i < CARD_COUNT; i++) {
 		
-		    function onCardClick(evt) {
-		
-		        var card = evt.currentTarget;
+		        var card = new lib.MonsterCard();
 		
 		
 		        // --------------------------------------------------
-		        // IGNORE INPUT DURING INTRO
+		        // CARD DATA
 		        // --------------------------------------------------
 		
-		        if (!card.introDone) {
-		            return;
+		        card.slotIndex = i;
+		        card.monster = null;
+		        card.introDone = false;
+		        card.cursor = null;
+		        card.isPointerInside = false;
+		
+		
+		        // --------------------------------------------------
+		        // DEFAULT LABEL
+		        // --------------------------------------------------
+		
+		        if (card.label) {
+		
+		            if (i === GOLD_INDEX) {
+		                card.label.text = "Select a legend";
+		            } else {
+		                card.label.text = "Select a monster";
+		            }
 		        }
 		
 		
-		        console.log(
-		            "Card tapped:",
-		            card.slotIndex
+		        // --------------------------------------------------
+		        // CLICK
+		        // --------------------------------------------------
+		
+		        card.addEventListener(
+		            "click",
+		            onCardClick
 		        );
 		
 		
 		        // --------------------------------------------------
-		        // PUT YOUR BUTTON ACTION HERE
+		        // MOUSE HOVER
 		        // --------------------------------------------------
 		
-		        // Example:
-		        //
-		        // console.log("Selected card:", card.slotIndex);
-		        //
-		        // card.monster = terradon;
-		        //
-		        // Do whatever should happen when the card is selected.
-		    }
+		        if (canHover) {
 		
-		
-		    // --------------------------------------------------
-		    // CARD PRESS
-		    // --------------------------------------------------
-		
-		    function onCardPress(evt) {
-		
-		        var card = evt.currentTarget;
-		
-		
-		        // --------------------------------------------------
-		        // IGNORE INPUT DURING INTRO
-		        // --------------------------------------------------
-		
-		        if (!card.introDone) {
-		            return;
-		        }
-		
-		
-		        // Cancel hover movement
-		        createjs.Tween.removeTweens(card);
-		
-		
-		        // Remember normal scale
-		        if (
-		            typeof card.cardScale === "number"
-		        ) {
-		            card.normalScale = card.cardScale;
-		        }
-		
-		
-		        // --------------------------------------------------
-		        // PRESS ANIMATION
-		        // --------------------------------------------------
-		
-		        if (
-		            typeof card.cardScale === "number"
-		        ) {
-		
-		            card.scaleX =
-		                card.cardScale *
-		                PRESS_SCALE;
-		
-		            card.scaleY =
-		                card.cardScale *
-		                PRESS_SCALE;
-		        }
-		    }
-		
-		
-		    // --------------------------------------------------
-		    // CARD RELEASE
-		    // --------------------------------------------------
-		
-		    function onCardRelease(evt) {
-		
-		        var card = evt.currentTarget;
-		
-		
-		        // --------------------------------------------------
-		        // IGNORE INPUT DURING INTRO
-		        // --------------------------------------------------
-		
-		        if (!card.introDone) {
-		            return;
-		        }
-		
-		
-		        // --------------------------------------------------
-		        // RESTORE NORMAL SCALE
-		        // --------------------------------------------------
-		
-		        if (
-		            typeof card.cardScale === "number"
-		        ) {
-		
-		            card.scaleX =
-		                card.cardScale;
-		
-		            card.scaleY =
-		                card.cardScale;
-		        }
-		
-		
-		        // --------------------------------------------------
-		        // RESTORE HOVER POSITION
-		        // --------------------------------------------------
-		
-		        if (
-		            canHover &&
-		            card.isPointerInside
-		        ) {
-		
-		            moveCard(
-		                card,
-		                true
+		            card.addEventListener(
+		                "rollover",
+		                onCardOver
 		            );
 		
-		        } else {
-		
-		            moveCard(
-		                card,
-		                false
+		            card.addEventListener(
+		                "rollout",
+		                onCardOut
 		            );
 		        }
+		
+		
+		        // --------------------------------------------------
+		        // PRESS
+		        // --------------------------------------------------
+		
+		        card.addEventListener(
+		            "mousedown",
+		            onCardPress
+		        );
+		
+		        card.addEventListener(
+		            "pressup",
+		            onCardRelease
+		        );
+		
+		
+		        // --------------------------------------------------
+		        // TOUCH
+		        // --------------------------------------------------
+		
+		        card.addEventListener(
+		            "touchstart",
+		            onCardPress
+		        );
+		
+		        card.addEventListener(
+		            "touchend",
+		            onCardRelease
+		        );
+		
+		
+		        // --------------------------------------------------
+		        // ADD TO STAGE
+		        // --------------------------------------------------
+		
+		        self.addChild(card);
+		
+		        cards.push(card);
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// CARD CLICK
+		// --------------------------------------------------
+		
+		function onCardClick(evt) {
+		
+		    var card = evt.currentTarget;
+		
+		
+		    if (!card.introDone) {
+		        return;
 		    }
 		
 		
-		    // --------------------------------------------------
-		    // HOVER ON
-		    // --------------------------------------------------
-		
-		    function onCardOver(evt) {
-		
-		        var card = evt.currentTarget;
+		    console.log(
+		        "Card tapped:",
+		        card.slotIndex
+		    );
+		}
 		
 		
-		        // --------------------------------------------------
-		        // IGNORE INPUT DURING INTRO
-		        // --------------------------------------------------
+		// --------------------------------------------------
+		// CARD PRESS
+		// --------------------------------------------------
 		
-		        if (!card.introDone) {
-		            return;
-		        }
+		function onCardPress(evt) {
+		
+		    var card = evt.currentTarget;
 		
 		
-		        card.isPointerInside = true;
+		    if (!card.introDone) {
+		        return;
+		    }
+		
+		
+		    createjs.Tween.removeTweens(card);
+		
+		
+		    if (typeof card.cardScale === "number") {
+		
+		        card.normalScale =
+		            card.cardScale;
+		    }
+		
+		
+		    if (typeof card.cardScale === "number") {
+		
+		        card.scaleX =
+		            card.cardScale *
+		            PRESS_SCALE;
+		
+		        card.scaleY =
+		            card.cardScale *
+		            PRESS_SCALE;
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// CARD RELEASE
+		// --------------------------------------------------
+		
+		function onCardRelease(evt) {
+		
+		    var card = evt.currentTarget;
+		
+		
+		    if (!card.introDone) {
+		        return;
+		    }
+		
+		
+		    if (typeof card.cardScale === "number") {
+		
+		        card.scaleX =
+		            card.cardScale;
+		
+		        card.scaleY =
+		            card.cardScale;
+		    }
+		
+		
+		    if (
+		        canHover &&
+		        card.isPointerInside
+		    ) {
 		
 		        moveCard(
 		            card,
 		            true
 		        );
-		    }
 		
-		
-		    // --------------------------------------------------
-		    // HOVER OFF
-		    // --------------------------------------------------
-		
-		    function onCardOut(evt) {
-		
-		        var card = evt.currentTarget;
-		
-		
-		        // --------------------------------------------------
-		        // IGNORE INPUT DURING INTRO
-		        // --------------------------------------------------
-		
-		        if (!card.introDone) {
-		            return;
-		        }
-		
-		
-		        card.isPointerInside = false;
+		    } else {
 		
 		        moveCard(
 		            card,
 		            false
 		        );
 		    }
+		}
 		
 		
-		    // --------------------------------------------------
-		    // HOVER TWEEN
-		    // --------------------------------------------------
+		// --------------------------------------------------
+		// HOVER ON
+		// --------------------------------------------------
 		
-		    function moveCard(card, up) {
+		function onCardOver(evt) {
 		
-		        // Extra safety check
-		        if (!card.introDone) {
-		            return;
-		        }
+		    var card = evt.currentTarget;
 		
 		
-		        var targetY =
-		            up
-		                ? card.homeY - card.hoverDist
-		                : card.homeY;
-		
-		
-		        createjs.Tween.get(
-		            card,
-		            {
-		                override: true
-		            }
-		        )
-		        .to(
-		            {
-		                y: targetY
-		            },
-		            up
-		                ? HOVER_TIME
-		                : HOVER_TIME + 50,
-		            createjs.Ease.quadOut
-		        );
+		    if (!card.introDone) {
+		        return;
 		    }
 		
 		
-		    // --------------------------------------------------
-		    // LAYOUT CARDS
-		    // --------------------------------------------------
+		    card.isPointerInside = true;
 		
-		    function layoutCards() {
+		    moveCard(
+		        card,
+		        true
+		    );
+		}
 		
-		        var n = cards.length;
+		
+		// --------------------------------------------------
+		// HOVER OFF
+		// --------------------------------------------------
+		
+		function onCardOut(evt) {
+		
+		    var card = evt.currentTarget;
 		
 		
-		        if (!n) {
-		            return;
+		    if (!card.introDone) {
+		        return;
+		    }
+		
+		
+		    card.isPointerInside = false;
+		
+		    moveCard(
+		        card,
+		        false
+		    );
+		}
+		
+		
+		// --------------------------------------------------
+		// HOVER TWEEN
+		// --------------------------------------------------
+		
+		function moveCard(card, up) {
+		
+		    if (!card.introDone) {
+		        return;
+		    }
+		
+		
+		    var targetY =
+		        up
+		            ? card.homeY - card.hoverDist
+		            : card.homeY;
+		
+		
+		    createjs.Tween.get(
+		        card,
+		        {
+		            override: true
 		        }
+		    )
+		    .to(
+		        {
+		            y: targetY
+		        },
+		        up
+		            ? HOVER_TIME
+		            : HOVER_TIME + 50,
+		        createjs.Ease.quadOut
+		    );
+		}
 		
 		
-		        var b =
-		            cards[0].nominalBounds;
+		// --------------------------------------------------
+		// LAYOUT CARDS
+		// --------------------------------------------------
+		
+		function layoutCards() {
+		
+		    var n = cards.length;
 		
 		
-		        var cardW =
-		            W * CARD_SIZE;
+		    if (!n) {
+		        return;
+		    }
 		
 		
-		        var scale =
-		            cardW / b.width;
+		    var b =
+		        cards[0].nominalBounds;
 		
 		
-		        var cardH =
-		            b.height * scale;
+		    var cardW =
+		        W * CARD_SIZE;
 		
 		
-		        // --------------------------------------------------
-		        // EGG POSITION
-		        // --------------------------------------------------
+		    var scale =
+		        cardW / b.width;
 		
-		        var activeEgg = self.egg;
 		
-		        var eggX = activeEgg.x;
+		    var cardH =
+		        b.height * scale;
 		
-		        // Use the egg's RESTING height, never its bobbing height
-		        var restY =
-		            (typeof activeEgg.eggRestY === "number")
-		                ? activeEgg.eggRestY
-		                : (typeof self.eggRestY === "number")
-		                    ? self.eggRestY
-		                    : activeEgg.y;
 		
-		        var eb = activeEgg.nominalBounds;
+		    // --------------------------------------------------
+		    // EGG POSITION
+		    // --------------------------------------------------
 		
-		        // Original scale, so a hover squish can't change the result
-		        var eggScaleY = activeEgg.originalScaleY || activeEgg.scaleY;
+		    var activeEgg = self.egg;
 		
-		        var eggBottom =
-		            restY +
+		    // Use the egg's RESTING x, never its sliding x
+		    var eggX =
+		        activeEgg.eggRestX;
+		
+		
+		    var restY =
+		        (typeof activeEgg.eggRestY === "number")
+		            ? activeEgg.eggRestY
+		            : (typeof self.eggRestY === "number")
+		                ? self.eggRestY
+		                : activeEgg.y;
+		
+		
+		    var eb =
+		        activeEgg.nominalBounds;
+		
+		
+		    var eggScaleY =
+		        activeEgg.originalScaleY ||
+		        activeEgg.scaleY;
+		
+		
+		    var eggBottom =
+		        restY +
+		        (
+		            eb
+		                ? (eb.y + eb.height) * eggScaleY
+		                : 130
+		        );
+		
+		
+		    // --------------------------------------------------
+		    // DESKTOP CARD OFFSET
+		    // --------------------------------------------------
+		
+		    var desktopRaise =
+		        portrait
+		            ? 0
+		            : H * DESKTOP_CARDS_RAISE;
+		
+		
+		    // --------------------------------------------------
+		    // CARD BASE POSITION
+		    // --------------------------------------------------
+		
+		    var baseY =
+		        Math.min(
+		            eggBottom +
+		            H *
 		            (
-		                eb
-		                    ? (eb.y + eb.height) * eggScaleY
-		                    : 130
-		            );
+		                GAP_BELOW_EGG -
+		                CARDS_RAISE
+		            ) +
+		            cardH / 2 -
+		            desktopRaise,
+		
+		            H -
+		            cardH / 2 -
+		            20
+		        );
+		
+		
+		    var lift =
+		        cardH *
+		        LIFT;
+		
+		
+		    // --------------------------------------------------
+		    // CENTERED ROW
+		    // --------------------------------------------------
+		
+		    var rowWidth =
+		        W * ROW_SPAN;
+		
+		
+		    var leftX =
+		        eggX -
+		        rowWidth / 2 +
+		        cardW / 2;
+		
+		
+		    var rightX =
+		        eggX +
+		        rowWidth / 2 -
+		        cardW / 2;
+		
+		
+		    // --------------------------------------------------
+		    // POSITION EACH CARD
+		    // --------------------------------------------------
+		
+		    for (
+		        var i = 0;
+		        i < n;
+		        i++
+		    ) {
+		
+		        var c =
+		            cards[i];
 		
 		
 		        // --------------------------------------------------
-		        // DESKTOP CARD OFFSET
+		        // STORE NORMAL SCALE
 		        // --------------------------------------------------
 		
-		        var desktopRaise =
-		            portrait
-		                ? 0
-		                : H * DESKTOP_CARDS_RAISE;
+		        c.cardScale =
+		            scale;
+		
+		
+		        c.scaleX =
+		            scale;
+		
+		        c.scaleY =
+		            scale;
 		
 		
 		        // --------------------------------------------------
-		        // CARD BASE POSITION
+		        // CENTER REGISTRATION POINT
 		        // --------------------------------------------------
 		
-		        var baseY =
-		            Math.min(
-		                eggBottom +
-		                H *
-		                (
-		                    GAP_BELOW_EGG -
-		                    CARDS_RAISE
-		                ) +
-		                cardH / 2 -
-		                desktopRaise,
-		
-		                H -
-		                cardH / 2 -
-		                20
-		            );
+		        c.regX =
+		            b.x +
+		            b.width / 2;
 		
 		
-		        var lift =
+		        c.regY =
+		            b.y +
+		            b.height / 2;
+		
+		
+		        // --------------------------------------------------
+		        // EVENLY DISTRIBUTE CARDS
+		        // --------------------------------------------------
+		
+		        var normalized =
+		            n > 1
+		                ? i / (n - 1)
+		                : 0.5;
+		
+		
+		        c.x =
+		            leftX +
+		            (
+		                rightX -
+		                leftX
+		            ) *
+		            normalized;
+		
+		
+		        // --------------------------------------------------
+		        // RAISE MIDDLE CARDS
+		        // --------------------------------------------------
+		
+		        var centerOffset =
+		            n > 1
+		                ? (
+		                    i -
+		                    (n - 1) / 2
+		                ) /
+		                ((n - 1) / 2)
+		
+		                : 0;
+		
+		
+		        c.y =
+		            baseY -
+		            lift *
+		            centerOffset *
+		            centerOffset;
+		
+		
+		        // --------------------------------------------------
+		        // STORE HOME POSITION
+		        // --------------------------------------------------
+		
+		        c.homeX =
+		            c.x;
+		
+		        c.homeY =
+		            c.y;
+		
+		
+		        c.hoverDist =
 		            cardH *
-		            LIFT;
-		
-		
-		        var half =
-		            (
-		                W *
-		                ROW_SPAN -
-		                cardW
-		            ) / 2;
-		
-		
-		        var mid =
-		            (n - 1) / 2;
+		            HOVER_LIFT;
 		
 		
 		        // --------------------------------------------------
-		        // POSITION EACH CARD
+		        // HIT AREA
 		        // --------------------------------------------------
 		
-		        for (
-		            var i = 0;
-		            i < n;
-		            i++
-		        ) {
-		
-		            var t =
-		                mid
-		                    ? (
-		                        i -
-		                        mid
-		                    ) /
-		                    mid
-		
-		                    : 0;
+		        var hit =
+		            new createjs.Shape();
 		
 		
-		            var c =
-		                cards[i];
-		
-		
-		            // --------------------------------------------------
-		            // STORE NORMAL SCALE
-		            // --------------------------------------------------
-		
-		            c.cardScale =
-		                scale;
-		
-		
-		            c.scaleX =
-		                scale;
-		
-		            c.scaleY =
-		                scale;
-		
-		
-		            // --------------------------------------------------
-		            // CENTER REGISTRATION POINT
-		            // --------------------------------------------------
-		
-		            c.regX =
-		                b.x +
-		                b.width / 2;
-		
-		
-		            c.regY =
-		                b.y +
-		                b.height / 2;
-		
-		
-		            // --------------------------------------------------
-		            // POSITION
-		            // --------------------------------------------------
-		
-		            c.x =
-		                eggX +
-		                t *
-		                half;
-		
-		
-		            c.y =
-		                baseY -
-		                lift *
-		                t *
-		                t;
-		
-		
-		            // --------------------------------------------------
-		            // STORE HOME POSITION
-		            // --------------------------------------------------
-		
-		            c.homeX =
-		                c.x;
-		
-		            c.homeY =
-		                c.y;
-		
-		
-		            c.hoverDist =
-		                cardH *
-		                HOVER_LIFT;
-		
-		
-		            // --------------------------------------------------
-		            // HIT AREA
-		            // --------------------------------------------------
-		
-		            var hit =
-		                new createjs.Shape();
-		
-		
-		            hit.graphics
-		                .beginFill("#000")
-		                .drawRect(
-		                    b.x,
-		                    b.y,
-		                    b.width,
-		                    b.height +
-		                    c.hoverDist /
-		                    scale
-		                );
-		
-		
-		            c.hitArea =
-		                hit;
-		
-		
-		            // --------------------------------------------------
-		            // GOLD MIDDLE CARD
-		            // --------------------------------------------------
-		
-		            if (
-		                i === GOLD_INDEX &&
-		                createjs.ColorMatrixFilter
-		            ) {
-		
-		                var m =
-		                    new createjs.ColorMatrix()
-		                        .adjustColor(
-		                            GOLD.brightness,
-		                            0,
-		                            GOLD.saturation,
-		                            GOLD.hue
-		                        );
-		
-		
-		                c.filters = [
-		                    new createjs.ColorMatrixFilter(m)
-		                ];
-		            }
-		
-		
-		            // --------------------------------------------------
-		            // CACHE
-		            // --------------------------------------------------
-		
-		            c.cache(
+		        hit.graphics
+		            .beginFill("#000")
+		            .drawRect(
 		                b.x,
 		                b.y,
 		                b.width,
-		                b.height,
-		                scale * 2
+		                b.height +
+		                c.hoverDist /
+		                scale
 		            );
-		        }
-		    }
 		
 		
-		    // --------------------------------------------------
-		    // CARD INTRO ANIMATION
-		    // --------------------------------------------------
-		
-		    function animateCardsIn() {
-		
-		        if (!cards.length) {
-		            return;
-		        }
+		        c.hitArea =
+		            hit;
 		
 		
-		        for (
-		            var i = 0;
-		            i < cards.length;
-		            i++
+		        // --------------------------------------------------
+		        // GOLD MIDDLE CARD
+		        // --------------------------------------------------
+		
+		        if (
+		            i === GOLD_INDEX &&
+		            createjs.ColorMatrixFilter
 		        ) {
 		
-		            var card =
-		                cards[i];
+		            var m =
+		                new createjs.ColorMatrix()
+		                    .adjustColor(
+		                        GOLD.brightness,
+		                        0,
+		                        GOLD.saturation,
+		                        GOLD.hue
+		                    );
 		
 		
-		            // --------------------------------------------------
-		            // LOCK CARD INPUT
-		            // --------------------------------------------------
-		
-		            card.introDone = false;
-		            card.cursor = null;
-		
-		
-		            var targetX =
-		                card.homeX;
-		
-		
-		            var targetY =
-		                card.homeY;
-		
-		
-		            var startX;
-		
-		
-		            // --------------------------------------------------
-		            // START POSITION
-		            // --------------------------------------------------
-		
-		            if (
-		                INTRO_DIRECTION === "right"
-		            ) {
-		
-		                // Start on the left
-		                // and move right
-		
-		                startX =
-		                    targetX -
-		                    INTRO_DISTANCE;
-		
-		            } else {
-		
-		                // Start on the right
-		                // and move left
-		
-		                startX =
-		                    targetX +
-		                    INTRO_DISTANCE;
-		            }
-		
-		
-		            card.x =
-		                startX;
-		
-		
-		            card.y =
-		                targetY;
-		
-		
-		            // --------------------------------------------------
-		            // FADE
-		            // --------------------------------------------------
-		
-		            if (INTRO_FADE) {
-		
-		                card.alpha = 0;
-		
-		            } else {
-		
-		                card.alpha = 1;
-		            }
-		
-		
-		            // --------------------------------------------------
-		            // REMOVE EXISTING TWEENS
-		            // --------------------------------------------------
-		
-		            createjs.Tween.removeTweens(card);
-		
-		
-		            // --------------------------------------------------
-		            // STAGGER DELAY
-		            // --------------------------------------------------
-		
-		            var delay =
-		                i *
-		                INTRO_DELAY;
-		
-		
-		            // --------------------------------------------------
-		            // TWEEN PROPERTIES
-		            // --------------------------------------------------
-		
-		            var tweenProperties = {
-		                x: targetX
-		            };
-		
-		
-		            if (INTRO_FADE) {
-		
-		                tweenProperties.alpha = 1;
-		            }
-		
-		
-		            // --------------------------------------------------
-		            // SLIDE + OVERSHOOT
-		            // --------------------------------------------------
-		
-		            createjs.Tween.get(card)
-		                .wait(delay)
-		                .to(
-		                    tweenProperties,
-		                    INTRO_TIME,
-		                    createjs.Ease.backOut
-		                )
-		                .call(
-		                    function(card) {
-		
-		                        // --------------------------------------------------
-		                        // INTRO COMPLETE
-		                        // --------------------------------------------------
-		
-		                        card.introDone = true;
-		                        card.cursor = "pointer";
-		
-		                    },
-		                    [card]
-		                );
+		            c.filters = [
+		                new createjs.ColorMatrixFilter(m)
+		            ];
 		        }
+		
+		
+		        // --------------------------------------------------
+		        // CACHE
+		        // --------------------------------------------------
+		
+		        c.cache(
+		            b.x,
+		            b.y,
+		            b.width,
+		            b.height,
+		            scale * 2
+		        );
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// CARD INTRO ANIMATION
+		// --------------------------------------------------
+		
+		// dir: +1 = cards slide right, -1 = cards slide left
+		// If no direction is given, INTRO_DIRECTION is used
+		
+		function animateCardsIn(dir) {
+		
+		    if (!cards.length) {
+		        return;
 		    }
 		
 		
-		    // --------------------------------------------------
-		    // WAIT ONE TICK
-		    // --------------------------------------------------
-		
-		    function buildOnce() {
-		
-		        createjs.Ticker.removeEventListener(
-		            "tick",
-		            buildOnce
+		    dir =
+		        dir ||
+		        (
+		            INTRO_DIRECTION === "right"
+		                ? 1
+		                : -1
 		        );
 		
 		
-		        if (!alive) {
-		            return;
+		    for (
+		        var i = 0;
+		        i < cards.length;
+		        i++
+		    ) {
+		
+		        var card =
+		            cards[i];
+		
+		
+		        card.introDone = false;
+		        card.cursor = null;
+		
+		
+		        var targetX =
+		            card.homeX;
+		
+		
+		        var targetY =
+		            card.homeY;
+		
+		
+		        var startX =
+		            targetX -
+		            dir *
+		            INTRO_DISTANCE;
+		
+		
+		        card.x =
+		            startX;
+		
+		
+		        card.y =
+		            targetY;
+		
+		
+		        if (INTRO_FADE) {
+		
+		            card.alpha = 0;
+		
+		        } else {
+		
+		            card.alpha = 1;
 		        }
 		
 		
-		        createCards();
+		        createjs.Tween.removeTweens(card);
 		
-		        layoutCards();
 		
-		        animateCardsIn();
+		        var delay =
+		            i *
+		            INTRO_DELAY;
+		
+		
+		        var tweenProperties = {
+		            x: targetX
+		        };
+		
+		
+		        if (INTRO_FADE) {
+		
+		            tweenProperties.alpha = 1;
+		        }
+		
+		
+		        createjs.Tween.get(card)
+		            .wait(delay)
+		            .to(
+		                tweenProperties,
+		                INTRO_TIME,
+		                createjs.Ease.backOut
+		            )
+		            .call(
+		                function(card) {
+		
+		                    card.introDone = true;
+		                    card.cursor = "pointer";
+		
+		                },
+		                [card]
+		            );
 		    }
+		}
 		
 		
-		    createjs.Ticker.addEventListener(
+		// --------------------------------------------------
+		// WAIT ONE TICK
+		// --------------------------------------------------
+		
+		function buildOnce() {
+		
+		    createjs.Ticker.removeEventListener(
 		        "tick",
 		        buildOnce
 		    );
 		
 		
-		    // --------------------------------------------------
-		    // CLEANUP
-		    // --------------------------------------------------
+		    if (!alive) {
+		        return;
+		    }
 		
-		    self.cleanupCards = function() {
+		
+		    createCards();
+		
+		    layoutCards();
+		
+		    animateCardsIn();
+		}
+		
+		
+		createjs.Ticker.addEventListener(
+		    "tick",
+		    buildOnce
+		);
+		
+		
+		// --------------------------------------------------
+		// EXPOSE TO THE EGG SCRIPT
+		// --------------------------------------------------
+		
+		self.layoutCards =
+		    layoutCards;
+		
+		
+		self.replayCardsIntro =
+		    animateCardsIn;
+		
+		
+		self.fadeOutCards =
+		    function(time) {
+		
+		        cards.forEach(
+		            function(c) {
+		
+		                c.introDone = false;
+		                c.cursor = null;
+		                c.isPointerInside = false;
+		
+		
+		                createjs.Tween.get(
+		                    c,
+		                    {
+		                        override: true
+		                    }
+		                )
+		                .to(
+		                    {
+		                        alpha: 0
+		                    },
+		                    time,
+		                    createjs.Ease.quadOut
+		                );
+		            }
+		        );
+		    };
+		
+		
+		// --------------------------------------------------
+		// CLEANUP
+		// --------------------------------------------------
+		
+		self.cleanupCards =
+		    function() {
 		
 		        alive = false;
 		
@@ -4047,6 +4062,40 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
+		// DOT STYLE
+		// --------------------------------------------------
+		
+		// Active   = white with blue glow
+		// Inactive = dark blue with blue outline
+		
+		function styleDot(dot, active) {
+		
+		    dot.graphics.clear();
+		
+		    if (active) {
+		
+		        dot.graphics
+		            .beginFill("#FFFFFF")
+		            .drawCircle(0, 0, DOT_RADIUS);
+		
+		        dot.shadow = new createjs.Shadow("#2496FF", 0, 0, 8);
+		        dot.alpha = 1;
+		
+		    } else {
+		
+		        dot.graphics
+		            .setStrokeStyle(1.5)
+		            .beginStroke("#2789C9")
+		            .beginFill("#123B5C")
+		            .drawCircle(0, 0, DOT_RADIUS);
+		
+		        dot.shadow = null;
+		        dot.alpha = 0.85;
+		    }
+		}
+		
+		
+		// --------------------------------------------------
 		// CREATE DOTS
 		// --------------------------------------------------
 		
@@ -4054,69 +4103,30 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    var dot = new createjs.Shape();
 		
-		
-		    // --------------------------------------------------
-		    // FIRST DOT
-		    // WHITE WITH BLUE GLOW
-		    // --------------------------------------------------
-		
-		    if (i === 0) {
-		
-		        dot.graphics
-		            .beginFill("#FFFFFF")
-		            .drawCircle(
-		                0,
-		                0,
-		                DOT_RADIUS
-		            );
-		
-		
-		        // Blue glow
-		        dot.shadow = new createjs.Shadow(
-		            "#2496FF",
-		            0,
-		            0,
-		            8
-		        );
-		
-		    } else {
-		
-		        // --------------------------------------------------
-		        // OTHER DOTS
-		        // DARK BLUE WITH BLUE OUTLINE
-		        // --------------------------------------------------
-		
-		        dot.graphics
-		            .setStrokeStyle(1.5)
-		            .beginStroke("#2789C9")
-		            .beginFill("#123B5C")
-		            .drawCircle(
-		                0,
-		                0,
-		                DOT_RADIUS
-		            );
-		    }
-		
-		
-		    // First dot stays fully visible
-		    if (i === 0) {
-		
-		        dot.alpha = 1;
-		
-		    } else {
-		
-		        dot.alpha = 0.85;
-		    }
-		
+		    styleDot(dot, i === 0);
 		
 		    // Desktop spacing
 		    dot.x =
 		        (i - (DOT_COUNT - 1) / 2) *
 		        DOT_SPACING;
 		
-		
 		    pageDots.addChild(dot);
 		}
+		
+		
+		// --------------------------------------------------
+		// SET ACTIVE DOT
+		// --------------------------------------------------
+		
+		// Called by the egg switching script
+		
+		self.setActiveDot = function (index) {
+		
+		    for (var j = 0; j < DOT_COUNT; j++) {
+		
+		        styleDot(pageDots.getChildAt(j), j === index);
+		    }
+		};
 		
 		
 		// --------------------------------------------------
@@ -4779,7 +4789,7 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791160723308", id:"index_atlas_"}
+		{src:"images/index_atlas_.png?1791162396801", id:"index_atlas_"}
 	],
 	preloads: []
 };
