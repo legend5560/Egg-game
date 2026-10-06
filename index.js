@@ -3,8 +3,8 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"index_atlas_", frames: [[994,0,992,870],[0,0,992,870],[988,872,980,826],[0,872,986,832]]},
-		{name:"index_atlas_2", frames: [[470,1038,398,398],[928,655,4,12],[900,683,29,21],[944,0,939,519],[0,0,942,522],[944,521,894,540],[710,625,188,188],[514,911,84,117],[514,625,194,194],[870,975,51,51],[470,1438,894,148],[870,1063,894,20],[870,911,62,62],[0,1038,468,468],[900,655,26,26],[900,625,28,28],[514,524,414,99],[0,1508,414,7],[514,821,414,88],[870,1028,46,29],[0,524,512,512]]}
+		{name:"index_atlas_", frames: [[0,0,992,870],[994,0,992,870],[988,872,980,826],[0,872,986,832]]},
+		{name:"index_atlas_2", frames: [[514,524,398,398],[2035,0,4,12],[1915,119,29,21],[944,0,939,519],[0,0,942,522],[944,521,894,540],[1840,717,188,188],[1885,0,84,117],[1840,521,194,194],[1971,64,51,51],[984,1063,894,148],[984,1303,894,20],[1971,0,62,62],[514,1063,468,468],[2019,117,26,26],[1885,119,28,28],[514,924,414,99],[514,1025,414,7],[984,1213,414,88],[1971,117,46,29],[0,524,512,512],[0,1038,512,512]]}
 ];
 
 
@@ -131,7 +131,7 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_3 = function() {
+(lib.CachedTexturedBitmap_25 = function() {
 	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(13);
 }).prototype = p = new cjs.Sprite();
@@ -183,6 +183,13 @@ lib.ssMetadata = [
 (lib.eggsketches2 = function() {
 	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(20);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.terratortleegg = function() {
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(21);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -345,16 +352,29 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 
 (lib.eggs = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
+	this.initialize(mode,startPosition,loop,{"default":0,Terratortle:3});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		this.stop();
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(4));
 
 	// Layer_1
 	this.instance = new lib.eggsketches2();
 	this.instance.parent = this;
 	this.instance.setTransform(-22,-13,1.0873,1.0873);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+	this.instance_1 = new lib.terratortleegg();
+	this.instance_1.parent = this;
+	this.instance_1.setTransform(-22,-13,1.0873,1.0873);
 
-}).prototype = getMCSymbolPrototype(lib.eggs, new cjs.Rectangle(-22,-13,556.7,556.7), null);
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance}]}).to({state:[]},2).to({state:[{t:this.instance_1}]},1).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 
 
 (lib.Cryst = function(mode,startPosition,loop) {
@@ -386,6 +406,26 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 (lib.MonsterContainer = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
+	// Layer_3 (mask)
+	var mask = new cjs.Shape();
+	mask._off = true;
+	mask.graphics.p("Egi8AVSMAAAgqXMBIhAAAMAAAAqXg");
+	mask.setTransform(240.475,136.2293);
+
+	// Layer_2
+	this.egg = new lib.eggs();
+	this.egg.name = "egg";
+	this.egg.parent = this;
+	this.egg.setTransform(247.05,193,0.7556,0.7556,0,0,0,256.4,265.3);
+
+	var maskedShapeInstanceList = [this.egg];
+
+	for(var shapedInstanceItr = 0; shapedInstanceItr < maskedShapeInstanceList.length; shapedInstanceItr++) {
+		maskedShapeInstanceList[shapedInstanceItr].mask = mask;
+	}
+
+	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1));
+
 	// text
 	this.guarding = new cjs.Text("guarding * slot 2", "italic bold 50px 'DM Sans 24pt ExtraBold'", "#8EAFBF");
 	this.guarding.name = "guarding";
@@ -395,10 +435,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.guarding.parent = this;
 	this.guarding.setTransform(246.499,386.95,0.3938,0.3938);
 
-	this.MonsterName = new cjs.Text("Monster name", "50px 'Marcellus'", "#FFFFFF");
+	this.MonsterName = new cjs.Text("Monster name", "60px 'Marcellus'", "#FFFFFF");
 	this.MonsterName.name = "MonsterName";
 	this.MonsterName.textAlign = "center";
-	this.MonsterName.lineHeight = 65;
+	this.MonsterName.lineHeight = 77;
 	this.MonsterName.lineWidth = 751;
 	this.MonsterName.parent = this;
 	this.MonsterName.setTransform(248.0491,328.3,0.6434,0.6434);
@@ -444,18 +484,19 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_2
-	this.instance = new lib.eggs();
-	this.instance.parent = this;
-	this.instance.setTransform(114.85,88,0.7021,0.7021,0,0,0,255.7,255.9);
+	this.egg_shells = new lib.eggs();
+	this.egg_shells.name = "egg_shells";
+	this.egg_shells.parent = this;
+	this.egg_shells.setTransform(114.85,88,0.7021,0.7021,0,0,0,255.7,255.9);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.egg_shells).wait(1));
 
 	// Layer_1
-	this.instance_1 = new lib.CachedTexturedBitmap_3();
-	this.instance_1.parent = this;
-	this.instance_1.setTransform(-0.5,-0.5,0.5,0.5);
+	this.instance = new lib.CachedTexturedBitmap_25();
+	this.instance.parent = this;
+	this.instance.setTransform(-0.5,-0.5,0.5,0.5);
 
-	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
 
 }).prototype = getMCSymbolPrototype(lib.egg, new cjs.Rectangle(-80.1,-100.8,390.9,390.90000000000003), null);
 
@@ -466,6 +507,575 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 
 	// timeline functions:
 	this.frame_0 = function() {
+		//localStorage.removeItem("eggGameSave");
+		//location.reload();
+		// --------------------------------------------------
+		// SAVE SYSTEM
+		// --------------------------------------------------
+		
+		// Only define it once, even if frame 1 ever runs again
+		if (!window.SaveSystem) {
+		
+		    window.SaveSystem = (function () {
+		
+		        // ---------- Settings ----------
+		        var PROJECT_ID = "alister-1e745";
+		        var DOC_BASE =
+		            "https://firestore.googleapis.com/v1/projects/" + PROJECT_ID +
+		            "/databases/(default)/documents/players/";
+		        var SAVE_PATH = "/saves/main";
+		
+		        var SECRET     = "q7Xv2LmK9tRb4WzN8cPd3HfYs6JgUa1EoTn5MiVq0XrBz7CwA4kDe9Gy2Su8Fh3L";   // pick once, never change
+		        var LOCAL_KEY  = "eggGameSave";
+		        var SAVE_DELAY = 1000;              // save 1 second after the last change
+		        var WAIT_DELAY = 5000;              // waiting for sign-in or encryption
+		        var BASE_RETRY = 5000;              // first retry after a failed request
+		        var MAX_RETRY  = 5 * 60 * 1000;     // never wait more than 5 minutes between retries
+		
+		        // Starter eggs for a brand-new player (monsterId of each species).
+		        // 4 = Terratortle, so [4, 4] is two Terratortle eggs.
+		        var STARTER_EGGS = [4, 4];
+		
+		        // How many egg slots the player has
+		        var SLOT_COUNT = 5;
+		
+		        // Starting values for a brand-new player.
+		        // Add a key here to store new data (number, string or array).
+		        var DEFAULTS = {
+		            starGems: 0,
+		            cryst: 0,
+		            eggEndTimes: "0,0,0,0,0",
+		            eggLevel: 1,
+		            eggs: [],               // owned eggs, saved as species monsterIds
+		            starterGiven: 0,        // 1 once the starter eggs were handed out
+		            discovered: [],         // every egg species the player has ever had (monsterIds)
+		            slots: [0, 0, 0, 0, 0]  // the egg in each slot (species monsterId, 0 = empty)
+		        };
+		        var NAMES = Object.keys(DEFAULTS);
+		
+		        // ---------- State ----------
+		        var data = {};
+		        var blob = null;             // latest encrypted save, always ready to send
+		        var sealSeq = 0;
+		        var dirty = {};
+		        var listeners = {};
+		        var loaded = false;
+		        var owner = null;            // "cloud:<uid>" or "local"
+		        var loadingFor = null;
+		        var loadPromise = null;
+		        var saveTimer = null;
+		        var loadTimer = null;
+		        var saving = false;
+		        var loadFailures = 0;
+		        var saveFailures = 0;
+		        var migrate = false;         // true when the save has to be written to the new place
+		
+		
+		        // ---------- Retry helpers ----------
+		        function backoff(failures) {
+		            return Math.min(BASE_RETRY * Math.pow(2, failures - 1), MAX_RETRY);
+		        }
+		
+		        // Sign-in and rules problems won't fix themselves, so don't keep retrying them
+		        function isFatal(err) {
+		            return /HTTP (401|403)/.test(String(err && err.message));
+		        }
+		
+		
+		        // ---------- Who is playing? ----------
+		        function currentOwner() {
+		            var u = exportRoot.user;
+		            if (u && exportRoot.idToken && u.uid !== "dev-user") {
+		                return "cloud:" + u.uid;
+		            }
+		            return "local";          // logged out, unverified, or testing
+		        }
+		
+		        function uidOf(o) {
+		            return o.slice(6);
+		        }
+		
+		        function saveUrl() {
+		            return DOC_BASE + uidOf(owner) + SAVE_PATH;
+		        }
+		
+		        function authHeaders() {
+		            return {
+		                "Authorization": "Bearer " + exportRoot.idToken,
+		                "Content-Type": "application/json"
+		            };
+		        }
+		
+		        // Reads a Firestore document, or returns null if it doesn't exist
+		        function getDoc(url) {
+		            return fetch(url, { headers: authHeaders() }).then(function (r) {
+		                if (r.status === 404) return null;
+		                if (!r.ok) throw new Error("HTTP " + r.status);
+		                return r.json();
+		            });
+		        }
+		
+		
+		        // ---------- Encryption (AES-GCM) ----------
+		        // crypto.subtle only exists on https or localhost. Anywhere else
+		        // (like the Animate preview) the save is stored as plain base64
+		        // with a "plain:" prefix, so nothing can throw.
+		        var canCrypto = !!(window.crypto && crypto.subtle);
+		        var keyPromise = null;
+		
+		        function toB64(s)   { return btoa(unescape(encodeURIComponent(s))); }
+		        function fromB64(s) { return decodeURIComponent(escape(atob(s))); }
+		
+		        function getKey() {
+		            if (!keyPromise) {
+		                var enc = new TextEncoder();
+		                keyPromise = crypto.subtle.importKey("raw", enc.encode(SECRET), "PBKDF2", false, ["deriveKey"])
+		                    .then(function (base) {
+		                        return crypto.subtle.deriveKey(
+		                            { name: "PBKDF2", salt: enc.encode("alister"), iterations: 100000, hash: "SHA-256" },
+		                            base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
+		                        );
+		                    });
+		            }
+		            return keyPromise;
+		        }
+		
+		        // Both always return a promise and never throw
+		        function encrypt(obj) {
+		            return Promise.resolve().then(function () {
+		                var json = JSON.stringify(obj);
+		                if (!canCrypto) return "plain:" + toB64(json);
+		
+		                var iv = crypto.getRandomValues(new Uint8Array(12));
+		                return getKey().then(function (k) {
+		                    return crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, k, new TextEncoder().encode(json));
+		                }).then(function (buf) {
+		                    var out = new Uint8Array(12 + buf.byteLength);
+		                    out.set(iv);
+		                    out.set(new Uint8Array(buf), 12);
+		                    return btoa(String.fromCharCode.apply(null, out));
+		                });
+		            });
+		        }
+		
+		        function decrypt(str) {
+		            return Promise.resolve().then(function () {
+		                if (str.indexOf("plain:") === 0) return JSON.parse(fromB64(str.slice(6)));
+		                if (!canCrypto) throw new Error("Encrypted save needs https");
+		
+		                var bytes = Uint8Array.from(atob(str), function (c) { return c.charCodeAt(0); });
+		                return getKey().then(function (k) {
+		                    return crypto.subtle.decrypt({ name: "AES-GCM", iv: bytes.slice(0, 12) }, k, bytes.slice(12));
+		                }).then(function (buf) {
+		                    return JSON.parse(new TextDecoder().decode(buf));
+		                });
+		            });
+		        }
+		
+		        // Encrypts in the background so flush() can send synchronously (needed on pagehide).
+		        // Only the newest call is allowed to set the blob.
+		        function seal() {
+		            var n = ++sealSeq;
+		            return encrypt(data).then(function (b) {
+		                if (n === sealSeq) blob = b;
+		            }).catch(console.error);
+		        }
+		
+		
+		        // ---------- Local (browser) storage ----------
+		        function localRead() {
+		            var s = null;
+		            try { s = localStorage.getItem(LOCAL_KEY); } catch (e) {}
+		            if (!s) return Promise.resolve({});
+		            return decrypt(s).catch(function () {
+		                try { return JSON.parse(s) || {}; } catch (e) { return {}; }   // old unencrypted save
+		            });
+		        }
+		
+		        function localWrite() {
+		            try { localStorage.setItem(LOCAL_KEY, blob); } catch (e) {}
+		        }
+		
+		
+		        // ---------- Helpers ----------
+		        function clean(v) {
+		            v = Math.floor(Number(v));
+		            return (isFinite(v) && v > 0) ? v : 0;
+		        }
+		
+		        function notify(name) {
+		            Object.keys(listeners).forEach(function (k) {
+		                try {
+		                    listeners[k](name, name ? data[name] : null);
+		                } catch (e) {
+		                    console.error(e);
+		                }
+		            });
+		        }
+		
+		        // True when a stored value has the same kind as its default
+		        // (number, string, or array)
+		        function sameType(v, d) {
+		            if (Array.isArray(d)) return Array.isArray(v);
+		            return typeof v === typeof d && v !== null;
+		        }
+		
+		        // Copies stored values into data; missing or wrong-type values get defaults.
+		        // Defaults are copied, so arrays are never shared between players.
+		        function apply(stored) {
+		            NAMES.forEach(function (n) {
+		                var v = stored[n];
+		                if (sameType(v, DEFAULTS[n])) {
+		                    data[n] = typeof v === "number" ? clean(v) : v;
+		                } else {
+		                    data[n] = JSON.parse(JSON.stringify(DEFAULTS[n]));
+		                    dirty[n] = true;
+		                }
+		            });
+		        }
+		
+		        // New players with no eggs get the starter eggs, once.
+		        // Players who already have eggs are just marked as done.
+		        function giveStarterEggs() {
+		
+		            if (data.starterGiven) return;
+		
+		            if (data.eggs.length === 0) {
+		                data.eggs = STARTER_EGGS.slice();
+		                dirty.eggs = true;
+		            }
+		
+		            data.starterGiven = 1;
+		            dirty.starterGiven = true;
+		        }
+		
+		        // Records every egg the player owns as discovered (never removes anything)
+		        function markDiscovered() {
+		
+		            var found = data.discovered.slice();
+		
+		            data.eggs.forEach(function (id) {
+		                if (found.indexOf(id) < 0) found.push(id);
+		            });
+		
+		            if (found.length !== data.discovered.length) {
+		                data.discovered = found;
+		                dirty.discovered = true;
+		            }
+		        }
+		
+		
+		        // ---------- Loading ----------
+		        function cloudRead() {
+		            return getDoc(saveUrl()).then(function (doc) {
+		                var f = doc && doc.fields;
+		                if (f && f.save && f.save.stringValue) {
+		                    migrate = false;
+		                    return decrypt(f.save.stringValue);
+		                }
+		
+		                // Nothing in the sub collection yet: look at the old location
+		                migrate = true;
+		                return getDoc(DOC_BASE + uidOf(owner)).then(function (old) {
+		                    var o = (old && old.fields) || {};
+		                    if (o.save && o.save.stringValue) return decrypt(o.save.stringValue);
+		
+		                    var out = {};
+		                    NAMES.forEach(function (n) {
+		                        if (o[n] && o[n].stringValue !== undefined) out[n] = o[n].stringValue;
+		                        else if (o[n] && o[n].integerValue !== undefined) out[n] = Number(o[n].integerValue);
+		                    });
+		                    return out;
+		                });
+		            });
+		        }
+		
+		        function load() {
+		            var wanted = currentOwner();
+		
+		            if (loaded && owner === wanted) {
+		                // A fresh login token arrived: retry anything that failed to save
+		                if (Object.keys(dirty).length) queueSave(SAVE_DELAY);
+		                return Promise.resolve(data);
+		            }
+		            if (loadingFor === wanted && loadPromise) return loadPromise;
+		
+		            // A different player, or signed out: start clean
+		            if (owner !== wanted) {
+		                owner = wanted;
+		                loaded = false;
+		                data = {};
+		                blob = null;
+		                dirty = {};
+		                loadFailures = 0;
+		                saveFailures = 0;
+		            }
+		
+		            loadingFor = wanted;
+		
+		            if (loadTimer) {
+		                clearTimeout(loadTimer);
+		                loadTimer = null;
+		            }
+		
+		            var read = (wanted === "local") ? localRead() : cloudRead();
+		
+		            loadPromise = read.then(function (stored) {
+		
+		                // The player changed while we were loading: load the new one
+		                if (currentOwner() !== wanted) {
+		                    loadingFor = null;
+		                    loadPromise = null;
+		                    return load();
+		                }
+		
+		                loadFailures = 0;
+		
+		                apply(stored);
+		
+		                // Existing player: copy the save into the new document
+		                if (migrate) {
+		                    NAMES.forEach(function (n) { dirty[n] = true; });
+		                    migrate = false;
+		                }
+		
+		                // New player (or one who never got them): hand out the starter eggs
+		                giveStarterEggs();
+		                markDiscovered();
+		
+		                seal();
+		
+		                loaded = true;
+		                loadingFor = null;
+		                loadPromise = null;
+		                notify(null);
+		                queueSave(SAVE_DELAY);
+		                return data;
+		
+		            }).catch(function (err) {
+		                console.error("SaveSystem: load failed", err);
+		                loadingFor = null;
+		                loadPromise = null;
+		                loadFailures++;
+		
+		                // A local save must never block the game: start from the defaults
+		                if (wanted === "local") {
+		                    apply({});
+		                    giveStarterEggs();
+		                    markDiscovered();
+		                    seal();
+		                    loaded = true;
+		                    notify(null);
+		                    return data;
+		                }
+		
+		                // Cloud: never save anything if loading failed, or we could
+		                // overwrite the real save with the defaults
+		                if (isFatal(err)) {
+		                    console.error(
+		                        "SaveSystem: not retrying automatically. " +
+		                        "Check the Firestore rules and that the player is signed in. " +
+		                        "It will try again when the login token refreshes."
+		                    );
+		                } else {
+		                    loadTimer = setTimeout(load, backoff(loadFailures));
+		                }
+		                return null;
+		            });
+		
+		            return loadPromise;
+		        }
+		
+		
+		        // ---------- Saving ----------
+		        function queueSave(delay) {
+		            if (saveTimer) {
+		                clearTimeout(saveTimer);
+		                saveTimer = null;
+		            }
+		            if (!Object.keys(dirty).length) return;
+		
+		            saveTimer = setTimeout(function () {
+		                saveTimer = null;
+		                flush(false);
+		            }, delay);
+		        }
+		
+		        function flush(leaving) {
+		            var names = Object.keys(dirty);
+		            if (!loaded || !names.length) return;
+		
+		            // Encryption not finished yet: try again shortly
+		            if (!blob) {
+		                if (!leaving) queueSave(500);
+		                return;
+		            }
+		
+		            if (owner === "local") {
+		                localWrite();
+		                dirty = {};
+		                return;
+		            }
+		
+		            // Cloud: only save if the same player is still signed in
+		            var u = exportRoot.user;
+		            if (!exportRoot.idToken || !u || ("cloud:" + u.uid) !== owner) {
+		                queueSave(WAIT_DELAY);       // waiting for sign-in, no request sent
+		                return;
+		            }
+		            if (saving && !leaving) {
+		                queueSave(WAIT_DELAY);
+		                return;
+		            }
+		
+		            saving = true;
+		            dirty = {};
+		
+		            var url = saveUrl() + "?updateMask.fieldPaths=save";
+		
+		            fetch(url, {
+		                method: "PATCH",
+		                headers: authHeaders(),
+		                body: JSON.stringify({ fields: { save: { stringValue: blob } } }),
+		                keepalive: !!leaving      // lets the save finish while the page closes
+		            }).then(function (r) {
+		                if (!r.ok) throw new Error("HTTP " + r.status);
+		                saveFailures = 0;
+		            }).catch(function (err) {
+		                console.error("SaveSystem: save failed", err);
+		                names.forEach(function (n) { dirty[n] = true; });
+		                saveFailures++;
+		
+		                if (isFatal(err)) {
+		                    console.error(
+		                        "SaveSystem: not retrying automatically. " +
+		                        "It will try again on the next change or login refresh."
+		                    );
+		                } else {
+		                    queueSave(backoff(saveFailures));
+		                }
+		            }).then(function () {
+		                saving = false;
+		            });
+		        }
+		
+		        // Save right away when the player leaves or switches tabs
+		        document.addEventListener("visibilitychange", function () {
+		            if (document.visibilityState === "hidden") flush(true);
+		        });
+		        window.addEventListener("pagehide", function () {
+		            flush(true);
+		        });
+		
+		
+		        // ---------- What the rest of the game uses ----------
+		        function get(name) {
+		            return data[name] !== undefined ? data[name] : 0;
+		        }
+		
+		        function set(name, value) {
+		            if (!loaded || NAMES.indexOf(name) < 0) {
+		                console.warn("SaveSystem: can't set", name, "(not loaded yet, or unknown name)");
+		                return false;
+		            }
+		
+		            if (typeof DEFAULTS[name] === "number") value = clean(value);
+		            if (JSON.stringify(value) === JSON.stringify(data[name])) return true;
+		
+		            data[name] = value;
+		            if (name === "eggs") markDiscovered();
+		            dirty[name] = true;
+		            seal();
+		            notify(name);
+		            queueSave(SAVE_DELAY);
+		            return true;
+		        }
+		
+		        function add(name, amount) {
+		            return set(name, get(name) + amount);
+		        }
+		
+		        // Returns false (and changes nothing) if the player can't afford it
+		        function spend(name, amount) {
+		            if (!loaded || get(name) < amount) return false;
+		            return set(name, get(name) - amount);
+		        }
+		
+		        // Moves one owned egg of this species into an empty slot.
+		        //   slot       0 to 4
+		        //   monsterId  the species of the egg
+		        //   endTime    when it finishes hatching (ms, like Date.now())
+		        // Returns false (and changes nothing) if the slot is taken
+		        // or the player doesn't own that egg.
+		        function placeEgg(slot, monsterId, endTime) {
+		
+		            if (!loaded || slot < 0 || slot >= SLOT_COUNT) return false;
+		
+		            // Keep the slots list the right length
+		            var slots = data.slots.slice();
+		            while (slots.length < SLOT_COUNT) slots.push(0);
+		
+		            if (slots[slot]) return false;                    // slot already has an egg
+		
+		            var at = data.eggs.indexOf(monsterId);
+		            if (at < 0) return false;                         // player doesn't own one
+		
+		            var eggs = data.eggs.slice();
+		            eggs.splice(at, 1);                               // use up one owned egg
+		
+		            slots[slot] = monsterId;
+		
+		            // eggEndTimes is "t0,t1,t2,t3,t4" with 0 for an empty slot
+		            var times = String(data.eggEndTimes).split(",");
+		            while (times.length < SLOT_COUNT) times.push("0");
+		            times[slot] = String(Math.floor(endTime));
+		
+		            set("slots", slots);
+		            set("eggs", eggs);
+		            set("eggEndTimes", times.join(","));
+		
+		            return true;
+		        }
+		
+		        // One listener per key, so re-registering never creates duplicates
+		        function onChange(key, fn) {
+		            listeners[key] = fn;
+		        }
+		
+		        return {
+		            load: load,
+		            get: get,
+		            set: set,
+		            add: add,
+		            spend: spend,
+		            placeEgg: placeEgg,
+		            onChange: onChange,
+		            saveNow: function () { flush(false); },
+		            isLoaded: function () { return loaded; },
+		            where: function () { return owner; },
+		
+		            // Used by the top bar's Export / Import buttons
+		            exportSave: function () { return blob || ""; },
+		
+		            importSave: function (text) {
+		                if (!loaded) return Promise.resolve(false);
+		                return decrypt(String(text).trim()).then(function (obj) {
+		                    apply(obj);
+		                    markDiscovered();
+		                    NAMES.forEach(function (n) { dirty[n] = true; });
+		                    seal();
+		                    notify(null);
+		                    queueSave(SAVE_DELAY);
+		                    return true;
+		                }).catch(function (err) {
+		                    console.error("SaveSystem: import failed", err);
+		                    return false;
+		                });
+		            }
+		        };
+		
+		    })();
+		}
 		var self = this;
 		this.stop();
 		
@@ -648,370 +1258,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        },
 		        PARENT_ORIGIN
 		    );
-		}
-		// --------------------------------------------------
-		// SAVE SYSTEM
-		// --------------------------------------------------
-		
-		// Only define it once, even if frame 1 ever runs again
-		if (!window.SaveSystem) {
-		
-		    window.SaveSystem = (function () {
-		
-		        // ---------- Settings ----------
-		        var PROJECT_ID = "alister-1e745";
-		        var DOC_BASE =
-		            "https://firestore.googleapis.com/v1/projects/" + PROJECT_ID +
-		            "/databases/(default)/documents/players/";
-		
-		        var LOCAL_KEY  = "eggGameSave";
-		        var SAVE_DELAY = 1000;              // save 1 second after the last change
-		        var WAIT_DELAY = 5000;              // waiting for sign-in (no request is sent)
-		        var BASE_RETRY = 5000;              // first retry after a failed request
-		        var MAX_RETRY  = 5 * 60 * 1000;     // never wait more than 5 minutes between retries
-		
-		        // Starting amounts for a brand-new player
-		        var DEFAULTS = { 
-		            starGems: 0, 
-		            cryst: 0,
-		            eggEndTimes: "0,0,0,0,0"
-		        };
-		        var NAMES = Object.keys(DEFAULTS);
-		
-		        // ---------- State ----------
-		        var data = {};
-		        var dirty = {};              // currencies changed but not saved yet
-		        var listeners = {};
-		        var loaded = false;
-		        var owner = null;            // "cloud:<uid>" or "local"
-		        var loadingFor = null;
-		        var loadPromise = null;
-		        var saveTimer = null;
-		        var loadTimer = null;
-		        var saving = false;
-		        var loadFailures = 0;
-		        var saveFailures = 0;
-		
-		
-		        // ---------- Retry helpers ----------
-		        function backoff(failures) {
-		            return Math.min(BASE_RETRY * Math.pow(2, failures - 1), MAX_RETRY);
-		        }
-		
-		        // Sign-in and rules problems won't fix themselves, so don't keep retrying them
-		        function isFatal(err) {
-		            return /HTTP (401|403)/.test(String(err && err.message));
-		        }
-		
-		
-		        // ---------- Who is playing? ----------
-		        function currentOwner() {
-		            var u = exportRoot.user;
-		            if (u && exportRoot.idToken && u.uid !== "dev-user") {
-		                return "cloud:" + u.uid;
-		            }
-		            return "local";          // logged out, unverified, or testing
-		        }
-		
-		        function uidOf(o) {
-		            return o.slice(6);
-		        }
-		
-		        function authHeaders() {
-		            return {
-		                "Authorization": "Bearer " + exportRoot.idToken,
-		                "Content-Type": "application/json"
-		            };
-		        }
-		
-		
-		        // ---------- Local (browser) storage ----------
-		        function localRead() {
-		            try {
-		                return JSON.parse(localStorage.getItem(LOCAL_KEY)) || {};
-		            } catch (e) {
-		                return {};
-		            }
-		        }
-		
-		        function localWrite() {
-		            try {
-		                localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
-		            } catch (e) {}
-		        }
-		
-		
-		        // ---------- Helpers ----------
-		        function clean(v) {
-		            v = Math.floor(Number(v));
-		            return (isFinite(v) && v > 0) ? v : 0;
-		        }
-		
-		        function notify(name) {
-		            Object.keys(listeners).forEach(function (k) {
-		                try {
-		                    listeners[k](name, name ? data[name] : null);
-		                } catch (e) {
-		                    console.error(e);
-		                }
-		            });
-		        }
-		
-		
-		        // ---------- Loading ----------
-		        function cloudRead() {
-		            return fetch(DOC_BASE + uidOf(owner), { headers: authHeaders() })
-		                .then(function (r) {
-		                    if (r.status === 404) return {};      // no save yet
-		                    if (!r.ok) throw new Error("HTTP " + r.status);
-		                    return r.json();
-		                })
-		                .then(function (doc) {
-		                    var out = {};
-		                    var f = (doc && doc.fields) || {};
-		                    NAMES.forEach(function (n) {
-		                        if (n === "eggEndTimes" && f[n] && f[n].stringValue !== undefined) {
-		                            out[n] = f[n].stringValue;
-		                        } else if (f[n] && f[n].integerValue !== undefined) {
-		                            out[n] = Number(f[n].integerValue);
-		                        }
-		                    });
-		                    return out;
-		                });
-		        }
-		
-		        function load() {
-		            var wanted = currentOwner();
-		
-		            if (loaded && owner === wanted) {
-		                // A fresh login token arrived: retry anything that failed to save
-		                if (Object.keys(dirty).length) queueSave(SAVE_DELAY);
-		                return Promise.resolve(data);
-		            }
-		            if (loadingFor === wanted && loadPromise) return loadPromise;
-		
-		            // A different player, or signed out: start clean
-		            if (owner !== wanted) {
-		                owner = wanted;
-		                loaded = false;
-		                data = {};
-		                dirty = {};
-		                loadFailures = 0;
-		                saveFailures = 0;
-		            }
-		
-		            loadingFor = wanted;
-		
-		            if (loadTimer) {
-		                clearTimeout(loadTimer);
-		                loadTimer = null;
-		            }
-		
-		            var read = (wanted === "local")
-		                ? Promise.resolve(localRead())
-		                : cloudRead();
-		
-		            loadPromise = read.then(function (stored) {
-		
-		                // The player changed while we were loading: load the new one
-		                if (currentOwner() !== wanted) {
-		                    loadingFor = null;
-		                    loadPromise = null;
-		                    return load();
-		                }
-		
-		                loadFailures = 0;
-		
-		                NAMES.forEach(function (n) {
-		                    if (n === "eggEndTimes") {
-		                        if (typeof stored[n] === "string") {
-		                            data[n] = stored[n];
-		                        } else {
-		                            data[n] = DEFAULTS[n];
-		                            dirty[n] = true;
-		                        }
-		                    } else if (typeof stored[n] === "number") {
-		                        data[n] = clean(stored[n]);
-		                    } else {
-		                        data[n] = DEFAULTS[n];     // new player: save the starting amount
-		                        dirty[n] = true;
-		                    }
-		                });
-		
-		                loaded = true;
-		                loadingFor = null;
-		                loadPromise = null;
-		                notify(null);
-		                queueSave(SAVE_DELAY);
-		                return data;
-		
-		            }).catch(function (err) {
-		                // Never save anything if loading failed, or we could
-		                // overwrite the real balance with the defaults
-		                console.error("SaveSystem: load failed", err);
-		                loadingFor = null;
-		                loadPromise = null;
-		                loadFailures++;
-		
-		                if (isFatal(err)) {
-		                    console.error(
-		                        "SaveSystem: not retrying automatically. " +
-		                        "Check the Firestore rules and that the player is signed in. " +
-		                        "It will try again when the login token refreshes."
-		                    );
-		                } else {
-		                    loadTimer = setTimeout(load, backoff(loadFailures));
-		                }
-		                return null;
-		            });
-		
-		            return loadPromise;
-		        }
-		
-		
-		        // ---------- Saving ----------
-		        function queueSave(delay) {
-		            if (saveTimer) {
-		                clearTimeout(saveTimer);
-		                saveTimer = null;
-		            }
-		            if (!Object.keys(dirty).length) return;
-		
-		            saveTimer = setTimeout(function () {
-		                saveTimer = null;
-		                flush(false);
-		            }, delay);
-		        }
-		
-		        function flush(leaving) {
-		            var names = Object.keys(dirty);
-		            if (!loaded || !names.length) return;
-		
-		            if (owner === "local") {
-		                localWrite();
-		                dirty = {};
-		                return;
-		            }
-		
-		            // Cloud: only save if the same player is still signed in
-		            var u = exportRoot.user;
-		            if (!exportRoot.idToken || !u || ("cloud:" + u.uid) !== owner) {
-		                queueSave(WAIT_DELAY);       // waiting for sign-in, no request sent
-		                return;
-		            }
-		            if (saving && !leaving) {
-		                queueSave(WAIT_DELAY);
-		                return;
-		            }
-		
-		            saving = true;
-		            dirty = {};
-		
-		            var fields = {};
-		            names.forEach(function (n) {
-		                if (n === "eggEndTimes") {
-		                    fields[n] = { stringValue: data[n] };
-		                } else {
-		                    fields[n] = { integerValue: String(data[n]) };
-		                }
-		            });
-		
-		            // updateMask means only these fields change, so other data
-		            // in the same document (like the egg timer) is left alone
-		            var url = DOC_BASE + uidOf(owner) + "?" +
-		                names.map(function (n) {
-		                    return "updateMask.fieldPaths=" + n;
-		                }).join("&");
-		
-		            fetch(url, {
-		                method: "PATCH",
-		                headers: authHeaders(),
-		                body: JSON.stringify({ fields: fields }),
-		                keepalive: !!leaving      // lets the save finish while the page closes
-		            }).then(function (r) {
-		                if (!r.ok) throw new Error("HTTP " + r.status);
-		                saveFailures = 0;
-		            }).catch(function (err) {
-		                console.error("SaveSystem: save failed", err);
-		                names.forEach(function (n) { dirty[n] = true; });
-		                saveFailures++;
-		
-		                if (isFatal(err)) {
-		                    console.error(
-		                        "SaveSystem: not retrying automatically. " +
-		                        "It will try again on the next change or login refresh."
-		                    );
-		                } else {
-		                    queueSave(backoff(saveFailures));
-		                }
-		            }).then(function () {
-		                saving = false;
-		            });
-		        }
-		
-		        // Save right away when the player leaves or switches tabs
-		        document.addEventListener("visibilitychange", function () {
-		            if (document.visibilityState === "hidden") flush(true);
-		        });
-		        window.addEventListener("pagehide", function () {
-		            flush(true);
-		        });
-		
-		
-		        // ---------- What the rest of the game uses ----------
-		        function get(name) {
-		            return data[name] || 0;
-		        }
-		
-		        function set(name, value) {
-		            if (!loaded || NAMES.indexOf(name) < 0) {
-		                console.warn("SaveSystem: can't set", name, "(not loaded yet, or unknown name)");
-		                return false;
-		            }
-		
-		            if (name === "eggEndTimes") {
-		                // String value, no cleaning
-		                if (value === data[name]) return true;
-		                data[name] = value;
-		            } else {
-		                value = clean(value);
-		                if (value === data[name]) return true;
-		                data[name] = value;
-		            }
-		
-		            dirty[name] = true;
-		            notify(name);
-		            queueSave(SAVE_DELAY);
-		            return true;
-		        }
-		
-		        function add(name, amount) {
-		            return set(name, get(name) + amount);
-		        }
-		
-		        // Returns false (and changes nothing) if the player can't afford it
-		        function spend(name, amount) {
-		            if (!loaded || get(name) < amount) return false;
-		            return set(name, get(name) - amount);
-		        }
-		
-		        // One listener per key, so re-registering never creates duplicates
-		        function onChange(key, fn) {
-		            listeners[key] = fn;
-		        }
-		
-		        return {
-		            load: load,
-		            get: get,
-		            set: set,
-		            add: add,
-		            spend: spend,
-		            onChange: onChange,
-		            saveNow: function () { flush(false); },
-		            isLoaded: function () { return loaded; }
-		        };
-		
-		    })();
 		}
 		var self = this;
 		this.stop(); // keeps the code from re-running if the timeline loops
@@ -1300,6 +1546,202 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        decrease: null
 		    }
 		};
+		var DEFAULT_EGG_LEVEL = 1;
+		
+		function getEggLevel() {
+		    return (window.SaveSystem && SaveSystem.isLoaded() && SaveSystem.get("eggLevel")) || DEFAULT_EGG_LEVEL;
+		}
+		
+		function setEggLevel(n) {
+		    if (window.SaveSystem) SaveSystem.set("eggLevel", Math.max(1, n));
+		}
+		
+		class Egg {
+		
+		    constructor(data) {
+		
+		        data = data || {};
+		
+		        // ------------------------------------------
+		        // SPECIES
+		        // ------------------------------------------
+		
+		        this.species = data.species || null;
+		
+		
+		        // ------------------------------------------
+		        // EGG ID
+		        // ------------------------------------------
+		
+		        this.eggId = data.eggId || 0;
+		
+		
+		        // ------------------------------------------
+		        // EGG LEVEL
+		        // ------------------------------------------
+		
+		        this.eggLevel = data.eggLevel || getEggLevel();
+		
+		
+		        // ------------------------------------------
+		        // HATCH TIME
+		        // ------------------------------------------
+		
+		        this.maxHatchTime = this.calculateHatchTime();
+		        this.hatchTime = this.maxHatchTime;
+				
+				// Loaded from a save: use the time left until the saved end time
+				if (data.endTime) this.hatchTime = Math.max(0, (data.endTime - Date.now()) / 1000);
+		
+		
+		        // ------------------------------------------
+		        // RANDOM VALUES
+		        // ------------------------------------------
+		
+		        this.shiny = data.shiny || false;
+		
+		        // Random gender
+		        this.gender = data.gender || this.randomGender();
+		
+		        // Random nature
+		        this.nature = data.nature || this.randomNature();
+		
+		
+		        // ------------------------------------------
+		        // HATCHING
+		        // ------------------------------------------
+		
+		        this.hatched = false;
+		        this.hatchedMonster = null;
+		    }
+		
+		
+		    // ==================================================
+		    // RANDOM GENDER
+		    // ==================================================
+		
+		    randomGender() {
+		
+		        if (!this.species) {
+		            return "";
+		        }
+		
+		        var roll = Math.random() * 100;
+		
+		        if (roll < this.species.genderRate) {
+		            return "Female";
+		        }
+		
+		        return "Male";
+		    }
+		
+		
+		    // ==================================================
+		    // RANDOM NATURE
+		    // ==================================================
+		
+		    randomNature() {
+		
+		        var natures = Object.keys(Monster.NATURE_MODIFIERS);
+		
+		        var index = Math.floor(Math.random() * natures.length);
+		
+		        return natures[index];
+		    }
+		
+		
+		    // ==================================================
+		    // BASE STAT TOTAL
+		    // ==================================================
+		
+		    getBaseStatTotal() {
+		
+		        if (!this.species) {
+		            return 0;
+		        }
+		
+		        return (
+		            this.species.baseHp +
+		            this.species.baseAttack +
+		            this.species.baseDefense +
+		            this.species.baseSpAttack +
+		            this.species.baseSpDefense +
+		            this.species.baseSpeed
+		        );
+		    }
+		
+		
+		    // ==================================================
+		    // CALCULATE HATCH TIME
+		    // ==================================================
+		
+		    calculateHatchTime() {
+		
+		        var baseStatTotal = this.getBaseStatTotal();
+		
+		        return baseStatTotal * this.eggLevel * 3;
+		    }
+		
+		
+		    // ==================================================
+		    // UPDATE
+		    // ==================================================
+		
+		    update(delta) {
+		
+		        if (this.hatched) {
+		            return;
+		        }
+		
+		        this.hatchTime -= delta;
+		
+		        if (this.hatchTime <= 0) {
+		
+		            this.hatchTime = 0;
+		            this.hatched = true;
+		        }
+		    }
+		
+		
+		    // ==================================================
+		    // CAN HATCH
+		    // ==================================================
+		
+		    canHatch() {
+		
+		        return this.hatchTime <= 0 && !this.hatchedMonster;
+		    }
+		
+		
+		    // ==================================================
+		    // HATCH
+		    // ==================================================
+		
+		    hatch() {
+		
+		        if (!this.canHatch()) {
+		            return this.hatchedMonster;
+		        }
+		
+		        if (!this.species) {
+		            console.error("Egg has no monster species.");
+		            return null;
+		        }
+		
+		        var monsterData = Object.assign({}, this.species);
+		
+		        monsterData.shiny = this.shiny;
+		        monsterData.gender = this.gender;
+		        monsterData.nature = this.nature;
+		
+		        var monster = new Monster(monsterData);
+		
+		        this.hatchedMonster = monster;
+		        this.hatched = true;
+		
+		        return monster;
+		    }
+		}
 		// ==================================================
 		// MONSTER LIST
 		// ==================================================
@@ -4117,118 +4559,563 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    heldItem: null,
 		    storedItem: null,
 		});
+		// ==================================================
+		// MONSTER EGGS
+		// ==================================================
 		
-		var seeNoEvil = new Monster({
-		    monsterId: 104,
-		    name: "See No Evil",
-		    nickname: "",
-		    shiny: false,
-		    type1: "Fear",
-		    type2: "",
-		    baseHp: 100,
-		    baseAttack: 125,
-		    baseDefense: 100,
-		    baseSpAttack: 75,
-		    baseSpDefense: 90,
-		    baseSpeed: 125,
-		    level: 1,
-		    experience: 0,
-		    experienceCap: 0,
-		    baseExpYield: 64,
-		    growthRate: "MEDIUM_SLOW",
-		    gender: "",
-		    genderRate: 50,
-		    nature: "",
-		    wild: true,
-		    human: false,
-		    heldItem: null,
-		    storedItem: null,
+		// ------------------------------------------
+		// THREE-STAGE / BASE STAGES
+		// ------------------------------------------
+		
+		var terradonEgg = new Egg({
+		    eggId: 1,
+		    species: terradon,
+		    eggLevel: getEggLevel(),
+		    shiny: false
 		});
 		
-		var hearNoEvil = new Monster({
-		    monsterId: 105,
-		    name: "Hear No Evil",
-		    nickname: "",
-		    shiny: false,
-		    type1: "Rage",
-		    type2: "",
-		    baseHp: 85,
-		    baseAttack: 110,
-		    baseDefense: 75,
-		    baseSpAttack: 90,
-		    baseSpDefense: 80,
-		    baseSpeed: 175,
-		    level: 1,
-		    experience: 0,
-		    experienceCap: 0,
-		    baseExpYield: 64,
-		    growthRate: "MEDIUM_SLOW",
-		    gender: "",
-		    genderRate: 50,
-		    nature: "",
-		    wild: true,
-		    human: false,
-		    heldItem: null,
-		    storedItem: null,
+		var sluggityEgg = new Egg({
+		    eggId: 2,
+		    species: sluggity,
+		    eggLevel: getEggLevel(),
+		    shiny: false
 		});
 		
-		var speakNoEvil = new Monster({
-		    monsterId: 106,
-		    name: "Speak No Evil",
-		    nickname: "",
-		    shiny: false,
-		    type1: "Pride",
-		    type2: "",
-		    baseHp: 105,
-		    baseAttack: 125,
-		    baseDefense: 100,
-		    baseSpAttack: 85,
-		    baseSpDefense: 95,
-		    baseSpeed: 105,
-		    level: 1,
-		    experience: 0,
-		    experienceCap: 0,
-		    baseExpYield: 64,
-		    growthRate: "MEDIUM_SLOW",
-		    gender: "",
-		    genderRate: 50,
-		    nature: "",
-		    wild: true,
-		    human: false,
-		    heldItem: null,
-		    storedItem: null,
+		var starnEgg = new Egg({
+		    eggId: 3,
+		    species: starn,
+		    eggLevel: getEggLevel(),
+		    shiny: false
 		});
 		
-		var doNoEvil = new Monster({
-		    monsterId: 107,
-		    name: "Do No Evil",
-		    nickname: "",
-		    shiny: false,
-		    type1: "Love",
-		    type2: "",
-		    baseHp: 10,
-		    baseAttack: 10,
-		    baseDefense: 10,
-		    baseSpAttack: 10,
-		    baseSpDefense: 10,
-		    baseSpeed: 10,
-		    level: 1,
-		    experience: 0,
-		    experienceCap: 0,
-		    baseExpYield: 64,
-		    growthRate: "MEDIUM_SLOW",
-		    gender: "",
-		    genderRate: 50,
-		    nature: "",
-		    wild: true,
-		    human: false,
-		    heldItem: null,
-		    storedItem: null,
+		
+		// ------------------------------------------
+		// TWO-STAGE / BASE STAGES
+		// ------------------------------------------
+		
+		var terratortleEgg = new Egg({
+		    eggId: 4,
+		    species: terratortle,
+		    eggLevel: getEggLevel(),
+		    shiny: false
 		});
+		
+		var spiderEgg = new Egg({
+		    eggId: 5,
+		    species: spider,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var batEgg = new Egg({
+		    eggId: 6,
+		    species: bat,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var galapaPenguinEgg = new Egg({
+		    eggId: 7,
+		    species: galapaPenguin,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var dolphinEgg = new Egg({
+		    eggId: 8,
+		    species: dolphin,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var sallyLightfootCrabEgg = new Egg({
+		    eggId: 9,
+		    species: sallyLightfootCrab,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var boarEgg = new Egg({
+		    eggId: 10,
+		    species: boar,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var seaLionEgg = new Egg({
+		    eggId: 11,
+		    species: seaLion,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var rabbitEgg = new Egg({
+		    eggId: 12,
+		    species: rabbit,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var flamingoEgg = new Egg({
+		    eggId: 13,
+		    species: flamingo,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var lavaGullEgg = new Egg({
+		    eggId: 14,
+		    species: lavaGull,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var kingAngelFishEgg = new Egg({
+		    eggId: 15,
+		    species: kingAngelFish,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var hermitCrabEgg = new Egg({
+		    eggId: 16,
+		    species: hermitCrab,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var boxJellyfishEgg = new Egg({
+		    eggId: 17,
+		    species: boxJellyfish,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var goatEgg = new Egg({
+		    eggId: 18,
+		    species: goat,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var dragonEgg = new Egg({
+		    eggId: 19,
+		    species: dragon,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var carpenterBeeEgg = new Egg({
+		    eggId: 20,
+		    species: carpenterBee,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var rodentEgg = new Egg({
+		    eggId: 21,
+		    species: rodent,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		
+		// ------------------------------------------
+		// ONE-STAGE MONSTERS
+		// ------------------------------------------
+		
+		var vultureEgg = new Egg({
+		    eggId: 22,
+		    species: vulture,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var jackInTheBoxEgg = new Egg({
+		    eggId: 23,
+		    species: jackInTheBox,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var rainbowFishEgg = new Egg({
+		    eggId: 24,
+		    species: rainbowFish,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var babySwanEgg = new Egg({
+		    eggId: 25,
+		    species: babySwan,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var greatEgretEgg = new Egg({
+		    eggId: 26,
+		    species: greatEgret,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var clamEgg = new Egg({
+		    eggId: 27,
+		    species: clam,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var wesperEgg = new Egg({
+		    eggId: 28,
+		    species: wesper,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var esllowEgg = new Egg({
+		    eggId: 29,
+		    species: esllow,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var bullEgg = new Egg({
+		    eggId: 30,
+		    species: bull,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var bombardantEgg = new Egg({
+		    eggId: 31,
+		    species: bombardant,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var antQueenEgg = new Egg({
+		    eggId: 32,
+		    species: antQueen,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var whaleSharkEgg = new Egg({
+		    eggId: 33,
+		    species: whaleShark,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var frigatebirdEgg = new Egg({
+		    eggId: 34,
+		    species: frigatebird,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var larvightEgg = new Egg({
+		    eggId: 35,
+		    species: larvight,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var samuraiBugEgg = new Egg({
+		    eggId: 36,
+		    species: samuraiBug,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var hidereflyEgg = new Egg({
+		    eggId: 37,
+		    species: hiderefly,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var babyBearEgg = new Egg({
+		    eggId: 38,
+		    species: babyBear,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var honeyBearEgg = new Egg({
+		    eggId: 39,
+		    species: honeyBear,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var finianEgg = new Egg({
+		    eggId: 40,
+		    species: finian,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var frovorEgg = new Egg({
+		    eggId: 41,
+		    species: frovor,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var drayosEgg = new Egg({
+		    eggId: 42,
+		    species: drayos,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var dranoshiEgg = new Egg({
+		    eggId: 43,
+		    species: dranoshi,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var dogCollieEgg = new Egg({
+		    eggId: 44,
+		    species: dogCollie,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var elephantEgg = new Egg({
+		    eggId: 45,
+		    species: elephant,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var flowerEgg = new Egg({
+		    eggId: 46,
+		    species: flower,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var abysmalEgg = new Egg({
+		    eggId: 47,
+		    species: abysmal,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var abyssreignEgg = new Egg({
+		    eggId: 48,
+		    species: abyssreign,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var redPoppiesEgg = new Egg({
+		    eggId: 49,
+		    species: redPoppies,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var snakeEgg = new Egg({
+		    eggId: 50,
+		    species: snake,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var leviathanEgg = new Egg({
+		    eggId: 51,
+		    species: leviathan,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var racoonBurglarEgg = new Egg({
+		    eggId: 52,
+		    species: racoonBurglar,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var felisCatusEgg = new Egg({
+		    eggId: 53,
+		    species: felisCatus,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var lavaHeronsEgg = new Egg({
+		    eggId: 54,
+		    species: lavaHerons,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var shieldEgg = new Egg({
+		    eggId: 55,
+		    species: shield,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var luestellarEgg = new Egg({
+		    eggId: 56,
+		    species: luestellar,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var prostellarEgg = new Egg({
+		    eggId: 57,
+		    species: prostellar,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var sheepEgg = new Egg({
+		    eggId: 58,
+		    species: sheep,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var mockingBirdEgg = new Egg({
+		    eggId: 59,
+		    species: mockingBird,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var porocoroEgg = new Egg({
+		    eggId: 60,
+		    species: porocoro,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var lolocoloEgg = new Egg({
+		    eggId: 61,
+		    species: lolocolo,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var amlagmamiteEgg = new Egg({
+		    eggId: 62,
+		    species: amlagmamite,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var darattleEgg = new Egg({
+		    eggId: 63,
+		    species: darattle,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var darumoleEgg = new Egg({
+		    eggId: 64,
+		    species: darumole,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var clockEgg = new Egg({
+		    eggId: 65,
+		    species: clock,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var dubadileEgg = new Egg({
+		    eggId: 66,
+		    species: dubadile,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var deloriaEgg = new Egg({
+		    eggId: 67,
+		    species: deloria,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var dmegraEgg = new Egg({
+		    eggId: 68,
+		    species: dmegra,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var dnaviEgg = new Egg({
+		    eggId: 69,
+		    species: dnavi,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		var wukongEgg = new Egg({
+		    eggId: 70,
+		    species: wukong,
+		    eggLevel: getEggLevel(),
+		    shiny: false
+		});
+		
+		// ==================================================
+		// SHARED WITH OTHER FRAMES (window.*)
+		// ==================================================
+		
+		// Every egg species, in the same order as the eggId numbers above.
+		// The eggs menu reads this list.
+		window.EGG_SPECIES = [
+		    terradon, sluggity, starn,
+		    terratortle, spider, bat, galapaPenguin, dolphin, sallyLightfootCrab,
+		    boar, seaLion, rabbit, flamingo, lavaGull, kingAngelFish, hermitCrab,
+		    boxJellyfish, goat, dragon, carpenterBee, rodent,
+		    vulture, jackInTheBox, rainbowFish, babySwan, greatEgret, clam, wesper,
+		    esllow, bull, bombardant, antQueen, whaleShark, frigatebird, larvight,
+		    samuraiBug, hiderefly, babyBear, honeyBear, finian, frovor, drayos,
+		    dranoshi, dogCollie, elephant, flower, abysmal, abyssreign, redPoppies,
+		    snake, leviathan, racoonBurglar, felisCatus, lavaHerons, shield,
+		    luestellar, prostellar, sheep, mockingBird, porocoro, lolocolo,
+		    amlagmamite, darattle, darumole, clock, dubadile, deloria, dmegra,
+		    dnavi, wukong
+		];
+		
+		// Look up a species by the monsterId stored in the save
+		window.EGG_SPECIES_BY_ID = {};
+		
+		window.EGG_SPECIES.forEach(function (s) {
+		    window.EGG_SPECIES_BY_ID[s.monsterId] = s;
+		});
+		
+		// Turns a saved egg (a monsterId) into a real Egg object.
+		// Use this from any frame: createEggFromId(4) gives a Terratortle egg.
+		window.createEggFromId = function (monsterId) {
+		
+		    var species = window.EGG_SPECIES_BY_ID[monsterId];
+		
+		    if (!species) {
+		        console.error("No egg species with monsterId", monsterId);
+		        return null;
+		    }
+		
+		    return new Egg({
+		        species: species,
+		        eggLevel: getEggLevel()
+		    });
+		};
 	}
 	this.frame_1 = function() {
 		var self = this;
 		this.stop();
+		
 		
 		// --------------------------------------------------
 		// EGG SETTINGS
@@ -4236,30 +5123,47 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		var EGG_RAISE = 0.15;
 		
-		// Total number of eggs. There is only one egg on the stage,
-		// so this is just how many "pages" the arrows cycle through.
 		var EGG_COUNT = 5;
 		
-		var W = lib.properties.width;
-		var H = lib.properties.height;
-		var portrait = H > W;
+		var W =
+		    lib.properties.width;
+		
+		var H =
+		    lib.properties.height;
+		
+		var portrait =
+		    H > W;
+		
+		
+		// --------------------------------------------------
+		// PLACING AN EGG IN A SLOT
+		// --------------------------------------------------
+		
+		var EGG_MENU_LABEL = "eggs";
+		
+		
+		if (!window.EggPlacement) {
+		
+		    window.EggPlacement = {
+		        active: false,
+		        slot: -1
+		    };
+		}
+		
+		
+		window.EggPlacement.active = false;
 		
 		
 		// --------------------------------------------------
 		// EGG SWITCH ANIMATION
 		// --------------------------------------------------
 		
-		// How far the egg slides, as a share of the stage width
 		var EGG_SLIDE_DISTANCE = 0.06;
 		
-		// Milliseconds to fade out, then fade back in
 		var EGG_SLIDE_OUT_TIME = 220;
-		var EGG_SLIDE_IN_TIME  = 320;
 		
-		// true  = the egg slides toward the arrow you pressed, then the
-		//         next egg comes in from the opposite side
-		// false = the egg slides away from the arrow you pressed, and the
-		//         next egg comes in from the arrow's side
+		var EGG_SLIDE_IN_TIME = 320;
+		
 		var EGG_SLIDE_TOWARD_ARROW = true;
 		
 		
@@ -4267,9 +5171,427 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// EGG
 		// --------------------------------------------------
 		
-		var egg = self.egg;
+		var egg =
+		    self.egg;
 		
-		var currentEggIndex = 0;
+		
+		// --------------------------------------------------
+		// NESTED EGG SHELLS
+		// --------------------------------------------------
+		
+		var eggShells =
+		    egg.egg_shells;
+		
+		
+		// --------------------------------------------------
+		// CURRENT EGG INDEX
+		// --------------------------------------------------
+		
+		var currentEggIndex =
+		    (
+		        window.EggPlacement.slot >= 0 &&
+		        window.EggPlacement.slot < EGG_COUNT
+		    )
+		        ? window.EggPlacement.slot
+		        : 0;
+		
+		
+		// --------------------------------------------------
+		// SLOT HELPERS
+		// --------------------------------------------------
+		
+		function slotIsEmpty(slot) {
+		
+		    if (
+		        !window.SaveSystem ||
+		        !SaveSystem.isLoaded()
+		    ) {
+		
+		        return false;
+		    }
+		
+		
+		    var slots =
+		        SaveSystem.get("slots");
+		
+		
+		    return (
+		        Array.isArray(slots) &&
+		        !slots[slot]
+		    );
+		}
+		
+		
+		// --------------------------------------------------
+		// SHARED EGG LOCK CHECK
+		// --------------------------------------------------
+		
+		function eggIsLocked(index) {
+		
+		    if (
+		        !window.EggLockStatus ||
+		        !Array.isArray(
+		            window.EggLockStatus.locked
+		        )
+		    ) {
+		
+		        return true;
+		    }
+		
+		
+		    return (
+		        window.EggLockStatus.locked[index] === true
+		    );
+		}
+		
+		
+		// --------------------------------------------------
+		// OPEN EGG MENU
+		// --------------------------------------------------
+		
+		function openEggMenuToPlace(slot) {
+		
+		    window.EggPlacement.active = true;
+		
+		    window.EggPlacement.slot = slot;
+		
+		
+		    if (self.cleanupEggNavigation) {
+		
+		        self.cleanupEggNavigation();
+		    }
+		
+		
+		    self.gotoAndStop(
+		        EGG_MENU_LABEL
+		    );
+		}
+		
+		
+		// ==================================================
+		// UPDATE EGG ARTWORK
+		// ==================================================
+		
+		function updateEggFrame() {
+		
+		    // --------------------------------------------------
+		    // GET EGG SHELLS
+		    // --------------------------------------------------
+		
+		    var eggShells =
+		        egg.egg_shells;
+		
+		
+		    if (
+		        !eggShells
+		    ) {
+		
+		        console.warn(
+		            "egg_shells was not found inside egg."
+		        );
+		
+		        // Never allow the outer egg to stay invisible.
+		
+		        egg.alpha =
+		            1;
+		
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // RESET VISIBILITY
+		    // --------------------------------------------------
+		    //
+		    // The egg should NEVER remain invisible after
+		    // changing slots.
+		    //
+		
+		    egg.alpha =
+		        1;
+		
+		
+		    // --------------------------------------------------
+		    // DEFAULT TO FIRST FRAME
+		    // --------------------------------------------------
+		    //
+		    // Every slot starts with frame 1.
+		    // If nothing is stored in the slot, frame 1
+		    // remains visible.
+		    //
+		
+		    eggShells.stop();
+		
+		    eggShells.gotoAndStop("default");
+		
+		    eggShells.stop();
+		
+		
+		    // --------------------------------------------------
+		    // SAVE SYSTEM
+		    // --------------------------------------------------
+		
+		    if (
+		        !window.SaveSystem ||
+		        !SaveSystem.isLoaded()
+		    ) {
+		
+		        egg.alpha =
+		            1;
+		
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // GET SAVED SLOTS
+		    // --------------------------------------------------
+		
+		    var slots =
+		        SaveSystem.get("slots");
+		
+		
+		    if (
+		        !Array.isArray(slots)
+		    ) {
+		
+		        egg.alpha =
+		            1;
+		
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // GET MONSTER ID
+		    // --------------------------------------------------
+		
+		    var monsterId =
+		        slots[currentEggIndex];
+		
+		
+		    // --------------------------------------------------
+		    // EMPTY SLOT
+		    // --------------------------------------------------
+		    //
+		    // Frame 1 is already selected.
+		    //
+		
+		    if (
+		        !monsterId
+		    ) {
+		
+		        eggShells.gotoAndStop(1);
+		
+		        eggShells.stop();
+		
+		        egg.alpha =
+		            1;
+		
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // GET SPECIES LIST
+		    // --------------------------------------------------
+		
+		    var speciesList =
+		        window.EGG_SPECIES;
+		
+		
+		    if (
+		        !Array.isArray(speciesList)
+		    ) {
+		
+		        eggShells.gotoAndStop(1);
+		
+		        eggShells.stop();
+		
+		        egg.alpha =
+		            1;
+		
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // FIND MONSTER BY ID
+		    // --------------------------------------------------
+		
+		    var species =
+		        null;
+		
+		
+		    for (
+		        var i = 0;
+		        i < speciesList.length;
+		        i++
+		    ) {
+		
+		        var candidate =
+		            speciesList[i];
+		
+		
+		        if (
+		            candidate &&
+		            Number(
+		                candidate.monsterId
+		            ) ===
+		            Number(
+		                monsterId
+		            )
+		        ) {
+		
+		            species =
+		                candidate;
+		
+		            break;
+		        }
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // MONSTER NOT FOUND
+		    // --------------------------------------------------
+		
+		    if (
+		        !species
+		    ) {
+		
+		        eggShells.gotoAndStop(1);
+		
+		        eggShells.stop();
+		
+		        egg.alpha =
+		            1;
+		
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // GET MONSTER NAME
+		    // --------------------------------------------------
+		
+		    var frameName =
+		        String(
+		            species.name || ""
+		        ).trim();
+		
+		
+		    if (
+		        frameName === ""
+		    ) {
+		
+		        eggShells.gotoAndStop(1);
+		
+		        eggShells.stop();
+		
+		        egg.alpha =
+		            1;
+		
+		        return;
+		    }
+		
+		
+		    // ==================================================
+		    // GET ACTUAL TIMELINE LABELS
+		    // ==================================================
+		
+		    var timelineLabels =
+		        [];
+		
+		
+		    if (
+		        eggShells.timeline &&
+		        eggShells.timeline.getLabels
+		    ) {
+		
+		        timelineLabels =
+		            eggShells.timeline.getLabels();
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // FIND MATCHING LABEL
+		    // --------------------------------------------------
+		
+		    var matchingLabel =
+		        null;
+		
+		
+		    for (
+		        var j = 0;
+		        j < timelineLabels.length;
+		        j++
+		    ) {
+		
+		        var label =
+		            timelineLabels[j];
+		
+		
+		        if (
+		            label &&
+		            String(
+		                label.label
+		            ).trim() ===
+		            frameName
+		        ) {
+		
+		            matchingLabel =
+		                label;
+		
+		            break;
+		        }
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // NO MATCH
+		    // --------------------------------------------------
+		
+		    if (
+		        !matchingLabel
+		    ) {
+		
+		        console.warn(
+		            "Could not find egg frame label:",
+		            frameName
+		        );
+		
+		
+		        // Always use the default egg.
+		
+		        eggShells.gotoAndStop(1);
+		
+		        eggShells.stop();
+		
+		        egg.alpha =
+		            1;
+		
+		        return;
+		    }
+		
+		
+		    // ==================================================
+		    // FOUND MATCHING FRAME
+		    // ==================================================
+		
+		    eggShells.gotoAndStop(
+		        matchingLabel.position
+		    );
+		
+		    eggShells.stop();
+		
+		
+		    // --------------------------------------------------
+		    // MAKE SURE OUTER EGG IS VISIBLE
+		    // --------------------------------------------------
+		
+		    egg.alpha =
+		        1;
+		}
 		
 		
 		// --------------------------------------------------
@@ -4278,150 +5600,296 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		function setupEgg(egg) {
 		
-		    // Raise egg, always measured from its original position
-		    if (egg.baseY === undefined) egg.baseY = egg.y;
-		    egg.y = egg.baseY - H * EGG_RAISE;
+		    if (
+		        egg.baseY === undefined
+		    ) {
 		
-		    // Save its resting position
-		    egg.eggRestY = egg.y;
-		    egg.eggRestX = egg.x;
+		        egg.baseY =
+		            egg.y;
+		    }
 		
-		    // Floating variables
-		    egg.floatTime = Math.random() * Math.PI * 2;
 		
-		    // Store original scale
-		    egg.originalScaleX = egg.scaleX;
-		    egg.originalScaleY = egg.scaleY;
+		    egg.y =
+		        egg.baseY -
+		        H * EGG_RAISE;
 		
-		    // True while the egg is sliding between pages
-		    egg.eggSwitching = false;
+		
+		    egg.eggRestY =
+		        egg.y;
+		
+		    egg.eggRestX =
+		        egg.x;
+		
+		
+		    egg.floatTime =
+		        Math.random() *
+		        Math.PI *
+		        2;
+		
+		
+		    egg.originalScaleX =
+		        egg.scaleX;
+		
+		    egg.originalScaleY =
+		        egg.scaleY;
+		
+		
+		    egg.eggSwitching =
+		        false;
+		
+		    egg.eggShaking =
+		        false;
+		
+		
+		    egg.cursor =
+		        "pointer";
+		
 		
 		    // --------------------------------------------------
-		    // HOVER
+		    // HOVER IN
 		    // --------------------------------------------------
 		
-		    egg.cursor = "pointer";
+		    egg.on(
+		        "rollover",
+		        function () {
 		
-		    egg.on("rollover", function () {
+		            if (
+		                egg.eggShaking ||
+		                egg.eggSwitching
+		            ) {
 		
-		        // Hover tweens would cancel the slide, so skip them
-		        if (egg.eggShaking || egg.eggSwitching) {
-		            return;
+		                return;
+		            }
+		
+		
+		            createjs.Tween.removeTweens(
+		                egg
+		            );
+		
+		
+		            createjs.Tween.get(
+		                egg
+		            )
+		                .to(
+		                    {
+		                        scaleX:
+		                            egg.originalScaleX *
+		                            0.97,
+		
+		                        scaleY:
+		                            egg.originalScaleY *
+		                            0.97
+		                    },
+		                    100,
+		                    createjs.Ease.quadOut
+		                );
 		        }
-		
-		        createjs.Tween.removeTweens(egg);
-		
-		        createjs.Tween.get(egg)
-		            .to({
-		                scaleX: egg.originalScaleX * 0.97,
-		                scaleY: egg.originalScaleY * 0.97
-		            }, 100, createjs.Ease.quadOut);
-		    });
-		
-		    egg.on("rollout", function () {
-		
-		        if (egg.eggShaking || egg.eggSwitching) {
-		            return;
-		        }
-		
-		        createjs.Tween.removeTweens(egg);
-		
-		        createjs.Tween.get(egg)
-		            .to({
-		                scaleX: egg.originalScaleX,
-		                scaleY: egg.originalScaleY
-		            }, 100, createjs.Ease.quadOut);
-		    });
+		    );
 		
 		
 		    // --------------------------------------------------
-		    // CLICK / SHAKE
+		    // HOVER OUT
 		    // --------------------------------------------------
 		
-		    egg.on("click", function () {
+		    egg.on(
+		        "rollout",
+		        function () {
 		
-		        // Don't shake while already shaking or sliding
-		        if (egg.eggShaking || egg.eggSwitching) {
-		            return;
+		            if (
+		                egg.eggShaking ||
+		                egg.eggSwitching
+		            ) {
+		
+		                return;
+		            }
+		
+		
+		            createjs.Tween.removeTweens(
+		                egg
+		            );
+		
+		
+		            createjs.Tween.get(
+		                egg
+		            )
+		                .to(
+		                    {
+		                        scaleX:
+		                            egg.originalScaleX,
+		
+		                        scaleY:
+		                            egg.originalScaleY
+		                    },
+		                    100,
+		                    createjs.Ease.quadOut
+		                );
 		        }
-		
-		        egg.eggShaking = true;
-		
-		        var shakeTime = 0;
-		        var shakeDuration = 350;
-		
-		        var originalX = egg.x;
-		        var originalRotation = egg.rotation;
-		
-		        // Random X amount between 12 and 20
-		        var shakeAmount =
-		            12 + Math.random() * 8;
-		
-		        // Random rotation between 5 and 10 degrees
-		        var rotationAmount =
-		            5 + Math.random() * 5;
-		
-		        // Random initial directions
-		        var xDirection =
-		            Math.random() < 0.5 ? -1 : 1;
-		
-		        var rotationDirection =
-		            Math.random() < 0.5 ? -1 : 1;
+		    );
 		
 		
-		        function shakeEgg(evt) {
+		    // --------------------------------------------------
+		    // EGG CLICK
+		    // --------------------------------------------------
 		
-		            shakeTime += evt.delta;
+		    egg.on(
+		        "click",
+		        function () {
 		
-		            var progress =
-		                shakeTime / shakeDuration;
+		            if (
+		                egg.eggShaking ||
+		                egg.eggSwitching
+		            ) {
 		
-		            if (progress >= 1) {
+		                return;
+		            }
 		
-		                egg.x = originalX;
-		                egg.rotation = originalRotation;
 		
-		                egg.eggShaking = false;
+		            // --------------------------------------------------
+		            // CHECK LOCK
+		            // --------------------------------------------------
 		
-		                createjs.Ticker.removeEventListener(
-		                    "tick",
-		                    shakeEgg
+		            var locked =
+		                eggIsLocked(
+		                    currentEggIndex
+		                );
+		
+		
+		            // --------------------------------------------------
+		            // UNLOCKED + EMPTY
+		            // --------------------------------------------------
+		
+		            if (
+		                !locked &&
+		                slotIsEmpty(
+		                    currentEggIndex
+		                )
+		            ) {
+		
+		                openEggMenuToPlace(
+		                    currentEggIndex
 		                );
 		
 		                return;
 		            }
 		
-		            var strength = 1 - progress;
+		
+		            // --------------------------------------------------
+		            // SHAKE
+		            // --------------------------------------------------
+		
+		            egg.eggShaking =
+		                true;
 		
 		
-		            // Shake X
-		            egg.x =
-		                originalX +
-		                Math.sin(
-		                    progress * Math.PI * 12
-		                ) *
-		                shakeAmount *
-		                strength *
-		                xDirection;
+		            var shakeTime =
+		                0;
+		
+		            var shakeDuration =
+		                350;
 		
 		
-		            // Shake rotation
-		            egg.rotation =
-		                originalRotation +
-		                Math.sin(
-		                    progress * Math.PI * 8
-		                ) *
-		                rotationAmount *
-		                strength *
-		                rotationDirection;
+		            var originalX =
+		                egg.x;
+		
+		            var originalRotation =
+		                egg.rotation;
+		
+		
+		            var shakeAmount =
+		                12 +
+		                Math.random() *
+		                8;
+		
+		
+		            var rotationAmount =
+		                5 +
+		                Math.random() *
+		                5;
+		
+		
+		            var xDirection =
+		                Math.random() < 0.5
+		                    ? -1
+		                    : 1;
+		
+		
+		            var rotationDirection =
+		                Math.random() < 0.5
+		                    ? -1
+		                    : 1;
+		
+		
+		            function shakeEgg(evt) {
+		
+		                shakeTime +=
+		                    evt.delta;
+		
+		
+		                var progress =
+		                    shakeTime /
+		                    shakeDuration;
+		
+		
+		                if (
+		                    progress >= 1
+		                ) {
+		
+		                    egg.x =
+		                        originalX;
+		
+		                    egg.rotation =
+		                        originalRotation;
+		
+		                    egg.eggShaking =
+		                        false;
+		
+		
+		                    createjs.Ticker.removeEventListener(
+		                        "tick",
+		                        shakeEgg
+		                    );
+		
+		
+		                    return;
+		                }
+		
+		
+		                var strength =
+		                    1 -
+		                    progress;
+		
+		
+		                egg.x =
+		                    originalX +
+		                    Math.sin(
+		                        progress *
+		                        Math.PI *
+		                        12
+		                    ) *
+		                    shakeAmount *
+		                    strength *
+		                    xDirection;
+		
+		
+		                egg.rotation =
+		                    originalRotation +
+		                    Math.sin(
+		                        progress *
+		                        Math.PI *
+		                        8
+		                    ) *
+		                    rotationAmount *
+		                    strength *
+		                    rotationDirection;
+		            }
+		
+		
+		            createjs.Ticker.addEventListener(
+		                "tick",
+		                shakeEgg
+		            );
 		        }
-		
-		
-		        createjs.Ticker.addEventListener(
-		            "tick",
-		            shakeEgg
-		        );
-		    });
+		    );
 		}
 		
 		
@@ -4429,19 +5897,45 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// SETUP EGG
 		// --------------------------------------------------
 		
-		setupEgg(egg);
+		setupEgg(
+		    egg
+		);
+		
+		
+		// --------------------------------------------------
+		// INITIAL EGG FRAME
+		// --------------------------------------------------
+		
+		updateEggFrame();
+		
+		
+		// --------------------------------------------------
+		// WAIT FOR SAVE
+		// --------------------------------------------------
+		
+		if (
+		    window.SaveSystem &&
+		    !SaveSystem.isLoaded()
+		) {
+		
+		    SaveSystem.load().then(
+		        function () {
+		
+		            updateEggFrame();
+		        }
+		    );
+		}
 		
 		
 		// --------------------------------------------------
 		// FLOATING UPDATE
 		// --------------------------------------------------
 		
-		// Always runs, even while the egg is shaking.
-		// The shake only changes x and rotation.
-		
 		function floatEggs(evt) {
 		
-		    egg.floatTime += evt.delta / 1000;
+		    egg.floatTime +=
+		        evt.delta / 1000;
+		
 		
 		    egg.y =
 		        egg.eggRestY +
@@ -4450,6 +5944,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        ) *
 		        15;
 		}
+		
 		
 		createjs.Ticker.addEventListener(
 		    "tick",
@@ -4464,39 +5959,46 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		var eggNavigation =
 		    new createjs.Container();
 		
-		self.addChild(eggNavigation);
+		self.addChild(
+		    eggNavigation
+		);
 		
 		
 		// --------------------------------------------------
 		// NAVIGATION SETTINGS
 		// --------------------------------------------------
 		
-		var NAV_BUTTON_SIZE = 70;      // button height
-		var NAV_BUTTON_WIDTH = 32;     // button width (smaller than the height)
-		var NAV_BUTTON_RADIUS = 10;
+		var NAV_BUTTON_SIZE =
+		    70;
 		
-		var NAV_BUTTON_ALPHA = 0.65;
+		var NAV_BUTTON_WIDTH =
+		    32;
+		
+		var NAV_BUTTON_RADIUS =
+		    10;
+		
+		var NAV_BUTTON_ALPHA =
+		    0.65;
 		
 		var NAV_OUTLINE_COLOR =
 		    "#8FD8FF";
 		
-		var NAV_EGG_GAP = 230;         // distance from the egg to each button
+		var NAV_EGG_GAP =
+		    230;
 		
-		var NAV_DISABLED_ALPHA = 0.3;  // how faded the left button is on the first egg
+		var NAV_DISABLED_ALPHA =
+		    0.3;
 		
-		// Mobile (portrait): how much bigger the buttons are
-		var NAV_MOBILE_SCALE = 2;
+		var NAV_MOBILE_SCALE =
+		    2;
 		
-		// Closest a button may get to the edge of the screen
-		var NAV_SCREEN_MARGIN = 12;
+		var NAV_SCREEN_MARGIN =
+		    12;
 		
 		
 		// --------------------------------------------------
 		// SAVE ORIGINAL EGG POSITION
 		// --------------------------------------------------
-		
-		// The navigation is positioned using the egg's resting
-		// position. It does NOT use the egg's floating position.
 		
 		var navEggX =
 		    egg.eggRestX;
@@ -4512,13 +6014,19 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		var leftButton =
 		    new createjs.Container();
 		
+		
 		var leftBg =
 		    new createjs.Shape();
 		
+		
 		leftBg.graphics
 		    .setStrokeStyle(2)
-		    .beginStroke(NAV_OUTLINE_COLOR)
-		    .beginFill("#123B5C")
+		    .beginStroke(
+		        NAV_OUTLINE_COLOR
+		    )
+		    .beginFill(
+		        "#123B5C"
+		    )
 		    .drawRoundRect(
 		        -NAV_BUTTON_WIDTH / 2,
 		        -NAV_BUTTON_SIZE / 2,
@@ -4527,32 +6035,50 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        NAV_BUTTON_RADIUS
 		    );
 		
-		// Button transparency ONLY
+		
 		leftBg.alpha =
 		    NAV_BUTTON_ALPHA;
 		
-		leftButton.addChild(leftBg);
+		
+		leftButton.addChild(
+		    leftBg
+		);
 		
 		
 		// --------------------------------------------------
 		// LEFT ARROW
 		// --------------------------------------------------
 		
-		// Spans x = -5 to 5, so it is centered in the button
-		
 		var leftArrow =
 		    new createjs.Shape();
 		
+		
 		leftArrow.graphics
 		    .setStrokeStyle(2)
-		    .beginStroke("#FFFFFF")
-		    .moveTo(5, -10)
-		    .lineTo(-5, 0)
-		    .lineTo(5, 10);
+		    .beginStroke(
+		        "#FFFFFF"
+		    )
+		    .moveTo(
+		        5,
+		        -10
+		    )
+		    .lineTo(
+		        -5,
+		        0
+		    )
+		    .lineTo(
+		        5,
+		        10
+		    );
 		
-		leftButton.addChild(leftArrow);
 		
-		leftButton.cursor = "pointer";
+		leftButton.addChild(
+		    leftArrow
+		);
+		
+		
+		leftButton.cursor =
+		    "pointer";
 		
 		
 		// --------------------------------------------------
@@ -4562,13 +6088,19 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		var rightButton =
 		    new createjs.Container();
 		
+		
 		var rightBg =
 		    new createjs.Shape();
 		
+		
 		rightBg.graphics
 		    .setStrokeStyle(2)
-		    .beginStroke(NAV_OUTLINE_COLOR)
-		    .beginFill("#123B5C")
+		    .beginStroke(
+		        NAV_OUTLINE_COLOR
+		    )
+		    .beginFill(
+		        "#123B5C"
+		    )
 		    .drawRoundRect(
 		        -NAV_BUTTON_WIDTH / 2,
 		        -NAV_BUTTON_SIZE / 2,
@@ -4577,68 +6109,95 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        NAV_BUTTON_RADIUS
 		    );
 		
-		// Button transparency ONLY
+		
 		rightBg.alpha =
 		    NAV_BUTTON_ALPHA;
 		
-		rightButton.addChild(rightBg);
+		
+		rightButton.addChild(
+		    rightBg
+		);
 		
 		
 		// --------------------------------------------------
 		// RIGHT ARROW
 		// --------------------------------------------------
 		
-		// Spans x = -5 to 5, so it is centered in the button
-		
 		var rightArrow =
 		    new createjs.Shape();
 		
+		
 		rightArrow.graphics
 		    .setStrokeStyle(2)
-		    .beginStroke("#FFFFFF")
-		    .moveTo(-5, -10)
-		    .lineTo(5, 0)
-		    .lineTo(-5, 10);
+		    .beginStroke(
+		        "#FFFFFF"
+		    )
+		    .moveTo(
+		        -5,
+		        -10
+		    )
+		    .lineTo(
+		        5,
+		        0
+		    )
+		    .lineTo(
+		        -5,
+		        10
+		    );
 		
-		rightButton.addChild(rightArrow);
 		
-		rightButton.cursor = "pointer";
+		rightButton.addChild(
+		    rightArrow
+		);
+		
+		
+		rightButton.cursor =
+		    "pointer";
 		
 		
 		// --------------------------------------------------
 		// ADD BUTTONS
 		// --------------------------------------------------
 		
-		eggNavigation.addChild(leftButton);
-		eggNavigation.addChild(rightButton);
+		eggNavigation.addChild(
+		    leftButton
+		);
+		
+		eggNavigation.addChild(
+		    rightButton
+		);
 		
 		
 		// --------------------------------------------------
 		// SCALE + POSITION BUTTONS
 		// --------------------------------------------------
 		
-		// Each button is scaled on its own, around its own center.
-		// The eggNavigation container is NOT scaled, because scaling
-		// the container would also multiply the gap between the
-		// buttons and push them off the screen.
-		
 		var navScale =
 		    portrait
 		        ? NAV_MOBILE_SCALE
 		        : 1;
 		
-		leftButton.scaleX = navScale;
-		leftButton.scaleY = navScale;
 		
-		rightButton.scaleX = navScale;
-		rightButton.scaleY = navScale;
+		leftButton.scaleX =
+		    navScale;
+		
+		leftButton.scaleY =
+		    navScale;
 		
 		
-		// Keep the gap as it is, but never let a button
-		// go past the edge of the screen
+		rightButton.scaleX =
+		    navScale;
+		
+		rightButton.scaleY =
+		    navScale;
+		
 		
 		var navHalfWidth =
-		    (NAV_BUTTON_WIDTH * navScale) / 2;
+		    (
+		        NAV_BUTTON_WIDTH *
+		        navScale
+		    ) / 2;
+		
 		
 		var navMaxGap =
 		    Math.min(
@@ -4648,6 +6207,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    navHalfWidth -
 		    NAV_SCREEN_MARGIN;
 		
+		
 		var navGap =
 		    Math.min(
 		        NAV_EGG_GAP,
@@ -4655,17 +6215,17 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    );
 		
 		
-		// These NEVER update when the egg floats.
-		
 		leftButton.x =
-		    navEggX - navGap;
+		    navEggX -
+		    navGap;
 		
 		leftButton.y =
 		    navEggY;
 		
 		
 		rightButton.x =
-		    navEggX + navGap;
+		    navEggX +
+		    navGap;
 		
 		rightButton.y =
 		    navEggY;
@@ -4675,25 +6235,24 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// LEFT BUTTON STATE
 		// --------------------------------------------------
 		
-		// The left button is disabled on the first egg,
-		// because the left side does not loop around.
-		
 		function updateNavButtons() {
 		
 		    var canGoLeft =
 		        currentEggIndex > 0;
+		
 		
 		    leftButton.alpha =
 		        canGoLeft
 		            ? 1
 		            : NAV_DISABLED_ALPHA;
 		
+		
 		    leftButton.cursor =
 		        canGoLeft
 		            ? "pointer"
 		            : null;
 		
-		    // Reset the hover brightness when it becomes disabled
+		
 		    leftBg.alpha =
 		        NAV_BUTTON_ALPHA;
 		}
@@ -4703,14 +6262,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// EGG CHANGED
 		// --------------------------------------------------
 		
-		// Runs while the egg is invisible, halfway through the
-		// animation. All five eggs use the same art for now.
-		// Later, change the egg's art, timer, and so on here,
-		// based on the index (0 to 4).
-		//
-		// direction: +1 = right arrow, -1 = left arrow
-		
-		function onEggChanged(index, direction) {
+		function onEggChanged(
+		    index,
+		    direction
+		) {
 		
 		    console.log(
 		        "Showing egg",
@@ -4719,17 +6274,25 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        EGG_COUNT
 		    );
 		
-		    // Re-layout the monster cards for the new egg
-		    if (self.layoutCards) {
+		
+		    updateEggFrame();
+		
+		
+		    if (
+		        self.layoutCards
+		    ) {
 		
 		        self.layoutCards();
 		    }
 		
-		    // Play the monster cards intro again (they fade and slide in)
-		    // in the direction of the arrow that was pressed
-		    if (self.replayCardsIntro) {
 		
-		        self.replayCardsIntro(direction);
+		    if (
+		        self.replayCardsIntro
+		    ) {
+		
+		        self.replayCardsIntro(
+		            direction
+		        );
 		    }
 		}
 		
@@ -4738,90 +6301,173 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// SWITCH EGG
 		// --------------------------------------------------
 		
-		// direction: +1 = right arrow, -1 = left arrow
+		function switchEgg(
+		    newIndex,
+		    direction
+		) {
 		
-		function switchEgg(newIndex, direction) {
+		    if (
+		        egg.eggSwitching
+		    ) {
 		
-		    // Ignore presses while the egg is already sliding
-		    if (egg.eggSwitching) {
 		        return;
 		    }
 		
-		    // Past the last egg: loop back to the first one
-		    if (newIndex >= EGG_COUNT) {
+		
+		    if (
+		        newIndex >= EGG_COUNT
+		    ) {
+		
 		        newIndex = 0;
 		    }
 		
-		    // Before the first egg: do NOT loop, stay where we are
-		    if (newIndex < 0) {
+		
+		    if (
+		        newIndex < 0
+		    ) {
+		
 		        return;
 		    }
+		
 		
 		    currentEggIndex =
 		        newIndex;
 		
+		
 		    updateNavButtons();
 		
-		    // Mark the new tab in the bottom bar
-		    if (self.setActiveDot) {
 		
-		        self.setActiveDot(currentEggIndex);
-		    }
+		    if (
+		        self.setActiveDot
+		    ) {
 		
-		    egg.eggSwitching = true;
-		
-		
-		    // Fade the monster cards out while the egg slides away
-		    if (self.fadeOutCards) {
-		
-		        self.fadeOutCards(EGG_SLIDE_OUT_TIME);
+		        self.setActiveDot(
+		            currentEggIndex
+		        );
 		    }
 		
 		
-		    // Stop any hover tween and undo the hover squish
-		    createjs.Tween.removeTweens(egg);
+		    egg.eggSwitching =
+		        true;
 		
-		    egg.scaleX = egg.originalScaleX;
-		    egg.scaleY = egg.originalScaleY;
+		
+		    if (
+		        self.fadeOutCards
+		    ) {
+		
+		        self.fadeOutCards(
+		            EGG_SLIDE_OUT_TIME
+		        );
+		    }
+		
+		
+		    createjs.Tween.removeTweens(
+		        egg
+		    );
+		
+		
+		    egg.scaleX =
+		        egg.originalScaleX;
+		
+		    egg.scaleY =
+		        egg.originalScaleY;
 		
 		
 		    var distance =
 		        lib.properties.width *
 		        EGG_SLIDE_DISTANCE;
 		
-		    // Which way the egg slides out
+		
 		    var exitDirection =
 		        EGG_SLIDE_TOWARD_ARROW
 		            ? direction
 		            : -direction;
 		
 		
-		    // 1. Slide out and fade out
-		    createjs.Tween.get(egg)
-		        .to({
-		            x: egg.eggRestX + exitDirection * distance,
-		            alpha: 0
-		        }, EGG_SLIDE_OUT_TIME, createjs.Ease.quadIn)
-		        .call(function () {
+		    // --------------------------------------------------
+		    // SLIDE OUT
+		    // --------------------------------------------------
 		
-		            // 2. Swap to the new egg while it can't be seen
-		            onEggChanged(currentEggIndex, direction);
+		    createjs.Tween.get(
+		        egg
+		    )
+		        .to(
+		            {
+		                x:
+		                    egg.eggRestX +
+		                    exitDirection *
+		                    distance,
 		
-		            // Start the new egg on the opposite side
-		            egg.x = egg.eggRestX - exitDirection * distance;
-		            egg.alpha = 0;
+		                alpha:
+		                    0
+		            },
+		            EGG_SLIDE_OUT_TIME,
+		            createjs.Ease.quadIn
+		        )
+		        .call(
+		            function () {
 		
-		            // 3. Slide in and fade in
-		            createjs.Tween.get(egg)
-		                .to({
-		                    x: egg.eggRestX,
-		                    alpha: 1
-		                }, EGG_SLIDE_IN_TIME, createjs.Ease.quadOut)
-		                .call(function () {
+		                // --------------------------------------------------
+		                // CHANGE EGG ARTWORK
+		                // --------------------------------------------------
 		
-		                    egg.eggSwitching = false;
-		                });
-		        });
+		                onEggChanged(
+		                    currentEggIndex,
+		                    direction
+		                );
+		
+		
+		                // --------------------------------------------------
+		                // MOVE TO OPPOSITE SIDE
+		                // --------------------------------------------------
+		
+		                egg.x =
+		                    egg.eggRestX -
+		                    exitDirection *
+		                    distance;
+		
+		
+		                // --------------------------------------------------
+		                // IMPORTANT:
+		                // START THE NEW EGG VISIBLE
+		                // --------------------------------------------------
+		
+		                egg.alpha =
+		                    0;
+		
+		
+		                // --------------------------------------------------
+		                // SLIDE IN
+		                // --------------------------------------------------
+		
+		                createjs.Tween.get(
+		                    egg
+		                )
+		                    .to(
+		                        {
+		                            x:
+		                                egg.eggRestX,
+		
+		                            alpha:
+		                                1
+		                        },
+		                        EGG_SLIDE_IN_TIME,
+		                        createjs.Ease.quadOut
+		                    )
+		                    .call(
+		                        function () {
+		
+		                            // Final safety check
+		
+		                            egg.alpha =
+		                                1;
+		
+		                            egg.eggSwitching =
+		                                false;
+		                        }
+		                    );
+		            }
+		        );
 		}
 		
 		
@@ -4829,97 +6475,170 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// LEFT BUTTON CLICK
 		// --------------------------------------------------
 		
-		leftButton.on("click", function () {
+		leftButton.on(
+		    "click",
+		    function () {
 		
-		    switchEgg(
-		        currentEggIndex - 1,
-		        -1
-		    );
-		});
+		        switchEgg(
+		            currentEggIndex - 1,
+		            -1
+		        );
+		    }
+		);
 		
 		
 		// --------------------------------------------------
 		// RIGHT BUTTON CLICK
 		// --------------------------------------------------
 		
-		rightButton.on("click", function () {
+		rightButton.on(
+		    "click",
+		    function () {
 		
-		    switchEgg(
-		        currentEggIndex + 1,
-		        1
-		    );
-		});
-		
-		
-		// --------------------------------------------------
-		// BUTTON HOVER
-		// --------------------------------------------------
-		
-		leftButton.on("rollover", function () {
-		
-		    // No hover effect while disabled
-		    if (currentEggIndex === 0) {
-		        return;
+		        switchEgg(
+		            currentEggIndex + 1,
+		            1
+		        );
 		    }
-		
-		    leftBg.alpha = 0.85;
-		});
-		
-		leftButton.on("rollout", function () {
-		
-		    leftBg.alpha =
-		        NAV_BUTTON_ALPHA;
-		});
-		
-		
-		rightButton.on("rollover", function () {
-		
-		    rightBg.alpha = 0.85;
-		});
-		
-		rightButton.on("rollout", function () {
-		
-		    rightBg.alpha =
-		        NAV_BUTTON_ALPHA;
-		});
+		);
 		
 		
 		// --------------------------------------------------
-		// CLEANUP (call when leaving this frame)
+		// LEFT BUTTON HOVER
 		// --------------------------------------------------
 		
-		self.cleanupEggNavigation = function () {
+		leftButton.on(
+		    "rollover",
+		    function () {
 		
-		    // Stop floating
-		    createjs.Ticker.removeEventListener("tick", floatEggs);
+		        if (
+		            currentEggIndex === 0
+		        ) {
 		
-		    // Remove event listeners
-		    leftButton.removeAllEventListeners();
-		    rightButton.removeAllEventListeners();
-		    egg.removeAllEventListeners();
+		            return;
+		        }
 		
-		    // Stop any tweens
-		    createjs.Tween.removeTweens(egg);
-		    createjs.Tween.removeTweens(leftButton);
-		    createjs.Tween.removeTweens(rightButton);
 		
-		    // Reset egg position and state
-		    egg.x = egg.eggRestX;
-		    egg.y = egg.eggRestY;
-		    egg.alpha = 1;
-		    egg.rotation = 0;
-		    egg.scaleX = egg.originalScaleX;
-		    egg.scaleY = egg.originalScaleY;
-		    egg.eggShaking = false;
-		    egg.eggSwitching = false;
+		        leftBg.alpha =
+		            0.85;
+		    }
+		);
 		
-		    // Remove from stage
-		    eggNavigation.removeAllEventListeners();
-		    self.removeChild(eggNavigation);
 		
-		    // Clear references
-		    self.cleanupEggNavigation = null;
-		};
+		leftButton.on(
+		    "rollout",
+		    function () {
+		
+		        leftBg.alpha =
+		            NAV_BUTTON_ALPHA;
+		    }
+		);
+		
+		
+		// --------------------------------------------------
+		// RIGHT BUTTON HOVER
+		// --------------------------------------------------
+		
+		rightButton.on(
+		    "rollover",
+		    function () {
+		
+		        rightBg.alpha =
+		            0.85;
+		    }
+		);
+		
+		
+		rightButton.on(
+		    "rollout",
+		    function () {
+		
+		        rightBg.alpha =
+		            NAV_BUTTON_ALPHA;
+		    }
+		);
+		
+		
+		// ==================================================
+		// CLEANUP
+		// ==================================================
+		
+		self.cleanupEggNavigation =
+		    function () {
+		
+		        createjs.Ticker.removeEventListener(
+		            "tick",
+		            floatEggs
+		        );
+		
+		
+		        leftButton.removeAllEventListeners();
+		
+		        rightButton.removeAllEventListeners();
+		
+		        egg.removeAllEventListeners();
+		
+		
+		        createjs.Tween.removeTweens(
+		            egg
+		        );
+		
+		        createjs.Tween.removeTweens(
+		            leftButton
+		        );
+		
+		        createjs.Tween.removeTweens(
+		            rightButton
+		        );
+		
+		
+		        egg.x =
+		            egg.eggRestX;
+		
+		        egg.y =
+		            egg.eggRestY;
+		
+		        egg.alpha =
+		            1;
+		
+		        egg.rotation =
+		            0;
+		
+		        egg.scaleX =
+		            egg.originalScaleX;
+		
+		        egg.scaleY =
+		            egg.originalScaleY;
+		
+		        egg.eggShaking =
+		            false;
+		
+		        egg.eggSwitching =
+		            false;
+		
+		
+		        if (
+		            egg.egg_shells
+		        ) {
+		
+		            egg.egg_shells.stop();
+		        }
+		
+		
+		        egg.stop();
+		
+		
+		        eggNavigation.removeAllEventListeners();
+		
+		
+		        self.removeChild(
+		            eggNavigation
+		        );
+		
+		
+		        self.cleanupEggNavigation =
+		            null;
+		    };
 		
 		
 		// --------------------------------------------------
@@ -4927,6 +6646,16 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		updateNavButtons();
+		
+		
+		if (
+		    self.setActiveDot
+		) {
+		
+		    self.setActiveDot(
+		        currentEggIndex
+		    );
+		}
 		//this is for the players username
 		exportRoot.onUserChange = showName;
 		
@@ -7732,7 +9461,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		this.stop();
 		
 		// Clean up the previous run first
-		if (self.cleanupBottomBar) self.cleanupBottomBar();
+		if (self.cleanupBottomBar) {
+		    self.cleanupBottomBar();
+		}
 		
 		
 		// --------------------------------------------------
@@ -7755,11 +9486,63 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// EGG LOCK STATUS & TIMERS
 		// --------------------------------------------------
 		
+		// --------------------------------------------------
+		// SHARED EGG LOCK STATUS
+		// --------------------------------------------------
+		//
+		// This is shared with the egg-click/navigation script.
+		//
+		// false = unlocked
+		// true  = locked
+		//
+		// Egg 1 starts unlocked.
+		// Eggs 2-5 start locked.
+		//
+		
 		var EGG_COUNT = 5;
-		var eggLocked = [false, true, true, true, true];
-		var eggTimers = [30, 0, 0, 0, 0];
+		
+		if (!window.EggLockStatus) {
+		
+		    window.EggLockStatus = {
+		        locked: [false, true, true, true, true]
+		    };
+		
+		} else {
+		
+		    // Make sure the array exists and has the correct size.
+		    if (
+		        !Array.isArray(window.EggLockStatus.locked) ||
+		        window.EggLockStatus.locked.length !== EGG_COUNT
+		    ) {
+		
+		        window.EggLockStatus.locked =
+		            [false, true, true, true, true];
+		    }
+		}
+		
+		
+		// Local reference to the shared lock array
+		var eggLocked =
+		    window.EggLockStatus.locked;
+		
+		
+		// --------------------------------------------------
+		// TIMER SETTINGS
+		// --------------------------------------------------
+		
+		// Only the END time of each egg is stored.
+		// The time remaining is calculated from Date.now(),
+		// so switching eggs or screens does not restart it.
+		
+		var FIRST_EGG_SECONDS = 30;
+		
+		var eggEnd =
+		    [0, 0, 0, 0, 0];
+		
+		var timersReady = false;
 		
 		var currentEggIndex = 0;
+		
 		var countdownTimer = null;
 		
 		
@@ -7783,7 +9566,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		var hatchTimer = new createjs.Text(
-		    "00:00:30",
+		    "--:--:--",
 		    "37px 'Marcellus'",
 		    "#e8f5ff"
 		);
@@ -7838,17 +9621,23 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // SAVE ORIGINAL SCALE (only the first time)
+		    // SAVE ORIGINAL SCALE
 		    // --------------------------------------------------
 		
 		    if (hatchButton.baseScaleX === undefined) {
 		
-		        hatchButton.baseScaleX = hatchButton.scaleX;
-		        hatchButton.baseScaleY = hatchButton.scaleY;
+		        hatchButton.baseScaleX =
+		            hatchButton.scaleX;
+		
+		        hatchButton.baseScaleY =
+		            hatchButton.scaleY;
 		    }
 		
-		    hatchBaseScaleX = hatchButton.baseScaleX;
-		    hatchBaseScaleY = hatchButton.baseScaleY;
+		    hatchBaseScaleX =
+		        hatchButton.baseScaleX;
+		
+		    hatchBaseScaleY =
+		        hatchButton.baseScaleY;
 		
 		
 		    // --------------------------------------------------
@@ -7918,7 +9707,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		            hatchHovered = true;
 		
-		            // 96% of current size
 		            updateHatchButtonScale(0.96);
 		        }
 		    );
@@ -7952,7 +9740,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		            hatchPressed = true;
 		
-		            // 90% of current size
 		            updateHatchButtonScale(0.90);
 		        }
 		    );
@@ -7985,7 +9772,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// PAGE INDICATOR DOTS
 		// --------------------------------------------------
 		
-		var pageDots = new createjs.Container();
+		var pageDots =
+		    new createjs.Container();
 		
 		self.addChild(pageDots);
 		
@@ -7995,7 +9783,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		
 		var DOT_COUNT = 5;
+		
 		var DOT_RADIUS = 4;
+		
 		var DOT_SPACING = 18;
 		
 		
@@ -8014,9 +9804,20 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        dot.graphics
 		            .beginFill("#FFFFFF")
-		            .drawCircle(0, 0, DOT_RADIUS);
+		            .drawCircle(
+		                0,
+		                0,
+		                DOT_RADIUS
+		            );
 		
-		        dot.shadow = new createjs.Shadow("#2496FF", 0, 0, 8);
+		        dot.shadow =
+		            new createjs.Shadow(
+		                "#2496FF",
+		                0,
+		                0,
+		                8
+		            );
+		
 		        dot.alpha = 1;
 		
 		    } else {
@@ -8025,9 +9826,14 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            .setStrokeStyle(1.5)
 		            .beginStroke("#2789C9")
 		            .beginFill("#123B5C")
-		            .drawCircle(0, 0, DOT_RADIUS);
+		            .drawCircle(
+		                0,
+		                0,
+		                DOT_RADIUS
+		            );
 		
 		        dot.shadow = null;
+		
 		        dot.alpha = 0.85;
 		    }
 		}
@@ -8037,15 +9843,26 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// CREATE DOTS
 		// --------------------------------------------------
 		
-		for (var i = 0; i < DOT_COUNT; i++) {
+		for (
+		    var i = 0;
+		    i < DOT_COUNT;
+		    i++
+		) {
 		
-		    var dot = new createjs.Shape();
+		    var dot =
+		        new createjs.Shape();
 		
-		    styleDot(dot, i === 0);
+		    styleDot(
+		        dot,
+		        i === 0
+		    );
 		
 		    // Desktop spacing
 		    dot.x =
-		        (i - (DOT_COUNT - 1) / 2) *
+		        (
+		            i -
+		            (DOT_COUNT - 1) / 2
+		        ) *
 		        DOT_SPACING;
 		
 		    pageDots.addChild(dot);
@@ -8055,91 +9872,101 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		// --------------------------------------------------
 		// SET ACTIVE DOT
 		// --------------------------------------------------
+		//
+		// Called by the egg navigation script.
+		//
 		
-		// Called by the egg switching script
+		self.setActiveDot =
+		    function (index) {
 		
-		self.setActiveDot = function (index) {
-		
-		    currentEggIndex = index;
-		
-		    for (var j = 0; j < DOT_COUNT; j++) {
-		
-		        styleDot(pageDots.getChildAt(j), j === index);
-		    }
-		
-		    updateCountdown();
-		};
-		
-		
-		// --------------------------------------------------
-		// SAVE EGG TIMERS TO FIRESTORE
-		// --------------------------------------------------
-		
-		function saveEggTimers() {
-		
-		    if (!window.SaveSystem || !window.SaveSystem.isLoaded()) {
-		        return;
-		    }
-		
-		    var endTimes = eggTimers.map(function (secs) {
-		
-		        if (secs <= 0) {
-		            return 0;
+		        // Safety
+		        if (
+		            index < 0 ||
+		            index >= DOT_COUNT
+		        ) {
+		            return;
 		        }
 		
-		        return Date.now() + secs * 1000;
-		    });
+		        currentEggIndex =
+		            index;
 		
-		    window.SaveSystem.set("eggEndTimes", endTimes.join(","));
-		}
+		        for (
+		            var j = 0;
+		            j < DOT_COUNT;
+		            j++
+		        ) {
 		
-		
-		// --------------------------------------------------
-		// LOAD EGG TIMERS FROM FIRESTORE
-		// --------------------------------------------------
-		
-		function loadEggTimers() {
-		
-		    if (!window.SaveSystem) {
-		        console.warn("SaveSystem not ready yet");
-		        return;
-		    }
-		
-		    window.SaveSystem.load().then(function () {
-		
-		        var saved = window.SaveSystem.get("eggEndTimes");
-		
-		        if (saved && typeof saved === "string") {
-		
-		            var times = saved.split(",").map(Number);
-		
-		            for (var i = 0; i < EGG_COUNT && i < times.length; i++) {
-		
-		                var endTime = times[i];
-		                var now = Date.now();
-		
-		                if (endTime > now) {
-		
-		                    eggTimers[i] = Math.ceil((endTime - now) / 1000);
-		
-		                } else {
-		
-		                    eggTimers[i] = 0;
-		                }
-		            }
+		            styleDot(
+		                pageDots.getChildAt(j),
+		                j === index
+		            );
 		        }
 		
 		        updateCountdown();
+		    };
 		
-		    }).catch(function (err) {
-		        console.error("Failed to load egg timers:", err);
-		    });
+		
+		// --------------------------------------------------
+		// SAVE / READ EGG TIMERS
+		// --------------------------------------------------
+		
+		// The end times go into SaveSystem.
+		
+		function saveEggTimers() {
+		
+		    if (window.SaveSystem) {
+		
+		        SaveSystem.set(
+		            "eggEndTimes",
+		            eggEnd.join(",")
+		        );
+		    }
 		}
 		
-		// Load timers after a short delay to ensure SaveSystem is ready
-		setTimeout(function () {
-		    loadEggTimers();
-		}, 100);
+		
+		// --------------------------------------------------
+		// READ SAVED TIMERS
+		// --------------------------------------------------
+		
+		function readTimers() {
+		
+		    var savedValue =
+		        SaveSystem.get("eggEndTimes");
+		
+		    var t =
+		        String(savedValue)
+		            .split(",")
+		            .map(Number);
+		
+		
+		    for (
+		        var i = 0;
+		        i < EGG_COUNT;
+		        i++
+		    ) {
+		
+		        eggEnd[i] =
+		            t[i] > 0
+		                ? t[i]
+		                : 0;
+		    }
+		
+		
+		    // First egg starts its timer the first time ever
+		    if (!eggEnd[0]) {
+		
+		        eggEnd[0] =
+		            Date.now() +
+		            FIRST_EGG_SECONDS * 1000;
+		
+		        saveEggTimers();
+		    }
+		
+		
+		    timersReady = true;
+		
+		    updateCountdown();
+		}
 		
 		
 		// --------------------------------------------------
@@ -8148,79 +9975,98 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		function updateCountdown() {
 		
-		    var isLocked =
-		        eggLocked[currentEggIndex];
+		    // Safety
+		    if (
+		        currentEggIndex < 0 ||
+		        currentEggIndex >= EGG_COUNT
+		    ) {
+		        currentEggIndex = 0;
+		    }
 		
-		    var totalSeconds =
-		        isLocked
+		
+		    // Read the SHARED lock state
+		    var locked =
+		        window.EggLockStatus &&
+		        Array.isArray(
+		            window.EggLockStatus.locked
+		        )
+		            ? window.EggLockStatus.locked[
+		                currentEggIndex
+		            ] === true
+		            : true;
+		
+		
+		    var secs =
+		        (
+		            locked ||
+		            !timersReady
+		        )
 		            ? -1
-		            : Math.max(0, eggTimers[currentEggIndex]);
+		            : Math.max(
+		                0,
+		                Math.ceil(
+		                    (
+		                        eggEnd[
+		                            currentEggIndex
+		                        ] -
+		                        Date.now()
+		                    ) / 1000
+		                )
+		            );
+		
+		
+		    function pad(n) {
+		
+		        return n < 10
+		            ? "0" + n
+		            : n;
+		    }
 		
 		
 		    // --------------------------------------------------
 		    // TIMER TEXT
 		    // --------------------------------------------------
 		
-		    if (isLocked) {
+		    hatchTimer.text =
+		        secs < 0
 		
-		        hatchTimer.text = "--:--:--";
+		            ? "--:--:--"
 		
-		    } else {
-		
-		        var hours = Math.floor(
-		            totalSeconds / 3600
-		        );
-		
-		        var minutes = Math.floor(
-		            (totalSeconds % 3600) / 60
-		        );
-		
-		        var seconds =
-		            totalSeconds % 60;
-		
-		        var hourText =
-		            hours < 10
-		                ? "0" + hours
-		                : hours;
-		
-		        var minuteText =
-		            minutes < 10
-		                ? "0" + minutes
-		                : minutes;
-		
-		        var secondText =
-		            seconds < 10
-		                ? "0" + seconds
-		                : seconds;
-		
-		        hatchTimer.text =
-		            hourText +
+		            : pad(
+		                Math.floor(
+		                    secs / 3600
+		                )
+		            ) +
 		            ":" +
-		            minuteText +
+		            pad(
+		                Math.floor(
+		                    secs % 3600 / 60
+		                )
+		            ) +
 		            ":" +
-		            secondText;
-		    }
+		            pad(
+		                secs % 60
+		            );
 		
 		
 		    // --------------------------------------------------
 		    // UPDATE LABEL
 		    // --------------------------------------------------
 		
-		    if (isLocked) {
+		    timerLabels.text =
+		        locked
 		
-		        timerLabels.text =
-		            "LOCKED";
+		            ? "LOCKED"
 		
-		    } else if (totalSeconds > 0) {
+		            : !timersReady
 		
-		        timerLabels.text =
-		            "HOURS   •   MINUTES   •   SECONDS";
+		                ? "LOADING"
 		
-		    } else {
+		                : secs > 0
 		
-		        timerLabels.text =
-		            "READY TO HATCH";
-		    }
+		                    ? "HOURS   •   MINUTES   •   SECONDS"
+		
+		                    : "READY TO HATCH";
 		
 		
 		    // --------------------------------------------------
@@ -8229,24 +10075,24 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    if (
 		        hatchButton &&
-		        hatchButton.hatchButtonText
+		        hatchButton.hatchButtonText &&
+		        (
+		            locked ||
+		            timersReady
+		        )
 		    ) {
 		
-		        if (isLocked) {
+		        hatchButton.hatchButtonText.text =
 		
-		            hatchButton.hatchButtonText.text =
-		                "Egg locked";
+		            locked
 		
-		        } else if (totalSeconds > 0) {
+		                ? "Egg locked"
 		
-		            hatchButton.hatchButtonText.text =
-		                "Change the rarity.";
+		                : secs > 0
 		
-		        } else {
+		                    ? "Change the rarity."
 		
-		            hatchButton.hatchButtonText.text =
-		                "Hatch the egg";
-		        }
+		                    : "Hatch the egg";
 		    }
 		}
 		
@@ -8257,44 +10103,17 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		function startCountdown() {
 		
-		    if (countdownTimer) {
-		
-		        clearInterval(
-		            countdownTimer
-		        );
-		    }
+		    clearInterval(
+		        countdownTimer
+		    );
 		
 		    updateCountdown();
 		
-		    countdownTimer = setInterval(
-		        function () {
-		
-		            if (eggLocked[currentEggIndex]) {
-		                return;
-		            }
-		
-		            eggTimers[currentEggIndex]--;
-		
-		            if (eggTimers[currentEggIndex] < 0) {
-		
-		                eggTimers[currentEggIndex] = 0;
-		            }
-		
-		            updateCountdown();
-		
-		            if (eggTimers[currentEggIndex] <= 0) {
-		
-		                clearInterval(
-		                    countdownTimer
-		                );
-		
-		                countdownTimer = null;
-		                saveEggTimers();
-		            }
-		
-		        },
-		        1000
-		    );
+		    countdownTimer =
+		        setInterval(
+		            updateCountdown,
+		            250
+		        );
 		}
 		
 		
@@ -8304,10 +10123,14 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		function layoutBottomBar() {
 		
-		    var W = lib.properties.width;
-		    var H = lib.properties.height;
+		    var W =
+		        lib.properties.width;
 		
-		    var portrait = H > W;
+		    var H =
+		        lib.properties.height;
+		
+		    var portrait =
+		        H > W;
 		
 		
 		    // --------------------------------------------------
@@ -8327,28 +10150,41 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        // MOBILE / PORTRAIT
 		        // ----------------------------------------------
 		
-		        barHeight = Math.max(
-		            118,
-		            H * 0.16
-		        );
+		        barHeight =
+		            Math.max(
+		                118,
+		                H * 0.16
+		            );
 		
 		
-		        hatchFontSize = Math.max(
-		            20,
-		            Math.min(28, H * 0.030)
-		        );
+		        hatchFontSize =
+		            Math.max(
+		                20,
+		                Math.min(
+		                    28,
+		                    H * 0.030
+		                )
+		            );
 		
 		
-		        timerFontSize = Math.max(
-		            58,
-		            Math.min(76, H * 0.082)
-		        );
+		        timerFontSize =
+		            Math.max(
+		                58,
+		                Math.min(
+		                    76,
+		                    H * 0.082
+		                )
+		            );
 		
 		
-		        labelFontSize = Math.max(
-		            13,
-		            Math.min(18, H * 0.020)
-		        );
+		        labelFontSize =
+		            Math.max(
+		                13,
+		                Math.min(
+		                    18,
+		                    H * 0.020
+		                )
+		            );
 		
 		    } else {
 		
@@ -8356,28 +10192,32 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        // DESKTOP / LANDSCAPE
 		        // ----------------------------------------------
 		
-		        barHeight = Math.max(
-		            82,
-		            H * 0.11
-		        );
+		        barHeight =
+		            Math.max(
+		                82,
+		                H * 0.11
+		            );
 		
 		
-		        hatchFontSize = Math.max(
-		            10,
-		            H * 0.014
-		        );
+		        hatchFontSize =
+		            Math.max(
+		                10,
+		                H * 0.014
+		            );
 		
 		
-		        timerFontSize = Math.max(
-		            37,
-		            H * 0.052
-		        );
+		        timerFontSize =
+		            Math.max(
+		                37,
+		                H * 0.052
+		            );
 		
 		
-		        labelFontSize = Math.max(
-		            8,
-		            H * 0.011
-		        );
+		        labelFontSize =
+		            Math.max(
+		                8,
+		                H * 0.011
+		            );
 		    }
 		
 		
@@ -8482,43 +10322,25 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    if (portrait) {
 		
-		        // --------------------------------------------------
-		        // ACTUAL TEXT HEIGHTS
-		        // --------------------------------------------------
-		
 		        var hatchHeight =
 		            hatchText.getMeasuredHeight();
 		
-		
 		        var timerHeight =
 		            hatchTimer.getMeasuredHeight();
-		
 		
 		        var labelHeight =
 		            timerLabels.getMeasuredHeight();
 		
 		
-		        // --------------------------------------------------
-		        // SAFE PADDING
-		        // --------------------------------------------------
-		
 		        var topPadding = 6;
 		        var bottomPadding = 6;
 		
-		
-		        // --------------------------------------------------
-		        // TOTAL CONTENT HEIGHT
-		        // --------------------------------------------------
 		
 		        var contentHeight =
 		            hatchHeight +
 		            timerHeight +
 		            labelHeight;
 		
-		
-		        // --------------------------------------------------
-		        // AVAILABLE SPACE FOR GAPS
-		        // --------------------------------------------------
 		
 		        var availableGapSpace =
 		            barHeight -
@@ -8534,9 +10356,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            );
 		
 		
-		        // --------------------------------------------------
 		        // ROW 1
-		        // --------------------------------------------------
 		
 		        hatchText.x =
 		            W / 2;
@@ -8546,9 +10366,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            topPadding;
 		
 		
-		        // --------------------------------------------------
 		        // ROW 2
-		        // --------------------------------------------------
 		
 		        hatchTimer.x =
 		            W / 2;
@@ -8559,9 +10377,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            gap;
 		
 		
-		        // --------------------------------------------------
 		        // ROW 3
-		        // --------------------------------------------------
 		
 		        timerLabels.x =
 		            W / 2;
@@ -8572,9 +10388,7 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            gap;
 		
 		
-		        // --------------------------------------------------
 		        // FINAL SAFETY CHECK
-		        // --------------------------------------------------
 		
 		        var labelBottom =
 		            timerLabels.y +
@@ -8588,12 +10402,20 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		            var correction =
 		                labelBottom -
-		                (H - bottomPadding);
+		                (
+		                    H -
+		                    bottomPadding
+		                );
 		
 		
-		            hatchText.y -= correction;
-		            hatchTimer.y -= correction;
-		            timerLabels.y -= correction;
+		            hatchText.y -=
+		                correction;
+		
+		            hatchTimer.y -=
+		                correction;
+		
+		            timerLabels.y -=
+		                correction;
 		        }
 		
 		    } else {
@@ -8634,10 +10456,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            W / 2;
 		
 		
-		        // --------------------------------------------------
-		        // MOBILE BUTTON MOVED HIGHER
-		        // --------------------------------------------------
-		
 		        if (portrait) {
 		
 		            hatchButton.y =
@@ -8669,7 +10487,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                hatchBaseScaleX *
 		                buttonScale;
 		
-		
 		            hatchButton.scaleY =
 		                hatchBaseScaleY *
 		                buttonScale;
@@ -8691,12 +10508,10 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    if (portrait) {
 		
-		        // Make dots 2x larger
 		        pageDots.scaleX = 2;
 		        pageDots.scaleY = 2;
 		
 		
-		        // Slightly wider spacing
 		        for (
 		            var d = 0;
 		            d < pageDots.numChildren;
@@ -8707,13 +10522,13 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                (
 		                    d -
 		                    (DOT_COUNT - 1) / 2
-		                ) * 24;
+		                ) *
+		                24;
 		        }
 		
 		
 		        if (hatchButton) {
 		
-		            // Dots moved higher
 		            pageDots.y =
 		                hatchButton.y - 75;
 		
@@ -8729,7 +10544,6 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		        pageDots.scaleY = 1;
 		
 		
-		        // Desktop spacing
 		        for (
 		            var d2 = 0;
 		            d2 < pageDots.numChildren;
@@ -8740,7 +10554,8 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                (
 		                    d2 -
 		                    (DOT_COUNT - 1) / 2
-		                ) * DOT_SPACING;
+		                ) *
+		                DOT_SPACING;
 		        }
 		
 		
@@ -8783,22 +10598,130 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		// --------------------------------------------------
-		// CLEANUP (called when leaving this frame, or on the next run)
+		// LOAD THE SAVED TIMERS
 		// --------------------------------------------------
 		
-		self.cleanupBottomBar = function () {
+		function connectSave() {
 		
-		    // Keep the countdown continuous across screens
-		    saveEggTimers();
+		    // Re-reads timers when the save loads,
+		    // player changes, or save is imported.
 		
-		    clearInterval(countdownTimer);
-		    createjs.Ticker.removeEventListener("tick", layoutBottomBar);
+		    SaveSystem.onChange(
+		        "bottomBar",
+		        function (name) {
 		
-		    self.removeChild(bottomBar);
-		    self.removeChild(pageDots);
+		            if (
+		                !name ||
+		                name === "eggEndTimes"
+		            ) {
 		
-		    self.cleanupBottomBar = null;
-		};
+		                readTimers();
+		            }
+		        }
+		    );
+		
+		
+		    if (SaveSystem.isLoaded()) {
+		
+		        readTimers();
+		
+		    } else {
+		
+		        SaveSystem.load();
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// WAIT FOR SAVE SYSTEM
+		// --------------------------------------------------
+		
+		var saveWaitTicks = 0;
+		
+		function waitForSave() {
+		
+		    if (window.SaveSystem) {
+		
+		        createjs.Ticker.removeEventListener(
+		            "tick",
+		            waitForSave
+		        );
+		
+		        connectSave();
+		
+		        return;
+		    }
+		
+		
+		    if (++saveWaitTicks > 120) {
+		
+		        createjs.Ticker.removeEventListener(
+		            "tick",
+		            waitForSave
+		        );
+		    }
+		}
+		
+		
+		if (window.SaveSystem) {
+		
+		    connectSave();
+		
+		} else {
+		
+		    createjs.Ticker.addEventListener(
+		        "tick",
+		        waitForSave
+		    );
+		}
+		
+		
+		// --------------------------------------------------
+		// CLEANUP
+		// --------------------------------------------------
+		
+		self.cleanupBottomBar =
+		    function () {
+		
+		        clearInterval(
+		            countdownTimer
+		        );
+		
+		
+		        createjs.Ticker.removeEventListener(
+		            "tick",
+		            layoutBottomBar
+		        );
+		
+		
+		        createjs.Ticker.removeEventListener(
+		            "tick",
+		            waitForSave
+		        );
+		
+		
+		        // Stop listening while this screen is gone
+		        if (window.SaveSystem) {
+		
+		            SaveSystem.onChange(
+		                "bottomBar",
+		                function () {}
+		            );
+		        }
+		
+		
+		        self.removeChild(
+		            bottomBar
+		        );
+		
+		        self.removeChild(
+		            pageDots
+		        );
+		
+		
+		        self.cleanupBottomBar =
+		            null;
+		    };
 	}
 	this.frame_2 = function() {
 		this.stop();
@@ -8811,127 +10734,300 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
+		    // CLEAN UP PREVIOUS HATCHERY UI
+		    // --------------------------------------------------
+		
+		    function cleanupPreviousHatcheryUI() {
+		
+		        // Bottom hatch timer bar
+		        if (self.cleanupBottomBar) {
+		            self.cleanupBottomBar();
+		        }
+		
+		
+		        // Monster cards/buttons
+		        if (self.cleanupCards) {
+		            self.cleanupCards();
+		        }
+		
+		
+		        // Hatchery-specific UI
+		        if (self.cleanupHatchery) {
+		            self.cleanupHatchery();
+		        }
+		
+		
+		        // Monster card UI
+		        if (self.cleanupMonsterCards) {
+		            self.cleanupMonsterCards();
+		        }
+		
+		
+		        // General hatchery UI
+		        if (self.cleanupHatcheryUI) {
+		            self.cleanupHatcheryUI();
+		        }
+		    }
+		
+		
+		    // Run this BEFORE creating the egg-discovery UI.
+		    cleanupPreviousHatcheryUI();
+		
+		
+		    // --------------------------------------------------
 		    // SETTINGS
 		    // --------------------------------------------------
 		
-		    // Grid
-		    var COLUMNS    = portrait ? 2 : 4;
-		    var PER_PAGE   = 36;      // cards on each page
-		    var TOTAL_EGGS = 33;      // eggs in the whole game (only page 1 for now)
+		    var EGG_SPECIES =
+		        window.EGG_SPECIES || [];
 		
-		    // Leave room for the top bar at the top of the screen.
-		    // Set to false if the top bar is not shown on this frame.
-		    var RESERVE_TOP_BAR = true;
+		
+		    if (!EGG_SPECIES.length) {
+		
+		        console.error(
+		            "EGG_SPECIES is empty. Check that the egg groups file ran before this frame."
+		        );
+		    }
+		
+		
+		    // Grid
+		    var COLUMNS =
+		        portrait ? 2 : 4;
+		
+		    var PER_PAGE =
+		        36;
+		
+		    var TOTAL_EGGS =
+		        EGG_SPECIES.length;
+		
+		
+		    // Leave room for the top bar
+		    var RESERVE_TOP_BAR =
+		        true;
+		
 		
 		    // Layout
-		    var MAX_CONTENT_WIDTH = 1200;               // widest the grid and header get on PC
-		    var SIDE_MARGIN       = portrait ? 24 : 40;
-		    var CARD_GAP          = portrait ? 14 : 24;
+		    var MAX_CONTENT_WIDTH =
+		        1200;
+		
+		    var SIDE_MARGIN =
+		        portrait ? 24 : 40;
+		
+		    var CARD_GAP =
+		        portrait ? 14 : 24;
+		
 		
 		    // Header
-		    var HEADER_HEIGHT = portrait ? 84 : 72;
-		    var TITLE_SIZE    = portrait ? 34 : 30;
-		    var COUNT_SIZE    = portrait ? 22 : 18;
+		    var HEADER_HEIGHT =
+		        portrait ? 84 : 72;
 		
-		    var TITLE_COLOR = "#dbeaf5";
-		    var COUNT_COLOR = "#8DBBD1";
+		    var TITLE_SIZE =
+		        portrait ? 34 : 30;
 		
-		    // Light blue dividing line under the header
-		    var LINE_COLOR     = "#8fd8ff";
-		    var LINE_ALPHA     = 0.75;
-		    var LINE_THICKNESS = 2;
+		    var COUNT_SIZE =
+		        portrait ? 22 : 18;
 		
-		    // Space above the first row and below the last row
-		    var SCROLL_PAD_TOP    = 20;
-		    var SCROLL_PAD_BOTTOM = 40;
+		
+		    var TITLE_COLOR =
+		        "#dbeaf5";
+		
+		    var COUNT_COLOR =
+		        "#8DBBD1";
+		
+		
+		    // Dividing line
+		    var LINE_COLOR =
+		        "#8fd8ff";
+		
+		    var LINE_ALPHA =
+		        0.75;
+		
+		    var LINE_THICKNESS =
+		        2;
+		
+		
+		    // Space above/below cards
+		    var SCROLL_PAD_TOP =
+		        20;
+		
+		    var SCROLL_PAD_BOTTOM =
+		        40;
+		
 		
 		    // Scrolling
-		    var DRAG_THRESHOLD = 10;    // how far the pointer must move before it counts as a drag
-		    var FRICTION       = 0.92;  // closer to 1 = glides for longer after letting go
+		    var DRAG_THRESHOLD =
+		        10;
 		
-		    // Text shown on a card for an egg that is not discovered yet
-		    var EMPTY_TYPE = "UNDISCOVERED";
-		    var EMPTY_NAME = "???";
+		    var FRICTION =
+		        0.92;
+		
+		
+		    // Undiscovered
+		    var EMPTY_TYPE =
+		        "UNDISCOVERED";
+		
+		    var EMPTY_NAME =
+		        "???";
+		
+		
+		    // No type
+		    var NO_TYPE =
+		        "NONE";
+		
+		
+		    var TYPE_SEPARATOR =
+		        " \u00B7 ";
+		
+		
+		    var GUARDING_FONT_FAMILY =
+		        "'DM Sans'";
+		
+		
+		    var OWNED_LABEL =
+		        "Owned: ";
+		
+		
+		    var SAVE_LISTENER_ID =
+		        "eggsMenu";
+		
+		
+		    // --------------------------------------------------
+		    // MAIN GAME FRAME
+		    // --------------------------------------------------
+		
+		    var GAME_LABEL =
+		        "game";
+		
+		
+		    // Title while choosing an egg
+		    var PICK_TITLE =
+		        "Choose an egg";
 		
 		
 		    // --------------------------------------------------
 		    // DATA
 		    // --------------------------------------------------
 		
-		    // null = not discovered yet.
-		    // A discovered egg is an object like { type: "LUNAR", name: "Lumi" }.
-		
 		    var eggData = [];
+		    var ownedCount = [];
 		
-		    for (var d = 0; d < TOTAL_EGGS; d++) {
+		
+		    for (
+		        var d = 0;
+		        d < TOTAL_EGGS;
+		        d++
+		    ) {
 		
 		        eggData.push(null);
+		        ownedCount.push(0);
 		    }
 		
-		    var currentPage = 0;
+		
+		    var currentPage =
+		        0;
 		
 		
 		    // --------------------------------------------------
 		    // CONTAINERS
 		    // --------------------------------------------------
 		
-		    // Viewport: clips the grid so it only shows under the header line
-		    var eggsViewport = new createjs.Container();
-		
-		    self.addChild(eggsViewport);
+		    var eggsViewport =
+		        new createjs.Container();
 		
 		
-		    // Invisible area that lets you start a drag in the gaps between cards
-		    var scrollHit = new createjs.Shape();
-		
-		    eggsViewport.addChild(scrollHit);
-		
-		
-		    // Everything that scrolls
-		    var eggsContent = new createjs.Container();
-		
-		    eggsViewport.addChild(eggsContent);
-		
-		
-		    // The clipping area for the viewport (not added to the stage)
-		    var viewMask = new createjs.Shape();
-		
-		    eggsViewport.mask = viewMask;
-		
-		
-		    // Header: title, count, and the dividing line
-		    var eggsHeader = new createjs.Container();
-		
-		    self.addChild(eggsHeader);
-		
-		
-		    var titleText = new createjs.Text(
-		        "Eggs discovered",
-		        "30px 'Marcellus'",
-		        TITLE_COLOR
+		    self.addChild(
+		        eggsViewport
 		    );
 		
-		    titleText.textAlign = "left";
-		    titleText.textBaseline = "middle";
 		
-		    eggsHeader.addChild(titleText);
+		    var scrollHit =
+		        new createjs.Shape();
 		
 		
-		    var countText = new createjs.Text(
-		        "0 unique eggs",
-		        "bold 18px 'DM Sans'",
-		        COUNT_COLOR
+		    eggsViewport.addChild(
+		        scrollHit
 		    );
 		
-		    countText.textAlign = "right";
-		    countText.textBaseline = "middle";
 		
-		    eggsHeader.addChild(countText);
+		    var eggsContent =
+		        new createjs.Container();
 		
 		
-		    var headerLine = new createjs.Shape();
+		    eggsViewport.addChild(
+		        eggsContent
+		    );
 		
-		    eggsHeader.addChild(headerLine);
+		
+		    var viewMask =
+		        new createjs.Shape();
+		
+		
+		    eggsViewport.mask =
+		        viewMask;
+		
+		
+		    // --------------------------------------------------
+		    // HEADER
+		    // --------------------------------------------------
+		
+		    var eggsHeader =
+		        new createjs.Container();
+		
+		
+		    self.addChild(
+		        eggsHeader
+		    );
+		
+		
+		    var titleText =
+		        new createjs.Text(
+		            "Eggs discovered",
+		            "30px 'Marcellus'",
+		            TITLE_COLOR
+		        );
+		
+		
+		    titleText.textAlign =
+		        "left";
+		
+		
+		    titleText.textBaseline =
+		        "middle";
+		
+		
+		    eggsHeader.addChild(
+		        titleText
+		    );
+		
+		
+		    var countText =
+		        new createjs.Text(
+		            "0 unique eggs",
+		            "bold 18px 'DM Sans'",
+		            COUNT_COLOR
+		        );
+		
+		
+		    countText.textAlign =
+		        "right";
+		
+		
+		    countText.textBaseline =
+		        "middle";
+		
+		
+		    eggsHeader.addChild(
+		        countText
+		    );
+		
+		
+		    var headerLine =
+		        new createjs.Shape();
+		
+		
+		    eggsHeader.addChild(
+		        headerLine
+		    );
 		
 		
 		    // --------------------------------------------------
@@ -8940,18 +11036,45 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    var cards = [];
 		
-		    var viewTop = 0;        // y where the scrolling area starts
-		    var maxScroll = 0;      // furthest the grid can scroll
 		
-		    var scrollY = 0;
+		    var viewTop =
+		        0;
 		
-		    var dragging = false;
-		    var dragMoved = false;  // true once a press has moved far enough to be a drag
-		    var dragStartY = 0;
-		    var dragStartScroll = 0;
-		    var lastY = 0;
-		    var lastTime = 0;
-		    var velocity = 0;       // scroll speed in pixels per millisecond
+		
+		    var maxScroll =
+		        0;
+		
+		
+		    var scrollY =
+		        0;
+		
+		
+		    var dragging =
+		        false;
+		
+		
+		    var dragMoved =
+		        false;
+		
+		
+		    var dragStartY =
+		        0;
+		
+		
+		    var dragStartScroll =
+		        0;
+		
+		
+		    var lastY =
+		        0;
+		
+		
+		    var lastTime =
+		        0;
+		
+		
+		    var velocity =
+		        0;
 		
 		
 		    // --------------------------------------------------
@@ -8960,15 +11083,21 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    function countDiscovered() {
 		
-		        var n = 0;
+		        var n =
+		            0;
 		
-		        for (var i = 0; i < eggData.length; i++) {
+		
+		        for (
+		            var i = 0;
+		            i < eggData.length;
+		            i++
+		        ) {
 		
 		            if (eggData[i]) {
-		
 		                n++;
 		            }
 		        }
+		
 		
 		        return n;
 		    }
@@ -8976,7 +11105,9 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    function updateDiscoveredText() {
 		
-		        var n = countDiscovered();
+		        var n =
+		            countDiscovered();
+		
 		
 		        countText.text =
 		            n +
@@ -8989,23 +11120,72 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // CARD TEXT
+		    // CARD TEXT + EGG IMAGE
 		    // --------------------------------------------------
 		
 		    function applyCardText(card) {
 		
-		        var data = eggData[card.eggIndex];
+		        var data =
+		            eggData[
+		                card.eggIndex
+		            ];
 		
-		        // The "type" label (top)
+		
+		        // --------------------------------------------------
+		        // EGG IMAGE
+		        // --------------------------------------------------
+		        //
+		        // Each MonsterContainer now has an instance named
+		        // "egg".
+		        //
+		        // If the species has NOT been discovered:
+		        //     hide the egg.
+		        //
+		        // If the species HAS been discovered:
+		        //     show the egg and go to the frame whose label
+		        //     matches the monster/egg name.
+		        //
+		
+		        if (card.egg) {
+		
+		            if (!data) {
+		
+		                // Undiscovered
+		                card.egg.visible =
+		                    false;
+		
+		            } else {
+		
+		                // Discovered
+		                card.egg.visible =
+		                    true;
+		
+		
+		                // The frame label must match the egg name.
+		                card.egg.gotoAndStop(
+		                    data.name
+		                );
+		            }
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // TYPE
+		        // --------------------------------------------------
+		
 		        if (card.type) {
 		
 		            card.type.text =
 		                data
-		                    ? String(data.type).toUpperCase()
+		                    ? typeLabel(data)
 		                    : EMPTY_TYPE;
 		        }
 		
-		        // The "MonsterName" label (second)
+		
+		        // --------------------------------------------------
+		        // MONSTER NAME
+		        // --------------------------------------------------
+		
 		        if (card.MonsterName) {
 		
 		            card.MonsterName.text =
@@ -9014,7 +11194,42 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                    : EMPTY_NAME;
 		        }
 		
-		        // Cards are cached, so redraw the cache to show new text
+		
+		        // --------------------------------------------------
+		        // OWNED COUNT
+		        // --------------------------------------------------
+		
+		        if (card.guarding) {
+		
+		            var sizeAndStyle =
+		                /^(.*?\d+(?:\.\d+)?px)\s/.exec(
+		                    card.guarding.font || ""
+		                );
+		
+		
+		            if (sizeAndStyle) {
+		
+		                card.guarding.font =
+		                    sizeAndStyle[1] +
+		                    " " +
+		                    GUARDING_FONT_FAMILY;
+		            }
+		
+		
+		            card.guarding.text =
+		                data
+		                    ? OWNED_LABEL +
+		                      ownedCount[
+		                          card.eggIndex
+		                      ]
+		                    : "";
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // CACHE
+		        // --------------------------------------------------
+		
 		        if (card.cacheCanvas) {
 		
 		            card.updateCache();
@@ -9023,39 +11238,332 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		
 		    // --------------------------------------------------
-		    // CREATE / CLEAR THE CARDS FOR A PAGE
+		    // TYPE LABEL
+		    // --------------------------------------------------
+		
+		    function typeLabel(data) {
+		
+		        var types = [];
+		
+		
+		        if (data.type1) {
+		
+		            types.push(
+		                data.type1
+		            );
+		        }
+		
+		
+		        if (data.type2) {
+		
+		            types.push(
+		                data.type2
+		            );
+		        }
+		
+		
+		        if (!types.length) {
+		
+		            return NO_TYPE;
+		        }
+		
+		
+		        return types.join(
+		            TYPE_SEPARATOR
+		        ).toUpperCase();
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // SAVE SYNC
+		    // --------------------------------------------------
+		
+		    function syncFromSave() {
+		
+		        var found =
+		            SaveSystem.get(
+		                "discovered"
+		            );
+		
+		
+		        var owned =
+		            SaveSystem.get(
+		                "eggs"
+		            );
+		
+		
+		        if (!Array.isArray(found)) {
+		
+		            found = [];
+		        }
+		
+		
+		        if (!Array.isArray(owned)) {
+		
+		            owned = [];
+		        }
+		
+		
+		        for (
+		            var i = 0;
+		            i < TOTAL_EGGS;
+		            i++
+		        ) {
+		
+		            var species =
+		                EGG_SPECIES[i];
+		
+		
+		            // --------------------------------------------------
+		            // DISCOVERED DATA
+		            // --------------------------------------------------
+		
+		            eggData[i] =
+		                (
+		                    species &&
+		                    found.indexOf(
+		                        species.monsterId
+		                    ) >= 0
+		                )
+		                    ? {
+		
+		                        type1:
+		                            species.type1,
+		
+		                        type2:
+		                            species.type2,
+		
+		                        name:
+		                            species.name
+		                    }
+		                    : null;
+		
+		
+		            // --------------------------------------------------
+		            // OWNED COUNT
+		            // --------------------------------------------------
+		
+		            var n =
+		                0;
+		
+		
+		            for (
+		                var o = 0;
+		                o < owned.length;
+		                o++
+		            ) {
+		
+		                if (
+		                    species &&
+		                    owned[o] ===
+		                    species.monsterId
+		                ) {
+		
+		                    n++;
+		                }
+		            }
+		
+		
+		            ownedCount[i] =
+		                n;
+		        }
+		
+		
+		        updateDiscoveredText();
+		
+		
+		        // Update every visible card
+		        for (
+		            var c = 0;
+		            c < cards.length;
+		            c++
+		        ) {
+		
+		            applyCardText(
+		                cards[c]
+		            );
+		        }
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // CLEAR CARDS
 		    // --------------------------------------------------
 		
 		    function clearCards() {
 		
-		        for (var i = 0; i < cards.length; i++) {
+		        for (
+		            var i = 0;
+		            i < cards.length;
+		            i++
+		        ) {
 		
-		            cards[i].removeAllEventListeners();
+		            cards[i]
+		                .removeAllEventListeners();
 		
-		            eggsContent.removeChild(cards[i]);
+		
+		            eggsContent.removeChild(
+		                cards[i]
+		            );
 		        }
+		
 		
 		        cards = [];
 		    }
 		
 		
+		    // --------------------------------------------------
+		    // EGG CARD CLICK
+		    // --------------------------------------------------
+		
 		    function onEggCardClick(evt) {
 		
-		        // A press that turned into a drag is not a tap
 		        if (dragMoved) {
+		
 		            return;
 		        }
 		
-		        var card = evt.currentTarget;
 		
-		        console.log(
-		            "Egg card tapped:",
-		            card.eggIndex
+		        var card =
+		            evt.currentTarget;
+		
+		
+		        var species =
+		            EGG_SPECIES[
+		                card.eggIndex
+		            ];
+		
+		
+		        var placement =
+		            window.EggPlacement;
+		
+		
+		        if (
+		            !placement ||
+		            !placement.active
+		        ) {
+		
+		            return;
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // MAKE SURE PLAYER OWNS THIS EGG
+		        // --------------------------------------------------
+		
+		        if (
+		            ownedCount[
+		                card.eggIndex
+		            ] < 1
+		        ) {
+		
+		            console.log(
+		                "No",
+		                species.name,
+		                "egg owned, can't place it."
+		            );
+		
+		            return;
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // CREATE EGG DATA
+		        // --------------------------------------------------
+		
+		        if (!window.createEggFromId) {
+		
+		            console.error(
+		                "createEggFromId not found. Add it to the bottom of the egg groups file."
+		            );
+		
+		            return;
+		        }
+		
+		
+		        var newEgg =
+		            window.createEggFromId(
+		                species.monsterId
+		            );
+		
+		
+		        if (!newEgg) {
+		
+		            return;
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // HATCH TIME
+		        // --------------------------------------------------
+		
+		        var endTime =
+		            Date.now() +
+		            newEgg.maxHatchTime *
+		            1000;
+		
+		
+		        // --------------------------------------------------
+		        // SAVE EGG TO SLOT
+		        // --------------------------------------------------
+		
+		        var placed =
+		            SaveSystem.placeEgg(
+		                placement.slot,
+		                species.monsterId,
+		                endTime
+		            );
+		
+		
+		        if (!placed) {
+		
+		            console.warn(
+		                "Could not place the egg in slot",
+		                placement.slot
+		            );
+		
+		            return;
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // PLACEMENT COMPLETE
+		        // --------------------------------------------------
+		
+		        placement.active =
+		            false;
+		
+		
+		        // --------------------------------------------------
+		        // CLEAN UP EGG MENU
+		        // --------------------------------------------------
+		
+		        if (self.cleanupEggs) {
+		
+		            self.cleanupEggs();
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // CLEAN UP OLD HATCHERY UI
+		        // --------------------------------------------------
+		
+		        cleanupPreviousHatcheryUI();
+		
+		
+		        // --------------------------------------------------
+		        // RETURN TO MAIN GAME
+		        // --------------------------------------------------
+		
+		        self.gotoAndStop(
+		            GAME_LABEL
 		        );
-		
-		        // Put what should happen when a card is tapped here
 		    }
 		
+		
+		    // --------------------------------------------------
+		    // BUILD PAGE
+		    // --------------------------------------------------
 		
 		    function buildPage(page) {
 		
@@ -9068,46 +11576,67 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            return;
 		        }
 		
+		
 		        clearCards();
 		
-		        currentPage = page;
 		
-		        var start = page * PER_PAGE;
-		
-		        var end = Math.min(
-		            start + PER_PAGE,
-		            TOTAL_EGGS
-		        );
+		        currentPage =
+		            page;
 		
 		
-		        for (var i = start; i < end; i++) {
+		        var start =
+		            page * PER_PAGE;
 		
-		            var card = new lib.MonsterContainer();
 		
-		            card.eggIndex = i;
+		        var end =
+		            Math.min(
+		                start + PER_PAGE,
+		                TOTAL_EGGS
+		            );
 		
-		            card.cursor = "pointer";
 		
-		            // Not used on the eggs screen
-		            if (card.guarding) {
+		        for (
+		            var i = start;
+		            i < end;
+		            i++
+		        ) {
 		
-		                card.guarding.visible = false;
-		            }
+		            var card =
+		                new lib.MonsterContainer();
+		
+		
+		            card.eggIndex =
+		                i;
+		
+		
+		            card.cursor =
+		                "pointer";
+		
 		
 		            card.addEventListener(
 		                "click",
 		                onEggCardClick
 		            );
 		
-		            eggsContent.addChild(card);
 		
-		            cards.push(card);
+		            eggsContent.addChild(
+		                card
+		            );
 		
-		            applyCardText(card);
+		
+		            cards.push(
+		                card
+		            );
+		
+		
+		            applyCardText(
+		                card
+		            );
 		        }
 		
 		
 		        layoutEggs();
+		
 		
 		        setScroll(0);
 		    }
@@ -9119,13 +11648,15 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    function setScroll(y) {
 		
-		        scrollY = Math.max(
-		            0,
-		            Math.min(
-		                maxScroll,
-		                y
-		            )
-		        );
+		        scrollY =
+		            Math.max(
+		                0,
+		                Math.min(
+		                    maxScroll,
+		                    y
+		                )
+		            );
+		
 		
 		        eggsContent.y =
 		            viewTop -
@@ -9135,43 +11666,79 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    function onPress(evt) {
 		
-		        dragging = true;
-		        dragMoved = false;
+		        dragging =
+		            true;
 		
-		        // Stop any glide that is still going
-		        velocity = 0;
 		
-		        dragStartY = evt.stageY;
-		        dragStartScroll = scrollY;
+		        dragMoved =
+		            false;
 		
-		        lastY = evt.stageY;
-		        lastTime = Date.now();
+		
+		        velocity =
+		            0;
+		
+		
+		        dragStartY =
+		            evt.stageY;
+		
+		
+		        dragStartScroll =
+		            scrollY;
+		
+		
+		        lastY =
+		            evt.stageY;
+		
+		
+		        lastTime =
+		            Date.now();
 		    }
 		
 		
 		    function onDragMove(evt) {
 		
 		        if (!dragging) {
+		
 		            return;
 		        }
 		
-		        var y = evt.stageY;
+		
+		        var y =
+		            evt.stageY;
+		
 		
 		        if (!dragMoved) {
 		
-		            if (Math.abs(y - dragStartY) <= DRAG_THRESHOLD) {
+		            if (
+		                Math.abs(
+		                    y -
+		                    dragStartY
+		                ) <= DRAG_THRESHOLD
+		            ) {
+		
 		                return;
 		            }
 		
-		            // The drag has started. Restart from here so the
-		            // grid does not jump by the threshold distance.
-		            dragMoved = true;
 		
-		            dragStartY = y;
-		            dragStartScroll = scrollY;
+		            dragMoved =
+		                true;
 		
-		            lastY = y;
-		            lastTime = Date.now();
+		
+		            dragStartY =
+		                y;
+		
+		
+		            dragStartScroll =
+		                scrollY;
+		
+		
+		            lastY =
+		                y;
+		
+		
+		            lastTime =
+		                Date.now();
+		
 		
 		            return;
 		        }
@@ -9179,22 +11746,41 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        setScroll(
 		            dragStartScroll -
-		            (y - dragStartY)
+		            (
+		                y -
+		                dragStartY
+		            )
 		        );
 		
 		
-		        // Track the speed so the grid can glide after release
-		        var now = Date.now();
-		        var dt = now - lastTime;
+		        var now =
+		            Date.now();
+		
+		
+		        var dt =
+		            now -
+		            lastTime;
+		
 		
 		        if (dt > 0) {
 		
 		            velocity =
 		                velocity * 0.6 +
-		                ((lastY - y) / dt) * 0.4;
+		                (
+		                    (
+		                        lastY -
+		                        y
+		                    ) /
+		                    dt
+		                ) * 0.4;
 		
-		            lastY = y;
-		            lastTime = now;
+		
+		            lastY =
+		                y;
+		
+		
+		            lastTime =
+		                now;
 		        }
 		    }
 		
@@ -9202,32 +11788,46 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    function onRelease() {
 		
 		        if (!dragging) {
+		
 		            return;
 		        }
 		
-		        dragging = false;
 		
-		        // If the finger paused before lifting, don't glide
-		        if (Date.now() - lastTime > 100) {
+		        dragging =
+		            false;
 		
-		            velocity = 0;
+		
+		        if (
+		            Date.now() -
+		            lastTime > 100
+		        ) {
+		
+		            velocity =
+		                0;
 		        }
 		    }
 		
 		
-		    // Glide after letting go
 		    function scrollTick(evt) {
 		
 		        if (dragging) {
-		            return;
-		        }
-		
-		        if (Math.abs(velocity) < 0.01) {
-		
-		            velocity = 0;
 		
 		            return;
 		        }
+		
+		
+		        if (
+		            Math.abs(
+		                velocity
+		            ) < 0.01
+		        ) {
+		
+		            velocity =
+		                0;
+		
+		            return;
+		        }
+		
 		
 		        setScroll(
 		            scrollY +
@@ -9235,23 +11835,29 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            evt.delta
 		        );
 		
-		        velocity *= Math.pow(
-		            FRICTION,
-		            evt.delta / 16.67
-		        );
 		
-		        // Stop at the top and bottom
+		        velocity *=
+		            Math.pow(
+		                FRICTION,
+		                evt.delta / 16.67
+		            );
+		
+		
 		        if (
 		            scrollY <= 0 ||
 		            scrollY >= maxScroll
 		        ) {
 		
-		            velocity = 0;
+		            velocity =
+		                0;
 		        }
 		    }
 		
 		
-		    // Mouse wheel (desktop)
+		    // --------------------------------------------------
+		    // MOUSE WHEEL
+		    // --------------------------------------------------
+		
 		    var canvas =
 		        self.stage
 		            ? self.stage.canvas
@@ -9262,14 +11868,18 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        e.preventDefault();
 		
-		        velocity = 0;
 		
-		        // Convert page pixels to stage pixels, so the speed
-		        // feels the same however big the game is on screen
+		        velocity =
+		            0;
+		
+		
 		        var unitsPerPixel =
-		            canvas && canvas.clientWidth
-		                ? W / canvas.clientWidth
+		            canvas &&
+		            canvas.clientWidth
+		                ? W /
+		                  canvas.clientWidth
 		                : 1;
+		
 		
 		        var amount =
 		            e.deltaY *
@@ -9280,7 +11890,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            ) *
 		            unitsPerPixel;
 		
-		        setScroll(scrollY + amount);
+		
+		        setScroll(
+		            scrollY +
+		            amount
+		        );
 		    }
 		
 		
@@ -9290,34 +11904,45 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		    function layoutEggs() {
 		
-		        // Same height as the top bar, so the header sits below it
 		        var topOffset =
 		            RESERVE_TOP_BAR
 		                ? (
 		                    portrait
-		                        ? Math.max(82, H * 0.11)
-		                        : Math.max(66, H * 0.09)
+		                        ? Math.max(
+		                            82,
+		                            H * 0.11
+		                        )
+		                        : Math.max(
+		                            66,
+		                            H * 0.09
+		                        )
 		                )
 		                : 0;
 		
 		
 		        var contentW =
 		            Math.min(
-		                W - SIDE_MARGIN * 2,
+		                W -
+		                SIDE_MARGIN * 2,
 		                MAX_CONTENT_WIDTH
 		            );
 		
+		
 		        var contentLeft =
-		            (W - contentW) / 2;
+		            (
+		                W -
+		                contentW
+		            ) / 2;
 		
 		
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		        // HEADER
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		
 		        var headerMiddle =
 		            topOffset +
 		            HEADER_HEIGHT / 2;
+		
 		
 		        var lineY =
 		            topOffset +
@@ -9328,8 +11953,13 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            TITLE_SIZE +
 		            "px 'Marcellus'";
 		
-		        titleText.x = contentLeft;
-		        titleText.y = headerMiddle;
+		
+		        titleText.x =
+		            contentLeft;
+		
+		
+		        titleText.y =
+		            headerMiddle;
 		
 		
 		        countText.font =
@@ -9337,14 +11967,23 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            COUNT_SIZE +
 		            "px 'DM Sans'";
 		
-		        countText.x = contentLeft + contentW;
-		        countText.y = headerMiddle;
+		
+		        countText.x =
+		            contentLeft +
+		            contentW;
+		
+		
+		        countText.y =
+		            headerMiddle;
 		
 		
 		        headerLine.graphics.clear();
 		
+		
 		        headerLine.graphics
-		            .beginFill(LINE_COLOR)
+		            .beginFill(
+		                LINE_COLOR
+		            )
 		            .drawRect(
 		                contentLeft,
 		                lineY,
@@ -9352,28 +11991,35 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		                LINE_THICKNESS
 		            );
 		
-		        headerLine.alpha = LINE_ALPHA;
+		
+		        headerLine.alpha =
+		            LINE_ALPHA;
 		
 		
 		        updateDiscoveredText();
 		
 		
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		        // SCROLLING AREA
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		
 		        viewTop =
 		            lineY +
 		            LINE_THICKNESS;
 		
+		
 		        var viewH =
-		            H - viewTop;
+		            H -
+		            viewTop;
 		
 		
 		        viewMask.graphics.clear();
 		
+		
 		        viewMask.graphics
-		            .beginFill("#000")
+		            .beginFill(
+		                "#000"
+		            )
 		            .drawRect(
 		                0,
 		                viewTop,
@@ -9384,8 +12030,11 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        scrollHit.graphics.clear();
 		
+		
 		        scrollHit.graphics
-		            .beginFill("rgba(0, 0, 0, 0.02)")
+		            .beginFill(
+		                "rgba(0, 0, 0, 0.02)"
+		            )
 		            .drawRect(
 		                0,
 		                viewTop,
@@ -9394,33 +12043,49 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            );
 		
 		
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		        // CARDS
-		        // ----------------------------------------------
+		        // --------------------------------------------------
 		
 		        if (!cards.length) {
 		
-		            maxScroll = 0;
+		            maxScroll =
+		                0;
+		
 		
 		            setScroll(0);
+		
 		
 		            return;
 		        }
 		
 		
-		        var b = cards[0].nominalBounds;
+		        var b =
+		            cards[0]
+		                .nominalBounds;
+		
 		
 		        var cardW =
 		            (
 		                contentW -
-		                CARD_GAP * (COLUMNS - 1)
-		            ) / COLUMNS;
+		                CARD_GAP *
+		                (
+		                    COLUMNS -
+		                    1
+		                )
+		            ) /
+		            COLUMNS;
+		
 		
 		        var scale =
-		            cardW / b.width;
+		            cardW /
+		            b.width;
+		
 		
 		        var cardH =
-		            b.height * scale;
+		            b.height *
+		            scale;
+		
 		
 		        var rows =
 		            Math.ceil(
@@ -9429,38 +12094,77 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		            );
 		
 		
-		        // Sharper cards on high-density screens
 		        var cacheScale =
 		            scale *
 		            Math.max(
 		                1,
 		                Math.min(
 		                    2,
-		                    window.devicePixelRatio || 1
+		                    window.devicePixelRatio ||
+		                    1
 		                )
 		            );
 		
 		
-		        for (var i = 0; i < cards.length; i++) {
+		        for (
+		            var i = 0;
+		            i < cards.length;
+		            i++
+		        ) {
 		
-		            var col = i % COLUMNS;
-		            var row = Math.floor(i / COLUMNS);
+		            var col =
+		                i %
+		                COLUMNS;
+		
+		
+		            var row =
+		                Math.floor(
+		                    i /
+		                    COLUMNS
+		                );
+		
 		
 		            var left =
 		                contentLeft +
-		                col * (cardW + CARD_GAP);
+		                col *
+		                (
+		                    cardW +
+		                    CARD_GAP
+		                );
+		
 		
 		            var top =
 		                SCROLL_PAD_TOP +
-		                row * (cardH + CARD_GAP);
+		                row *
+		                (
+		                    cardH +
+		                    CARD_GAP
+		                );
 		
-		            var c = cards[i];
 		
-		            c.scaleX = scale;
-		            c.scaleY = scale;
+		            var c =
+		                cards[i];
 		
-		            c.x = left - b.x * scale;
-		            c.y = top - b.y * scale;
+		
+		            c.scaleX =
+		                scale;
+		
+		
+		            c.scaleY =
+		                scale;
+		
+		
+		            c.x =
+		                left -
+		                b.x *
+		                scale;
+		
+		
+		            c.y =
+		                top -
+		                b.y *
+		                scale;
+		
 		
 		            c.cache(
 		                b.x,
@@ -9474,106 +12178,158 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		
 		        var contentH =
 		            SCROLL_PAD_TOP +
-		            rows * cardH +
-		            (rows - 1) * CARD_GAP +
+		            rows *
+		            cardH +
+		            (
+		                rows -
+		                1
+		            ) *
+		            CARD_GAP +
 		            SCROLL_PAD_BOTTOM;
+		
 		
 		        maxScroll =
 		            Math.max(
 		                0,
-		                contentH - viewH
+		                contentH -
+		                viewH
 		            );
 		
-		        // Keep the current position valid
-		        setScroll(scrollY);
+		
+		        setScroll(
+		            scrollY
+		        );
 		    }
 		
 		
 		    // --------------------------------------------------
-		    // PUBLIC FUNCTIONS (for the rest of the game)
+		    // PUBLIC FUNCTIONS
 		    // --------------------------------------------------
 		
-		    // Mark an egg as discovered (or pass null to hide it again):
-		    //
-		    //     setEggData(0, { type: "Lunar", name: "Lumi" });
-		
-		    self.setEggData = function (index, data) {
-		
-		        if (index < 0 || index >= TOTAL_EGGS) {
-		            return;
-		        }
-		
-		        eggData[index] = data || null;
-		
-		        updateDiscoveredText();
-		
-		        for (var i = 0; i < cards.length; i++) {
-		
-		            if (cards[i].eggIndex === index) {
-		
-		                applyCardText(cards[i]);
-		            }
-		        }
-		    };
+		    self.showEggPage =
+		        buildPage;
 		
 		
-		    // For the page buttons later: showEggPage(1) builds page 2
-		    self.showEggPage = buildPage;
+		    self.refreshEggs =
+		        syncFromSave;
 		
 		
 		    // --------------------------------------------------
 		    // EVENTS
 		    // --------------------------------------------------
 		
-		    eggsViewport.on("mousedown", onPress);
-		    eggsViewport.on("pressmove", onDragMove);
-		    eggsViewport.on("pressup", onRelease);
+		    eggsViewport.on(
+		        "mousedown",
+		        onPress
+		    );
 		
-		    createjs.Ticker.addEventListener("tick", scrollTick);
+		
+		    eggsViewport.on(
+		        "pressmove",
+		        onDragMove
+		    );
+		
+		
+		    eggsViewport.on(
+		        "pressup",
+		        onRelease
+		    );
+		
+		
+		    createjs.Ticker.addEventListener(
+		        "tick",
+		        scrollTick
+		    );
+		
 		
 		    if (canvas) {
 		
 		        canvas.addEventListener(
 		            "wheel",
 		            onWheel,
-		            { passive: false }
+		            {
+		                passive: false
+		            }
 		        );
 		    }
 		
+		
 		    if (self.stage) {
 		
-		        // Needed for finger scrolling on phones
-		        createjs.Touch.enable(self.stage);
+		        createjs.Touch.enable(
+		            self.stage
+		        );
 		
-		        // Keep dragging even if the pointer leaves the game
-		        self.stage.mouseMoveOutside = true;
+		
+		        self.stage.mouseMoveOutside =
+		            true;
 		    }
 		
 		
 		    // --------------------------------------------------
-		    // CLEANUP (call when leaving this frame)
+		    // CLEANUP
 		    // --------------------------------------------------
 		
-		    self.cleanupEggs = function () {
+		    self.cleanupEggs =
+		        function () {
 		
-		        createjs.Ticker.removeEventListener("tick", scrollTick);
+		            createjs.Ticker
+		                .removeEventListener(
+		                    "tick",
+		                    scrollTick
+		                );
 		
-		        if (canvas) {
 		
-		            canvas.removeEventListener("wheel", onWheel);
-		        }
+		            if (canvas) {
 		
-		        clearCards();
+		                canvas.removeEventListener(
+		                    "wheel",
+		                    onWheel
+		                );
+		            }
 		
-		        eggsViewport.removeAllEventListeners();
 		
-		        self.removeChild(eggsViewport);
-		        self.removeChild(eggsHeader);
+		            SaveSystem.onChange(
+		                SAVE_LISTENER_ID,
+		                function () {}
+		            );
 		
-		        self.setEggData = null;
-		        self.showEggPage = null;
-		        self.cleanupEggs = null;
-		    };
+		
+		            if (window.EggPlacement) {
+		
+		                window.EggPlacement.active =
+		                    false;
+		            }
+		
+		
+		            clearCards();
+		
+		
+		            eggsViewport
+		                .removeAllEventListeners();
+		
+		
+		            self.removeChild(
+		                eggsViewport
+		            );
+		
+		
+		            self.removeChild(
+		                eggsHeader
+		            );
+		
+		
+		            self.showEggPage =
+		                null;
+		
+		
+		            self.refreshEggs =
+		                null;
+		
+		
+		            self.cleanupEggs =
+		                null;
+		        };
 		
 		
 		    // --------------------------------------------------
@@ -9581,6 +12337,48 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 		    // --------------------------------------------------
 		
 		    buildPage(0);
+		
+		
+		    if (
+		        window.EggPlacement &&
+		        window.EggPlacement.active
+		    ) {
+		
+		        titleText.text =
+		            PICK_TITLE;
+		    }
+		
+		
+		    SaveSystem.onChange(
+		        SAVE_LISTENER_ID,
+		        function (name) {
+		
+		            if (
+		                name === null ||
+		                name === "eggs" ||
+		                name === "discovered"
+		            ) {
+		
+		                syncFromSave();
+		            }
+		        }
+		    );
+		
+		
+		    if (
+		        SaveSystem.isLoaded()
+		    ) {
+		
+		        syncFromSave();
+		
+		    } else {
+		
+		        SaveSystem
+		            .load()
+		            .then(
+		                syncFromSave
+		            );
+		    }
 		
 		})(this);
 	}
@@ -9617,8 +12415,8 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791231013526", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791231013526", id:"index_atlas_2"}
+		{src:"images/index_atlas_.png?1791260350199", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791260350199", id:"index_atlas_2"}
 	],
 	preloads: []
 };
