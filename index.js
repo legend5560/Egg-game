@@ -4,7 +4,7 @@ var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
 		{name:"index_atlas_", frames: [[0,0,992,870],[994,0,992,870],[988,872,980,826],[0,872,986,832]]},
-		{name:"index_atlas_2", frames: [[0,770,942,522],[944,1291,894,540],[944,770,939,519],[770,0,768,768],[0,0,768,768],[0,1294,512,512]]},
+		{name:"index_atlas_2", frames: [[0,770,942,522],[944,1291,894,540],[944,770,939,519],[0,0,768,768],[0,1294,512,512],[770,0,768,768]]},
 		{name:"index_atlas_3", frames: [[514,470,398,398],[502,514,4,12],[81,842,29,21],[196,615,188,188],[416,514,84,117],[0,615,194,194],[0,811,51,51],[0,1110,894,20],[196,805,62,62],[0,870,894,148],[514,0,468,468],[53,842,26,26],[386,615,28,28],[0,514,414,99],[416,1020,414,7],[0,1020,414,88],[53,811,46,29],[0,0,512,512]]}
 ];
 
@@ -189,22 +189,22 @@ lib.ssMetadata = [
 
 
 (lib.eggsketches2 = function() {
-	this.initialize(ss["index_atlas_3"]);
-	this.gotoAndStop(17);
-}).prototype = p = new cjs.Sprite();
-
-
-
-(lib.SLUGGITY = function() {
 	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(4);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.terratortleegg = function() {
+(lib.SLUGGITY = function() {
 	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(5);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.terratortleegg = function() {
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(17);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -6952,15 +6952,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        eggLevel: getEggLevel()
 		    });
 		};
-		// TEMP: test monsters (remove when done)
-		SaveSystem.load().then(function () {
-		    if (!SaveSystem.isLoaded()) { console.warn("Save didn't load"); return; }
-		    if (SaveSystem.get("monsters").length) return;   // only add them once
-		
-		    var a = SaveSystem.addMonster(4,  { slot: 0, level: 5 });   // Terratortle
-		    var b = SaveSystem.addMonster(13, { slot: 1, level: 5 });   // Sluggity
-		    console.log("Added monster uids:", a, b);                   // 0 means the species wasn't found
-		});
 	}
 	this.frame_1 = function() {
 		var self = this;
@@ -17727,9 +17718,9 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791362758773", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791362758773", id:"index_atlas_2"},
-		{src:"images/index_atlas_3.png?1791362758773", id:"index_atlas_3"}
+		{src:"images/index_atlas_.png?1791363991885", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791363991885", id:"index_atlas_2"},
+		{src:"images/index_atlas_3.png?1791363991886", id:"index_atlas_3"}
 	],
 	preloads: []
 };
