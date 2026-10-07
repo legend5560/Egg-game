@@ -4,7 +4,8 @@ var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
 		{name:"index_atlas_", frames: [[0,0,992,870],[994,0,992,870],[988,872,980,826],[0,872,986,832]]},
-		{name:"index_atlas_2", frames: [[514,524,398,398],[2035,0,4,12],[1915,119,29,21],[944,0,939,519],[0,0,942,522],[944,521,894,540],[1840,717,188,188],[1885,0,84,117],[1840,521,194,194],[1971,64,51,51],[984,1063,894,148],[984,1303,894,20],[1971,0,62,62],[514,1063,468,468],[2019,117,26,26],[1885,119,28,28],[514,924,414,99],[514,1025,414,7],[984,1213,414,88],[1971,117,46,29],[0,524,512,512],[0,1038,512,512]]}
+		{name:"index_atlas_2", frames: [[0,770,942,522],[944,1291,894,540],[944,770,939,519],[0,0,768,768],[770,0,768,768],[0,1294,512,512]]},
+		{name:"index_atlas_3", frames: [[514,470,398,398],[502,514,4,12],[81,842,29,21],[196,615,188,188],[416,514,84,117],[0,615,194,194],[0,811,51,51],[0,1110,894,20],[196,805,62,62],[0,870,894,148],[514,0,468,468],[53,842,26,26],[386,615,28,28],[0,514,414,99],[416,1020,414,7],[0,1020,414,88],[53,811,46,29],[0,0,512,512]]}
 ];
 
 
@@ -13,21 +14,21 @@ lib.ssMetadata = [
 
 
 (lib.CachedTexturedBitmap_1 = function() {
-	this.initialize(ss["index_atlas_2"]);
+	this.initialize(ss["index_atlas_3"]);
 	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_10 = function() {
-	this.initialize(ss["index_atlas_2"]);
+	this.initialize(ss["index_atlas_3"]);
 	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_11 = function() {
-	this.initialize(ss["index_atlas_2"]);
+	this.initialize(ss["index_atlas_3"]);
 	this.gotoAndStop(2);
 }).prototype = p = new cjs.Sprite();
 
@@ -47,16 +48,9 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_14 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(3);
-}).prototype = p = new cjs.Sprite();
-
-
-
 (lib.CachedTexturedBitmap_15 = function() {
 	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(4);
+	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
 
 
@@ -77,119 +71,140 @@ lib.ssMetadata = [
 
 (lib.CachedTexturedBitmap_18 = function() {
 	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(5);
+	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_19 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(6);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(3);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_2 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(7);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(4);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_20 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(8);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(5);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_21 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(9);
-}).prototype = p = new cjs.Sprite();
-
-
-
-(lib.CachedTexturedBitmap_22 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(10);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(6);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_23 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(11);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(7);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_24 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(12);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(8);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_25 = function() {
 	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(13);
+	this.gotoAndStop(2);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_26 = function() {
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(9);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_3 = function() {
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(10);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_4 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(14);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(11);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_5 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(15);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(12);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_6 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(16);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(13);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_7 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(17);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(14);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_8 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(18);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(15);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.CachedTexturedBitmap_9 = function() {
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(16);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib._default = function() {
 	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(19);
+	this.gotoAndStop(3);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.eggsketches2 = function() {
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(17);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.SLUGGITY = function() {
 	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(20);
+	this.gotoAndStop(4);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.terratortleegg = function() {
 	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(21);
+	this.gotoAndStop(5);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -223,56 +238,22 @@ function getMCSymbolPrototype(symbol, nominalBounds, frameBounds) {
 }).prototype = getMCSymbolPrototype(lib.Stars, new cjs.Rectangle(-15.5,0,31,31), null);
 
 
-(lib.MonsterCard = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// Layer_2
-	this.label = new cjs.Text("Add Monster", "50px 'Marcellus'", "#FFFFFF");
-	this.label.name = "label";
-	this.label.textAlign = "center";
-	this.label.lineHeight = 65;
-	this.label.lineWidth = 438;
-	this.label.parent = this;
-	this.label.setTransform(245.1,334.45);
-
-	this.timeline.addTween(cjs.Tween.get(this.label).wait(1));
+(lib.monsters = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{"default":1,Sluggity:2});
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_23();
+	this.instance = new lib.SLUGGITY();
 	this.instance.parent = this;
-	this.instance.setTransform(21.5,310.5,0.5,0.5);
+	this.instance.setTransform(-384,-384);
 
-	this.instance_1 = new lib.CachedTexturedBitmap_22();
+	this.instance_1 = new lib._default();
 	this.instance_1.parent = this;
-	this.instance_1.setTransform(21.5,328.5,0.5,0.5);
+	this.instance_1.setTransform(-450.25,-338,1,1,-14.9992);
 
-	this.instance_2 = new lib.CachedTexturedBitmap_21();
-	this.instance_2.parent = this;
-	this.instance_2.setTransform(232.3,143.85,0.5,0.5);
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance}]}).to({state:[{t:this.instance_1}]},1).to({state:[{t:this.instance}]},1).wait(1));
 
-	this.instance_3 = new lib.CachedTexturedBitmap_20();
-	this.instance_3.parent = this;
-	this.instance_3.setTransform(196.5,108,0.5,0.5);
-
-	this.instance_4 = new lib.CachedTexturedBitmap_19();
-	this.instance_4.parent = this;
-	this.instance_4.setTransform(198,109.5,0.5,0.5);
-
-	this.instance_5 = new lib.CachedTexturedBitmap_18();
-	this.instance_5.parent = this;
-	this.instance_5.setTransform(21.5,21.5,0.5,0.5);
-
-	this.instance_6 = new lib.CachedTexturedBitmap_17();
-	this.instance_6.parent = this;
-	this.instance_6.setTransform(-1.5,-1.5,0.5,0.5);
-
-	this.instance_7 = new lib.CachedTexturedBitmap_16();
-	this.instance_7.parent = this;
-	this.instance_7.setTransform(0,0,0.5,0.5);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_7},{t:this.instance_6},{t:this.instance_5},{t:this.instance_4},{t:this.instance_3},{t:this.instance_2},{t:this.instance_1},{t:this.instance}]}).wait(1));
-
-}).prototype = getMCSymbolPrototype(lib.MonsterCard, new cjs.Rectangle(-1.5,-1.5,493,416), null);
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = new cjs.Rectangle(-450.2,-536.7,940.5999999999999,940.6);
 
 
 (lib.lock = function(mode,startPosition,loop) {
@@ -403,14 +384,86 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 }).prototype = getMCSymbolPrototype(lib.Path, new cjs.Rectangle(0,0,199,199), null);
 
 
+(lib.MonsterCard = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer_4 (mask)
+	var mask = new cjs.Shape();
+	mask._off = true;
+	mask.graphics.p("EgmRAhXMAAAhCtMBMjAAAMAAABCtg");
+	mask.setTransform(244.025,97.575);
+
+	// Layer_3
+	this.MonsterArt = new lib.monsters();
+	this.MonsterArt.name = "MonsterArt";
+	this.MonsterArt.parent = this;
+	this.MonsterArt.setTransform(230,158.05,0.7448,0.7448);
+
+	var maskedShapeInstanceList = [this.MonsterArt];
+
+	for(var shapedInstanceItr = 0; shapedInstanceItr < maskedShapeInstanceList.length; shapedInstanceItr++) {
+		maskedShapeInstanceList[shapedInstanceItr].mask = mask;
+	}
+
+	this.timeline.addTween(cjs.Tween.get(this.MonsterArt).wait(1));
+
+	// Layer_2
+	this.label = new cjs.Text("Add Monster", "50px 'Marcellus'", "#FFFFFF");
+	this.label.name = "label";
+	this.label.textAlign = "center";
+	this.label.lineHeight = 65;
+	this.label.lineWidth = 438;
+	this.label.parent = this;
+	this.label.setTransform(245.1,334.45);
+
+	this.timeline.addTween(cjs.Tween.get(this.label).wait(1));
+
+	// Layer_1
+	this.instance = new lib.CachedTexturedBitmap_23();
+	this.instance.parent = this;
+	this.instance.setTransform(21.5,310.5,0.5,0.5);
+
+	this.instance_1 = new lib.CachedTexturedBitmap_26();
+	this.instance_1.parent = this;
+	this.instance_1.setTransform(21.5,328.5,0.5,0.5);
+
+	this.instance_2 = new lib.CachedTexturedBitmap_21();
+	this.instance_2.parent = this;
+	this.instance_2.setTransform(232.3,143.85,0.5,0.5);
+
+	this.instance_3 = new lib.CachedTexturedBitmap_20();
+	this.instance_3.parent = this;
+	this.instance_3.setTransform(196.5,108,0.5,0.5);
+
+	this.instance_4 = new lib.CachedTexturedBitmap_19();
+	this.instance_4.parent = this;
+	this.instance_4.setTransform(198,109.5,0.5,0.5);
+
+	this.instance_5 = new lib.CachedTexturedBitmap_18();
+	this.instance_5.parent = this;
+	this.instance_5.setTransform(21.5,21.5,0.5,0.5);
+
+	this.instance_6 = new lib.CachedTexturedBitmap_17();
+	this.instance_6.parent = this;
+	this.instance_6.setTransform(-1.5,-1.5,0.5,0.5);
+
+	this.instance_7 = new lib.CachedTexturedBitmap_16();
+	this.instance_7.parent = this;
+	this.instance_7.setTransform(0,0,0.5,0.5);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_7},{t:this.instance_6},{t:this.instance_5},{t:this.instance_4},{t:this.instance_3},{t:this.instance_2},{t:this.instance_1},{t:this.instance}]}).wait(1));
+
+}).prototype = getMCSymbolPrototype(lib.MonsterCard, new cjs.Rectangle(-1.5,-115.9,493,530.4), null);
+
+
 (lib.MonsterContainer = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// Layer_3 (mask)
 	var mask = new cjs.Shape();
 	mask._off = true;
-	mask.graphics.p("Egi8AVSMAAAgqXMBIhAAAMAAAAqXg");
-	mask.setTransform(240.475,136.2293);
+	mask.graphics.p("EgkQAW/MAAAgt9MBIhAAAMAAAAt9g");
+	mask.setTransform(248.85,125.325);
 
 	// Layer_2
 	this.egg = new lib.eggs();
@@ -418,13 +471,18 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 	this.egg.parent = this;
 	this.egg.setTransform(247.05,193,0.7556,0.7556,0,0,0,256.4,265.3);
 
-	var maskedShapeInstanceList = [this.egg];
+	this.MonsterArt = new lib.monsters();
+	this.MonsterArt.name = "MonsterArt";
+	this.MonsterArt.parent = this;
+	this.MonsterArt.setTransform(251.1,175.7,0.5627,0.5627,0,0,0,19.8,-2);
+
+	var maskedShapeInstanceList = [this.egg,this.MonsterArt];
 
 	for(var shapedInstanceItr = 0; shapedInstanceItr < maskedShapeInstanceList.length; shapedInstanceItr++) {
 		maskedShapeInstanceList[shapedInstanceItr].mask = mask;
 	}
 
-	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.egg}]}).to({state:[{t:this.MonsterArt}]},1).wait(1));
 
 	// text
 	this.guarding = new cjs.Text("guarding * slot 2", "italic bold 50px 'DM Sans 24pt ExtraBold'", "#8EAFBF");
@@ -451,7 +509,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 	this.type.parent = this;
 	this.type.setTransform(247.9994,291.1,0.3581,0.3581);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.type},{t:this.MonsterName},{t:this.guarding}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.type},{t:this.MonsterName},{t:this.guarding}]}).wait(2));
 
 	// Layer_1
 	this.instance = new lib.Path();
@@ -463,7 +521,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(12.95,13,0.5,0.5);
 
-	this.instance_2 = new lib.CachedTexturedBitmap_14();
+	this.instance_2 = new lib.CachedTexturedBitmap_25();
 	this.instance_2.parent = this;
 	this.instance_2.setTransform(13.75,13.8,0.5,0.5);
 
@@ -475,9 +533,10 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 	this.instance_4.parent = this;
 	this.instance_4.setTransform(0,0,0.5,0.5);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_4},{t:this.instance_3},{t:this.instance_2},{t:this.instance_1},{t:this.instance}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance_4},{t:this.instance_3},{t:this.instance_2},{t:this.instance_1},{t:this.instance}]}).wait(2));
 
-}).prototype = getMCSymbolPrototype(lib.MonsterContainer, new cjs.Rectangle(0,0,496,435.1), null);
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 
 
 (lib.egg = function(mode,startPosition,loop) {
@@ -492,7 +551,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 	this.timeline.addTween(cjs.Tween.get(this.egg_shells).wait(1));
 
 	// Layer_1
-	this.instance = new lib.CachedTexturedBitmap_25();
+	this.instance = new lib.CachedTexturedBitmap_3();
 	this.instance.parent = this;
 	this.instance.setTransform(-0.5,-0.5,0.5,0.5);
 
@@ -549,7 +608,10 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		            eggs: [],               // owned eggs, saved as species monsterIds
 		            starterGiven: 0,        // 1 once the starter eggs were handed out
 		            discovered: [],         // every egg species the player has ever had (monsterIds)
-		            slots: [0, 0, 0, 0, 0]  // the egg in each slot (species monsterId, 0 = empty)
+		            slots: [0, 0, 0, 0, 0], // the egg in each slot (species monsterId, 0 = empty)
+		            tapReduction: 5,        // seconds removed from an egg timer per tap
+		            monsters: [],           // owned monsters: { uid, monsterId, nickname, shiny, level, experience, nature, gender, heldItem }
+		            monsterSeq: 1           // next monster uid to hand out
 		        };
 		        var NAMES = Object.keys(DEFAULTS);
 		
@@ -732,6 +794,17 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		                    dirty[n] = true;
 		                }
 		            });
+		
+		            // Drop broken monster records and keep monsterSeq ahead of every uid
+		            data.monsters = data.monsters.filter(function (m) {
+		                return m && clean(m.monsterId) > 0 && clean(m.uid) > 0;
+		            });
+		            var top = 0;
+		            data.monsters.forEach(function (m) { if (m.uid > top) top = m.uid; });
+		            if (data.monsterSeq < 1 || data.monsterSeq <= top) {
+		                data.monsterSeq = top + 1;
+		                dirty.monsterSeq = true;
+		            }
 		        }
 		
 		        // New players with no eggs get the starter eggs, once.
@@ -1037,6 +1110,109 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		            return true;
 		        }
 		
+		
+		        // ---------- Monsters ----------
+		        // The save only stores what is unique to each owned monster.
+		        // Base stats, types and descriptions come from the species list
+		        // (Monster.BY_ID) when a full Monster object is built.
+		
+		        function randomNature() {
+		            var names = Object.keys(Monster.NATURE_MODIFIERS);
+		            return names[Math.floor(Math.random() * names.length)];
+		        }
+		
+		        // Creates a new monster of this species. Returns its uid, or 0 on failure.
+		        // `extra` can override fields, e.g. { level: 5, shiny: true }
+		        function addMonster(monsterId, extra) {
+		            if (!loaded || !Monster.BY_ID[monsterId]) return 0;
+		
+		            var species = Monster.BY_ID[monsterId];
+		            var uid = data.monsterSeq;
+		
+		            var rec = {
+		                uid: uid,
+		                monsterId: monsterId,
+		                nickname: "",
+		                shiny: Math.random() < 1 / 4096,
+		                level: 1,
+		                experience: 0,
+		                nature: randomNature(),
+		                gender: (Math.random() * 100 < species.genderRate) ? "Female" : "Male",
+		                heldItem: null
+		            };
+		            if (extra) Object.keys(extra).forEach(function (k) { rec[k] = extra[k]; });
+		            rec.uid = uid;               // never let extra change the uid
+		            rec.monsterId = monsterId;   // or the species
+		
+		            var list = data.monsters.slice();
+		            list.push(rec);
+		
+		            set("monsters", list);
+		            set("monsterSeq", uid + 1);
+		            return uid;
+		        }
+		
+		        function getMonsterRecord(uid) {
+		            for (var i = 0; i < data.monsters.length; i++) {
+		                if (data.monsters[i].uid === uid) return data.monsters[i];
+		            }
+		            return null;
+		        }
+		
+		        // Returns a full Monster object (stats, types, description) for display and battles
+		        function getMonster(uid) {
+		            var rec = getMonsterRecord(uid);
+		            return rec ? Monster.fromSave(rec) : null;
+		        }
+		
+		        function getAllMonsters() {
+		            return data.monsters.map(Monster.fromSave).filter(Boolean);
+		        }
+		
+		        // Change fields on one monster, e.g. updateMonster(3, { nickname: "Spike", level: 6 })
+		        function updateMonster(uid, changes) {
+		            if (!loaded) return false;
+		            var found = false;
+		            var list = data.monsters.map(function (m) {
+		                if (m.uid !== uid) return m;
+		                found = true;
+		                var copy = Object.assign({}, m, changes);
+		                copy.uid = uid;
+		                copy.monsterId = m.monsterId;   // species can't change this way
+		                return copy;
+		            });
+		            return found && set("monsters", list);
+		        }
+		
+		        function removeMonster(uid) {
+		            if (!loaded || !getMonsterRecord(uid)) return false;
+		            return set("monsters", data.monsters.filter(function (m) { return m.uid !== uid; }));
+		        }
+		
+		        // Hatches the egg in a slot once its timer is up. Returns the new monster's uid, or 0.
+		        function hatchEgg(slot) {
+		            if (!loaded || slot < 0 || slot >= SLOT_COUNT) return 0;
+		
+		            var monsterId = data.slots[slot];
+		            if (!monsterId) return 0;
+		
+		            var times = String(data.eggEndTimes).split(",");
+		            while (times.length < SLOT_COUNT) times.push("0");
+		            if (Date.now() < Number(times[slot])) return 0;   // not ready yet
+		
+		            var uid = addMonster(monsterId);
+		            if (!uid) return 0;
+		
+		            var slots = data.slots.slice();
+		            slots[slot] = 0;
+		            times[slot] = "0";
+		
+		            set("slots", slots);
+		            set("eggEndTimes", times.join(","));
+		            return uid;
+		        }
+		
+		
 		        // One listener per key, so re-registering never creates duplicates
 		        function onChange(key, fn) {
 		            listeners[key] = fn;
@@ -1049,6 +1225,12 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		            add: add,
 		            spend: spend,
 		            placeEgg: placeEgg,
+		            addMonster: addMonster,
+		            getMonster: getMonster,
+		            getAllMonsters: getAllMonsters,
+		            updateMonster: updateMonster,
+		            removeMonster: removeMonster,
+		            hatchEgg: hatchEgg,
 		            onChange: onChange,
 		            saveNow: function () { flush(false); },
 		            isLoaded: function () { return loaded; },
@@ -1314,9 +1496,9 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        // TYPE
 		        this.type1 = data.type1 || "";
 		        this.type2 = data.type2 || "";
-				
-				//Description
-				this.description = data.description || "No description available.";
+		
+		        // DESCRIPTION
+		        this.description = data.description || "No description available.";
 		
 		        // BASE STATS
 		        this.baseHp = data.baseHp || 10;
@@ -1352,6 +1534,13 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		        // DISPLAY
 		        this.sprite = null;
+		
+		        // SPECIES REGISTRY
+		        // The first Monster created for each id is the species template.
+		        // Later copies (like monsters rebuilt from a save) don't replace it.
+		        if (this.monsterId && !Monster.BY_ID[this.monsterId]) {
+		            Monster.BY_ID[this.monsterId] = this;
+		        }
 		    }
 		
 		
@@ -1395,6 +1584,36 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        };
 		    }
 		}
+		
+		
+		// ==================================================
+		// SPECIES LOOKUP
+		// ==================================================
+		
+		// Filled automatically by the constructor.
+		// Only created if it doesn't exist yet, so running this
+		// file again never empties the table.
+		Monster.BY_ID = Monster.BY_ID || {};
+		
+		// Other scripts use this name
+		Monster.registry = Monster.BY_ID;
+		
+		// Builds a full Monster from a saved record
+		Monster.fromSave = function (rec) {
+		
+		    var species = Monster.BY_ID[rec.monsterId];
+		
+		    if (!species) return null;
+		
+		    var m = new Monster(Object.assign({}, species, rec));
+		
+		    m.uid = rec.uid;
+		
+		    return m;
+		};
+		
+		// Makes every frame script see the same class
+		window.Monster = Monster;
 		
 		
 		// ==================================================
@@ -1832,13 +2051,13 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    storedItem: null,
 		});
 		
-		// Sluggity line (Will starter)
+		// Sluggity line (Willpower starter)
 		var sluggity = new Monster({
 		    monsterId: 13,
 		    name: "Sluggity",
 		    nickname: "",
 		    shiny: false,
-		    type1: "Will",
+		    type1: "Willpower",
 		    type2: "",
 		    baseHp: 50,
 		    baseAttack: 44,
@@ -1865,7 +2084,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    name: "Sluggity",
 		    nickname: "",
 		    shiny: false,
-		    type1: "Will",
+		    type1: "Willpower",
 		    type2: "Love",
 		    baseHp: 69,
 		    baseAttack: 63,
@@ -1892,7 +2111,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    name: "Sluggity",
 		    nickname: "",
 		    shiny: false,
-		    type1: "Will",
+		    type1: "Willpower",
 		    type2: "Love",
 		    baseHp: 88,
 		    baseAttack: 82,
@@ -2250,7 +2469,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    name: "Racer Snake",
 		    nickname: "",
 		    shiny: false,
-		    type1: "Will",
+		    type1: "Willpower",
 		    type2: "Fear",
 		    baseHp: 65,
 		    baseAttack: 115,
@@ -2277,7 +2496,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    name: "Lotuer",
 		    nickname: "",
 		    shiny: false,
-		    type1: "Will",
+		    type1: "Willpower",
 		    type2: "",
 		    baseHp: 250,
 		    baseAttack: 5,
@@ -2305,7 +2524,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    name: "Lotussel",
 		    nickname: "",
 		    shiny: false,
-		    type1: "Will",
+		    type1: "Willpower",
 		    type2: "Love",
 		    baseHp: 255,
 		    baseAttack: 5,
@@ -2332,7 +2551,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    name: "Dragonfly",
 		    nickname: "",
 		    shiny: false,
-		    type1: "Will",
+		    type1: "Willpower",
 		    type2: "Joy",
 		    baseHp: 65,
 		    baseAttack: 55,
@@ -2359,7 +2578,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    name: "Galapa Penguin",
 		    nickname: "",
 		    shiny: false,
-		    type1: "Will",
+		    type1: "Willpower",
 		    type2: "",
 		    baseHp: 50,
 		    baseAttack: 45,
@@ -2387,7 +2606,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    name: "Galapa Penguin",
 		    nickname: "",
 		    shiny: false,
-		    type1: "Will",
+		    type1: "Willpower",
 		    type2: "",
 		    baseHp: 55,
 		    baseAttack: 55,
@@ -2690,7 +2909,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    nickname: "",
 		    shiny: false,
 		    type1: "Rage",
-		    type2: "Will",
+		    type2: "Willpower",
 		    baseHp: 120,
 		    baseAttack: 85,
 		    baseDefense: 95,
@@ -2871,7 +3090,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    human: false,
 		    heldItem: null,
 		    storedItem: null,
-		    description: "Fester uses its tail to draw predators and prey away from their shelters. Once a creature is lured out, fester will make a sound that resembles laughing as it steals food.",
+		    description: "Fester uses its tail to draw predators and prey away from their shelters. Once a creature is lured out, fester Willpower make a sound that resembles laughing as it steals food.",
 		});
 		
 		var frigatebird = new Monster({
@@ -3970,7 +4189,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    nickname: "",
 		    shiny: false,
 		    type1: "Pride",
-		    type2: "Will",
+		    type2: "Willpower",
 		    baseHp: 85,
 		    baseAttack: 115,
 		    baseDefense: 75,
@@ -4457,7 +4676,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    name: "Deloria",
 		    nickname: "",
 		    shiny: false,
-		    type1: "Will",
+		    type1: "Willpower",
 		    type2: "Rage",
 		    baseHp: 100,
 		    baseAttack: 75,
@@ -5111,6 +5330,15 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        eggLevel: getEggLevel()
 		    });
 		};
+		// TEMP: test monsters (remove when done)
+		SaveSystem.load().then(function () {
+		    if (!SaveSystem.isLoaded()) { console.warn("Save didn't load"); return; }
+		    if (SaveSystem.get("monsters").length) return;   // only add them once
+		
+		    var a = SaveSystem.addMonster(4,  { slot: 0, level: 5 });   // Terratortle
+		    var b = SaveSystem.addMonster(13, { slot: 1, level: 5 });   // Sluggity
+		    console.log("Added monster uids:", a, b);                   // 0 means the species wasn't found
+		});
 	}
 	this.frame_1 = function() {
 		var self = this;
@@ -5124,6 +5352,8 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		var EGG_RAISE = 0.15;
 		
 		var EGG_COUNT = 5;
+		
+		var MONSTER_SLOTS_PER_EGG = 5;
 		
 		var W =
 		    lib.properties.width;
@@ -5168,6 +5398,25 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		
 		// --------------------------------------------------
+		// TAP NUMBER SETTINGS
+		// --------------------------------------------------
+		
+		var TAP_NUM_SIZE = 30;
+		
+		var TAP_NUM_COLOR = "#E8F5FF";
+		
+		var TAP_NUM_GLOW = "#2496FF";
+		
+		var TAP_NUM_START = W * 0.05;
+		
+		var TAP_NUM_TRAVEL = W * 0.07;
+		
+		var TAP_NUM_TIME = 800;
+		
+		var TAP_NUM_MOBILE_SCALE = 2;
+		
+		
+		// --------------------------------------------------
 		// EGG
 		// --------------------------------------------------
 		
@@ -5184,6 +5433,18 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		
 		// --------------------------------------------------
+		// TAP NUMBER LAYER
+		// --------------------------------------------------
+		
+		var tapNumbers =
+		    new createjs.Container();
+		
+		self.addChild(
+		    tapNumbers
+		);
+		
+		
+		// --------------------------------------------------
 		// CURRENT EGG INDEX
 		// --------------------------------------------------
 		
@@ -5194,6 +5455,47 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    )
 		        ? window.EggPlacement.slot
 		        : 0;
+		
+		
+		// ==================================================
+		// GLOBAL ACTIVE EGG INDEX
+		// ==================================================
+		//
+		// Egg 1 = 0
+		// Egg 2 = 1
+		// Egg 3 = 2
+		// Egg 4 = 3
+		// Egg 5 = 4
+		//
+		
+		window.CurrentEggIndex =
+		    currentEggIndex;
+		
+		
+		// --------------------------------------------------
+		// GLOBAL MONSTER SLOT INFORMATION
+		// --------------------------------------------------
+		//
+		// There are 5 monster slots per egg.
+		//
+		// Egg 1:
+		//   0 - 4
+		//
+		// Egg 2:
+		//   5 - 9
+		//
+		// Egg 3:
+		//   10 - 14
+		//
+		// Egg 4:
+		//   15 - 19
+		//
+		// Egg 5:
+		//   20 - 24
+		//
+		
+		window.MonsterSlotsPerEgg =
+		    MONSTER_SLOTS_PER_EGG;
 		
 		
 		// --------------------------------------------------
@@ -5268,6 +5570,102 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		}
 		
 		
+		// --------------------------------------------------
+		// FLYING TAP NUMBER
+		// --------------------------------------------------
+		//
+		// Spawns "-5s" near the egg, flies it outward at a
+		// random angle and fades it out.
+		//
+		
+		function spawnTapNumber(secs) {
+		
+		    var text =
+		        new createjs.Text(
+		            "-" + secs + "s",
+		            "bold " +
+		            TAP_NUM_SIZE *
+		            (portrait ? TAP_NUM_MOBILE_SCALE : 1) +
+		            "px 'DM Sans'",
+		            TAP_NUM_COLOR
+		        );
+		
+		    text.textAlign =
+		        "center";
+		
+		    text.textBaseline =
+		        "middle";
+		
+		    text.mouseEnabled =
+		        false;
+		
+		    text.shadow =
+		        new createjs.Shadow(
+		            TAP_NUM_GLOW,
+		            0,
+		            0,
+		            8
+		        );
+		
+		
+		    var angle =
+		        Math.random() *
+		        Math.PI *
+		        2;
+		
+		    var travel =
+		        TAP_NUM_TRAVEL *
+		        (0.7 + Math.random() * 0.6);
+		
+		
+		    text.x =
+		        egg.eggRestX +
+		        Math.cos(angle) *
+		        TAP_NUM_START;
+		
+		    text.y =
+		        egg.y +
+		        Math.sin(angle) *
+		        TAP_NUM_START;
+		
+		
+		    tapNumbers.addChild(
+		        text
+		    );
+		
+		
+		    createjs.Tween.get(
+		        text
+		    )
+		        .to(
+		            {
+		                x:
+		                    text.x +
+		                    Math.cos(angle) *
+		                    travel,
+		
+		                y:
+		                    text.y +
+		                    Math.sin(angle) *
+		                    travel,
+		
+		                alpha:
+		                    0
+		            },
+		            TAP_NUM_TIME,
+		            createjs.Ease.cubicOut
+		        )
+		        .call(
+		            function () {
+		
+		                tapNumbers.removeChild(
+		                    text
+		                );
+		            }
+		        );
+		}
+		
+		
 		// ==================================================
 		// UPDATE EGG ARTWORK
 		// ==================================================
@@ -5290,7 +5688,6 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		            "egg_shells was not found inside egg."
 		        );
 		
-		        // Never allow the outer egg to stay invisible.
 		
 		        egg.alpha =
 		            1;
@@ -5302,10 +5699,6 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    // --------------------------------------------------
 		    // RESET VISIBILITY
 		    // --------------------------------------------------
-		    //
-		    // The egg should NEVER remain invisible after
-		    // changing slots.
-		    //
 		
 		    egg.alpha =
 		        1;
@@ -5314,15 +5707,12 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    // --------------------------------------------------
 		    // DEFAULT TO FIRST FRAME
 		    // --------------------------------------------------
-		    //
-		    // Every slot starts with frame 1.
-		    // If nothing is stored in the slot, frame 1
-		    // remains visible.
-		    //
 		
 		    eggShells.stop();
 		
-		    eggShells.gotoAndStop("default");
+		    eggShells.gotoAndStop(
+		        "default"
+		    );
 		
 		    eggShells.stop();
 		
@@ -5373,15 +5763,14 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    // --------------------------------------------------
 		    // EMPTY SLOT
 		    // --------------------------------------------------
-		    //
-		    // Frame 1 is already selected.
-		    //
 		
 		    if (
 		        !monsterId
 		    ) {
 		
-		        eggShells.gotoAndStop(1);
+		        eggShells.gotoAndStop(
+		            1
+		        );
 		
 		        eggShells.stop();
 		
@@ -5404,7 +5793,9 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        !Array.isArray(speciesList)
 		    ) {
 		
-		        eggShells.gotoAndStop(1);
+		        eggShells.gotoAndStop(
+		            1
+		        );
 		
 		        eggShells.stop();
 		
@@ -5459,7 +5850,9 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        !species
 		    ) {
 		
-		        eggShells.gotoAndStop(1);
+		        eggShells.gotoAndStop(
+		            1
+		        );
 		
 		        eggShells.stop();
 		
@@ -5484,7 +5877,9 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        frameName === ""
 		    ) {
 		
-		        eggShells.gotoAndStop(1);
+		        eggShells.gotoAndStop(
+		            1
+		        );
 		
 		        eggShells.stop();
 		
@@ -5561,9 +5956,9 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        );
 		
 		
-		        // Always use the default egg.
-		
-		        eggShells.gotoAndStop(1);
+		        eggShells.gotoAndStop(
+		            1
+		        );
 		
 		        eggShells.stop();
 		
@@ -5736,17 +6131,12 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        function () {
 		
 		            if (
-		                egg.eggShaking ||
 		                egg.eggSwitching
 		            ) {
 		
 		                return;
 		            }
 		
-		
-		            // --------------------------------------------------
-		            // CHECK LOCK
-		            // --------------------------------------------------
 		
 		            var locked =
 		                eggIsLocked(
@@ -5768,6 +6158,44 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		                openEggMenuToPlace(
 		                    currentEggIndex
 		                );
+		
+		                return;
+		            }
+		
+		
+		            // --------------------------------------------------
+		            // EVERY CLICK: REDUCE TIMER + FLYING NUMBER
+		            // --------------------------------------------------
+		
+		            if (
+		                !locked &&
+		                self.reduceEggTimer
+		            ) {
+		
+		                var cut =
+		                    self.reduceEggTimer(
+		                        currentEggIndex
+		                    );
+		
+		
+		                if (
+		                    cut > 0
+		                ) {
+		
+		                    spawnTapNumber(
+		                        cut
+		                    );
+		                }
+		            }
+		
+		
+		            // --------------------------------------------------
+		            // ALREADY SHAKING
+		            // --------------------------------------------------
+		
+		            if (
+		                egg.eggShaking
+		            ) {
 		
 		                return;
 		            }
@@ -5952,9 +6380,9 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		);
 		
 		
-		// --------------------------------------------------
+		// ==================================================
 		// EGG NAVIGATION
-		// --------------------------------------------------
+		// ==================================================
 		
 		var eggNavigation =
 		    new createjs.Container();
@@ -6258,9 +6686,9 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		}
 		
 		
-		// --------------------------------------------------
+		// ==================================================
 		// EGG CHANGED
-		// --------------------------------------------------
+		// ==================================================
 		
 		function onEggChanged(
 		    index,
@@ -6275,11 +6703,78 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    );
 		
 		
+		    // --------------------------------------------------
+		    // KEEP GLOBAL EGG INDEX SYNCHRONIZED
+		    // --------------------------------------------------
+		
+		    window.CurrentEggIndex =
+		        currentEggIndex;
+		
+		
+		    // --------------------------------------------------
+		    // UPDATE EGG ART FIRST
+		    // --------------------------------------------------
+		
 		    updateEggFrame();
 		
 		
+		    // ==================================================
+		    // TELL MONSTER CARDS THAT THE EGG CHANGED
+		    // ==================================================
+		    //
+		    // The MonsterCard screen may be a completely
+		    // separate MovieClip. Therefore calling
+		    //
+		    //     self.updateAllCardMonsters()
+		    //
+		    // is not always enough.
+		    //
+		    // This global event allows the MonsterCard script
+		    // to refresh itself using the new egg index.
+		    //
+		
 		    if (
-		        self.layoutCards
+		        typeof window.dispatchEvent ===
+		        "function"
+		    ) {
+		
+		        window.dispatchEvent(
+		            new CustomEvent(
+		                "eggChanged",
+		                {
+		                    detail: {
+		                        eggIndex:
+		                            currentEggIndex,
+		
+		                        direction:
+		                            direction
+		                    }
+		                }
+		            )
+		        );
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // SAME-SCRIPT FALLBACK
+		    // --------------------------------------------------
+		    //
+		    // Keep these calls because they still work if the
+		    // cards are inside this same MovieClip.
+		    //
+		
+		    if (
+		        typeof self.updateAllCardMonsters ===
+		        "function"
+		    ) {
+		
+		        self.updateAllCardMonsters();
+		    }
+		
+		
+		    if (
+		        typeof self.layoutCards ===
+		        "function"
 		    ) {
 		
 		        self.layoutCards();
@@ -6287,7 +6782,8 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		
 		    if (
-		        self.replayCardsIntro
+		        typeof self.replayCardsIntro ===
+		        "function"
 		    ) {
 		
 		        self.replayCardsIntro(
@@ -6330,8 +6826,20 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    }
 		
 		
+		    // --------------------------------------------------
+		    // CHANGE CURRENT EGG
+		    // --------------------------------------------------
+		
 		    currentEggIndex =
 		        newIndex;
+		
+		
+		    // --------------------------------------------------
+		    // UPDATE GLOBAL EGG INDEX IMMEDIATELY
+		    // --------------------------------------------------
+		
+		    window.CurrentEggIndex =
+		        currentEggIndex;
 		
 		
 		    updateNavButtons();
@@ -6408,7 +6916,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		            function () {
 		
 		                // --------------------------------------------------
-		                // CHANGE EGG ARTWORK
+		                // CHANGE EGG ARTWORK + NOTIFY MONSTER CARDS
 		                // --------------------------------------------------
 		
 		                onEggChanged(
@@ -6428,8 +6936,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		
 		                // --------------------------------------------------
-		                // IMPORTANT:
-		                // START THE NEW EGG VISIBLE
+		                // START NEW EGG VISIBLE
 		                // --------------------------------------------------
 		
 		                egg.alpha =
@@ -6456,8 +6963,6 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		                    )
 		                    .call(
 		                        function () {
-		
-		                            // Final safety check
 		
 		                            egg.alpha =
 		                                1;
@@ -6636,6 +7141,13 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        );
 		
 		
+		        tapNumbers.removeAllChildren();
+		
+		        self.removeChild(
+		            tapNumbers
+		        );
+		
+		
 		        self.cleanupEggNavigation =
 		            null;
 		    };
@@ -6646,6 +7158,10 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		// --------------------------------------------------
 		
 		updateNavButtons();
+		
+		
+		window.CurrentEggIndex =
+		    currentEggIndex;
 		
 		
 		if (
@@ -8435,6 +8951,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    if (self.cleanupEggs) self.cleanupEggs();
 		    if (self.cleanupEggNavigation) self.cleanupEggNavigation();
 		    if (self.cleanupBottomBar) self.cleanupBottomBar();
+		    if (self.cleanupMonsters) self.cleanupMonsters();
 		}
 		
 		
@@ -8565,6 +9082,9 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		self.topBar = topBar;
 		self.menuRoot = menuRoot;
+		
+		// Lets other screens (like Monsters) change screens the same way the menu does
+		self.showScreen = showScreen;
 		(function(self) {
 		
 		
@@ -8588,6 +9108,20 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		
 		// --------------------------------------------------
+		// MONSTER SELECTION SCREEN
+		// --------------------------------------------------
+		
+		var MONSTER_MENU_LABEL = "monsters";
+		
+		
+		// --------------------------------------------------
+		// DEFAULT MONSTER ART FRAME
+		// --------------------------------------------------
+		
+		var DEFAULT_MONSTER_ART_FRAME = "default";
+		
+		
+		// --------------------------------------------------
 		// HOVER
 		// --------------------------------------------------
 		
@@ -8606,7 +9140,6 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		// CARD INTRO ANIMATION
 		// --------------------------------------------------
 		
-		// Only used for the first intro, before any arrow is pressed
 		var INTRO_DIRECTION = "left";
 		var INTRO_DISTANCE = 75;
 		var INTRO_TIME = 550;
@@ -8655,6 +9188,90 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		
 		// --------------------------------------------------
+		// DISABLE BROWSER RIGHT-CLICK MENU
+		// --------------------------------------------------
+		
+		if (
+		    self.stage &&
+		    self.stage.canvas
+		) {
+		
+		    self.stage.canvas.addEventListener(
+		        "contextmenu",
+		        function(evt) {
+		
+		            evt.preventDefault();
+		        }
+		    );
+		}
+		
+		
+		// --------------------------------------------------
+		// GET CURRENT EGG INDEX
+		// --------------------------------------------------
+		//
+		// Egg 1 = 0
+		// Egg 2 = 1
+		// Egg 3 = 2
+		// Egg 4 = 3
+		// Egg 5 = 4
+		// --------------------------------------------------
+		
+		function getCurrentEggIndex() {
+		
+		    if (
+		        typeof window.CurrentEggIndex ===
+		        "number"
+		    ) {
+		
+		        if (
+		            window.CurrentEggIndex >= 0 &&
+		            window.CurrentEggIndex < 5
+		        ) {
+		
+		            return Math.floor(
+		                window.CurrentEggIndex
+		            );
+		        }
+		    }
+		
+		
+		    return 0;
+		}
+		
+		
+		// --------------------------------------------------
+		// GET GLOBAL MONSTER SLOT
+		// --------------------------------------------------
+		//
+		// Each egg owns five monster slots.
+		//
+		// Egg 1:  0 - 4
+		// Egg 2:  5 - 9
+		// Egg 3: 10 - 14
+		// Egg 4: 15 - 19
+		// Egg 5: 20 - 24
+		// --------------------------------------------------
+		
+		function getGlobalMonsterSlot(localSlot) {
+		
+		    var eggIndex =
+		        getCurrentEggIndex();
+		
+		
+		    var slotsPerEgg =
+		        5;
+		
+		
+		    return (
+		        eggIndex *
+		        slotsPerEgg
+		    ) +
+		    localSlot;
+		}
+		
+		
+		// --------------------------------------------------
 		// CREATE CARDS
 		// --------------------------------------------------
 		
@@ -8677,18 +9294,28 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		    for (var i = 0; i < CARD_COUNT; i++) {
 		
-		        var card = new lib.MonsterCard();
+		        var card =
+		            new lib.MonsterCard();
 		
 		
 		        // --------------------------------------------------
 		        // CARD DATA
 		        // --------------------------------------------------
 		
-		        card.slotIndex = i;
-		        card.monster = null;
-		        card.introDone = false;
-		        card.cursor = null;
-		        card.isPointerInside = false;
+		        card.slotIndex =
+		            i;
+		
+		        card.monster =
+		            null;
+		
+		        card.introDone =
+		            false;
+		
+		        card.cursor =
+		            null;
+		
+		        card.isPointerInside =
+		            false;
 		
 		
 		        // --------------------------------------------------
@@ -8698,20 +9325,51 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        if (card.label) {
 		
 		            if (i === GOLD_INDEX) {
-		                card.label.text = "Select a legend";
+		
+		                card.label.text =
+		                    "Select a legend";
+		
 		            } else {
-		                card.label.text = "Select a monster";
+		
+		                card.label.text =
+		                    "Select a monster";
 		            }
 		        }
 		
 		
 		        // --------------------------------------------------
-		        // CLICK
+		        // HIDE MONSTER ART INITIALLY
+		        // --------------------------------------------------
+		
+		        if (card.MonsterArt) {
+		
+		            card.MonsterArt.stop();
+		
+		            card.MonsterArt.visible =
+		                false;
+		
+		            card.MonsterArt.alpha =
+		                0;
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // LEFT CLICK
 		        // --------------------------------------------------
 		
 		        card.addEventListener(
 		            "click",
 		            onCardClick
+		        );
+		
+		
+		        // --------------------------------------------------
+		        // RIGHT CLICK
+		        // --------------------------------------------------
+		
+		        card.addEventListener(
+		            "contextmenu",
+		            onCardRightClick
 		        );
 		
 		
@@ -8767,20 +9425,668 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        // ADD TO STAGE
 		        // --------------------------------------------------
 		
-		        self.addChild(card);
+		        self.addChild(
+		            card
+		        );
 		
-		        cards.push(card);
+		        cards.push(
+		            card
+		        );
 		    }
 		}
 		
 		
 		// --------------------------------------------------
-		// CARD CLICK
+		// GET MONSTER FOR GLOBAL SLOT
+		// --------------------------------------------------
+		//
+		// IMPORTANT:
+		//
+		// Only SaveSystem.monsters is used here.
+		//
+		// SaveSystem.slots belongs to the EGG system and
+		// must never be used for monster cards.
+		// --------------------------------------------------
+		
+		function getMonsterForSlot(globalSlot) {
+		
+		    if (
+		        !window.SaveSystem ||
+		        typeof SaveSystem.get !== "function"
+		    ) {
+		
+		        return null;
+		    }
+		
+		
+		    var monsters =
+		        SaveSystem.get(
+		            "monsters"
+		        );
+		
+		
+		    if (!Array.isArray(monsters)) {
+		
+		        return null;
+		    }
+		
+		
+		    for (
+		        var i = 0;
+		        i < monsters.length;
+		        i++
+		    ) {
+		
+		        var entry =
+		            monsters[i];
+		
+		
+		        if (!entry) {
+		            continue;
+		        }
+		
+		
+		        if (
+		            typeof entry.slot !== "number"
+		        ) {
+		
+		            continue;
+		        }
+		
+		
+		        if (
+		            entry.slot !== globalSlot
+		        ) {
+		
+		            continue;
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // LOOK UP MONSTER FROM REGISTRY
+		        // --------------------------------------------------
+		
+		        if (
+		            entry.monsterId !== undefined &&
+		            entry.monsterId !== null
+		        ) {
+		
+		            if (
+		                window.Monster &&
+		                Monster.registry
+		            ) {
+		
+		                var found =
+		                    Monster.registry[
+		                        entry.monsterId
+		                    ];
+		
+		
+		                if (found) {
+		
+		                    return found;
+		                }
+		            }
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // FALLBACK TO SAVED ENTRY
+		        // --------------------------------------------------
+		
+		        if (
+		            entry.name ||
+		            entry.type1 ||
+		            entry.maxHp !== undefined
+		        ) {
+		
+		            return entry;
+		        }
+		    }
+		
+		
+		    return null;
+		}
+		
+		
+		// --------------------------------------------------
+		// GO TO DEFAULT MONSTER ART FRAME
+		// --------------------------------------------------
+		
+		function goToDefaultMonsterArt(monsterArt) {
+		
+		    if (!monsterArt) {
+		        return false;
+		    }
+		
+		
+		    monsterArt.stop();
+		
+		
+		    var labels = [];
+		
+		
+		    if (
+		        monsterArt.timeline &&
+		        typeof monsterArt.timeline.getLabels ===
+		        "function"
+		    ) {
+		
+		        labels =
+		            monsterArt.timeline.getLabels();
+		    }
+		
+		
+		    for (
+		        var i = 0;
+		        i < labels.length;
+		        i++
+		    ) {
+		
+		        var labelName =
+		            String(
+		                labels[i].label || ""
+		            ).trim();
+		
+		
+		        if (
+		            labelName.toLowerCase() ===
+		            DEFAULT_MONSTER_ART_FRAME.toLowerCase()
+		        ) {
+		
+		            monsterArt.gotoAndStop(
+		                labels[i].position
+		            );
+		
+		            monsterArt.stop();
+		
+		            return true;
+		        }
+		    }
+		
+		
+		    monsterArt.gotoAndStop(
+		        0
+		    );
+		
+		    monsterArt.stop();
+		
+		    return false;
+		}
+		
+		
+		// --------------------------------------------------
+		// REFRESH CARD CACHE
+		// --------------------------------------------------
+		//
+		// Only refresh an already-existing cache.
+		// This preserves the original card dimensions.
+		// --------------------------------------------------
+		
+		function refreshCardCache(card) {
+		
+		    if (
+		        !card ||
+		        !card.nominalBounds
+		    ) {
+		
+		        return;
+		    }
+		
+		
+		    if (!card.cacheCanvas) {
+		
+		        return;
+		    }
+		
+		
+		    var b =
+		        card.nominalBounds;
+		
+		
+		    var scale =
+		        typeof card.cardScale === "number"
+		            ? card.cardScale
+		            : 1;
+		
+		
+		    var cacheScale =
+		        scale * 2;
+		
+		
+		    card.uncache();
+		
+		
+		    card.cache(
+		        b.x,
+		        b.y,
+		        b.width,
+		        b.height,
+		        cacheScale
+		    );
+		}
+		
+		
+		// --------------------------------------------------
+		// UPDATE MONSTER ART
+		// --------------------------------------------------
+		
+		function updateMonsterArt(card) {
+		
+		    if (!card) {
+		        return;
+		    }
+		
+		
+		    var monsterArt =
+		        card.MonsterArt;
+		
+		
+		    if (!monsterArt) {
+		
+		        console.warn(
+		            "MonsterArt instance not found on MonsterCard."
+		        );
+		
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // GOLDEN LEGEND CARD
+		    // --------------------------------------------------
+		
+		    if (
+		        card.slotIndex ===
+		        GOLD_INDEX
+		    ) {
+		
+		        monsterArt.stop();
+		
+		        monsterArt.visible =
+		            false;
+		
+		        monsterArt.alpha =
+		            0;
+		
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // EMPTY MONSTER SLOT
+		    // --------------------------------------------------
+		
+		    if (!card.monster) {
+		
+		        monsterArt.stop();
+		
+		        monsterArt.visible =
+		            false;
+		
+		        monsterArt.alpha =
+		            0;
+		
+		
+		        refreshCardCache(
+		            card
+		        );
+		
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // MONSTER NAME
+		    // --------------------------------------------------
+		
+		    var monsterName =
+		        String(
+		            card.monster.name || ""
+		        ).trim();
+		
+		
+		    // --------------------------------------------------
+		    // NO NAME
+		    // --------------------------------------------------
+		
+		    if (!monsterName) {
+		
+		        monsterArt.stop();
+		
+		        goToDefaultMonsterArt(
+		            monsterArt
+		        );
+		
+		        monsterArt.stop();
+		
+		        monsterArt.visible =
+		            true;
+		
+		        monsterArt.alpha =
+		            1;
+		
+		
+		        refreshCardCache(
+		            card
+		        );
+		
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // GET FRAME LABELS
+		    // --------------------------------------------------
+		
+		    var labels = [];
+		
+		
+		    if (
+		        monsterArt.timeline &&
+		        typeof monsterArt.timeline.getLabels ===
+		        "function"
+		    ) {
+		
+		        labels =
+		            monsterArt.timeline.getLabels();
+		    }
+		
+		
+		    var frameFound =
+		        false;
+		
+		
+		    // --------------------------------------------------
+		    // FIND MONSTER FRAME
+		    // --------------------------------------------------
+		
+		    for (
+		        var i = 0;
+		        i < labels.length;
+		        i++
+		    ) {
+		
+		        var label =
+		            labels[i];
+		
+		
+		        if (!label) {
+		            continue;
+		        }
+		
+		
+		        var labelName =
+		            String(
+		                label.label || ""
+		            ).trim();
+		
+		
+		        if (
+		            labelName.toLowerCase() ===
+		            monsterName.toLowerCase()
+		        ) {
+		
+		            monsterArt.stop();
+		
+		
+		            monsterArt.gotoAndStop(
+		                label.position
+		            );
+		
+		
+		            monsterArt.stop();
+		
+		
+		            frameFound =
+		                true;
+		
+		            break;
+		        }
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // FRAME NOT FOUND
+		    // --------------------------------------------------
+		
+		    if (!frameFound) {
+		
+		        console.warn(
+		            "MonsterArt frame not found for:",
+		            monsterName,
+		            "Using default frame."
+		        );
+		
+		
+		        goToDefaultMonsterArt(
+		            monsterArt
+		        );
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // SHOW ART
+		    // --------------------------------------------------
+		
+		    monsterArt.stop();
+		
+		    monsterArt.visible =
+		        true;
+		
+		    monsterArt.alpha =
+		        1;
+		
+		
+		    // --------------------------------------------------
+		    // REFRESH EXISTING CACHE
+		    // --------------------------------------------------
+		
+		    refreshCardCache(
+		        card
+		    );
+		}
+		
+		
+		// --------------------------------------------------
+		// UPDATE ONE CARD
+		// --------------------------------------------------
+		
+		function updateCardMonster(card) {
+		
+		    if (!card) {
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // GOLDEN LEGEND CARD
+		    // --------------------------------------------------
+		
+		    if (
+		        card.slotIndex ===
+		        GOLD_INDEX
+		    ) {
+		
+		        card.monster =
+		            null;
+		
+		
+		        if (card.label) {
+		
+		            card.label.text =
+		                "Select a legend";
+		        }
+		
+		
+		        updateMonsterArt(
+		            card
+		        );
+		
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // GET GLOBAL MONSTER SLOT
+		    // --------------------------------------------------
+		
+		    var globalSlot =
+		        getGlobalMonsterSlot(
+		            card.slotIndex
+		        );
+		
+		
+		    card.globalMonsterSlot =
+		        globalSlot;
+		
+		
+		    // --------------------------------------------------
+		    // GET MONSTER
+		    // --------------------------------------------------
+		
+		    card.monster =
+		        getMonsterForSlot(
+		            globalSlot
+		        );
+		
+		
+		    // --------------------------------------------------
+		    // UPDATE LABEL
+		    // --------------------------------------------------
+		
+		    if (card.label) {
+		
+		        if (card.monster) {
+		
+		            var monsterName =
+		                String(
+		                    card.monster.name || ""
+		                ).trim();
+		
+		
+		            card.label.text =
+		                monsterName !== ""
+		                    ? monsterName
+		                    : "Select a monster";
+		
+		        } else {
+		
+		            card.label.text =
+		                "Select a monster";
+		        }
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // UPDATE ART
+		    // --------------------------------------------------
+		
+		    updateMonsterArt(
+		        card
+		    );
+		}
+		
+		
+		// --------------------------------------------------
+		// UPDATE ALL CARDS
+		// --------------------------------------------------
+		
+		function updateAllCardMonsters() {
+		
+		    if (!alive) {
+		        return;
+		    }
+		
+		
+		    for (
+		        var i = 0;
+		        i < cards.length;
+		        i++
+		    ) {
+		
+		        updateCardMonster(
+		            cards[i]
+		        );
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// GLOBAL EGG CHANGE
+		// --------------------------------------------------
+		
+		function onGlobalEggChanged(evt) {
+		
+		    if (!alive) {
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // REFRESH MONSTER DATA
+		    // --------------------------------------------------
+		
+		    updateAllCardMonsters();
+		
+		
+		    // --------------------------------------------------
+		    // KEEP EXISTING CARD POSITIONING
+		    // --------------------------------------------------
+		
+		    layoutCards();
+		
+		
+		    // --------------------------------------------------
+		    // REPLAY CARD INTRO
+		    // --------------------------------------------------
+		
+		    var direction =
+		        1;
+		
+		
+		    if (
+		        evt &&
+		        evt.detail &&
+		        typeof evt.detail.direction ===
+		        "number"
+		    ) {
+		
+		        direction =
+		            evt.detail.direction;
+		    }
+		
+		
+		    animateCardsIn(
+		        direction
+		    );
+		}
+		
+		
+		// --------------------------------------------------
+		// REGISTER GLOBAL EGG CHANGE LISTENER
+		// --------------------------------------------------
+		
+		if (
+		    typeof window.addEventListener ===
+		    "function"
+		) {
+		
+		    window.addEventListener(
+		        "eggChanged",
+		        onGlobalEggChanged
+		    );
+		}
+		
+		
+		// --------------------------------------------------
+		// CARD LEFT CLICK
 		// --------------------------------------------------
 		
 		function onCardClick(evt) {
 		
-		    var card = evt.currentTarget;
+		    var card =
+		        evt.currentTarget;
 		
 		
 		    if (!card.introDone) {
@@ -8788,9 +10094,219 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    }
 		
 		
+		    // --------------------------------------------------
+		    // LEGEND CARD
+		    // --------------------------------------------------
+		
+		    if (
+		        card.slotIndex ===
+		        GOLD_INDEX
+		    ) {
+		
+		        console.log(
+		            "Legend card tapped:",
+		            card.slotIndex
+		        );
+		
+		        return;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // GET GLOBAL SLOT
+		    // --------------------------------------------------
+		
+		    var globalSlot =
+		        getGlobalMonsterSlot(
+		            card.slotIndex
+		        );
+		
+		
+		    if (card.monster) {
+		
+		        console.log(
+		            "Changing monster in global slot:",
+		            globalSlot,
+		            card.monster.name
+		        );
+		
+		    } else {
+		
+		        console.log(
+		            "Selecting monster for global slot:",
+		            globalSlot
+		        );
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // SET MONSTER PLACEMENT
+		    // --------------------------------------------------
+		
+		    if (!window.MonsterPlacement) {
+		
+		        window.MonsterPlacement = {
+		            active: false,
+		            slot: -1
+		        };
+		    }
+		
+		
+		    window.MonsterPlacement.active =
+		        true;
+		
+		
+		    window.MonsterPlacement.slot =
+		        globalSlot;
+		
+		
+		    window.MonsterPlacement.eggIndex =
+		        getCurrentEggIndex();
+		
+		
+		    window.MonsterPlacement.localSlot =
+		        card.slotIndex;
+		
+		
+		    // --------------------------------------------------
+		    // OPEN MONSTER SELECTION
+		    // --------------------------------------------------
+		
+		    if (
+		        typeof self.showScreen ===
+		        "function"
+		    ) {
+		
+		        self.showScreen(
+		            MONSTER_MENU_LABEL
+		        );
+		
+		    } else {
+		
+		        self.gotoAndStop(
+		            MONSTER_MENU_LABEL
+		        );
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// RIGHT CLICK / CLEAR MONSTER SLOT
+		// --------------------------------------------------
+		
+		function onCardRightClick(evt) {
+		
+		    if (evt && evt.nativeEvent) {
+		
+		        evt.nativeEvent.preventDefault();
+		    }
+		
+		
+		    var card =
+		        evt.currentTarget;
+		
+		
+		    if (!card.introDone) {
+		        return;
+		    }
+		
+		
+		    if (
+		        card.slotIndex ===
+		        GOLD_INDEX
+		    ) {
+		
+		        return;
+		    }
+		
+		
+		    if (!card.monster) {
+		        return;
+		    }
+		
+		
+		    var globalSlot =
+		        getGlobalMonsterSlot(
+		            card.slotIndex
+		        );
+		
+		
 		    console.log(
-		        "Card tapped:",
-		        card.slotIndex
+		        "Clearing monster global slot:",
+		        globalSlot,
+		        card.monster.name
+		    );
+		
+		
+		    var monsters =
+		        SaveSystem.get(
+		            "monsters"
+		        );
+		
+		
+		    if (Array.isArray(monsters)) {
+		
+		        var nextMonsters =
+		            monsters.map(
+		                function(entry) {
+		
+		                    if (!entry) {
+		                        return entry;
+		                    }
+		
+		
+		                    var copy =
+		                        Object.assign(
+		                            {},
+		                            entry
+		                        );
+		
+		
+		                    if (
+		                        typeof copy.slot ===
+		                        "number" &&
+		                        copy.slot ===
+		                        globalSlot
+		                    ) {
+		
+		                        copy.slot =
+		                            -1;
+		                    }
+		
+		
+		                    return copy;
+		                }
+		            );
+		
+		
+		        // --------------------------------------------------
+		        // ONLY SAVE MONSTERS
+		        // --------------------------------------------------
+		
+		        SaveSystem.set(
+		            "monsters",
+		            nextMonsters
+		        );
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // CLEAR CARD IMMEDIATELY
+		    // --------------------------------------------------
+		
+		    card.monster =
+		        null;
+		
+		
+		    if (card.label) {
+		
+		        card.label.text =
+		            "Select a monster";
+		    }
+		
+		
+		    updateMonsterArt(
+		        card
 		    );
 		}
 		
@@ -8801,7 +10317,8 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		function onCardPress(evt) {
 		
-		    var card = evt.currentTarget;
+		    var card =
+		        evt.currentTarget;
 		
 		
 		    if (!card.introDone) {
@@ -8809,17 +10326,19 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    }
 		
 		
-		    createjs.Tween.removeTweens(card);
+		    createjs.Tween.removeTweens(
+		        card
+		    );
 		
 		
-		    if (typeof card.cardScale === "number") {
+		    if (
+		        typeof card.cardScale ===
+		        "number"
+		    ) {
 		
 		        card.normalScale =
 		            card.cardScale;
-		    }
 		
-		
-		    if (typeof card.cardScale === "number") {
 		
 		        card.scaleX =
 		            card.cardScale *
@@ -8838,7 +10357,8 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		function onCardRelease(evt) {
 		
-		    var card = evt.currentTarget;
+		    var card =
+		        evt.currentTarget;
 		
 		
 		    if (!card.introDone) {
@@ -8846,7 +10366,10 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    }
 		
 		
-		    if (typeof card.cardScale === "number") {
+		    if (
+		        typeof card.cardScale ===
+		        "number"
+		    ) {
 		
 		        card.scaleX =
 		            card.cardScale;
@@ -8882,7 +10405,8 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		function onCardOver(evt) {
 		
-		    var card = evt.currentTarget;
+		    var card =
+		        evt.currentTarget;
 		
 		
 		    if (!card.introDone) {
@@ -8890,7 +10414,9 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    }
 		
 		
-		    card.isPointerInside = true;
+		    card.isPointerInside =
+		        true;
+		
 		
 		    moveCard(
 		        card,
@@ -8905,7 +10431,8 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		function onCardOut(evt) {
 		
-		    var card = evt.currentTarget;
+		    var card =
+		        evt.currentTarget;
 		
 		
 		    if (!card.introDone) {
@@ -8913,7 +10440,9 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    }
 		
 		
-		    card.isPointerInside = false;
+		    card.isPointerInside =
+		        false;
+		
 		
 		    moveCard(
 		        card,
@@ -8935,7 +10464,8 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		    var targetY =
 		        up
-		            ? card.homeY - card.hoverDist
+		            ? card.homeY -
+		              card.hoverDist
 		            : card.homeY;
 		
 		
@@ -8963,7 +10493,8 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		function layoutCards() {
 		
-		    var n = cards.length;
+		    var n =
+		        cards.length;
 		
 		
 		    if (!n) {
@@ -8976,32 +10507,48 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		
 		    var cardW =
-		        W * CARD_SIZE;
+		        W *
+		        CARD_SIZE;
 		
 		
 		    var scale =
-		        cardW / b.width;
+		        cardW /
+		        b.width;
 		
 		
 		    var cardH =
-		        b.height * scale;
+		        b.height *
+		        scale;
 		
 		
 		    // --------------------------------------------------
 		    // EGG POSITION
 		    // --------------------------------------------------
 		
-		    var activeEgg = self.egg;
+		    var activeEgg =
+		        self.egg;
 		
-		    // Use the egg's RESTING x, never its sliding x
+		
+		    if (!activeEgg) {
+		        return;
+		    }
+		
+		
 		    var eggX =
 		        activeEgg.eggRestX;
 		
 		
 		    var restY =
-		        (typeof activeEgg.eggRestY === "number")
+		        (
+		            typeof activeEgg.eggRestY ===
+		            "number"
+		        )
 		            ? activeEgg.eggRestY
-		            : (typeof self.eggRestY === "number")
+		
+		            : (
+		                typeof self.eggRestY ===
+		                "number"
+		            )
 		                ? self.eggRestY
 		                : activeEgg.y;
 		
@@ -9019,7 +10566,12 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        restY +
 		        (
 		            eb
-		                ? (eb.y + eb.height) * eggScaleY
+		                ? (
+		                    eb.y +
+		                    eb.height
+		                ) *
+		                eggScaleY
+		
 		                : 130
 		        );
 		
@@ -9031,7 +10583,8 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    var desktopRaise =
 		        portrait
 		            ? 0
-		            : H * DESKTOP_CARDS_RAISE;
+		            : H *
+		              DESKTOP_CARDS_RAISE;
 		
 		
 		    // --------------------------------------------------
@@ -9065,7 +10618,8 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    // --------------------------------------------------
 		
 		    var rowWidth =
-		        W * ROW_SPAN;
+		        W *
+		        ROW_SPAN;
 		
 		
 		    var leftX =
@@ -9094,10 +10648,6 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		            cards[i];
 		
 		
-		        // --------------------------------------------------
-		        // STORE NORMAL SCALE
-		        // --------------------------------------------------
-		
 		        c.cardScale =
 		            scale;
 		
@@ -9109,27 +10659,19 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		            scale;
 		
 		
-		        // --------------------------------------------------
-		        // CENTER REGISTRATION POINT
-		        // --------------------------------------------------
-		
 		        c.regX =
 		            b.x +
 		            b.width / 2;
-		
 		
 		        c.regY =
 		            b.y +
 		            b.height / 2;
 		
 		
-		        // --------------------------------------------------
-		        // EVENLY DISTRIBUTE CARDS
-		        // --------------------------------------------------
-		
 		        var normalized =
 		            n > 1
-		                ? i / (n - 1)
+		                ? i /
+		                  (n - 1)
 		                : 0.5;
 		
 		
@@ -9142,18 +10684,15 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		            normalized;
 		
 		
-		        // --------------------------------------------------
-		        // RAISE MIDDLE CARDS
-		        // --------------------------------------------------
-		
 		        var centerOffset =
 		            n > 1
 		                ? (
 		                    i -
 		                    (n - 1) / 2
 		                ) /
-		                ((n - 1) / 2)
-		
+		                (
+		                    (n - 1) / 2
+		                )
 		                : 0;
 		
 		
@@ -9163,10 +10702,6 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		            centerOffset *
 		            centerOffset;
 		
-		
-		        // --------------------------------------------------
-		        // STORE HOME POSITION
-		        // --------------------------------------------------
 		
 		        c.homeX =
 		            c.x;
@@ -9179,10 +10714,6 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		            cardH *
 		            HOVER_LIFT;
 		
-		
-		        // --------------------------------------------------
-		        // HIT AREA
-		        // --------------------------------------------------
 		
 		        var hit =
 		            new createjs.Shape();
@@ -9204,10 +10735,6 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		            hit;
 		
 		
-		        // --------------------------------------------------
-		        // GOLD MIDDLE CARD
-		        // --------------------------------------------------
-		
 		        if (
 		            i === GOLD_INDEX &&
 		            createjs.ColorMatrixFilter
@@ -9224,14 +10751,12 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		
 		            c.filters = [
-		                new createjs.ColorMatrixFilter(m)
+		                new createjs.ColorMatrixFilter(
+		                    m
+		                )
 		            ];
 		        }
 		
-		
-		        // --------------------------------------------------
-		        // CACHE
-		        // --------------------------------------------------
 		
 		        c.cache(
 		            b.x,
@@ -9248,9 +10773,6 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		// CARD INTRO ANIMATION
 		// --------------------------------------------------
 		
-		// dir: +1 = cards slide right, -1 = cards slide left
-		// If no direction is given, INTRO_DIRECTION is used
-		
 		function animateCardsIn(dir) {
 		
 		    if (!cards.length) {
@@ -9258,13 +10780,13 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    }
 		
 		
-		    dir =
-		        dir ||
-		        (
+		    if (!dir) {
+		
+		        dir =
 		            INTRO_DIRECTION === "right"
 		                ? 1
-		                : -1
-		        );
+		                : -1;
+		    }
 		
 		
 		    for (
@@ -9277,8 +10799,11 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		            cards[i];
 		
 		
-		        card.introDone = false;
-		        card.cursor = null;
+		        card.introDone =
+		            false;
+		
+		        card.cursor =
+		            null;
 		
 		
 		        var targetX =
@@ -9305,15 +10830,19 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		        if (INTRO_FADE) {
 		
-		            card.alpha = 0;
+		            card.alpha =
+		                0;
 		
 		        } else {
 		
-		            card.alpha = 1;
+		            card.alpha =
+		                1;
 		        }
 		
 		
-		        createjs.Tween.removeTweens(card);
+		        createjs.Tween.removeTweens(
+		            card
+		        );
 		
 		
 		        var delay =
@@ -9328,32 +10857,175 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		        if (INTRO_FADE) {
 		
-		            tweenProperties.alpha = 1;
+		            tweenProperties.alpha =
+		                1;
 		        }
 		
 		
-		        createjs.Tween.get(card)
-		            .wait(delay)
-		            .to(
-		                tweenProperties,
-		                INTRO_TIME,
-		                createjs.Ease.backOut
-		            )
-		            .call(
-		                function(card) {
+		        createjs.Tween.get(
+		            card
+		        )
+		        .wait(
+		            delay
+		        )
+		        .to(
+		            tweenProperties,
+		            INTRO_TIME,
+		            createjs.Ease.backOut
+		        )
+		        .call(
+		            function(card) {
 		
-		                    card.introDone = true;
-		                    card.cursor = "pointer";
+		                card.introDone =
+		                    true;
 		
-		                },
-		                [card]
-		            );
+		                card.cursor =
+		                    "pointer";
+		
+		            },
+		            [card]
+		        );
 		    }
 		}
 		
 		
 		// --------------------------------------------------
-		// WAIT ONE TICK
+		// SAVE SYSTEM CHANGE LISTENER
+		// --------------------------------------------------
+		
+		function onSaveSystemChange() {
+		
+		    if (!alive) {
+		        return;
+		    }
+		
+		
+		    updateAllCardMonsters();
+		}
+		
+		
+		// --------------------------------------------------
+		// REGISTER SAVE SYSTEM CHANGE LISTENER
+		// --------------------------------------------------
+		
+		function registerSaveSystemListener() {
+		
+		    if (
+		        !window.SaveSystem ||
+		        typeof SaveSystem.on !==
+		        "function"
+		    ) {
+		
+		        return;
+		    }
+		
+		
+		    try {
+		
+		        SaveSystem.on(
+		            "change",
+		            onSaveSystemChange
+		        );
+		
+		    } catch (e) {
+		
+		        console.warn(
+		            "Could not register SaveSystem change listener.",
+		            e
+		        );
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// WAIT FOR SAVE SYSTEM
+		// --------------------------------------------------
+		//
+		// This is the important load fix.
+		//
+		// The cards can be created before SaveSystem has
+		// finished loading. When that happens, the first
+		// update finds no monster assignments.
+		//
+		// We explicitly refresh after SaveSystem.load()
+		// finishes.
+		// --------------------------------------------------
+		
+		function waitForSaveSystemLoad() {
+		
+		    if (!window.SaveSystem) {
+		        return;
+		    }
+		
+		
+		    if (
+		        typeof SaveSystem.isLoaded ===
+		        "function" &&
+		        SaveSystem.isLoaded()
+		    ) {
+		
+		        updateAllCardMonsters();
+		
+		        return;
+		    }
+		
+		
+		    if (
+		        typeof SaveSystem.load ===
+		        "function"
+		    ) {
+		
+		        try {
+		
+		            var loadResult =
+		                SaveSystem.load();
+		
+		
+		            if (
+		                loadResult &&
+		                typeof loadResult.then ===
+		                "function"
+		            ) {
+		
+		                loadResult.then(
+		                    function() {
+		
+		                        if (!alive) {
+		                            return;
+		                        }
+		
+		
+		                        // --------------------------------------------------
+		                        // SAVE DATA IS NOW AVAILABLE
+		                        // --------------------------------------------------
+		
+		                        updateAllCardMonsters();
+		                    }
+		                )
+		                .catch(
+		                    function(error) {
+		
+		                        console.warn(
+		                            "SaveSystem load failed:",
+		                            error
+		                        );
+		                    }
+		                );
+		            }
+		
+		        } catch (e) {
+		
+		            console.warn(
+		                "Could not load SaveSystem:",
+		                e
+		            );
+		        }
+		    }
+		}
+		
+		
+		// --------------------------------------------------
+		// BUILD ONCE
 		// --------------------------------------------------
 		
 		function buildOnce() {
@@ -9369,9 +11041,44 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		    }
 		
 		
+		    // --------------------------------------------------
+		    // CREATE CARDS
+		    // --------------------------------------------------
+		
 		    createCards();
 		
+		
+		    // --------------------------------------------------
+		    // LAYOUT
+		    // --------------------------------------------------
+		
 		    layoutCards();
+		
+		
+		    // --------------------------------------------------
+		    // FIRST MONSTER UPDATE
+		    // --------------------------------------------------
+		
+		    updateAllCardMonsters();
+		
+		
+		    // --------------------------------------------------
+		    // REGISTER SAVE LISTENER
+		    // --------------------------------------------------
+		
+		    registerSaveSystemListener();
+		
+		
+		    // --------------------------------------------------
+		    // EXPLICITLY WAIT FOR SAVE DATA
+		    // --------------------------------------------------
+		
+		    waitForSaveSystemLoad();
+		
+		
+		    // --------------------------------------------------
+		    // INTRO
+		    // --------------------------------------------------
 		
 		    animateCardsIn();
 		}
@@ -9384,11 +11091,15 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		
 		// --------------------------------------------------
-		// EXPOSE TO THE EGG SCRIPT
+		// EXPOSE TO EGG SCRIPT
 		// --------------------------------------------------
 		
 		self.layoutCards =
 		    layoutCards;
+		
+		
+		self.updateAllCardMonsters =
+		    updateAllCardMonsters;
 		
 		
 		self.replayCardsIntro =
@@ -9401,9 +11112,14 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        cards.forEach(
 		            function(c) {
 		
-		                c.introDone = false;
-		                c.cursor = null;
-		                c.isPointerInside = false;
+		                c.introDone =
+		                    false;
+		
+		                c.cursor =
+		                    null;
+		
+		                c.isPointerInside =
+		                    false;
 		
 		
 		                createjs.Tween.get(
@@ -9431,7 +11147,8 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		self.cleanupCards =
 		    function() {
 		
-		        alive = false;
+		        alive =
+		            false;
 		
 		
 		        createjs.Ticker.removeEventListener(
@@ -9440,14 +11157,42 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        );
 		
 		
+		        // --------------------------------------------------
+		        // REMOVE EGG CHANGE LISTENER
+		        // --------------------------------------------------
+		
+		        if (
+		            typeof window.removeEventListener ===
+		            "function"
+		        ) {
+		
+		            window.removeEventListener(
+		                "eggChanged",
+		                onGlobalEggChanged
+		            );
+		        }
+		
+		
 		        cards.forEach(
 		            function(c) {
 		
-		                createjs.Tween.removeTweens(c);
+		                createjs.Tween.removeTweens(
+		                    c
+		                );
+		
 		
 		                c.removeAllEventListeners();
 		
-		                self.removeChild(c);
+		
+		                if (c.cacheCanvas) {
+		
+		                    c.uncache();
+		                }
+		
+		
+		                self.removeChild(
+		                    c
+		                );
 		            }
 		        );
 		
@@ -9922,6 +11667,49 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		        );
 		    }
 		}
+		
+		
+		// --------------------------------------------------
+		// REDUCE EGG TIMER (called by the egg click)
+		// --------------------------------------------------
+		//
+		// Removes SaveSystem "tapReduction" seconds.
+		// Returns the seconds actually removed (0 = nothing happened).
+		//
+		
+		self.reduceEggTimer =
+		    function (index) {
+		
+		        if (
+		            !timersReady ||
+		            eggLocked[index] ||
+		            !eggEnd[index]
+		        ) {
+		
+		            return 0;
+		        }
+		
+		
+		        var before =
+		            eggEnd[index];
+		
+		        eggEnd[index] =
+		            Math.max(
+		                Date.now(),
+		                before -
+		                SaveSystem.get("tapReduction") * 1000
+		            );
+		
+		
+		        saveEggTimers();
+		
+		        updateCountdown();
+		
+		
+		        return Math.round(
+		            (before - eggEnd[index]) / 1000
+		        );
+		    };
 		
 		
 		// --------------------------------------------------
@@ -12382,9 +14170,1644 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 		
 		})(this);
 	}
+	this.frame_3 = function() {
+		this.stop();
+		
+		(function (self) {
+		
+		    var W = lib.properties.width;
+		    var H = lib.properties.height;
+		    var portrait = H > W;
+		
+		
+		    // --------------------------------------------------
+		    // CLEAN UP THE HOME SCREEN UI
+		    // --------------------------------------------------
+		
+		    if (self.cleanupBottomBar) self.cleanupBottomBar();
+		    if (self.cleanupCards) self.cleanupCards();
+		    if (self.cleanupEggNavigation) self.cleanupEggNavigation();
+		    if (self.cleanupEggs) self.cleanupEggs();
+		
+		
+		    // Hide the home screen's egg while this screen is open
+		    var eggUi = self.egg || null;
+		    var eggWasVisible = eggUi ? eggUi.visible : true;
+		
+		    if (eggUi) {
+		        eggUi.visible = false;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // SETTINGS
+		    // --------------------------------------------------
+		
+		    var COLUMNS = portrait ? 2 : 4;
+		
+		    var RESERVE_TOP_BAR = true;
+		
+		    var MAX_CONTENT_WIDTH = 1200;
+		    var SIDE_MARGIN       = portrait ? 24 : 40;
+		    var CARD_GAP          = portrait ? 14 : 24;
+		
+		    var HEADER_HEIGHT = portrait ? 84 : 72;
+		    var TITLE_SIZE    = portrait ? 34 : 30;
+		    var COUNT_SIZE    = portrait ? 22 : 18;
+		
+		    var TITLE_COLOR = "#dbeaf5";
+		    var COUNT_COLOR = "#8DBBD1";
+		
+		    var LINE_COLOR     = "#8fd8ff";
+		    var LINE_ALPHA     = 0.75;
+		    var LINE_THICKNESS = 2;
+		
+		    var SCROLL_PAD_TOP    = 20;
+		    var SCROLL_PAD_BOTTOM = 40;
+		
+		    var DRAG_THRESHOLD = 10;
+		    var FRICTION       = 0.92;
+		
+		    var BROWSE_TITLE = "Your monsters";
+		    var PICK_TITLE   = "Choose a monster";
+		    var EMPTY_TEXT   = "No monsters yet";
+		
+		    var NO_TYPE     = "NONE";
+		    var SEPARATOR   = " \u00B7 ";
+		    var FONT_FAMILY = "'DM Sans'";
+		    var LISTENER_ID = "monstersMenu";
+		    var GAME_LABEL  = "game";
+		
+		    // Instance name of the picture clip inside MonsterContainer.
+		    var ART_CLIP = "egg";
+		
+		    // Frame the MonsterContainer itself goes to.
+		    // CreateJS counts from 0, so 1 is frame 2 in Animate.
+		    var ART_FRAME = 1;
+		
+		
+		    // --------------------------------------------------
+		    // CONTAINERS
+		    // --------------------------------------------------
+		
+		    var viewport =
+		        new createjs.Container();
+		
+		    self.addChild(
+		        viewport
+		    );
+		
+		
+		    var scrollHit =
+		        new createjs.Shape();
+		
+		    viewport.addChild(
+		        scrollHit
+		    );
+		
+		
+		    var content =
+		        new createjs.Container();
+		
+		    viewport.addChild(
+		        content
+		    );
+		
+		
+		    var viewMask =
+		        new createjs.Shape();
+		
+		    viewport.mask =
+		        viewMask;
+		
+		
+		    var header =
+		        new createjs.Container();
+		
+		    self.addChild(
+		        header
+		    );
+		
+		
+		    var titleText =
+		        new createjs.Text(
+		            BROWSE_TITLE,
+		            "30px 'Marcellus'",
+		            TITLE_COLOR
+		        );
+		
+		    titleText.textAlign =
+		        "left";
+		
+		    titleText.textBaseline =
+		        "middle";
+		
+		    header.addChild(
+		        titleText
+		    );
+		
+		
+		    var countText =
+		        new createjs.Text(
+		            "0 monsters",
+		            "bold 18px 'DM Sans'",
+		            COUNT_COLOR
+		        );
+		
+		    countText.textAlign =
+		        "right";
+		
+		    countText.textBaseline =
+		        "middle";
+		
+		    header.addChild(
+		        countText
+		    );
+		
+		
+		    var headerLine =
+		        new createjs.Shape();
+		
+		    header.addChild(
+		        headerLine
+		    );
+		
+		
+		    var emptyText =
+		        new createjs.Text(
+		            EMPTY_TEXT,
+		            "bold 22px 'DM Sans'",
+		            COUNT_COLOR
+		        );
+		
+		    emptyText.textAlign =
+		        "center";
+		
+		    emptyText.textBaseline =
+		        "middle";
+		
+		    emptyText.visible =
+		        false;
+		
+		    header.addChild(
+		        emptyText
+		    );
+		
+		
+		    // --------------------------------------------------
+		    // STATE
+		    // --------------------------------------------------
+		
+		    var cards = [];
+		    var entries = [];
+		
+		    var destroyed = false;
+		
+		    var viewTop = 0;
+		    var maxScroll = 0;
+		    var scrollY = 0;
+		
+		    var dragging = false;
+		    var dragMoved = false;
+		    var dragStartY = 0;
+		    var dragStartScroll = 0;
+		    var lastY = 0;
+		    var lastTime = 0;
+		    var velocity = 0;
+		
+		
+		    // --------------------------------------------------
+		    // CARD TEXT
+		    // --------------------------------------------------
+		
+		    function typeLabel(def) {
+		
+		        var types = [];
+		
+		
+		        if (def.type1) {
+		            types.push(
+		                def.type1
+		            );
+		        }
+		
+		
+		        if (def.type2) {
+		            types.push(
+		                def.type2
+		            );
+		        }
+		
+		
+		        return types.length
+		            ? types.join(
+		                SEPARATOR
+		            ).toUpperCase()
+		
+		            : NO_TYPE;
+		    }
+		
+		
+		    // "Level 12 · Slot 3",
+		    // or just "Level 12" when it isn't in a slot
+		    function levelLabel(entry) {
+		
+		        var text =
+		            "Level " +
+		            (entry.level || 1);
+		
+		
+		        if (
+		            typeof entry.slot ===
+		            "number" &&
+		            entry.slot >= 0
+		        ) {
+		
+		            text +=
+		                SEPARATOR +
+		                "Slot " +
+		                (entry.slot + 1);
+		        }
+		
+		
+		        return text;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // REMOVE OLD EGG ART
+		    // --------------------------------------------------
+		
+		    // Removes every child stored under the property name "egg",
+		    // wherever it is inside the card (including nested clips)
+		    function removeEgg(node) {
+		
+		        if (!node) {
+		            return;
+		        }
+		
+		
+		        if (
+		            node.egg &&
+		            node.egg.parent
+		        ) {
+		
+		            node.egg.parent.removeChild(
+		                node.egg
+		            );
+		        }
+		
+		
+		        var kids =
+		            (node.children || []).slice();
+		
+		
+		        for (
+		            var i = 0;
+		            i < kids.length;
+		            i++
+		        ) {
+		
+		            removeEgg(
+		                kids[i]
+		            );
+		        }
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // SHOW MONSTER ART
+		    // --------------------------------------------------
+		
+		    function showArt(card) {
+		
+		        // The whole MonsterContainer card goes to frame 2
+		        card.gotoAndStop(
+		            ART_FRAME
+		        );
+		
+		
+		        // Find MonsterArt inside the MonsterContainer
+		        var monsterArt =
+		            card.MonsterArt;
+		
+		
+		        if (!monsterArt) {
+		
+		            console.warn(
+		                "MonsterArt not found inside MonsterContainer."
+		            );
+		
+		
+		            removeEgg(
+		                card
+		            );
+		
+		            return;
+		        }
+		
+		
+		        // Get the monster assigned to this card
+		        var entry =
+		            entries[
+		                card.monsterIndex
+		            ];
+		
+		
+		        var def =
+		            entry
+		                ? Monster.registry[
+		                    entry.monsterId
+		                ]
+		                : null;
+		
+		
+		        // Monster name to search for
+		        var monsterName =
+		            def
+		                ? String(
+		                    def.name || ""
+		                ).trim()
+		
+		                : "";
+		
+		
+		        // Default frame
+		        var frameToUse =
+		            "default";
+		
+		
+		        // --------------------------------------------------
+		        // FIND MATCHING MONSTER FRAME LABEL
+		        // --------------------------------------------------
+		
+		        if (
+		            monsterName !== ""
+		        ) {
+		
+		            var labels = [];
+		
+		
+		            if (
+		                monsterArt.timeline &&
+		                monsterArt.timeline.getLabels
+		            ) {
+		
+		                labels =
+		                    monsterArt.timeline.getLabels();
+		            }
+		
+		
+		            for (
+		                var i = 0;
+		                i < labels.length;
+		                i++
+		            ) {
+		
+		                // CreateJS uses .label
+		                // for frame labels
+		                var labelName =
+		                    String(
+		                        labels[i].label || ""
+		                    ).trim();
+		
+		
+		                if (
+		                    labelName ===
+		                    monsterName
+		                ) {
+		
+		                    frameToUse =
+		                        labelName;
+		
+		                    break;
+		                }
+		            }
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // SHOW MONSTER ART
+		        // --------------------------------------------------
+		
+		        monsterArt.gotoAndStop(
+		            frameToUse
+		        );
+		
+		
+		        // Switching frames can put timeline
+		        // content back, so delete the old egg afterward.
+		        removeEgg(
+		            card
+		        );
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // APPLY CARD DATA
+		    // --------------------------------------------------
+		
+		    function applyCard(card) {
+		
+		        var entry =
+		            entries[
+		                card.monsterIndex
+		            ];
+		
+		
+		        var def =
+		            Monster.registry[
+		                entry.monsterId
+		            ];
+		
+		
+		        // Switch frames first
+		        showArt(
+		            card
+		        );
+		
+		
+		        if (card.type) {
+		
+		            card.type.text =
+		                def
+		                    ? typeLabel(def)
+		                    : "";
+		        }
+		
+		
+		        if (card.MonsterName) {
+		
+		            var nick =
+		                String(
+		                    entry.nickname || ""
+		                ).trim();
+		
+		
+		            card.MonsterName.text =
+		                nick !== ""
+		                    ? nick
+		
+		                    : (
+		                        def
+		                            ? def.name
+		                            : "???"
+		                    );
+		        }
+		
+		
+		        if (card.guarding) {
+		
+		            var m =
+		                /^(.*?\d+(?:\.\d+)?px)\s/
+		                    .exec(
+		                        card.guarding.font ||
+		                        ""
+		                    );
+		
+		
+		            if (m) {
+		
+		                card.guarding.font =
+		                    m[1] +
+		                    " " +
+		                    FONT_FAMILY;
+		            }
+		
+		
+		            card.guarding.visible =
+		                true;
+		
+		
+		            card.guarding.text =
+		                levelLabel(
+		                    entry
+		                );
+		        }
+		
+		
+		        if (card.cacheCanvas) {
+		
+		            card.updateCache();
+		        }
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // BUILD THE CARDS FROM THE SAVE
+		    // --------------------------------------------------
+		
+		    function clearCards() {
+		
+		        for (
+		            var i = 0;
+		            i < cards.length;
+		            i++
+		        ) {
+		
+		            cards[i]
+		                .removeAllEventListeners();
+		
+		
+		            content.removeChild(
+		                cards[i]
+		            );
+		        }
+		
+		
+		        cards = [];
+		    }
+		
+		
+		    function rebuild() {
+		
+		        // The player already left this screen
+		        if (destroyed) {
+		            return;
+		        }
+		
+		
+		        if (!lib.MonsterContainer) {
+		
+		            console.error(
+		                "MonsterContainer not found. Check AS Linkage on the symbol."
+		            );
+		
+		            return;
+		        }
+		
+		
+		        var saved =
+		            SaveSystem.get(
+		                "monsters"
+		            );
+		
+		
+		        entries =
+		            Array.isArray(saved)
+		                ? saved
+		                : [];
+		
+		
+		        clearCards();
+		
+		
+		        for (
+		            var i = 0;
+		            i < entries.length;
+		            i++
+		        ) {
+		
+		            var card =
+		                new lib.MonsterContainer();
+		
+		
+		            card.monsterIndex =
+		                i;
+		
+		
+		            card.cursor =
+		                "pointer";
+		
+		
+		            card.addEventListener(
+		                "click",
+		                onCardClick
+		            );
+		
+		
+		            content.addChild(
+		                card
+		            );
+		
+		
+		            cards.push(
+		                card
+		            );
+		
+		
+		            applyCard(
+		                card
+		            );
+		        }
+		
+		
+		        countText.text =
+		            entries.length +
+		            (
+		                entries.length === 1
+		                    ? " monster"
+		                    : " monsters"
+		            );
+		
+		
+		        emptyText.visible =
+		            !entries.length;
+		
+		
+		        layout();
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // LEAVE MONSTER SCREEN
+		    // --------------------------------------------------
+		
+		    function leave() {
+		
+		        if (self.showScreen) {
+		
+		            self.showScreen(
+		                GAME_LABEL
+		            );
+		
+		        } else {
+		
+		            if (
+		                self.cleanupMonsters
+		            ) {
+		
+		                self.cleanupMonsters();
+		            }
+		
+		
+		            self.gotoAndStop(
+		                GAME_LABEL
+		            );
+		        }
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // UPDATE SLOTS SAVE DATA
+		    // --------------------------------------------------
+		
+		    function updateMonsterSlots(
+		        chosenMonsterId,
+		        targetSlot
+		    ) {
+		
+		        var savedSlots =
+		            SaveSystem.get(
+		                "slots"
+		            );
+		
+		
+		        var nextSlots =
+		            Array.isArray(
+		                savedSlots
+		            )
+		                ? savedSlots.slice()
+		                : [];
+		
+		
+		        // Make sure the array has
+		        // all five egg slots.
+		        while (
+		            nextSlots.length <
+		            5
+		        ) {
+		
+		            nextSlots.push(
+		                null
+		            );
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // REMOVE THIS MONSTER FROM
+		        // ANY OTHER SLOT
+		        // --------------------------------------------------
+		
+		        for (
+		            var i = 0;
+		            i < nextSlots.length;
+		            i++
+		        ) {
+		
+		            if (
+		                i !== targetSlot &&
+		                nextSlots[i] ===
+		                chosenMonsterId
+		            ) {
+		
+		                nextSlots[i] =
+		                    null;
+		            }
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // PUT MONSTER INTO
+		        // SELECTED SLOT
+		        // --------------------------------------------------
+		
+		        nextSlots[
+		            targetSlot
+		        ] =
+		            chosenMonsterId;
+		
+		
+		        // --------------------------------------------------
+		        // SAVE SLOTS
+		        // --------------------------------------------------
+		
+		        SaveSystem.set(
+		            "slots",
+		            nextSlots
+		        );
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // CARD CLICK
+		    // --------------------------------------------------
+		
+		    function onCardClick(evt) {
+		
+		        // A press that turned into
+		        // a drag is not a tap
+		        if (dragMoved) {
+		            return;
+		        }
+		
+		
+		        var placement =
+		            window.MonsterPlacement;
+		
+		
+		        if (
+		            !placement ||
+		            !placement.active
+		        ) {
+		
+		            return;
+		        }
+		
+		
+		        var chosen =
+		            evt.currentTarget.monsterIndex;
+		
+		
+		        // --------------------------------------------------
+		        // CHECK CHOSEN ENTRY
+		        // --------------------------------------------------
+		
+		        var chosenEntry =
+		            entries[
+		                chosen
+		            ];
+		
+		
+		        if (!chosenEntry) {
+		
+		            console.warn(
+		                "Could not find selected monster:",
+		                chosen
+		            );
+		
+		            return;
+		        }
+		
+		
+		        var chosenMonsterId =
+		            chosenEntry.monsterId;
+		
+		
+		        var targetSlot =
+		            placement.slot;
+		
+		
+		        // --------------------------------------------------
+		        // VALIDATE SLOT
+		        // --------------------------------------------------
+		
+		        if (
+		            typeof targetSlot !==
+		            "number" ||
+		            targetSlot < 0 ||
+		            targetSlot >= 5
+		        ) {
+		
+		            console.warn(
+		                "Invalid monster placement slot:",
+		                targetSlot
+		            );
+		
+		            return;
+		        }
+		
+		
+		        // --------------------------------------------------
+		        // UPDATE MONSTERS DATA
+		        // --------------------------------------------------
+		
+		        // Always build a new array so
+		        // SaveSystem sees the change.
+		        var next =
+		            entries.map(
+		                function (m, i) {
+		
+		                    var c =
+		                        Object.assign(
+		                            {},
+		                            m
+		                        );
+		
+		
+		                    // --------------------------------------------------
+		                    // SELECTED MONSTER
+		                    // --------------------------------------------------
+		
+		                    if (
+		                        i === chosen
+		                    ) {
+		
+		                        c.slot =
+		                            targetSlot;
+		
+		
+		                    // --------------------------------------------------
+		                    // REMOVE ANY MONSTER
+		                    // THAT WAS ALREADY IN
+		                    // THIS SLOT
+		                    // --------------------------------------------------
+		
+		                    } else if (
+		                        c.slot ===
+		                        targetSlot
+		                    ) {
+		
+		                        c.slot =
+		                            -1;
+		                    }
+		
+		
+		                    return c;
+		                }
+		            );
+		
+		
+		        // --------------------------------------------------
+		        // UPDATE MONSTERS SAVE
+		        // --------------------------------------------------
+		
+		        SaveSystem.set(
+		            "monsters",
+		            next
+		        );
+		
+		
+		        // --------------------------------------------------
+		        // UPDATE FIVE EGG SLOTS
+		        // --------------------------------------------------
+		
+		        updateMonsterSlots(
+		            chosenMonsterId,
+		            targetSlot
+		        );
+		
+		
+		        // --------------------------------------------------
+		        // PLACEMENT COMPLETE
+		        // --------------------------------------------------
+		
+		        placement.active =
+		            false;
+		
+		
+		        placement.slot =
+		            -1;
+		
+		
+		        // --------------------------------------------------
+		        // RETURN TO GAME
+		        // --------------------------------------------------
+		
+		        leave();
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // SCROLLING
+		    // --------------------------------------------------
+		
+		    function setScroll(y) {
+		
+		        scrollY =
+		            Math.max(
+		                0,
+		                Math.min(
+		                    maxScroll,
+		                    y
+		                )
+		            );
+		
+		
+		        content.y =
+		            viewTop -
+		            scrollY;
+		    }
+		
+		
+		    function onPress(evt) {
+		
+		        dragging = true;
+		        dragMoved = false;
+		        velocity = 0;
+		
+		
+		        dragStartY =
+		            evt.stageY;
+		
+		
+		        dragStartScroll =
+		            scrollY;
+		
+		
+		        lastY =
+		            evt.stageY;
+		
+		
+		        lastTime =
+		            Date.now();
+		    }
+		
+		
+		    function onDragMove(evt) {
+		
+		        if (!dragging) {
+		            return;
+		        }
+		
+		
+		        var y =
+		            evt.stageY;
+		
+		
+		        if (!dragMoved) {
+		
+		            if (
+		                Math.abs(
+		                    y -
+		                    dragStartY
+		                ) <=
+		                DRAG_THRESHOLD
+		            ) {
+		
+		                return;
+		            }
+		
+		
+		            dragMoved =
+		                true;
+		
+		
+		            dragStartY =
+		                y;
+		
+		
+		            dragStartScroll =
+		                scrollY;
+		
+		
+		            lastY =
+		                y;
+		
+		
+		            lastTime =
+		                Date.now();
+		
+		
+		            return;
+		        }
+		
+		
+		        setScroll(
+		            dragStartScroll -
+		            (
+		                y -
+		                dragStartY
+		            )
+		        );
+		
+		
+		        var now =
+		            Date.now();
+		
+		
+		        var dt =
+		            now -
+		            lastTime;
+		
+		
+		        if (dt > 0) {
+		
+		            velocity =
+		                velocity * 0.6 +
+		                (
+		                    (
+		                        lastY -
+		                        y
+		                    ) /
+		                    dt
+		                ) *
+		                0.4;
+		
+		
+		            lastY =
+		                y;
+		
+		            lastTime =
+		                now;
+		        }
+		    }
+		
+		
+		    function onRelease() {
+		
+		        if (!dragging) {
+		            return;
+		        }
+		
+		
+		        dragging =
+		            false;
+		
+		
+		        if (
+		            Date.now() -
+		            lastTime >
+		            100
+		        ) {
+		
+		            velocity =
+		                0;
+		        }
+		    }
+		
+		
+		    function scrollTick(evt) {
+		
+		        if (dragging) {
+		            return;
+		        }
+		
+		
+		        if (
+		            Math.abs(
+		                velocity
+		            ) <
+		            0.01
+		        ) {
+		
+		            velocity =
+		                0;
+		
+		            return;
+		        }
+		
+		
+		        setScroll(
+		            scrollY +
+		            velocity *
+		            evt.delta
+		        );
+		
+		
+		        velocity *=
+		            Math.pow(
+		                FRICTION,
+		                evt.delta /
+		                16.67
+		            );
+		
+		
+		        if (
+		            scrollY <= 0 ||
+		            scrollY >= maxScroll
+		        ) {
+		
+		            velocity =
+		                0;
+		        }
+		    }
+		
+		
+		    var canvas =
+		        self.stage
+		            ? self.stage.canvas
+		            : null;
+		
+		
+		    function onWheel(e) {
+		
+		        e.preventDefault();
+		
+		        velocity =
+		            0;
+		
+		
+		        var unitsPerPixel =
+		            canvas &&
+		            canvas.clientWidth
+		
+		                ? W /
+		                  canvas.clientWidth
+		
+		                : 1;
+		
+		
+		        setScroll(
+		            scrollY +
+		            e.deltaY *
+		            (
+		                e.deltaMode === 1
+		                    ? 20
+		                    : 1
+		            ) *
+		            unitsPerPixel
+		        );
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // LAYOUT
+		    // --------------------------------------------------
+		
+		    function layout() {
+		
+		        var topOffset =
+		            RESERVE_TOP_BAR
+		                ? (
+		                    portrait
+		                        ? Math.max(
+		                            82,
+		                            H * 0.11
+		                        )
+		
+		                        : Math.max(
+		                            66,
+		                            H * 0.09
+		                        )
+		                )
+		
+		                : 0;
+		
+		
+		        var contentW =
+		            Math.min(
+		                W -
+		                SIDE_MARGIN * 2,
+		                MAX_CONTENT_WIDTH
+		            );
+		
+		
+		        var contentLeft =
+		            (
+		                W -
+		                contentW
+		            ) /
+		            2;
+		
+		
+		        var headerMiddle =
+		            topOffset +
+		            HEADER_HEIGHT /
+		            2;
+		
+		
+		        var lineY =
+		            topOffset +
+		            HEADER_HEIGHT;
+		
+		
+		        titleText.font =
+		            TITLE_SIZE +
+		            "px 'Marcellus'";
+		
+		
+		        titleText.x =
+		            contentLeft;
+		
+		
+		        titleText.y =
+		            headerMiddle;
+		
+		
+		        countText.font =
+		            "bold " +
+		            COUNT_SIZE +
+		            "px 'DM Sans'";
+		
+		
+		        countText.x =
+		            contentLeft +
+		            contentW;
+		
+		
+		        countText.y =
+		            headerMiddle;
+		
+		
+		        headerLine.graphics.clear();
+		
+		
+		        headerLine.graphics
+		            .beginFill(
+		                LINE_COLOR
+		            )
+		            .drawRect(
+		                contentLeft,
+		                lineY,
+		                contentW,
+		                LINE_THICKNESS
+		            );
+		
+		
+		        headerLine.alpha =
+		            LINE_ALPHA;
+		
+		
+		        viewTop =
+		            lineY +
+		            LINE_THICKNESS;
+		
+		
+		        var viewH =
+		            H -
+		            viewTop;
+		
+		
+		        emptyText.x =
+		            W / 2;
+		
+		
+		        emptyText.y =
+		            viewTop +
+		            90;
+		
+		
+		        viewMask.graphics.clear();
+		
+		
+		        viewMask.graphics
+		            .beginFill(
+		                "#000"
+		            )
+		            .drawRect(
+		                0,
+		                viewTop,
+		                W,
+		                viewH
+		            );
+		
+		
+		        scrollHit.graphics.clear();
+		
+		
+		        scrollHit.graphics
+		            .beginFill(
+		                "rgba(0, 0, 0, 0.02)"
+		            )
+		            .drawRect(
+		                0,
+		                viewTop,
+		                W,
+		                viewH
+		            );
+		
+		
+		        if (!cards.length) {
+		
+		            maxScroll =
+		                0;
+		
+		
+		            setScroll(
+		                0
+		            );
+		
+		
+		            return;
+		        }
+		
+		
+		        var b =
+		            cards[0].nominalBounds;
+		
+		
+		        var cardW =
+		            (
+		                contentW -
+		                CARD_GAP *
+		                (COLUMNS - 1)
+		            ) /
+		            COLUMNS;
+		
+		
+		        var scale =
+		            cardW /
+		            b.width;
+		
+		
+		        var cardH =
+		            b.height *
+		            scale;
+		
+		
+		        var rows =
+		            Math.ceil(
+		                cards.length /
+		                COLUMNS
+		            );
+		
+		
+		        var cacheScale =
+		            scale *
+		            Math.max(
+		                1,
+		                Math.min(
+		                    2,
+		                    window.devicePixelRatio ||
+		                    1
+		                )
+		            );
+		
+		
+		        for (
+		            var i = 0;
+		            i < cards.length;
+		            i++
+		        ) {
+		
+		            var col =
+		                i %
+		                COLUMNS;
+		
+		
+		            var row =
+		                Math.floor(
+		                    i /
+		                    COLUMNS
+		                );
+		
+		
+		            var left =
+		                contentLeft +
+		                col *
+		                (
+		                    cardW +
+		                    CARD_GAP
+		                );
+		
+		
+		            var top =
+		                SCROLL_PAD_TOP +
+		                row *
+		                (
+		                    cardH +
+		                    CARD_GAP
+		                );
+		
+		
+		            var c =
+		                cards[i];
+		
+		
+		            c.scaleX =
+		                scale;
+		
+		
+		            c.scaleY =
+		                scale;
+		
+		
+		            c.x =
+		                left -
+		                b.x *
+		                scale;
+		
+		
+		            c.y =
+		                top -
+		                b.y *
+		                scale;
+		
+		
+		            c.cache(
+		                b.x,
+		                b.y,
+		                b.width,
+		                b.height,
+		                cacheScale
+		            );
+		        }
+		
+		
+		        var contentH =
+		            SCROLL_PAD_TOP +
+		            rows *
+		            cardH +
+		            (
+		                rows - 1
+		            ) *
+		            CARD_GAP +
+		            SCROLL_PAD_BOTTOM;
+		
+		
+		        maxScroll =
+		            Math.max(
+		                0,
+		                contentH -
+		                viewH
+		            );
+		
+		
+		        setScroll(
+		            scrollY
+		        );
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // EVENTS
+		    // --------------------------------------------------
+		
+		    viewport.on(
+		        "mousedown",
+		        onPress
+		    );
+		
+		
+		    viewport.on(
+		        "pressmove",
+		        onDragMove
+		    );
+		
+		
+		    viewport.on(
+		        "pressup",
+		        onRelease
+		    );
+		
+		
+		    createjs.Ticker.addEventListener(
+		        "tick",
+		        scrollTick
+		    );
+		
+		
+		    if (canvas) {
+		
+		        canvas.addEventListener(
+		            "wheel",
+		            onWheel,
+		            {
+		                passive: false
+		            }
+		        );
+		    }
+		
+		
+		    if (self.stage) {
+		
+		        createjs.Touch.enable(
+		            self.stage
+		        );
+		
+		
+		        self.stage.mouseMoveOutside =
+		            true;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // CLEANUP
+		    // --------------------------------------------------
+		
+		    self.cleanupMonsters =
+		        function () {
+		
+		            destroyed =
+		                true;
+		
+		
+		            // Put the home screen's egg back
+		            if (eggUi) {
+		
+		                eggUi.visible =
+		                    eggWasVisible;
+		            }
+		
+		
+		            createjs.Ticker
+		                .removeEventListener(
+		                    "tick",
+		                    scrollTick
+		                );
+		
+		
+		            if (canvas) {
+		
+		                canvas.removeEventListener(
+		                    "wheel",
+		                    onWheel
+		                );
+		            }
+		
+		
+		            SaveSystem.onChange(
+		                LISTENER_ID,
+		                function () {}
+		            );
+		
+		
+		            if (
+		                window.MonsterPlacement
+		            ) {
+		
+		                window.MonsterPlacement.active =
+		                    false;
+		            }
+		
+		
+		            clearCards();
+		
+		
+		            viewport
+		                .removeAllEventListeners();
+		
+		
+		            self.removeChild(
+		                viewport
+		            );
+		
+		
+		            self.removeChild(
+		                header
+		            );
+		
+		
+		            self.cleanupMonsters =
+		                null;
+		        };
+		
+		
+		    // --------------------------------------------------
+		    // START
+		    // --------------------------------------------------
+		
+		    if (
+		        window.MonsterPlacement &&
+		        window.MonsterPlacement.active
+		    ) {
+		
+		        titleText.text =
+		            PICK_TITLE;
+		    }
+		
+		
+		    layout();
+		
+		
+		    SaveSystem.onChange(
+		        LISTENER_ID,
+		        function (name) {
+		
+		            if (
+		                name === null ||
+		                name === "monsters" ||
+		                name === "slots"
+		            ) {
+		
+		                rebuild();
+		            }
+		        }
+		    );
+		
+		
+		    if (
+		        SaveSystem.isLoaded()
+		    ) {
+		
+		        rebuild();
+		
+		    } else {
+		
+		        SaveSystem
+		            .load()
+		            .then(
+		                rebuild
+		            );
+		    }
+		
+		
+		})(this);
+	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1).call(this.frame_2).wait(2));
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1).call(this.frame_2).wait(1).call(this.frame_3).wait(2));
 
 	// Layer_4
 	this.Hatch = new lib.Hatch();
@@ -12393,7 +15816,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 	this.Hatch.setTransform(641.05,637,0.4193,0.4193,0,0,0,247.2,59);
 	this.Hatch._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.Hatch).wait(1).to({_off:false},0).to({_off:true},1).wait(2));
+	this.timeline.addTween(cjs.Tween.get(this.Hatch).wait(1).to({_off:false},0).to({_off:true},1).wait(3));
 
 	// Layer_1
 	this.egg = new lib.egg();
@@ -12402,7 +15825,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 	this.egg.setTransform(640,360,1,1,0,0,0,116.5,116.5);
 	this.egg._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1).to({_off:false},0).to({_off:true},1).wait(2));
+	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1).to({_off:false},0).to({_off:true},1).wait(3));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(0,0,834.3,661.9);
@@ -12415,8 +15838,9 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791260350199", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791260350199", id:"index_atlas_2"}
+		{src:"images/index_atlas_.png?1791361765137", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791361765137", id:"index_atlas_2"},
+		{src:"images/index_atlas_3.png?1791361765137", id:"index_atlas_3"}
 	],
 	preloads: []
 };
