@@ -3,9 +3,9 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"index_atlas_", frames: [[0,0,992,870],[994,0,992,870],[988,872,980,826],[0,872,986,832]]},
-		{name:"index_atlas_2", frames: [[0,770,942,522],[944,1291,894,540],[944,770,939,519],[0,0,768,768],[0,1294,512,512],[770,0,768,768]]},
-		{name:"index_atlas_3", frames: [[514,470,398,398],[502,514,4,12],[81,842,29,21],[196,615,188,188],[416,514,84,117],[0,615,194,194],[0,811,51,51],[0,1110,894,20],[196,805,62,62],[0,870,894,148],[514,0,468,468],[53,842,26,26],[386,615,28,28],[0,514,414,99],[416,1020,414,7],[0,1020,414,88],[53,811,46,29],[0,0,512,512]]}
+		{name:"index_atlas_", frames: [[994,0,992,870],[0,0,992,870],[988,872,980,826],[0,872,986,832]]},
+		{name:"index_atlas_2", frames: [[944,770,939,519],[0,770,942,522],[944,1291,894,540],[0,0,768,768],[0,1294,512,512],[770,0,768,768]]},
+		{name:"index_atlas_3", frames: [[514,470,398,398],[502,514,4,12],[81,842,29,21],[196,615,188,188],[416,514,84,117],[0,615,194,194],[0,811,51,51],[0,870,894,148],[0,1110,894,20],[196,805,62,62],[514,0,468,468],[53,842,26,26],[386,615,28,28],[0,514,414,99],[416,1020,414,7],[0,1020,414,88],[53,811,46,29],[0,0,512,512]]}
 ];
 
 
@@ -48,9 +48,16 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_15 = function() {
+(lib.CachedTexturedBitmap_14 = function() {
 	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(0);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.CachedTexturedBitmap_15 = function() {
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 
 
@@ -71,7 +78,7 @@ lib.ssMetadata = [
 
 (lib.CachedTexturedBitmap_18 = function() {
 	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(1);
+	this.gotoAndStop(2);
 }).prototype = p = new cjs.Sprite();
 
 
@@ -104,28 +111,21 @@ lib.ssMetadata = [
 
 
 
-(lib.CachedTexturedBitmap_23 = function() {
+(lib.CachedTexturedBitmap_22 = function() {
 	this.initialize(ss["index_atlas_3"]);
 	this.gotoAndStop(7);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_24 = function() {
+(lib.CachedTexturedBitmap_23 = function() {
 	this.initialize(ss["index_atlas_3"]);
 	this.gotoAndStop(8);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.CachedTexturedBitmap_25 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(2);
-}).prototype = p = new cjs.Sprite();
-
-
-
-(lib.CachedTexturedBitmap_26 = function() {
+(lib.CachedTexturedBitmap_24 = function() {
 	this.initialize(ss["index_atlas_3"]);
 	this.gotoAndStop(9);
 }).prototype = p = new cjs.Sprite();
@@ -423,7 +423,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 	this.instance.parent = this;
 	this.instance.setTransform(21.5,310.5,0.5,0.5);
 
-	this.instance_1 = new lib.CachedTexturedBitmap_26();
+	this.instance_1 = new lib.CachedTexturedBitmap_22();
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(21.5,328.5,0.5,0.5);
 
@@ -521,7 +521,7 @@ p.nominalBounds = new cjs.Rectangle(-22,-13,556.7,556.7);
 	this.instance_1.parent = this;
 	this.instance_1.setTransform(12.95,13,0.5,0.5);
 
-	this.instance_2 = new lib.CachedTexturedBitmap_25();
+	this.instance_2 = new lib.CachedTexturedBitmap_14();
 	this.instance_2.parent = this;
 	this.instance_2.setTransform(13.75,13.8,0.5,0.5);
 
@@ -562,7 +562,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 
 // stage content:
 (lib.Egggame = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{menu:0,game:1,eggs:2,monsters:3});
+	this.initialize(mode,startPosition,loop,{menu:0,game:1,eggs:2,monsters:3,"import":4,MonsterShowcase:9});
 
 	// timeline functions:
 	this.frame_0 = function() {
@@ -578,2304 +578,787 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    window.SaveSystem = (function () {
 		
 		        // ---------- Settings ----------
-		
 		        var PROJECT_ID = "alister-1e745";
-		
 		        var DOC_BASE =
-		            "https://firestore.googleapis.com/v1/projects/" +
-		            PROJECT_ID +
+		            "https://firestore.googleapis.com/v1/projects/" + PROJECT_ID +
 		            "/databases/(default)/documents/players/";
-		
 		        var SAVE_PATH = "/saves/main";
 		
-		        var SECRET =
-		            "q7Xv2LmK9tRb4WzN8cPd3HfYs6JgUa1EoTn5MiVq0XrBz7CwA4kDe9Gy2Su8Fh3L";
+		        var SECRET     = "q7Xv2LmK9tRb4WzN8cPd3HfYs6JgUa1EoTn5MiVq0XrBz7CwA4kDe9Gy2Su8Fh3L";   // pick once, never change
+		        var LOCAL_KEY  = "eggGameSave";
+		        var SAVE_DELAY = 1000;              // save 1 second after the last change
+		        var WAIT_DELAY = 5000;              // waiting for sign-in or encryption
+		        var BASE_RETRY = 5000;              // first retry after a failed request
+		        var MAX_RETRY  = 5 * 60 * 1000;     // never wait more than 5 minutes between retries
 		
-		        var LOCAL_KEY = "eggGameSave";
-		
-		        var SAVE_DELAY = 1000;
-		        var WAIT_DELAY = 5000;
-		
-		        var BASE_RETRY = 5000;
-		        var MAX_RETRY = 5 * 60 * 1000;
-		
-		
-		        // --------------------------------------------------
-		        // STARTER EGGS
-		        // --------------------------------------------------
-		
-		        // 4 = Terratortle
+		        // Starter eggs for a brand-new player (monsterId of each species).
+		        // 4 = Terratortle, so [4, 4] is two Terratortle eggs.
 		        var STARTER_EGGS = [4, 4];
 		
-		
-		        // --------------------------------------------------
-		        // EGG SLOT COUNT
-		        // --------------------------------------------------
-		
+		        // How many egg slots the player has
 		        var SLOT_COUNT = 5;
 		
-		
-		        // --------------------------------------------------
-		        // DEFAULT SAVE
-		        // --------------------------------------------------
-		
+		        // Starting values for a brand-new player.
+		        // Add a key here to store new data (number, string or array).
 		        var DEFAULTS = {
-		
 		            starGems: 0,
-		
 		            cryst: 0,
-		
-		            eggEndTimes:
-		                "0,0,0,0,0",
-		
+		            eggEndTimes: "0,0,0,0,0",
 		            eggLevel: 1,
-		
-		            eggs: [],
-		
-		            starterGiven: 0,
-		
-		            discovered: [],
-		
-		            // ONLY EGG SPECIES IDS
-		            slots: [0, 0, 0, 0, 0],
-		
-		            tapReduction: 5,
-		
-		            // OWNED MONSTER RECORDS
-		            monsters: [],
-		
-		            monsterSeq: 1
+		            eggs: [],               // owned eggs, saved as species monsterIds
+		            starterGiven: 0,        // 1 once the starter eggs were handed out
+		            discovered: [],         // every egg species the player has ever had (monsterIds)
+		            slots: [0, 0, 0, 0, 0], // the egg in each slot (species monsterId, 0 = empty)
+		            tapReduction: 5,        // seconds removed from an egg timer per tap
+		            monsters: [],           // owned monsters: { uid, monsterId, nickname, shiny, level, experience, nature, gender, heldItem }
+		            monsterSeq: 1           // next monster uid to hand out
 		        };
+		        var NAMES = Object.keys(DEFAULTS);
 		
-		
-		        var NAMES =
-		            Object.keys(DEFAULTS);
-		
-		
-		        // --------------------------------------------------
-		        // STATE
-		        // --------------------------------------------------
-		
+		        // ---------- State ----------
 		        var data = {};
-		
-		        var blob = null;
-		
+		        var blob = null;             // latest encrypted save, always ready to send
 		        var sealSeq = 0;
-		
 		        var dirty = {};
-		
 		        var listeners = {};
-		
 		        var loaded = false;
-		
-		        var owner = null;
-		
+		        var owner = null;            // "cloud:<uid>" or "local"
 		        var loadingFor = null;
-		
 		        var loadPromise = null;
-		
 		        var saveTimer = null;
-		
 		        var loadTimer = null;
-		
 		        var saving = false;
-		
 		        var loadFailures = 0;
-		
 		        var saveFailures = 0;
+		        var migrate = false;         // true when the save has to be written to the new place
 		
-		        var migrate = false;
 		
-		
-		        // ==================================================
-		        // RETRY HELPERS
-		        // ==================================================
-		
+		        // ---------- Retry helpers ----------
 		        function backoff(failures) {
-		
-		            return Math.min(
-		                BASE_RETRY *
-		                Math.pow(2, failures - 1),
-		                MAX_RETRY
-		            );
+		            return Math.min(BASE_RETRY * Math.pow(2, failures - 1), MAX_RETRY);
 		        }
 		
-		
+		        // Sign-in and rules problems won't fix themselves, so don't keep retrying them
 		        function isFatal(err) {
-		
-		            return /HTTP (401|403)/.test(
-		                String(err && err.message)
-		            );
+		            return /HTTP (401|403)/.test(String(err && err.message));
 		        }
 		
 		
-		        // ==================================================
-		        // CURRENT PLAYER
-		        // ==================================================
-		
+		        // ---------- Who is playing? ----------
 		        function currentOwner() {
-		
 		            var u = exportRoot.user;
-		
-		            if (
-		                u &&
-		                exportRoot.idToken &&
-		                u.uid !== "dev-user"
-		            ) {
-		
+		            if (u && exportRoot.idToken && u.uid !== "dev-user") {
 		                return "cloud:" + u.uid;
 		            }
-		
-		            return "local";
+		            return "local";          // logged out, unverified, or testing
 		        }
 		
-		
 		        function uidOf(o) {
-		
 		            return o.slice(6);
 		        }
 		
-		
 		        function saveUrl() {
-		
-		            return DOC_BASE +
-		                uidOf(owner) +
-		                SAVE_PATH;
+		            return DOC_BASE + uidOf(owner) + SAVE_PATH;
 		        }
 		
-		
 		        function authHeaders() {
-		
 		            return {
-		
-		                "Authorization":
-		                    "Bearer " +
-		                    exportRoot.idToken,
-		
-		                "Content-Type":
-		                    "application/json"
+		                "Authorization": "Bearer " + exportRoot.idToken,
+		                "Content-Type": "application/json"
 		            };
 		        }
 		
-		
-		        // ==================================================
-		        // FIRESTORE READ
-		        // ==================================================
-		
+		        // Reads a Firestore document, or returns null if it doesn't exist
 		        function getDoc(url) {
-		
-		            return fetch(
-		                url,
-		                {
-		                    headers:
-		                        authHeaders()
-		                }
-		            ).then(function (r) {
-		
-		                if (r.status === 404) {
-		                    return null;
-		                }
-		
-		                if (!r.ok) {
-		                    throw new Error(
-		                        "HTTP " +
-		                        r.status
-		                    );
-		                }
-		
+		            return fetch(url, { headers: authHeaders() }).then(function (r) {
+		                if (r.status === 404) return null;
+		                if (!r.ok) throw new Error("HTTP " + r.status);
 		                return r.json();
 		            });
 		        }
 		
 		
-		        // ==================================================
-		        // ENCRYPTION
-		        // ==================================================
-		
-		        var canCrypto =
-		            !!(
-		                window.crypto &&
-		                crypto.subtle
-		            );
-		
+		        // ---------- Encryption (AES-GCM) ----------
+		        // crypto.subtle only exists on https or localhost. Anywhere else
+		        // (like the Animate preview) the save is stored as plain base64
+		        // with a "plain:" prefix, so nothing can throw.
+		        var canCrypto = !!(window.crypto && crypto.subtle);
 		        var keyPromise = null;
 		
-		
-		        function toB64(s) {
-		
-		            return btoa(
-		                unescape(
-		                    encodeURIComponent(s)
-		                )
-		            );
-		        }
-		
-		
-		        function fromB64(s) {
-		
-		            return decodeURIComponent(
-		                escape(
-		                    atob(s)
-		                )
-		            );
-		        }
-		
+		        function toB64(s)   { return btoa(unescape(encodeURIComponent(s))); }
+		        function fromB64(s) { return decodeURIComponent(escape(atob(s))); }
 		
 		        function getKey() {
-		
 		            if (!keyPromise) {
-		
-		                var enc =
-		                    new TextEncoder();
-		
-		                keyPromise =
-		                    crypto.subtle
-		                        .importKey(
-		                            "raw",
-		                            enc.encode(
-		                                SECRET
-		                            ),
-		                            "PBKDF2",
-		                            false,
-		                            ["deriveKey"]
-		                        )
-		                        .then(
-		                            function (base) {
-		
-		                                return crypto.subtle
-		                                    .deriveKey(
-		                                        {
-		                                            name:
-		                                                "PBKDF2",
-		
-		                                            salt:
-		                                                enc.encode(
-		                                                    "alister"
-		                                                ),
-		
-		                                            iterations:
-		                                                100000,
-		
-		                                            hash:
-		                                                "SHA-256"
-		                                        },
-		
-		                                        base,
-		
-		                                        {
-		                                            name:
-		                                                "AES-GCM",
-		
-		                                            length:
-		                                                256
-		                                        },
-		
-		                                        false,
-		
-		                                        [
-		                                            "encrypt",
-		                                            "decrypt"
-		                                        ]
-		                                    );
-		                            }
+		                var enc = new TextEncoder();
+		                keyPromise = crypto.subtle.importKey("raw", enc.encode(SECRET), "PBKDF2", false, ["deriveKey"])
+		                    .then(function (base) {
+		                        return crypto.subtle.deriveKey(
+		                            { name: "PBKDF2", salt: enc.encode("alister"), iterations: 100000, hash: "SHA-256" },
+		                            base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
 		                        );
+		                    });
 		            }
-		
 		            return keyPromise;
 		        }
 		
-		
+		        // Both always return a promise and never throw
 		        function encrypt(obj) {
+		            return Promise.resolve().then(function () {
+		                var json = JSON.stringify(obj);
+		                if (!canCrypto) return "plain:" + toB64(json);
 		
-		            return Promise.resolve()
-		                .then(function () {
-		
-		                    var json =
-		                        JSON.stringify(obj);
-		
-		                    if (!canCrypto) {
-		
-		                        return "plain:" +
-		                            toB64(json);
-		                    }
-		
-		
-		                    var iv =
-		                        crypto.getRandomValues(
-		                            new Uint8Array(12)
-		                        );
-		
-		
-		                    return getKey()
-		                        .then(function (k) {
-		
-		                            return crypto.subtle.encrypt(
-		                                {
-		                                    name:
-		                                        "AES-GCM",
-		
-		                                    iv:
-		                                        iv
-		                                },
-		
-		                                k,
-		
-		                                new TextEncoder().encode(
-		                                    json
-		                                )
-		                            );
-		                        })
-		                        .then(function (buf) {
-		
-		                            var out =
-		                                new Uint8Array(
-		                                    12 +
-		                                    buf.byteLength
-		                                );
-		
-		                            out.set(
-		                                iv
-		                            );
-		
-		                            out.set(
-		                                new Uint8Array(buf),
-		                                12
-		                            );
-		
-		                            return btoa(
-		                                String.fromCharCode.apply(
-		                                    null,
-		                                    out
-		                                )
-		                            );
-		                        });
+		                var iv = crypto.getRandomValues(new Uint8Array(12));
+		                return getKey().then(function (k) {
+		                    return crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, k, new TextEncoder().encode(json));
+		                }).then(function (buf) {
+		                    var out = new Uint8Array(12 + buf.byteLength);
+		                    out.set(iv);
+		                    out.set(new Uint8Array(buf), 12);
+		                    return btoa(String.fromCharCode.apply(null, out));
 		                });
+		            });
 		        }
-		
 		
 		        function decrypt(str) {
+		            return Promise.resolve().then(function () {
+		                if (str.indexOf("plain:") === 0) return JSON.parse(fromB64(str.slice(6)));
+		                if (!canCrypto) throw new Error("Encrypted save needs https");
 		
-		            return Promise.resolve()
-		                .then(function () {
-		
-		                    if (
-		                        str.indexOf("plain:") === 0
-		                    ) {
-		
-		                        return JSON.parse(
-		                            fromB64(
-		                                str.slice(6)
-		                            )
-		                        );
-		                    }
-		
-		
-		                    if (!canCrypto) {
-		
-		                        throw new Error(
-		                            "Encrypted save needs https"
-		                        );
-		                    }
-		
-		
-		                    var bytes =
-		                        Uint8Array.from(
-		                            atob(str),
-		                            function (c) {
-		
-		                                return c.charCodeAt(0);
-		                            }
-		                        );
-		
-		
-		                    return getKey()
-		                        .then(function (k) {
-		
-		                            return crypto.subtle.decrypt(
-		                                {
-		                                    name:
-		                                        "AES-GCM",
-		
-		                                    iv:
-		                                        bytes.slice(
-		                                            0,
-		                                            12
-		                                        )
-		                                },
-		
-		                                k,
-		
-		                                bytes.slice(
-		                                    12
-		                                )
-		                            );
-		                        })
-		                        .then(function (buf) {
-		
-		                            return JSON.parse(
-		                                new TextDecoder().decode(
-		                                    buf
-		                                )
-		                            );
-		                        });
+		                var bytes = Uint8Array.from(atob(str), function (c) { return c.charCodeAt(0); });
+		                return getKey().then(function (k) {
+		                    return crypto.subtle.decrypt({ name: "AES-GCM", iv: bytes.slice(0, 12) }, k, bytes.slice(12));
+		                }).then(function (buf) {
+		                    return JSON.parse(new TextDecoder().decode(buf));
 		                });
+		            });
 		        }
 		
-		
+		        // Encrypts in the background so flush() can send synchronously (needed on pagehide).
+		        // Only the newest call is allowed to set the blob.
 		        function seal() {
-		
-		            var n =
-		                ++sealSeq;
-		
-		
-		            return encrypt(data)
-		                .then(function (b) {
-		
-		                    if (n === sealSeq) {
-		
-		                        blob = b;
-		                    }
-		                })
-		                .catch(
-		                    console.error
-		                );
+		            var n = ++sealSeq;
+		            return encrypt(data).then(function (b) {
+		                if (n === sealSeq) blob = b;
+		            }).catch(console.error);
 		        }
 		
 		
-		        // ==================================================
-		        // LOCAL STORAGE
-		        // ==================================================
-		
+		        // ---------- Local (browser) storage ----------
 		        function localRead() {
-		
 		            var s = null;
-		
-		            try {
-		
-		                s =
-		                    localStorage.getItem(
-		                        LOCAL_KEY
-		                    );
-		
-		            } catch (e) {}
-		
-		
-		            if (!s) {
-		
-		                return Promise.resolve({});
-		            }
-		
-		
-		            return decrypt(s)
-		                .catch(function () {
-		
-		                    try {
-		
-		                        return JSON.parse(s) || {};
-		
-		                    } catch (e) {
-		
-		                        return {};
-		                    }
-		                });
+		            try { s = localStorage.getItem(LOCAL_KEY); } catch (e) {}
+		            if (!s) return Promise.resolve({});
+		            return decrypt(s).catch(function () {
+		                try { return JSON.parse(s) || {}; } catch (e) { return {}; }   // old unencrypted save
+		            });
 		        }
-		
 		
 		        function localWrite() {
-		
-		            try {
-		
-		                localStorage.setItem(
-		                    LOCAL_KEY,
-		                    blob
-		                );
-		
-		            } catch (e) {}
+		            try { localStorage.setItem(LOCAL_KEY, blob); } catch (e) {}
 		        }
 		
 		
-		        // ==================================================
-		        // HELPERS
-		        // ==================================================
-		
+		        // ---------- Helpers ----------
 		        function clean(v) {
-		
-		            v =
-		                Math.floor(
-		                    Number(v)
-		                );
-		
-		            return (
-		                isFinite(v) &&
-		                v > 0
-		            )
-		                ? v
-		                : 0;
+		            v = Math.floor(Number(v));
+		            return (isFinite(v) && v > 0) ? v : 0;
 		        }
-		
 		
 		        function notify(name) {
-		
-		            Object.keys(listeners)
-		                .forEach(function (k) {
-		
-		                    try {
-		
-		                        listeners[k](
-		                            name,
-		                            name
-		                                ? data[name]
-		                                : null
-		                        );
-		
-		                    } catch (e) {
-		
-		                        console.error(e);
-		                    }
-		                });
-		        }
-		
-		
-		        function sameType(v, d) {
-		
-		            if (Array.isArray(d)) {
-		
-		                return Array.isArray(v);
-		            }
-		
-		            return (
-		                typeof v === typeof d &&
-		                v !== null
-		            );
-		        }
-		
-		
-		        // ==================================================
-		        // VALIDATE EGG SLOTS
-		        // ==================================================
-		
-		        function normalizeEggSlots(value) {
-		
-		            var result =
-		                [0, 0, 0, 0, 0];
-		
-		
-		            if (!Array.isArray(value)) {
-		
-		                return result;
-		            }
-		
-		
-		            for (
-		                var i = 0;
-		                i < SLOT_COUNT;
-		                i++
-		            ) {
-		
-		                var id =
-		                    Number(
-		                        value[i]
-		                    );
-		
-		
-		                if (
-		                    isFinite(id) &&
-		                    id > 0
-		                ) {
-		
-		                    result[i] =
-		                        Math.floor(id);
-		
-		                } else {
-		
-		                    result[i] =
-		                        0;
+		            Object.keys(listeners).forEach(function (k) {
+		                try {
+		                    listeners[k](name, name ? data[name] : null);
+		                } catch (e) {
+		                    console.error(e);
 		                }
-		            }
-		
-		
-		            return result;
+		            });
 		        }
 		
+		        // True when a stored value has the same kind as its default
+		        // (number, string, or array)
+		        function sameType(v, d) {
+		            if (Array.isArray(d)) return Array.isArray(v);
+		            return typeof v === typeof d && v !== null;
+		        }
 		
-		        // ==================================================
-		        // APPLY SAVE
-		        // ==================================================
-		
+		        // Copies stored values into data; missing or wrong-type values get defaults.
+		        // Defaults are copied, so arrays are never shared between players.
 		        function apply(stored) {
-		
-		            stored =
-		                stored || {};
-		
-		
 		            NAMES.forEach(function (n) {
-		
-		                var v =
-		                    stored[n];
-		
-		
-		                if (
-		                    sameType(
-		                        v,
-		                        DEFAULTS[n]
-		                    )
-		                ) {
-		
-		                    data[n] =
-		                        typeof v === "number"
-		                            ? clean(v)
-		                            : v;
-		
+		                var v = stored[n];
+		                if (sameType(v, DEFAULTS[n])) {
+		                    data[n] = typeof v === "number" ? clean(v) : v;
 		                } else {
-		
-		                    data[n] =
-		                        JSON.parse(
-		                            JSON.stringify(
-		                                DEFAULTS[n]
-		                            )
-		                        );
-		
+		                    data[n] = JSON.parse(JSON.stringify(DEFAULTS[n]));
 		                    dirty[n] = true;
 		                }
 		            });
 		
-		
-		            // --------------------------------------------------
-		            // ALWAYS NORMALIZE EGG SLOTS
-		            // --------------------------------------------------
-		
-		            var oldSlots =
-		                data.slots;
-		
-		            var normalizedSlots =
-		                normalizeEggSlots(
-		                    oldSlots
-		                );
-		
-		
-		            data.slots =
-		                normalizedSlots;
-		
-		
-		            if (
-		                JSON.stringify(oldSlots) !==
-		                JSON.stringify(normalizedSlots)
-		            ) {
-		
-		                dirty.slots = true;
-		
-		                console.warn(
-		                    "SaveSystem: normalized invalid egg slots:",
-		                    oldSlots,
-		                    "->",
-		                    normalizedSlots
-		                );
-		            }
-		
-		
-		            // --------------------------------------------------
-		            // CLEAN MONSTER RECORDS
-		            // --------------------------------------------------
-		
-		            data.monsters =
-		                data.monsters.filter(
-		                    function (m) {
-		
-		                        return (
-		                            m &&
-		                            clean(m.monsterId) > 0 &&
-		                            clean(m.uid) > 0
-		                        );
-		                    }
-		                );
-		
-		
+		            // Drop broken monster records and keep monsterSeq ahead of every uid
+		            data.monsters = data.monsters.filter(function (m) {
+		                return m && clean(m.monsterId) > 0 && clean(m.uid) > 0;
+		            });
 		            var top = 0;
-		
-		
-		            data.monsters.forEach(
-		                function (m) {
-		
-		                    if (
-		                        m.uid > top
-		                    ) {
-		
-		                        top =
-		                            m.uid;
-		                    }
-		                }
-		            );
-		
-		
-		            if (
-		                data.monsterSeq < 1 ||
-		                data.monsterSeq <= top
-		            ) {
-		
-		                data.monsterSeq =
-		                    top + 1;
-		
-		                dirty.monsterSeq =
-		                    true;
+		            data.monsters.forEach(function (m) { if (m.uid > top) top = m.uid; });
+		            if (data.monsterSeq < 1 || data.monsterSeq <= top) {
+		                data.monsterSeq = top + 1;
+		                dirty.monsterSeq = true;
 		            }
 		        }
 		
-		
-		        // ==================================================
-		        // STARTER EGGS
-		        // ==================================================
-		
+		        // New players with no eggs get the starter eggs, once.
+		        // Players who already have eggs are just marked as done.
 		        function giveStarterEggs() {
 		
-		            if (
-		                data.starterGiven
-		            ) {
+		            if (data.starterGiven) return;
 		
-		                return;
+		            if (data.eggs.length === 0) {
+		                data.eggs = STARTER_EGGS.slice();
+		                dirty.eggs = true;
 		            }
 		
-		
-		            if (
-		                data.eggs.length === 0
-		            ) {
-		
-		                data.eggs =
-		                    STARTER_EGGS.slice();
-		
-		                dirty.eggs =
-		                    true;
-		            }
-		
-		
-		            data.starterGiven =
-		                1;
-		
-		            dirty.starterGiven =
-		                true;
+		            data.starterGiven = 1;
+		            dirty.starterGiven = true;
 		        }
 		
-		
-		        // ==================================================
-		        // DISCOVERED EGGS
-		        // ==================================================
-		
+		        // Records every egg the player owns as discovered (never removes anything)
 		        function markDiscovered() {
 		
-		            var found =
-		                data.discovered.slice();
+		            var found = data.discovered.slice();
 		
+		            data.eggs.forEach(function (id) {
+		                if (found.indexOf(id) < 0) found.push(id);
+		            });
 		
-		            data.eggs.forEach(
-		                function (id) {
-		
-		                    if (
-		                        found.indexOf(id) < 0
-		                    ) {
-		
-		                        found.push(id);
-		                    }
-		                }
-		            );
-		
-		
-		            if (
-		                found.length !==
-		                data.discovered.length
-		            ) {
-		
-		                data.discovered =
-		                    found;
-		
-		                dirty.discovered =
-		                    true;
+		            if (found.length !== data.discovered.length) {
+		                data.discovered = found;
+		                dirty.discovered = true;
 		            }
 		        }
 		
 		
-		        // ==================================================
-		        // CLOUD LOAD
-		        // ==================================================
-		
+		        // ---------- Loading ----------
 		        function cloudRead() {
+		            return getDoc(saveUrl()).then(function (doc) {
+		                var f = doc && doc.fields;
+		                if (f && f.save && f.save.stringValue) {
+		                    migrate = false;
+		                    return decrypt(f.save.stringValue);
+		                }
 		
-		            return getDoc(
-		                saveUrl()
-		            )
-		                .then(function (doc) {
+		                // Nothing in the sub collection yet: look at the old location
+		                migrate = true;
+		                return getDoc(DOC_BASE + uidOf(owner)).then(function (old) {
+		                    var o = (old && old.fields) || {};
+		                    if (o.save && o.save.stringValue) return decrypt(o.save.stringValue);
 		
-		                    var f =
-		                        doc &&
-		                        doc.fields;
-		
-		
-		                    if (
-		                        f &&
-		                        f.save &&
-		                        f.save.stringValue
-		                    ) {
-		
-		                        migrate =
-		                            false;
-		
-		                        return decrypt(
-		                            f.save.stringValue
-		                        );
-		                    }
-		
-		
-		                    migrate =
-		                        true;
-		
-		
-		                    return getDoc(
-		                        DOC_BASE +
-		                        uidOf(owner)
-		                    )
-		                        .then(function (old) {
-		
-		                            var o =
-		                                (old &&
-		                                old.fields) ||
-		                                {};
-		
-		
-		                            if (
-		                                o.save &&
-		                                o.save.stringValue
-		                            ) {
-		
-		                                return decrypt(
-		                                    o.save.stringValue
-		                                );
-		                            }
-		
-		
-		                            var out = {};
-		
-		
-		                            NAMES.forEach(
-		                                function (n) {
-		
-		                                    if (
-		                                        o[n] &&
-		                                        o[n].stringValue !==
-		                                            undefined
-		                                    ) {
-		
-		                                        out[n] =
-		                                            o[n].stringValue;
-		
-		                                    } else if (
-		                                        o[n] &&
-		                                        o[n].integerValue !==
-		                                            undefined
-		                                    ) {
-		
-		                                        out[n] =
-		                                            Number(
-		                                                o[n].integerValue
-		                                            );
-		                                    }
-		                                }
-		                            );
-		
-		
-		                            return out;
-		                        });
+		                    var out = {};
+		                    NAMES.forEach(function (n) {
+		                        if (o[n] && o[n].stringValue !== undefined) out[n] = o[n].stringValue;
+		                        else if (o[n] && o[n].integerValue !== undefined) out[n] = Number(o[n].integerValue);
+		                    });
+		                    return out;
 		                });
+		            });
 		        }
-		
-		
-		        // ==================================================
-		        // LOAD
-		        // ==================================================
 		
 		        function load() {
+		            var wanted = currentOwner();
 		
-		            var wanted =
-		                currentOwner();
+		            if (loaded && owner === wanted) {
+		                // A fresh login token arrived: retry anything that failed to save
+		                if (Object.keys(dirty).length) queueSave(SAVE_DELAY);
+		                return Promise.resolve(data);
+		            }
+		            if (loadingFor === wanted && loadPromise) return loadPromise;
 		
-		
-		            if (
-		                loaded &&
-		                owner === wanted
-		            ) {
-		
-		                if (
-		                    Object.keys(dirty).length
-		                ) {
-		
-		                    queueSave(
-		                        SAVE_DELAY
-		                    );
-		                }
-		
-		                return Promise.resolve(
-		                    data
-		                );
+		            // A different player, or signed out: start clean
+		            if (owner !== wanted) {
+		                owner = wanted;
+		                loaded = false;
+		                data = {};
+		                blob = null;
+		                dirty = {};
+		                loadFailures = 0;
+		                saveFailures = 0;
 		            }
 		
-		
-		            if (
-		                loadingFor === wanted &&
-		                loadPromise
-		            ) {
-		
-		                return loadPromise;
-		            }
-		
-		
-		            if (
-		                owner !== wanted
-		            ) {
-		
-		                owner =
-		                    wanted;
-		
-		                loaded =
-		                    false;
-		
-		                data =
-		                    {};
-		
-		                blob =
-		                    null;
-		
-		                dirty =
-		                    {};
-		
-		                loadFailures =
-		                    0;
-		
-		                saveFailures =
-		                    0;
-		            }
-		
-		
-		            loadingFor =
-		                wanted;
-		
+		            loadingFor = wanted;
 		
 		            if (loadTimer) {
-		
-		                clearTimeout(
-		                    loadTimer
-		                );
-		
-		                loadTimer =
-		                    null;
+		                clearTimeout(loadTimer);
+		                loadTimer = null;
 		            }
 		
+		            var read = (wanted === "local") ? localRead() : cloudRead();
 		
-		            var read =
-		                wanted === "local"
-		                    ? localRead()
-		                    : cloudRead();
+		            loadPromise = read.then(function (stored) {
 		
+		                // The player changed while we were loading: load the new one
+		                if (currentOwner() !== wanted) {
+		                    loadingFor = null;
+		                    loadPromise = null;
+		                    return load();
+		                }
 		
-		            loadPromise =
-		                read.then(
-		                    function (stored) {
+		                loadFailures = 0;
 		
-		                        if (
-		                            currentOwner() !==
-		                            wanted
-		                        ) {
+		                apply(stored);
 		
-		                            loadingFor =
-		                                null;
+		                // Existing player: copy the save into the new document
+		                if (migrate) {
+		                    NAMES.forEach(function (n) { dirty[n] = true; });
+		                    migrate = false;
+		                }
 		
-		                            loadPromise =
-		                                null;
+		                // New player (or one who never got them): hand out the starter eggs
+		                giveStarterEggs();
+		                markDiscovered();
 		
-		                            return load();
-		                        }
+		                seal();
 		
+		                loaded = true;
+		                loadingFor = null;
+		                loadPromise = null;
+		                notify(null);
+		                queueSave(SAVE_DELAY);
+		                return data;
 		
-		                        loadFailures =
-		                            0;
+		            }).catch(function (err) {
+		                console.error("SaveSystem: load failed", err);
+		                loadingFor = null;
+		                loadPromise = null;
+		                loadFailures++;
 		
+		                // A local save must never block the game: start from the defaults
+		                if (wanted === "local") {
+		                    apply({});
+		                    giveStarterEggs();
+		                    markDiscovered();
+		                    seal();
+		                    loaded = true;
+		                    notify(null);
+		                    return data;
+		                }
 		
-		                        apply(
-		                            stored
-		                        );
-		
-		
-		                        if (migrate) {
-		
-		                            NAMES.forEach(
-		                                function (n) {
-		
-		                                    dirty[n] =
-		                                        true;
-		                                }
-		                            );
-		
-		                            migrate =
-		                                false;
-		                        }
-		
-		
-		                        giveStarterEggs();
-		
-		                        markDiscovered();
-		
-		                        seal();
-		
-		                        loaded =
-		                            true;
-		
-		                        loadingFor =
-		                            null;
-		
-		                        loadPromise =
-		                            null;
-		
-		
-		                        console.log(
-		                            "SaveSystem loaded.",
-		                            "Owner:",
-		                            owner
-		                        );
-		
-		                        console.log(
-		                            "Saved egg slots:",
-		                            JSON.stringify(
-		                                data.slots
-		                            )
-		                        );
-		
-		                        console.log(
-		                            "Owned monsters:",
-		                            JSON.stringify(
-		                                data.monsters
-		                            )
-		                        );
-		
-		
-		                        notify(null);
-		
-		                        queueSave(
-		                            SAVE_DELAY
-		                        );
-		
-		
-		                        return data;
-		
-		                    }
-		                )
-		                .catch(
-		                    function (err) {
-		
-		                        console.error(
-		                            "SaveSystem: load failed",
-		                            err
-		                        );
-		
-		
-		                        loadingFor =
-		                            null;
-		
-		                        loadPromise =
-		                            null;
-		
-		                        loadFailures++;
-		
-		
-		                        if (
-		                            wanted === "local"
-		                        ) {
-		
-		                            apply({});
-		
-		                            giveStarterEggs();
-		
-		                            markDiscovered();
-		
-		                            seal();
-		
-		                            loaded =
-		                                true;
-		
-		                            notify(null);
-		
-		                            return data;
-		                        }
-		
-		
-		                        if (
-		                            isFatal(err)
-		                        ) {
-		
-		                            console.error(
-		                                "SaveSystem: not retrying automatically. " +
-		                                "Check Firestore rules and player login."
-		                            );
-		
-		                        } else {
-		
-		                            loadTimer =
-		                                setTimeout(
-		                                    load,
-		                                    backoff(
-		                                        loadFailures
-		                                    )
-		                                );
-		                        }
-		
-		
-		                        return null;
-		                    }
-		                );
-		
+		                // Cloud: never save anything if loading failed, or we could
+		                // overwrite the real save with the defaults
+		                if (isFatal(err)) {
+		                    console.error(
+		                        "SaveSystem: not retrying automatically. " +
+		                        "Check the Firestore rules and that the player is signed in. " +
+		                        "It will try again when the login token refreshes."
+		                    );
+		                } else {
+		                    loadTimer = setTimeout(load, backoff(loadFailures));
+		                }
+		                return null;
+		            });
 		
 		            return loadPromise;
 		        }
 		
 		
-		        // ==================================================
-		        // SAVE
-		        // ==================================================
-		
+		        // ---------- Saving ----------
 		        function queueSave(delay) {
-		
 		            if (saveTimer) {
-		
-		                clearTimeout(
-		                    saveTimer
-		                );
-		
-		                saveTimer =
-		                    null;
+		                clearTimeout(saveTimer);
+		                saveTimer = null;
 		            }
+		            if (!Object.keys(dirty).length) return;
 		
-		
-		            if (
-		                !Object.keys(dirty).length
-		            ) {
-		
-		                return;
-		            }
-		
-		
-		            saveTimer =
-		                setTimeout(
-		                    function () {
-		
-		                        saveTimer =
-		                            null;
-		
-		                        flush(false);
-		
-		                    },
-		                    delay
-		                );
+		            saveTimer = setTimeout(function () {
+		                saveTimer = null;
+		                flush(false);
+		            }, delay);
 		        }
-		
 		
 		        function flush(leaving) {
+		            var names = Object.keys(dirty);
+		            if (!loaded || !names.length) return;
 		
-		            var names =
-		                Object.keys(
-		                    dirty
-		                );
-		
-		
-		            if (
-		                !loaded ||
-		                !names.length
-		            ) {
-		
-		                return;
-		            }
-		
-		
+		            // Encryption not finished yet: try again shortly
 		            if (!blob) {
-		
-		                if (!leaving) {
-		
-		                    queueSave(
-		                        500
-		                    );
-		                }
-		
+		                if (!leaving) queueSave(500);
 		                return;
 		            }
 		
-		
-		            if (
-		                owner === "local"
-		            ) {
-		
+		            if (owner === "local") {
 		                localWrite();
-		
-		                dirty =
-		                    {};
-		
+		                dirty = {};
 		                return;
 		            }
 		
-		
-		            var u =
-		                exportRoot.user;
-		
-		
-		            if (
-		                !exportRoot.idToken ||
-		                !u ||
-		                ("cloud:" + u.uid) !== owner
-		            ) {
-		
-		                queueSave(
-		                    WAIT_DELAY
-		                );
-		
+		            // Cloud: only save if the same player is still signed in
+		            var u = exportRoot.user;
+		            if (!exportRoot.idToken || !u || ("cloud:" + u.uid) !== owner) {
+		                queueSave(WAIT_DELAY);       // waiting for sign-in, no request sent
+		                return;
+		            }
+		            if (saving && !leaving) {
+		                queueSave(WAIT_DELAY);
 		                return;
 		            }
 		
+		            saving = true;
+		            dirty = {};
 		
-		            if (
-		                saving &&
-		                !leaving
-		            ) {
+		            var url = saveUrl() + "?updateMask.fieldPaths=save";
 		
-		                queueSave(
-		                    WAIT_DELAY
-		                );
+		            fetch(url, {
+		                method: "PATCH",
+		                headers: authHeaders(),
+		                body: JSON.stringify({ fields: { save: { stringValue: blob } } }),
+		                keepalive: !!leaving      // lets the save finish while the page closes
+		            }).then(function (r) {
+		                if (!r.ok) throw new Error("HTTP " + r.status);
+		                saveFailures = 0;
+		            }).catch(function (err) {
+		                console.error("SaveSystem: save failed", err);
+		                names.forEach(function (n) { dirty[n] = true; });
+		                saveFailures++;
 		
-		                return;
-		            }
-		
-		
-		            saving =
-		                true;
-		
-		            dirty =
-		                {};
-		
-		
-		            var url =
-		                saveUrl() +
-		                "?updateMask.fieldPaths=save";
-		
-		
-		            fetch(
-		                url,
-		                {
-		                    method:
-		                        "PATCH",
-		
-		                    headers:
-		                        authHeaders(),
-		
-		                    body:
-		                        JSON.stringify({
-		                            fields: {
-		                                save: {
-		                                    stringValue:
-		                                        blob
-		                                }
-		                            }
-		                        }),
-		
-		                    keepalive:
-		                        !!leaving
-		                }
-		            )
-		                .then(function (r) {
-		
-		                    if (!r.ok) {
-		
-		                        throw new Error(
-		                            "HTTP " +
-		                            r.status
-		                        );
-		                    }
-		
-		                    saveFailures =
-		                        0;
-		                })
-		                .catch(function (err) {
-		
+		                if (isFatal(err)) {
 		                    console.error(
-		                        "SaveSystem: save failed",
-		                        err
+		                        "SaveSystem: not retrying automatically. " +
+		                        "It will try again on the next change or login refresh."
 		                    );
-		
-		
-		                    names.forEach(
-		                        function (n) {
-		
-		                            dirty[n] =
-		                                true;
-		                        }
-		                    );
-		
-		
-		                    saveFailures++;
-		
-		
-		                    if (
-		                        isFatal(err)
-		                    ) {
-		
-		                        console.error(
-		                            "SaveSystem: not retrying automatically."
-		                        );
-		
-		                    } else {
-		
-		                        queueSave(
-		                            backoff(
-		                                saveFailures
-		                            )
-		                        );
-		                    }
-		                })
-		                .then(function () {
-		
-		                    saving =
-		                        false;
-		                });
-		        }
-		
-		
-		        // ==================================================
-		        // SAVE ON PAGE LEAVE
-		        // ==================================================
-		
-		        document.addEventListener(
-		            "visibilitychange",
-		            function () {
-		
-		                if (
-		                    document.visibilityState ===
-		                    "hidden"
-		                ) {
-		
-		                    flush(true);
+		                } else {
+		                    queueSave(backoff(saveFailures));
 		                }
-		            }
-		        );
-		
-		
-		        window.addEventListener(
-		            "pagehide",
-		            function () {
-		
-		                flush(true);
-		            }
-		        );
-		
-		
-		        // ==================================================
-		        // GET
-		        // ==================================================
-		
-		        function get(name) {
-		
-		            return data[name] !==
-		                undefined
-		
-		                ? data[name]
-		
-		                : 0;
+		            }).then(function () {
+		                saving = false;
+		            });
 		        }
 		
+		        // Save right away when the player leaves or switches tabs
+		        document.addEventListener("visibilitychange", function () {
+		            if (document.visibilityState === "hidden") flush(true);
+		        });
+		        window.addEventListener("pagehide", function () {
+		            flush(true);
+		        });
 		
-		        // ==================================================
-		        // SET
-		        // ==================================================
+		
+		        // ---------- What the rest of the game uses ----------
+		        function get(name) {
+		            return data[name] !== undefined ? data[name] : 0;
+		        }
 		
 		        function set(name, value) {
-		
-		            if (
-		                !loaded ||
-		                NAMES.indexOf(name) < 0
-		            ) {
-		
-		                console.warn(
-		                    "SaveSystem: can't set",
-		                    name,
-		                    "(not loaded yet, or unknown name)"
-		                );
-		
+		            if (!loaded || NAMES.indexOf(name) < 0) {
+		                console.warn("SaveSystem: can't set", name, "(not loaded yet, or unknown name)");
 		                return false;
 		            }
 		
+		            if (typeof DEFAULTS[name] === "number") value = clean(value);
+		            if (JSON.stringify(value) === JSON.stringify(data[name])) return true;
 		
-		            // --------------------------------------------------
-		            // SPECIAL PROTECTION FOR EGG SLOTS
-		            // --------------------------------------------------
-		
-		            if (
-		                name === "slots"
-		            ) {
-		
-		                if (
-		                    !Array.isArray(value)
-		                ) {
-		
-		                    console.error(
-		                        "SaveSystem: REFUSED invalid egg slots value:",
-		                        value
-		                    );
-		
-		                    return false;
-		                }
-		
-		
-		                if (
-		                    value.length >
-		                    SLOT_COUNT
-		                ) {
-		
-		                    console.error(
-		                        "SaveSystem: REFUSED egg slots array with more than 5 slots:",
-		                        value
-		                    );
-		
-		                    return false;
-		                }
-		
-		
-		                var oldSlots =
-		                    data.slots.slice();
-		
-		
-		                value =
-		                    normalizeEggSlots(
-		                        value
-		                    );
-		
-		
-		                console.warn(
-		                    "SaveSystem: egg slots changing:",
-		                    JSON.stringify(oldSlots),
-		                    "->",
-		                    JSON.stringify(value)
-		                );
-		
-		
-		                console.trace(
-		                    "SaveSystem: slots write source"
-		                );
-		            }
-		
-		
-		            if (
-		                typeof DEFAULTS[name] ===
-		                "number"
-		            ) {
-		
-		                value =
-		                    clean(value);
-		            }
-		
-		
-		            if (
-		                JSON.stringify(value) ===
-		                JSON.stringify(data[name])
-		            ) {
-		
-		                return true;
-		            }
-		
-		
-		            data[name] =
-		                value;
-		
-		
-		            if (
-		                name === "eggs"
-		            ) {
-		
-		                markDiscovered();
-		            }
-		
-		
-		            dirty[name] =
-		                true;
-		
-		
+		            data[name] = value;
+		            if (name === "eggs") markDiscovered();
+		            dirty[name] = true;
 		            seal();
-		
 		            notify(name);
+		            queueSave(SAVE_DELAY);
+		            return true;
+		        }
 		
-		            queueSave(
-		                SAVE_DELAY
-		            );
+		        function add(name, amount) {
+		            return set(name, get(name) + amount);
+		        }
 		
+		        // Returns false (and changes nothing) if the player can't afford it
+		        function spend(name, amount) {
+		            if (!loaded || get(name) < amount) return false;
+		            return set(name, get(name) - amount);
+		        }
+		
+		        // Moves one owned egg of this species into an empty slot.
+		        //   slot       0 to 4
+		        //   monsterId  the species of the egg
+		        //   endTime    when it finishes hatching (ms, like Date.now())
+		        // Returns false (and changes nothing) if the slot is taken
+		        // or the player doesn't own that egg.
+		        function placeEgg(slot, monsterId, endTime) {
+		
+		            if (!loaded || slot < 0 || slot >= SLOT_COUNT) return false;
+		
+		            // Keep the slots list the right length
+		            var slots = data.slots.slice();
+		            while (slots.length < SLOT_COUNT) slots.push(0);
+		
+		            if (slots[slot]) return false;                    // slot already has an egg
+		
+		            var at = data.eggs.indexOf(monsterId);
+		            if (at < 0) return false;                         // player doesn't own one
+		
+		            var eggs = data.eggs.slice();
+		            eggs.splice(at, 1);                               // use up one owned egg
+		
+		            slots[slot] = monsterId;
+		
+		            // eggEndTimes is "t0,t1,t2,t3,t4" with 0 for an empty slot
+		            var times = String(data.eggEndTimes).split(",");
+		            while (times.length < SLOT_COUNT) times.push("0");
+		            times[slot] = String(Math.floor(endTime));
+		
+		            set("slots", slots);
+		            set("eggs", eggs);
+		            set("eggEndTimes", times.join(","));
 		
 		            return true;
 		        }
 		
 		
-		        // ==================================================
-		        // ADD
-		        // ==================================================
-		
-		        function add(
-		            name,
-		            amount
-		        ) {
-		
-		            return set(
-		                name,
-		                get(name) +
-		                amount
-		            );
-		        }
-		
-		
-		        // ==================================================
-		        // SPEND
-		        // ==================================================
-		
-		        function spend(
-		            name,
-		            amount
-		        ) {
-		
-		            if (
-		                !loaded ||
-		                get(name) < amount
-		            ) {
-		
-		                return false;
-		            }
-		
-		
-		            return set(
-		                name,
-		                get(name) -
-		                amount
-		            );
-		        }
-		
-		
-		        // ==================================================
-		        // PLACE EGG
-		        // ==================================================
-		
-		        function placeEgg(
-		            slot,
-		            monsterId,
-		            endTime
-		        ) {
-		
-		            if (
-		                !loaded ||
-		                slot < 0 ||
-		                slot >= SLOT_COUNT
-		            ) {
-		
-		                return false;
-		            }
-		
-		
-		            monsterId =
-		                Number(
-		                    monsterId
-		                );
-		
-		
-		            if (
-		                !isFinite(monsterId) ||
-		                monsterId <= 0
-		            ) {
-		
-		                console.error(
-		                    "SaveSystem.placeEgg: invalid monsterId:",
-		                    monsterId
-		                );
-		
-		                return false;
-		            }
-		
-		
-		            var slots =
-		                normalizeEggSlots(
-		                    data.slots
-		                );
-		
-		
-		            if (
-		                slots[slot]
-		            ) {
-		
-		                return false;
-		            }
-		
-		
-		            // --------------------------------------------------
-		            // MAKE SURE THIS SPECIES IS ACTUALLY AN OWNED EGG
-		            // --------------------------------------------------
-		
-		            var at =
-		                -1;
-		
-		
-		            for (
-		                var i = 0;
-		                i < data.eggs.length;
-		                i++
-		            ) {
-		
-		                if (
-		                    Number(
-		                        data.eggs[i]
-		                    ) === monsterId
-		                ) {
-		
-		                    at =
-		                        i;
-		
-		                    break;
-		                }
-		            }
-		
-		
-		            if (
-		                at < 0
-		            ) {
-		
-		                console.error(
-		                    "SaveSystem.placeEgg: player does not own egg:",
-		                    monsterId
-		                );
-		
-		                return false;
-		            }
-		
-		
-		            var eggs =
-		                data.eggs.slice();
-		
-		
-		            eggs.splice(
-		                at,
-		                1
-		            );
-		
-		
-		            // --------------------------------------------------
-		            // WRITE ONLY THE REQUESTED EGG SLOT
-		            // --------------------------------------------------
-		
-		            slots[slot] =
-		                monsterId;
-		
-		
-		            var times =
-		                String(
-		                    data.eggEndTimes
-		                ).split(",");
-		
-		
-		            while (
-		                times.length <
-		                SLOT_COUNT
-		            ) {
-		
-		                times.push("0");
-		            }
-		
-		
-		            times[slot] =
-		                String(
-		                    Math.floor(
-		                        Number(endTime)
-		                    )
-		                );
-		
-		
-		            console.log(
-		                "SaveSystem.placeEgg:",
-		                "slot",
-		                slot,
-		                "monsterId",
-		                monsterId,
-		                "new slots",
-		                JSON.stringify(slots)
-		            );
-		
-		
-		            set(
-		                "slots",
-		                slots
-		            );
-		
-		
-		            set(
-		                "eggs",
-		                eggs
-		            );
-		
-		
-		            set(
-		                "eggEndTimes",
-		                times.join(",")
-		            );
-		
-		
-		            return true;
-		        }
-		
-		
-		        // ==================================================
-		        // MONSTERS
-		        // ==================================================
+		        // ---------- Monsters ----------
+		        // The save only stores what is unique to each owned monster.
+		        // Base stats, types and descriptions come from the species list
+		        // (Monster.BY_ID) when a full Monster object is built.
 		
 		        function randomNature() {
-		
-		            var names =
-		                Object.keys(
-		                    Monster.NATURE_MODIFIERS
-		                );
-		
-		
-		            return names[
-		                Math.floor(
-		                    Math.random() *
-		                    names.length
-		                )
-		            ];
+		            var names = Object.keys(Monster.NATURE_MODIFIERS);
+		            return names[Math.floor(Math.random() * names.length)];
 		        }
 		
+		        // Creates a new monster of this species. Returns its uid, or 0 on failure.
+		        // `extra` can override fields, e.g. { level: 5, shiny: true }
+		        function addMonster(monsterId, extra) {
+		            if (!loaded || !Monster.BY_ID[monsterId]) return 0;
 		
-		        function addMonster(
-		            monsterId,
-		            extra
-		        ) {
-		
-		            if (
-		                !loaded
-		            ) {
-		
-		                return 0;
-		            }
-		
-		
-		            monsterId =
-		                Number(
-		                    monsterId
-		                );
-		
-		
-		            if (
-		                !Monster.BY_ID[
-		                    monsterId
-		                ]
-		            ) {
-		
-		                return 0;
-		            }
-		
-		
-		            var species =
-		                Monster.BY_ID[
-		                    monsterId
-		                ];
-		
-		
-		            var uid =
-		                data.monsterSeq;
-		
+		            var species = Monster.BY_ID[monsterId];
+		            var uid = data.monsterSeq;
 		
 		            var rec = {
-		
-		                uid:
-		                    uid,
-		
-		                monsterId:
-		                    monsterId,
-		
-		                nickname:
-		                    "",
-		
-		                shiny:
-		                    Math.random() <
-		                    1 / 4096,
-		
-		                level:
-		                    1,
-		
-		                experience:
-		                    0,
-		
-		                nature:
-		                    randomNature(),
-		
-		                gender:
-		                    (
-		                        Math.random() *
-		                        100 <
-		                        species.genderRate
-		                    )
-		                        ? "Female"
-		                        : "Male",
-		
-		                heldItem:
-		                    null
+		                uid: uid,
+		                monsterId: monsterId,
+		                nickname: "",
+		                shiny: Math.random() < 1 / 4096,
+		                level: 1,
+		                experience: 0,
+		                nature: randomNature(),
+		                gender: (Math.random() * 100 < species.genderRate) ? "Female" : "Male",
+		                heldItem: null
 		            };
+		            if (extra) Object.keys(extra).forEach(function (k) { rec[k] = extra[k]; });
+		            rec.uid = uid;               // never let extra change the uid
+		            rec.monsterId = monsterId;   // or the species
 		
+		            var list = data.monsters.slice();
+		            list.push(rec);
 		
-		            if (
-		                extra
-		            ) {
-		
-		                Object.keys(extra)
-		                    .forEach(
-		                        function (k) {
-		
-		                            rec[k] =
-		                                extra[k];
-		                        }
-		                    );
-		            }
-		
-		
-		            // Never let extra change these
-		            rec.uid =
-		                uid;
-		
-		            rec.monsterId =
-		                monsterId;
-		
-		
-		            var list =
-		                data.monsters.slice();
-		
-		
-		            list.push(
-		                rec
-		            );
-		
-		
-		            // IMPORTANT:
-		            // This only writes "monsters".
-		            // It NEVER writes "slots".
-		
-		            set(
-		                "monsters",
-		                list
-		            );
-		
-		
-		            set(
-		                "monsterSeq",
-		                uid + 1
-		            );
-		
-		
-		            console.log(
-		                "SaveSystem.addMonster:",
-		                "monsterId",
-		                monsterId,
-		                "uid",
-		                uid
-		            );
-		
-		
+		            set("monsters", list);
+		            set("monsterSeq", uid + 1);
 		            return uid;
 		        }
 		
-		
-		        function getMonsterRecord(
-		            uid
-		        ) {
-		
-		            for (
-		                var i = 0;
-		                i < data.monsters.length;
-		                i++
-		            ) {
-		
-		                if (
-		                    data.monsters[i].uid ===
-		                    uid
-		                ) {
-		
-		                    return data.monsters[i];
-		                }
+		        function getMonsterRecord(uid) {
+		            for (var i = 0; i < data.monsters.length; i++) {
+		                if (data.monsters[i].uid === uid) return data.monsters[i];
 		            }
-		
-		
 		            return null;
 		        }
 		
-		
-		        function getMonster(
-		            uid
-		        ) {
-		
-		            var rec =
-		                getMonsterRecord(
-		                    uid
-		                );
-		
-		
-		            return rec
-		                ? Monster.fromSave(rec)
-		                : null;
+		        // Returns a full Monster object (stats, types, description) for display and battles
+		        function getMonster(uid) {
+		            var rec = getMonsterRecord(uid);
+		            return rec ? Monster.fromSave(rec) : null;
 		        }
-		
 		
 		        function getAllMonsters() {
-		
-		            return data.monsters
-		                .map(
-		                    Monster.fromSave
-		                )
-		                .filter(
-		                    Boolean
-		                );
+		            return data.monsters.map(Monster.fromSave).filter(Boolean);
 		        }
 		
-		
-		        function updateMonster(
-		            uid,
-		            changes
-		        ) {
-		
-		            if (
-		                !loaded
-		            ) {
-		
-		                return false;
-		            }
-		
-		
-		            var found =
-		                false;
-		
-		
-		            var list =
-		                data.monsters.map(
-		                    function (m) {
-		
-		                        if (
-		                            m.uid !== uid
-		                        ) {
-		
-		                            return m;
-		                        }
-		
-		
-		                        found =
-		                            true;
-		
-		
-		                        var copy =
-		                            Object.assign(
-		                                {},
-		                                m,
-		                                changes
-		                            );
-		
-		
-		                        copy.uid =
-		                            uid;
-		
-		
-		                        copy.monsterId =
-		                            m.monsterId;
-		
-		
-		                        return copy;
-		                    }
-		                );
-		
-		
-		            return (
-		                found &&
-		                set(
-		                    "monsters",
-		                    list
-		                )
-		            );
+		        // Change fields on one monster, e.g. updateMonster(3, { nickname: "Spike", level: 6 })
+		        function updateMonster(uid, changes) {
+		            if (!loaded) return false;
+		            var found = false;
+		            var list = data.monsters.map(function (m) {
+		                if (m.uid !== uid) return m;
+		                found = true;
+		                var copy = Object.assign({}, m, changes);
+		                copy.uid = uid;
+		                copy.monsterId = m.monsterId;   // species can't change this way
+		                return copy;
+		            });
+		            return found && set("monsters", list);
 		        }
 		
-		
-		        function removeMonster(
-		            uid
-		        ) {
-		
-		            if (
-		                !loaded ||
-		                !getMonsterRecord(uid)
-		            ) {
-		
-		                return false;
-		            }
-		
-		
-		            return set(
-		                "monsters",
-		                data.monsters.filter(
-		                    function (m) {
-		
-		                        return (
-		                            m.uid !== uid
-		                        );
-		                    }
-		                )
-		            );
+		        function removeMonster(uid) {
+		            if (!loaded || !getMonsterRecord(uid)) return false;
+		            return set("monsters", data.monsters.filter(function (m) { return m.uid !== uid; }));
 		        }
 		
+		        // Hatches the egg in a slot once its timer is up. Returns the new monster's uid, or 0.
+		        function hatchEgg(slot) {
+		            if (!loaded || slot < 0 || slot >= SLOT_COUNT) return 0;
 		
-		        // ==================================================
-		        // HATCH EGG
-		        // ==================================================
+		            var monsterId = data.slots[slot];
+		            if (!monsterId) return 0;
 		
-		        function hatchEgg(
-		            slot
-		        ) {
+		            var times = String(data.eggEndTimes).split(",");
+		            while (times.length < SLOT_COUNT) times.push("0");
+		            if (Date.now() < Number(times[slot])) return 0;   // not ready yet
 		
-		            if (
-		                !loaded ||
-		                slot < 0 ||
-		                slot >= SLOT_COUNT
-		            ) {
+		            var uid = addMonster(monsterId);
+		            if (!uid) return 0;
 		
-		                return 0;
-		            }
+		            var slots = data.slots.slice();
+		            slots[slot] = 0;
+		            times[slot] = "0";
 		
-		
-		            var slots =
-		                normalizeEggSlots(
-		                    data.slots
-		                );
-		
-		
-		            var monsterId =
-		                slots[slot];
-		
-		
-		            if (
-		                !monsterId
-		            ) {
-		
-		                return 0;
-		            }
-		
-		
-		            var times =
-		                String(
-		                    data.eggEndTimes
-		                ).split(",");
-		
-		
-		            while (
-		                times.length <
-		                SLOT_COUNT
-		            ) {
-		
-		                times.push("0");
-		            }
-		
-		
-		            if (
-		                Date.now() <
-		                Number(
-		                    times[slot]
-		                )
-		            ) {
-		
-		                return 0;
-		            }
-		
-		
-		            console.log(
-		                "SaveSystem.hatchEgg:",
-		                "slot",
-		                slot,
-		                "monsterId",
-		                monsterId
-		            );
-		
-		
-		            var uid =
-		                addMonster(
-		                    monsterId
-		                );
-		
-		
-		            if (
-		                !uid
-		            ) {
-		
-		                return 0;
-		            }
-		
-		
-		            slots[slot] =
-		                0;
-		
-		
-		            times[slot] =
-		                "0";
-		
-		
-		            set(
-		                "slots",
-		                slots
-		            );
-		
-		
-		            set(
-		                "eggEndTimes",
-		                times.join(",")
-		            );
-		
-		
+		            set("slots", slots);
+		            set("eggEndTimes", times.join(","));
 		            return uid;
 		        }
 		
 		
-		        // ==================================================
-		        // CHANGE LISTENER
-		        // ==================================================
+		        // ---------- Exported monsters (kept on the player's account) ----------
+		        // Stored in players/<uid>/exports/monsters as a list of JSON strings,
+		        // one per monster, so Firestore rules can limit the list length.
 		
-		        function onChange(
-		            key,
-		            fn
-		        ) {
+		        var EXPORT_LIMIT = 6;
+		        var EXPORT_PATH  = "/exports/monsters";
 		
-		            listeners[key] =
-		                fn;
+		        function exportUrl() {
+		            return DOC_BASE + uidOf(owner) + EXPORT_PATH;
+		        }
+		
+		        // Resolves to the array of monsters already exported
+		        function readExported() {
+		            if (!owner || owner === "local" || !exportRoot.idToken) {
+		                return Promise.reject(new Error("not-signed-in"));
+		            }
+		
+		            return getDoc(exportUrl()).then(function (doc) {
+		                var f = doc && doc.fields;
+		                var vals = (f && f.monsters && f.monsters.arrayValue &&
+		                            f.monsters.arrayValue.values) || [];
+		
+		                return vals.map(function (v) {
+		                    try { return JSON.parse(v.stringValue); } catch (e) { return null; }
+		                }).filter(Boolean);
+		            });
+		        }
+		
+		        // Resolves to { count, limit }
+		        function getExportInfo() {
+		            return readExported().then(function (list) {
+		                return { count: list.length, limit: EXPORT_LIMIT };
+		            });
+		        }
+		
+		        // Moves monsters (by uid) from the game save to the player's account.
+		        // Never goes over EXPORT_LIMIT. Resolves to { count, limit }.
+		        // The account is written first, and the monsters only leave the
+		        // game save after that write succeeded.
+		        function exportMonsters(uids) {
+		            if (!loaded) return Promise.reject(new Error("not-loaded"));
+		            if (owner === "local") return Promise.reject(new Error("not-signed-in"));
+		
+		            var startOwner = owner;
+		
+		            var picked = data.monsters.filter(function (m) {
+		                return uids.indexOf(m.uid) >= 0;
+		            });
+		
+		            if (!picked.length) return Promise.reject(new Error("nothing-selected"));
+		
+		            return readExported().then(function (current) {
+		
+		                if (current.length + picked.length > EXPORT_LIMIT) {
+		                    throw new Error("limit");
+		                }
+		
+		                // The slot only means something inside this game
+		                var sent = picked.map(function (m) {
+		                    var c = Object.assign({}, m);
+		                    delete c.slot;
+		                    return c;
+		                });
+		
+		                var all = current.concat(sent);
+		
+		                return fetch(exportUrl() + "?updateMask.fieldPaths=monsters", {
+		                    method: "PATCH",
+		                    headers: authHeaders(),
+		                    body: JSON.stringify({
+		                        fields: {
+		                            monsters: {
+		                                arrayValue: {
+		                                    values: all.map(function (m) {
+		                                        return { stringValue: JSON.stringify(m) };
+		                                    })
+		                                }
+		                            }
+		                        }
+		                    })
+		                }).then(function (r) {
+		                    if (!r.ok) throw new Error("HTTP " + r.status);
+		
+		                    // The player changed while we were sending: leave the save alone
+		                    if (owner !== startOwner) throw new Error("player-changed");
+		
+		                    var gone = {};
+		                    picked.forEach(function (m) { gone[m.uid] = true; });
+		
+		                    set("monsters", data.monsters.filter(function (m) {
+		                        return !gone[m.uid];
+		                    }));
+		
+		                    // Write the smaller save right away, so the monsters
+		                    // can't come back if the page closes
+		                    flush(false);
+		
+		                    return { count: all.length, limit: EXPORT_LIMIT };
+		                });
+		            });
 		        }
 		
 		
-		        // ==================================================
-		        // PUBLIC API
-		        // ==================================================
+		        // One listener per key, so re-registering never creates duplicates
+		        function onChange(key, fn) {
+		            listeners[key] = fn;
+		        }
 		
 		        return {
+		            load: load,
+		            get: get,
+		            set: set,
+		            add: add,
+		            spend: spend,
+		            placeEgg: placeEgg,
+		            addMonster: addMonster,
+		            getMonster: getMonster,
+		            getAllMonsters: getAllMonsters,
+		            updateMonster: updateMonster,
+		            removeMonster: removeMonster,
+		            hatchEgg: hatchEgg,
+		            getExportInfo: getExportInfo,
+		            exportMonsters: exportMonsters,
+		            onChange: onChange,
+		            saveNow: function () { flush(false); },
+		            isLoaded: function () { return loaded; },
+		            where: function () { return owner; },
 		
-		            load:
-		                load,
+		            // Used by the top bar's Export / Import buttons
+		            exportSave: function () { return blob || ""; },
 		
-		            get:
-		                get,
-		
-		            set:
-		                set,
-		
-		            add:
-		                add,
-		
-		            spend:
-		                spend,
-		
-		            placeEgg:
-		                placeEgg,
-		
-		            addMonster:
-		                addMonster,
-		
-		            getMonster:
-		                getMonster,
-		
-		            getAllMonsters:
-		                getAllMonsters,
-		
-		            updateMonster:
-		                updateMonster,
-		
-		            removeMonster:
-		                removeMonster,
-		
-		            hatchEgg:
-		                hatchEgg,
-		
-		            onChange:
-		                onChange,
-		
-		            saveNow:
-		                function () {
-		
-		                    flush(false);
-		                },
-		
-		            isLoaded:
-		                function () {
-		
-		                    return loaded;
-		                },
-		
-		            where:
-		                function () {
-		
-		                    return owner;
-		                },
-		
-		            exportSave:
-		                function () {
-		
-		                    return blob || "";
-		                },
-		
-		            importSave:
-		                function (text) {
-		
-		                    if (
-		                        !loaded
-		                    ) {
-		
-		                        return Promise.resolve(
-		                            false
-		                        );
-		                    }
-		
-		
-		                    return decrypt(
-		                        String(text).trim()
-		                    )
-		                        .then(
-		                            function (obj) {
-		
-		                                apply(
-		                                    obj
-		                                );
-		
-		                                markDiscovered();
-		
-		
-		                                NAMES.forEach(
-		                                    function (n) {
-		
-		                                        dirty[n] =
-		                                            true;
-		                                    }
-		                                );
-		
-		
-		                                seal();
-		
-		                                notify(null);
-		
-		                                queueSave(
-		                                    SAVE_DELAY
-		                                );
-		
-		
-		                                return true;
-		                            }
-		                        )
-		                        .catch(
-		                            function (err) {
-		
-		                                console.error(
-		                                    "SaveSystem: import failed",
-		                                    err
-		                                );
-		
-		                                return false;
-		                            }
-		                        );
-		                }
+		            importSave: function (text) {
+		                if (!loaded) return Promise.resolve(false);
+		                return decrypt(String(text).trim()).then(function (obj) {
+		                    apply(obj);
+		                    markDiscovered();
+		                    NAMES.forEach(function (n) { dirty[n] = true; });
+		                    seal();
+		                    notify(null);
+		                    queueSave(SAVE_DELAY);
+		                    return true;
+		                }).catch(function (err) {
+		                    console.error("SaveSystem: import failed", err);
+		                    return false;
+		                });
+		            }
 		        };
 		
 		    })();
@@ -16110,6 +14593,8 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		    var BROWSE_TITLE = "Your monsters";
 		    var PICK_TITLE   = "Choose a monster";
+		    var SELL_TITLE   = "Select monsters to sell";
+		    var EXPORT_TITLE = "Select monsters to export";
 		    var EMPTY_TEXT   = "No monsters yet";
 		
 		    var NO_TYPE     = "NONE";
@@ -16124,6 +14609,46 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // Frame the MonsterContainer itself goes to.
 		    // CreateJS counts from 0, so 1 is frame 2 in Animate.
 		    var ART_FRAME = 1;
+		
+		
+		    // ---------- Button reactions ----------
+		
+		    // 1 = full size. Hovered buttons shrink a little,
+		    // pressed buttons shrink even more.
+		    var HOVER_SCALE = 0.96;
+		    var PRESS_SCALE = 0.90;
+		    var REACT_TIME  = 120;      // milliseconds
+		
+		    // Hover only exists with a mouse. On touch screens
+		    // buttons shrink while they are being pressed.
+		    var canHover = !!(
+		        window.matchMedia &&
+		        window.matchMedia("(hover: hover)").matches
+		    );
+		
+		
+		    // ---------- Bottom bar ----------
+		
+		    var BTN_H   = portrait ? 76 : 48;
+		    var BTN_PAD = portrait ? 22 : 16;
+		    var BTN_GAP = portrait ? 16 : 14;
+		    var BAR_H   = BTN_H + BTN_PAD * 2;
+		
+		    var BTN_FILL       = "#173b5d";
+		    var BTN_FILL_LIT   = "#1d5381";
+		    var BTN_STROKE     = "#527896";
+		    var BTN_STROKE_LIT = "#8fd8ff";
+		    var BTN_TEXT       = "#cfe6f5";
+		    var BTN_TEXT_LIT   = "#ffffff";
+		
+		
+		    // ---------- Selling ----------
+		
+		    // Placeholder price. Change these to balance the game.
+		    //   price = (sum of base stats) x SELL_STAT_RATE + level x SELL_LEVEL_BONUS
+		    var SELL_STAT_RATE   = 0.05;
+		    var SELL_LEVEL_BONUS = 5;
+		    var SELL_MIN         = 1;
 		
 		
 		    // --------------------------------------------------
@@ -16254,6 +14779,1327 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    var lastY = 0;
 		    var lastTime = 0;
 		    var velocity = 0;
+		
+		    // The button or card being pressed right now
+		    var pressedObj = null;
+		
+		    // Picking monsters: "" (just browsing), "sell" or "export"
+		    var pickMode = "";
+		    var selected = {};          // uid -> true
+		
+		    // The pop-up: "sell", "export" or "notice" (just a message)
+		    var dialogOpen = false;
+		    var dialogKind = "";
+		
+		    // Exporting to the player's account
+		    var exportFree = 0;         // how many more monsters the account can take
+		    var exportLimit = 6;
+		    var exportBusy = false;
+		
+		
+		    function placementActive() {
+		
+		        return !!(
+		            window.MonsterPlacement &&
+		            window.MonsterPlacement.active
+		        );
+		    }
+		
+		
+		    function formatAmount(n) {
+		
+		        return Number(n).toLocaleString("en-US");
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // BUTTON REACTIONS (SHRINK ON HOVER / PRESS)
+		    // --------------------------------------------------
+		
+		    // Every reactive object remembers:
+		    //   reactBase     its normal scale
+		    //   reactCx/Cy    where its center sits in its parent
+		    //   reactLocalCx  where its center is inside itself
+		    //   reactF        current shrink amount (1 = none)
+		    //
+		    // Scaling around the center keeps it from sliding to a corner.
+		
+		    function applyReact(o) {
+		
+		        if (o.reactBase === undefined) {
+		            return;
+		        }
+		
+		        var s =
+		            o.reactBase *
+		            o.reactF;
+		
+		        o.scaleX = s;
+		        o.scaleY = s;
+		
+		        o.x =
+		            o.reactCx -
+		            (o.reactLocalCx - o.regX) * s;
+		
+		        o.y =
+		            o.reactCy -
+		            (o.reactLocalCy - o.regY) * s;
+		    }
+		
+		
+		    function placeReactive(o, base, cx, cy, localCx, localCy) {
+		
+		        o.reactBase = base;
+		        o.reactCx = cx;
+		        o.reactCy = cy;
+		        o.reactLocalCx = localCx;
+		        o.reactLocalCy = localCy;
+		
+		        if (o.reactF === undefined) {
+		            o.reactF = 1;
+		        }
+		
+		        applyReact(o);
+		    }
+		
+		
+		    function reactTo(o, f) {
+		
+		        createjs.Tween.get(
+		            o,
+		            {
+		                override: true,
+		                onChange: function () {
+		                    applyReact(o);
+		                }
+		            }
+		        )
+		        .to(
+		            { reactF: f },
+		            REACT_TIME,
+		            createjs.Ease.quadOut
+		        );
+		    }
+		
+		
+		    function refreshReact(o) {
+		
+		        var f = 1;
+		
+		        if (!o.reactOff) {
+		
+		            if (o.pressed) {
+		                f = PRESS_SCALE;
+		            } else if (o.hovered) {
+		                f = HOVER_SCALE;
+		            }
+		        }
+		
+		        reactTo(o, f);
+		
+		        if (o.onLit) {
+		            o.onLit(o.hovered || o.pressed);
+		        }
+		    }
+		
+		
+		    function wireReactions(o) {
+		
+		        o.reactF = 1;
+		        o.hovered = false;
+		        o.pressed = false;
+		
+		        if (canHover) {
+		
+		            o.on("rollover", function () {
+		
+		                o.hovered = true;
+		                refreshReact(o);
+		            });
+		
+		            o.on("rollout", function () {
+		
+		                o.hovered = false;
+		                refreshReact(o);
+		            });
+		        }
+		
+		        o.on("mousedown", function () {
+		
+		            o.pressed = true;
+		            pressedObj = o;
+		            refreshReact(o);
+		        });
+		
+		        o.on("pressup", function () {
+		
+		            o.pressed = false;
+		
+		            if (pressedObj === o) {
+		                pressedObj = null;
+		            }
+		
+		            refreshReact(o);
+		        });
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // CRYST ICON
+		    // --------------------------------------------------
+		
+		    // The icon is centered on the middle of its holder,
+		    // so the holder can simply be placed where the icon goes.
+		
+		    function makeCrystIcon() {
+		
+		        var holder =
+		            new createjs.Container();
+		
+		        holder.mouseEnabled = false;
+		        holder.mouseChildren = false;
+		
+		        if (lib.Cryst) {
+		
+		            holder.icon =
+		                new lib.Cryst();
+		
+		            holder.addChild(
+		                holder.icon
+		            );
+		
+		        } else {
+		
+		            console.warn(
+		                "Cryst not found. Check AS Linkage on the symbol."
+		            );
+		        }
+		
+		        return holder;
+		    }
+		
+		
+		    function sizeCrystIcon(holder, size) {
+		
+		        var icon = holder.icon;
+		
+		        if (!icon) {
+		            return;
+		        }
+		
+		        var b =
+		            icon.nominalBounds ||
+		            icon.getBounds();
+		
+		        if (!b || !b.width || !b.height) {
+		            return;
+		        }
+		
+		        var s =
+		            Math.min(
+		                size / b.width,
+		                size / b.height
+		            );
+		
+		        icon.scaleX = s;
+		        icon.scaleY = s;
+		
+		        icon.x = -(b.x + b.width / 2) * s;
+		        icon.y = -(b.y + b.height / 2) * s;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // BUTTONS
+		    // --------------------------------------------------
+		
+		    function drawButton(b, lit) {
+		
+		        var radius =
+		            b.bh * 0.28;
+		
+		        b.bg.graphics.clear();
+		
+		        b.bg.graphics
+		            .setStrokeStyle(
+		                lit ? 1.5 : 1
+		            )
+		            .beginStroke(
+		                lit
+		                    ? BTN_STROKE_LIT
+		                    : BTN_STROKE
+		            )
+		            .beginFill(
+		                lit
+		                    ? BTN_FILL_LIT
+		                    : BTN_FILL
+		            )
+		            .drawRoundRect(
+		                0,
+		                0,
+		                b.bw,
+		                b.bh,
+		                radius
+		            );
+		
+		        var textColor =
+		            lit
+		                ? BTN_TEXT_LIT
+		                : BTN_TEXT;
+		
+		        b.label.color = textColor;
+		
+		        if (b.amount) {
+		            b.amount.color = textColor;
+		        }
+		    }
+		
+		
+		    function makeButton(text) {
+		
+		        var b =
+		            new createjs.Container();
+		
+		        b.bw = 100;
+		        b.bh = 40;
+		        b.fs = 16;
+		
+		        b.bg =
+		            new createjs.Shape();
+		
+		        b.label =
+		            new createjs.Text(
+		                text,
+		                "bold 16px 'DM Sans'",
+		                BTN_TEXT
+		            );
+		
+		        b.label.textAlign = "left";
+		        b.label.textBaseline = "middle";
+		        b.label.mouseEnabled = false;
+		
+		        b.addChild(b.bg);
+		        b.addChild(b.label);
+		
+		        b.cursor = "pointer";
+		
+		        b.onLit = function (lit) {
+		            drawButton(b, lit);
+		        };
+		
+		        wireReactions(b);
+		
+		        return b;
+		    }
+		
+		
+		    function centerLabel(b) {
+		
+		        b.label.x =
+		            (b.bw - b.label.getMeasuredWidth()) / 2;
+		
+		        b.label.y =
+		            b.bh / 2;
+		    }
+		
+		
+		    function sizeButton(b, w, h, fontSize) {
+		
+		        b.bw = w;
+		        b.bh = h;
+		        b.fs = fontSize;
+		
+		        b.regX = w / 2;
+		        b.regY = h / 2;
+		
+		        b.label.font =
+		            "bold " +
+		            fontSize +
+		            "px 'DM Sans'";
+		
+		        if (b.amount) {
+		
+		            b.amount.font =
+		                "bold " +
+		                fontSize +
+		                "px 'DM Sans'";
+		        }
+		
+		        var hit =
+		            new createjs.Shape();
+		
+		        hit.graphics
+		            .beginFill("#000")
+		            .drawRect(0, 0, w, h);
+		
+		        b.hitArea = hit;
+		
+		        drawButton(
+		            b,
+		            b.hovered || b.pressed
+		        );
+		
+		        centerLabel(b);
+		    }
+		
+		
+		    // ---------- The two bottom bar buttons ----------
+		
+		    var actionBar =
+		        new createjs.Container();
+		
+		    self.addChild(
+		        actionBar
+		    );
+		
+		
+		    var actionBg =
+		        new createjs.Shape();
+		
+		    actionBar.addChild(
+		        actionBg
+		    );
+		
+		
+		    // SELL: label, Cryst icon, and the total for the selection
+		    var sellBtn =
+		        makeButton("Sell");
+		
+		    sellBtn.iconHolder =
+		        makeCrystIcon();
+		
+		    sellBtn.amount =
+		        new createjs.Text(
+		            "0",
+		            "bold 16px 'DM Sans'",
+		            BTN_TEXT
+		        );
+		
+		    sellBtn.amount.textAlign = "left";
+		    sellBtn.amount.textBaseline = "middle";
+		    sellBtn.amount.mouseEnabled = false;
+		    sellBtn.amount.visible = false;
+		
+		    sellBtn.addChild(sellBtn.iconHolder);
+		    sellBtn.addChild(sellBtn.amount);
+		
+		    actionBar.addChild(sellBtn);
+		
+		
+		    var exportBtn =
+		        makeButton("Export");
+		
+		    actionBar.addChild(exportBtn);
+		
+		
+		    // Lines up "Sell", the Cryst icon, and the amount in the middle
+		    function layoutSellContent() {
+		
+		        var b = sellBtn;
+		
+		        var iconSize = b.fs * 1.4;
+		        var gap = b.fs * 0.45;
+		
+		        var showIcon = b.iconHolder.visible;
+		        var showAmount = b.amount.visible;
+		
+		        var labelW = b.label.getMeasuredWidth();
+		
+		        var total = labelW;
+		
+		        if (showIcon) {
+		            total += gap + iconSize;
+		        }
+		
+		        if (showAmount) {
+		            total += gap * 0.6 + b.amount.getMeasuredWidth();
+		        }
+		
+		        var x = (b.bw - total) / 2;
+		
+		        b.label.x = x;
+		        b.label.y = b.bh / 2;
+		
+		        x += labelW;
+		
+		        if (showIcon) {
+		
+		            sizeCrystIcon(
+		                b.iconHolder,
+		                iconSize
+		            );
+		
+		            b.iconHolder.x = x + gap + iconSize / 2;
+		            b.iconHolder.y = b.bh / 2;
+		
+		            x += gap + iconSize;
+		        }
+		
+		        if (showAmount) {
+		
+		            b.amount.x = x + gap * 0.6;
+		            b.amount.y = b.bh / 2;
+		        }
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // SELL CONFIRMATION PROMPT
+		    // --------------------------------------------------
+		
+		    var dialog =
+		        new createjs.Container();
+		
+		    dialog.visible = false;
+		
+		    self.addChild(
+		        dialog
+		    );
+		
+		
+		    // Covers the whole screen so nothing underneath can be tapped
+		    var dim =
+		        new createjs.Shape();
+		
+		    dialog.addChild(dim);
+		
+		
+		    var panel =
+		        new createjs.Shape();
+		
+		    dialog.addChild(panel);
+		
+		
+		    var dialogTitle =
+		        new createjs.Text(
+		            "Sell monsters?",
+		            "30px 'Marcellus'",
+		            TITLE_COLOR
+		        );
+		
+		    dialogTitle.textAlign = "center";
+		    dialogTitle.textBaseline = "middle";
+		
+		    dialog.addChild(dialogTitle);
+		
+		
+		    var dialogBody =
+		        new createjs.Text(
+		            "",
+		            "bold 18px 'DM Sans'",
+		            BTN_TEXT
+		        );
+		
+		    dialogBody.textAlign = "center";
+		    dialogBody.textBaseline = "middle";
+		
+		    dialog.addChild(dialogBody);
+		
+		
+		    var rewardLabel =
+		        new createjs.Text(
+		            "You will receive",
+		            "bold 18px 'DM Sans'",
+		            COUNT_COLOR
+		        );
+		
+		    rewardLabel.textAlign = "left";
+		    rewardLabel.textBaseline = "middle";
+		
+		    dialog.addChild(rewardLabel);
+		
+		
+		    var rewardIcon =
+		        makeCrystIcon();
+		
+		    dialog.addChild(rewardIcon);
+		
+		
+		    var rewardAmount =
+		        new createjs.Text(
+		            "0",
+		            "bold 18px 'DM Sans'",
+		            "#ffffff"
+		        );
+		
+		    rewardAmount.textAlign = "left";
+		    rewardAmount.textBaseline = "middle";
+		
+		    dialog.addChild(rewardAmount);
+		
+		
+		    var dialogNote =
+		        new createjs.Text(
+		            "This can't be undone.",
+		            "14px 'DM Sans'",
+		            COUNT_COLOR
+		        );
+		
+		    dialogNote.textAlign = "center";
+		    dialogNote.textBaseline = "middle";
+		
+		    dialog.addChild(dialogNote);
+		
+		
+		    var cancelBtn =
+		        makeButton("Cancel");
+		
+		    dialog.addChild(cancelBtn);
+		
+		
+		    var confirmBtn =
+		        makeButton("Sell");
+		
+		    dialog.addChild(confirmBtn);
+		
+		
+		    function layoutDialog() {
+		
+		        var kind = dialogKind;
+		
+		        var pw = portrait ? Math.min(W - 60, 640) : 480;
+		        var ph = portrait ? 460 : 310;
+		
+		        var px = (W - pw) / 2;
+		        var py = (H - ph) / 2;
+		
+		        var pad = portrait ? 32 : 24;
+		
+		        dim.graphics.clear();
+		
+		        dim.graphics
+		            .beginFill("rgba(0, 0, 0, 0.62)")
+		            .drawRect(0, 0, W, H);
+		
+		        panel.graphics.clear();
+		
+		        panel.graphics
+		            .setStrokeStyle(1.5)
+		            .beginStroke("#527896")
+		            .beginLinearGradientFill(
+		                ["#0d2f4d", "#071c31"],
+		                [0, 1],
+		                0, py,
+		                0, py + ph
+		            )
+		            .drawRoundRect(
+		                px,
+		                py,
+		                pw,
+		                ph,
+		                portrait ? 30 : 18
+		            );
+		
+		
+		        var fs = portrait ? 28 : 17;
+		        var noteFs = portrait ? 22 : 14;
+		        var textW = pw - pad * 2;
+		
+		        dialogTitle.font =
+		            (portrait ? 40 : 28) +
+		            "px 'Marcellus'";
+		
+		        dialogTitle.x = W / 2;
+		        dialogTitle.y = py + ph * 0.17;
+		
+		
+		        dialogBody.font =
+		            "bold " + fs + "px 'DM Sans'";
+		
+		        dialogBody.textBaseline = "top";
+		        dialogBody.lineWidth = textW;
+		        dialogBody.lineHeight = fs * 1.35;
+		
+		        dialogBody.x = W / 2;
+		        dialogBody.y = py + ph * (kind === "notice" ? 0.34 : 0.30);
+		
+		
+		        // "You will receive [icon] 123" only shows when selling
+		        var showReward = kind === "sell";
+		
+		        rewardLabel.visible = showReward;
+		        rewardIcon.visible = showReward;
+		        rewardAmount.visible = showReward;
+		
+		        if (showReward) {
+		
+		            rewardLabel.font =
+		                "bold " + fs + "px 'DM Sans'";
+		
+		            rewardAmount.font =
+		                "bold " + fs + "px 'DM Sans'";
+		
+		            var iconSize = fs * 1.4;
+		            var gap = fs * 0.5;
+		
+		            var rowW =
+		                rewardLabel.getMeasuredWidth() +
+		                gap +
+		                iconSize +
+		                gap * 0.6 +
+		                rewardAmount.getMeasuredWidth();
+		
+		            var x = (W - rowW) / 2;
+		            var rowY = py + ph * 0.51;
+		
+		            rewardLabel.x = x;
+		            rewardLabel.y = rowY;
+		
+		            x += rewardLabel.getMeasuredWidth();
+		
+		            sizeCrystIcon(
+		                rewardIcon,
+		                iconSize
+		            );
+		
+		            rewardIcon.x = x + gap + iconSize / 2;
+		            rewardIcon.y = rowY;
+		
+		            x += gap + iconSize;
+		
+		            rewardAmount.x = x + gap * 0.6;
+		            rewardAmount.y = rowY;
+		        }
+		
+		
+		        dialogNote.visible = kind !== "notice";
+		
+		        dialogNote.font =
+		            noteFs + "px 'DM Sans'";
+		
+		        dialogNote.textBaseline = "top";
+		        dialogNote.lineWidth = textW;
+		        dialogNote.lineHeight = noteFs * 1.35;
+		
+		        dialogNote.x = W / 2;
+		        dialogNote.y = py + ph * (kind === "sell" ? 0.64 : 0.50);
+		
+		
+		        var bh = portrait ? 72 : 46;
+		        var by = py + ph - pad - bh / 2;
+		
+		        if (kind === "notice") {
+		
+		            // Just one OK button in the middle
+		            var nw = Math.min(pw - pad * 2, portrait ? 320 : 200);
+		
+		            confirmBtn.visible = false;
+		
+		            sizeButton(cancelBtn, nw, bh, fs);
+		
+		            placeReactive(
+		                cancelBtn,
+		                1,
+		                W / 2,
+		                by,
+		                nw / 2,
+		                bh / 2
+		            );
+		
+		        } else {
+		
+		            var bw = (pw - pad * 3) / 2;
+		
+		            confirmBtn.visible = true;
+		
+		            sizeButton(cancelBtn, bw, bh, fs);
+		            sizeButton(confirmBtn, bw, bh, fs);
+		
+		            placeReactive(
+		                cancelBtn,
+		                1,
+		                px + pad + bw / 2,
+		                by,
+		                bw / 2,
+		                bh / 2
+		            );
+		
+		            placeReactive(
+		                confirmBtn,
+		                1,
+		                px + pw - pad - bw / 2,
+		                by,
+		                bw / 2,
+		                bh / 2
+		            );
+		        }
+		    }
+		
+		
+		    function showDialog() {
+		
+		        layoutDialog();
+		
+		        dialogOpen = true;
+		        dialog.visible = true;
+		
+		        // Bring it in front of everything, including the top bar
+		        self.addChild(
+		            dialog
+		        );
+		    }
+		
+		
+		    // Asks "are you sure?" for selling or exporting the selection
+		    function openConfirm(kind) {
+		
+		        var sel = getSelection();
+		
+		        if (!sel.count) {
+		            return;
+		        }
+		
+		        var n = sel.count;
+		        var word = n === 1 ? " monster" : " monsters";
+		
+		        dialogKind = kind;
+		
+		        if (kind === "sell") {
+		
+		            dialogTitle.text = "Sell monsters?";
+		
+		            dialogBody.text =
+		                "You are about to sell " + n + word + ".";
+		
+		            rewardLabel.text = "You will receive";
+		            rewardAmount.text = formatAmount(sel.total);
+		
+		            dialogNote.text = "This can't be undone.";
+		
+		            confirmBtn.label.text = "Sell";
+		
+		        } else {
+		
+		            dialogTitle.text = "Send to your account?";
+		
+		            dialogBody.text =
+		                "Send " + n + word + " to your account?";
+		
+		            dialogNote.text =
+		                "They will be removed from this game. Your account can hold " +
+		                exportLimit + " in total, so " +
+		                (exportFree - n) + " more could still be sent after this.";
+		
+		            confirmBtn.label.text = "Send";
+		        }
+		
+		        cancelBtn.label.text = "Cancel";
+		
+		        showDialog();
+		    }
+		
+		
+		    // A message with a single OK button
+		    function showNotice(title, body) {
+		
+		        dialogKind = "notice";
+		
+		        dialogTitle.text = title;
+		        dialogBody.text = body;
+		
+		        cancelBtn.label.text = "OK";
+		
+		        showDialog();
+		    }
+		
+		
+		    function closeConfirm() {
+		
+		        dialogOpen = false;
+		        dialog.visible = false;
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // SELLING
+		    // --------------------------------------------------
+		
+		    // Monsters that sit in a slot can't be sold
+		    function isLocked(entry) {
+		
+		        return (
+		            typeof entry.slot === "number" &&
+		            entry.slot >= 0
+		        );
+		    }
+		
+		
+		    function sellValue(entry) {
+		
+		        var def =
+		            Monster.registry[
+		                entry.monsterId
+		            ];
+		
+		        if (!def) {
+		            return SELL_MIN;
+		        }
+		
+		        var stats =
+		            def.baseHp +
+		            def.baseAttack +
+		            def.baseDefense +
+		            def.baseSpAttack +
+		            def.baseSpDefense +
+		            def.baseSpeed;
+		
+		        return Math.max(
+		            SELL_MIN,
+		            Math.round(
+		                stats * SELL_STAT_RATE +
+		                (entry.level || 1) * SELL_LEVEL_BONUS
+		            )
+		        );
+		    }
+		
+		
+		    function getSelection() {
+		
+		        var list = [];
+		        var total = 0;
+		
+		        for (
+		            var i = 0;
+		            i < entries.length;
+		            i++
+		        ) {
+		
+		            var m = entries[i];
+		
+		            if (
+		                selected[m.uid] &&
+		                !isLocked(m)
+		            ) {
+		
+		                list.push(m);
+		                total += sellValue(m);
+		            }
+		        }
+		
+		        return {
+		            list: list,
+		            count: list.length,
+		            total: total
+		        };
+		    }
+		
+		
+		    function setTitle() {
+		
+		        if (placementActive()) {
+		
+		            titleText.text = PICK_TITLE;
+		
+		        } else if (pickMode === "sell") {
+		
+		            titleText.text = SELL_TITLE;
+		
+		        } else if (pickMode === "export") {
+		
+		            titleText.text = EXPORT_TITLE;
+		
+		        } else {
+		
+		            titleText.text = BROWSE_TITLE;
+		        }
+		    }
+		
+		
+		    // Updates everything that depends on the picking mode or the
+		    // selection: the title, count, card highlights, and both buttons
+		    function refreshSellUI() {
+		
+		        if (destroyed) {
+		            return;
+		        }
+		
+		        var sel = getSelection();
+		        var picking = pickMode !== "";
+		
+		        setTitle();
+		
+		        for (
+		            var i = 0;
+		            i < cards.length;
+		            i++
+		        ) {
+		
+		            var card = cards[i];
+		            var entry = entries[card.monsterIndex];
+		
+		            var locked =
+		                picking &&
+		                !!entry &&
+		                isLocked(entry);
+		
+		            var on =
+		                picking &&
+		                !!entry &&
+		                !locked &&
+		                !!selected[entry.uid];
+		
+		            card.alpha = locked ? 0.45 : 1;
+		            card.reactOff = locked;
+		
+		            if (
+		                card.selectMark &&
+		                card.selectMark.visible !== on
+		            ) {
+		
+		                card.selectMark.visible = on;
+		
+		                if (card.cacheCanvas) {
+		                    card.updateCache();
+		                }
+		            }
+		        }
+		
+		
+		        if (pickMode === "sell") {
+		
+		            countText.text =
+		                sel.count + " selected";
+		
+		        } else if (pickMode === "export") {
+		
+		            countText.text =
+		                sel.count + " of " + exportFree + " selected";
+		
+		        } else {
+		
+		            countText.text =
+		                entries.length +
+		                (
+		                    entries.length === 1
+		                        ? " monster"
+		                        : " monsters"
+		                );
+		        }
+		
+		
+		        // Sell button: "Cancel" when nothing is picked yet,
+		        // otherwise "Sell" with the Cryst icon and the total
+		        if (pickMode === "sell" && sel.count === 0) {
+		
+		            sellBtn.label.text = "Cancel";
+		            sellBtn.iconHolder.visible = false;
+		            sellBtn.amount.visible = false;
+		
+		        } else {
+		
+		            sellBtn.label.text = "Sell";
+		            sellBtn.iconHolder.visible = true;
+		            sellBtn.amount.visible = pickMode === "sell";
+		            sellBtn.amount.text = formatAmount(sel.total);
+		        }
+		
+		        layoutSellContent();
+		
+		
+		        // Export button
+		        if (exportBusy) {
+		
+		            exportBtn.label.text = "Sending...";
+		
+		        } else if (pickMode === "export") {
+		
+		            exportBtn.label.text =
+		                sel.count === 0
+		                    ? "Cancel"
+		                    : "Send " + sel.count;
+		
+		        } else {
+		
+		            exportBtn.label.text = "Export";
+		        }
+		
+		        centerLabel(exportBtn);
+		    }
+		
+		
+		    function startPicking(mode) {
+		
+		        pickMode = mode;
+		        selected = {};
+		
+		        refreshSellUI();
+		    }
+		
+		
+		    function stopPicking() {
+		
+		        pickMode = "";
+		        selected = {};
+		
+		        refreshSellUI();
+		    }
+		
+		
+		    function onSellPress() {
+		
+		        if (placementActive() || dialogOpen || exportBusy) {
+		            return;
+		        }
+		
+		        // Start picking monsters to sell
+		        // (this also switches over from export mode)
+		        if (pickMode !== "sell") {
+		
+		            startPicking("sell");
+		            return;
+		        }
+		
+		        // Nothing picked: the button says Cancel
+		        if (getSelection().count === 0) {
+		
+		            stopPicking();
+		            return;
+		        }
+		
+		        openConfirm("sell");
+		    }
+		
+		
+		    function onExportPress() {
+		
+		        if (placementActive() || dialogOpen || exportBusy) {
+		            return;
+		        }
+		
+		        // Already picking: Cancel, or ask before sending
+		        if (pickMode === "export") {
+		
+		            if (getSelection().count === 0) {
+		
+		                stopPicking();
+		                return;
+		            }
+		
+		            openConfirm("export");
+		            return;
+		        }
+		
+		        // Starting: first find out how much room the account has
+		        exportBusy = true;
+		        refreshSellUI();
+		
+		        SaveSystem.getExportInfo()
+		            .then(
+		                function (info) {
+		
+		                    exportBusy = false;
+		
+		                    if (destroyed) {
+		                        return;
+		                    }
+		
+		                    exportLimit = info.limit;
+		                    exportFree = Math.max(0, info.limit - info.count);
+		
+		                    if (exportFree === 0) {
+		
+		                        refreshSellUI();
+		
+		                        showNotice(
+		                            "Account is full",
+		                            "Your account already holds " +
+		                            info.limit +
+		                            " exported monsters, which is the limit."
+		                        );
+		
+		                        return;
+		                    }
+		
+		                    startPicking("export");
+		                }
+		            )
+		            .catch(
+		                function (err) {
+		
+		                    exportBusy = false;
+		
+		                    if (destroyed) {
+		                        return;
+		                    }
+		
+		                    refreshSellUI();
+		
+		                    showNotice(
+		                        "Can't export",
+		                        exportErrorText(err)
+		                    );
+		                }
+		            );
+		    }
+		
+		
+		    function exportErrorText(err) {
+		
+		        var code =
+		            String(
+		                err && err.message
+		            );
+		
+		        if (code === "not-signed-in") {
+		
+		            return "Sign in to send monsters to your account.";
+		        }
+		
+		        if (code === "limit") {
+		
+		            return "Your account can only hold " +
+		                   exportLimit +
+		                   " exported monsters. Pick fewer and try again.";
+		        }
+		
+		        return "Something went wrong, so nothing was changed. Try again in a moment.";
+		    }
+		
+		
+		    function onConfirm() {
+		
+		        if (dialogKind === "sell") {
+		
+		            doSell();
+		
+		        } else if (dialogKind === "export") {
+		
+		            doExport();
+		
+		        } else {
+		
+		            closeConfirm();
+		        }
+		    }
+		
+		
+		    function doSell() {
+		
+		        var sel = getSelection();
+		
+		        closeConfirm();
+		
+		        if (!sel.count) {
+		            return;
+		        }
+		
+		        var gone = {};
+		
+		        for (
+		            var i = 0;
+		            i < sel.list.length;
+		            i++
+		        ) {
+		
+		            gone[sel.list[i].uid] = true;
+		        }
+		
+		        var remaining =
+		            entries.filter(
+		                function (m) {
+		                    return !gone[m.uid];
+		                }
+		            );
+		
+		        pickMode = "";
+		        selected = {};
+		
+		        // Both changes go into the same save
+		        SaveSystem.set(
+		            "monsters",
+		            remaining
+		        );
+		
+		        SaveSystem.add(
+		            "cryst",
+		            sel.total
+		        );
+		
+		        refreshSellUI();
+		    }
+		
+		
+		    function doExport() {
+		
+		        var sel = getSelection();
+		
+		        closeConfirm();
+		
+		        if (!sel.count) {
+		            return;
+		        }
+		
+		        var uids = [];
+		
+		        for (
+		            var i = 0;
+		            i < sel.list.length;
+		            i++
+		        ) {
+		
+		            uids.push(sel.list[i].uid);
+		        }
+		
+		        var n = uids.length;
+		
+		        exportBusy = true;
+		        refreshSellUI();
+		
+		        SaveSystem.exportMonsters(uids)
+		            .then(
+		                function (info) {
+		
+		                    exportBusy = false;
+		
+		                    if (destroyed) {
+		                        return;
+		                    }
+		
+		                    pickMode = "";
+		                    selected = {};
+		
+		                    refreshSellUI();
+		
+		                    showNotice(
+		                        "Sent!",
+		                        n +
+		                        (n === 1 ? " monster was" : " monsters were") +
+		                        " sent to your account. It now holds " +
+		                        info.count +
+		                        " of " +
+		                        info.limit +
+		                        "."
+		                    );
+		                }
+		            )
+		            .catch(
+		                function (err) {
+		
+		                    exportBusy = false;
+		
+		                    if (destroyed) {
+		                        return;
+		                    }
+		
+		                    refreshSellUI();
+		
+		                    showNotice(
+		                        "Export failed",
+		                        exportErrorText(err)
+		                    );
+		                }
+		            );
+		    }
+		
+		
+		    // --------------------------------------------------
+		    // BUTTON CLICKS
+		    // --------------------------------------------------
+		
+		    sellBtn.on("click", onSellPress);
+		    exportBtn.on("click", onExportPress);
+		    cancelBtn.on("click", closeConfirm);
+		    confirmBtn.on("click", onConfirm);
 		
 		
 		    // --------------------------------------------------
@@ -16484,6 +16330,91 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		
 		    // --------------------------------------------------
+		    // SELECTION HIGHLIGHT (drawn on the card itself)
+		    // --------------------------------------------------
+		
+		    // A light ring and a check badge, hidden until the monster
+		    // is selected for selling. It lives inside the card, so it
+		    // is part of the card's cached picture.
+		
+		    function ensureMark(card) {
+		
+		        if (
+		            card.selectMark &&
+		            card.selectMark.parent === card
+		        ) {
+		
+		            return;
+		        }
+		
+		        var b =
+		            card.nominalBounds;
+		
+		        var mark =
+		            new createjs.Container();
+		
+		        mark.visible = false;
+		        mark.mouseEnabled = false;
+		        mark.mouseChildren = false;
+		
+		
+		        var ring =
+		            new createjs.Shape();
+		
+		        ring.graphics
+		            .setStrokeStyle(
+		                Math.max(3, b.width * 0.015)
+		            )
+		            .beginStroke("#8fd8ff")
+		            .beginFill("rgba(143, 216, 255, 0.2)")
+		            .drawRoundRect(
+		                b.x,
+		                b.y,
+		                b.width,
+		                b.height,
+		                b.width * 0.06
+		            );
+		
+		        mark.addChild(ring);
+		
+		
+		        var r =
+		            b.width * 0.07;
+		
+		        var cx =
+		            b.x + b.width - r * 1.7;
+		
+		        var cy =
+		            b.y + r * 1.7;
+		
+		
+		        var badge =
+		            new createjs.Shape();
+		
+		        badge.graphics
+		            .beginFill("#8fd8ff")
+		            .drawCircle(cx, cy, r);
+		
+		        badge.graphics
+		            .setStrokeStyle(
+		                Math.max(3, r * 0.22),
+		                "round"
+		            )
+		            .beginStroke("#061a2d")
+		            .moveTo(cx - r * 0.45, cy)
+		            .lineTo(cx - r * 0.1, cy + r * 0.35)
+		            .lineTo(cx + r * 0.5, cy - r * 0.35);
+		
+		        mark.addChild(badge);
+		
+		
+		        card.addChild(mark);
+		
+		        card.selectMark = mark;
+		    }
+		
+		
+		    // --------------------------------------------------
 		    // APPLY CARD DATA
 		    // --------------------------------------------------
 		
@@ -16566,6 +16497,11 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        }
 		
 		
+		        ensureMark(
+		            card
+		        );
+		
+		
 		        if (card.cacheCanvas) {
 		
 		            card.updateCache();
@@ -16585,6 +16521,11 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            i++
 		        ) {
 		
+		            createjs.Tween.removeTweens(
+		                cards[i]
+		            );
+		
+		
 		            cards[i]
 		                .removeAllEventListeners();
 		
@@ -16596,6 +16537,8 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		
 		        cards = [];
+		
+		        pressedObj = null;
 		    }
 		
 		
@@ -16629,6 +16572,33 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                : [];
 		
 		
+		        // Forget selections for monsters that no longer exist
+		        var stillThere = {};
+		
+		        entries.forEach(
+		            function (m) {
+		                stillThere[m.uid] = true;
+		            }
+		        );
+		
+		        Object.keys(selected).forEach(
+		            function (uid) {
+		
+		                if (!stillThere[uid]) {
+		                    delete selected[uid];
+		                }
+		            }
+		        );
+		
+		
+		        // Picking a monster for a slot never happens in sell mode
+		        if (placementActive()) {
+		
+		            pickMode = "";
+		            selected = {};
+		        }
+		
+		
 		        clearCards();
 		
 		
@@ -16656,6 +16626,11 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            );
 		
 		
+		            wireReactions(
+		                card
+		            );
+		
+		
 		            content.addChild(
 		                card
 		            );
@@ -16672,20 +16647,14 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        }
 		
 		
-		        countText.text =
-		            entries.length +
-		            (
-		                entries.length === 1
-		                    ? " monster"
-		                    : " monsters"
-		            );
-		
-		
 		        emptyText.visible =
 		            !entries.length;
 		
 		
 		        layout();
+		
+		
+		        refreshSellUI();
 		    }
 		
 		
@@ -16812,14 +16781,74 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        }
 		
 		
+		        if (dialogOpen || exportBusy) {
+		            return;
+		        }
+		
+		
 		        var placement =
 		            window.MonsterPlacement;
 		
+		
+		        // --------------------------------------------------
+		        // NOT PICKING A MONSTER FOR A SLOT
+		        // --------------------------------------------------
 		
 		        if (
 		            !placement ||
 		            !placement.active
 		        ) {
+		
+		            // In sell or export mode a tap selects or unselects the monster
+		            if (pickMode !== "") {
+		
+		                var tapped =
+		                    entries[
+		                        evt.currentTarget.monsterIndex
+		                    ];
+		
+		
+		                if (
+		                    !tapped ||
+		                    isLocked(tapped)
+		                ) {
+		
+		                    return;
+		                }
+		
+		
+		                if (selected[tapped.uid]) {
+		
+		                    delete selected[tapped.uid];
+		
+		                } else {
+		
+		                    // Only as many monsters as the account has room for
+		                    if (
+		                        pickMode === "export" &&
+		                        getSelection().count >= exportFree
+		                    ) {
+		
+		                        showNotice(
+		                            "Export limit reached",
+		                            "Your account has room for " +
+		                            exportFree +
+		                            (exportFree === 1 ? " more monster" : " more monsters") +
+		                            ". The limit is " +
+		                            exportLimit +
+		                            " in total."
+		                        );
+		
+		                        return;
+		                    }
+		
+		                    selected[tapped.uid] = true;
+		                }
+		
+		
+		                refreshSellUI();
+		            }
+		
 		
 		            return;
 		        }
@@ -17043,6 +17072,20 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                true;
 		
 		
+		            // The press turned into a scroll, so the card
+		            // under the finger springs back to full size
+		            if (pressedObj) {
+		
+		                pressedObj.pressed = false;
+		
+		                refreshReact(
+		                    pressedObj
+		                );
+		
+		                pressedObj = null;
+		            }
+		
+		
 		            dragStartY =
 		                y;
 		
@@ -17188,6 +17231,12 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            0;
 		
 		
+		        // The list stays put while the prompt is open
+		        if (dialogOpen) {
+		            return;
+		        }
+		
+		
 		        var unitsPerPixel =
 		            canvas &&
 		            canvas.clientWidth
@@ -17215,7 +17264,131 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // LAYOUT
 		    // --------------------------------------------------
 		
+		    function layoutActionBar() {
+		
+		        // Hidden while the player is picking a monster for a slot
+		        var show =
+		            !placementActive();
+		
+		        actionBar.visible =
+		            show;
+		
+		        if (!show) {
+		            return;
+		        }
+		
+		
+		        var contentW =
+		            Math.min(
+		                W -
+		                SIDE_MARGIN * 2,
+		                MAX_CONTENT_WIDTH
+		            );
+		
+		
+		        var btnW =
+		            portrait
+		                ? (contentW - BTN_GAP) / 2
+		                : Math.min(
+		                    240,
+		                    (contentW - BTN_GAP) / 2
+		                );
+		
+		
+		        var fontSize =
+		            portrait
+		                ? 30
+		                : 18;
+		
+		
+		        actionBar.y =
+		            H -
+		            BAR_H;
+		
+		
+		        actionBg.graphics.clear();
+		
+		
+		        actionBg.graphics
+		            .beginFill(
+		                "rgba(6, 26, 45, 0.94)"
+		            )
+		            .drawRect(
+		                0,
+		                0,
+		                W,
+		                BAR_H
+		            );
+		
+		
+		        actionBg.graphics
+		            .beginFill(
+		                LINE_COLOR
+		            )
+		            .drawRect(
+		                0,
+		                0,
+		                W,
+		                1
+		            );
+		
+		
+		        var left =
+		            (
+		                W -
+		                (btnW * 2 + BTN_GAP)
+		            ) /
+		            2;
+		
+		
+		        var cy =
+		            BAR_H / 2;
+		
+		
+		        sizeButton(
+		            sellBtn,
+		            btnW,
+		            BTN_H,
+		            fontSize
+		        );
+		
+		
+		        sizeButton(
+		            exportBtn,
+		            btnW,
+		            BTN_H,
+		            fontSize
+		        );
+		
+		
+		        placeReactive(
+		            sellBtn,
+		            1,
+		            left + btnW / 2,
+		            cy,
+		            btnW / 2,
+		            BTN_H / 2
+		        );
+		
+		
+		        placeReactive(
+		            exportBtn,
+		            1,
+		            left + btnW + BTN_GAP + btnW / 2,
+		            cy,
+		            btnW / 2,
+		            BTN_H / 2
+		        );
+		
+		
+		        layoutSellContent();
+		    }
+		
+		
 		    function layout() {
+		
+		        layoutActionBar();
+		
 		
 		        var topOffset =
 		            RESERVE_TOP_BAR
@@ -17314,9 +17487,17 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            LINE_THICKNESS;
 		
 		
+		        // The list ends where the bottom bar begins
+		        var barH =
+		            actionBar.visible
+		                ? BAR_H
+		                : 0;
+		
+		
 		        var viewH =
 		            H -
-		            viewTop;
+		            viewTop -
+		            barH;
 		
 		
 		        emptyText.x =
@@ -17455,24 +17636,15 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                cards[i];
 		
 		
-		            c.scaleX =
-		                scale;
-		
-		
-		            c.scaleY =
-		                scale;
-		
-		
-		            c.x =
-		                left -
-		                b.x *
-		                scale;
-		
-		
-		            c.y =
-		                top -
-		                b.y *
-		                scale;
+		            // Cards shrink around their center, so remember it
+		            placeReactive(
+		                c,
+		                scale,
+		                left + cardW / 2,
+		                top + cardH / 2,
+		                b.x + b.width / 2,
+		                b.y + b.height / 2
+		            );
 		
 		
 		            c.cache(
@@ -17559,6 +17731,15 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		        self.stage.mouseMoveOutside =
 		            true;
+		
+		
+		        // Needed for hover reactions
+		        if (canHover) {
+		
+		            self.stage.enableMouseOver(
+		                20
+		            );
+		        }
 		    }
 		
 		
@@ -17615,6 +17796,23 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            clearCards();
 		
 		
+		            [
+		                sellBtn,
+		                exportBtn,
+		                cancelBtn,
+		                confirmBtn
+		            ].forEach(
+		                function (btn) {
+		
+		                    createjs.Tween.removeTweens(
+		                        btn
+		                    );
+		
+		                    btn.removeAllEventListeners();
+		                }
+		            );
+		
+		
 		            viewport
 		                .removeAllEventListeners();
 		
@@ -17629,6 +17827,16 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            );
 		
 		
+		            self.removeChild(
+		                actionBar
+		            );
+		
+		
+		            self.removeChild(
+		                dialog
+		            );
+		
+		
 		            self.cleanupMonsters =
 		                null;
 		        };
@@ -17638,17 +17846,13 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // START
 		    // --------------------------------------------------
 		
-		    if (
-		        window.MonsterPlacement &&
-		        window.MonsterPlacement.active
-		    ) {
-		
-		        titleText.text =
-		            PICK_TITLE;
-		    }
+		    setTitle();
 		
 		
 		    layout();
+		
+		
+		    refreshSellUI();
 		
 		
 		    SaveSystem.onChange(
@@ -17687,7 +17891,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1).call(this.frame_2).wait(1).call(this.frame_3).wait(2));
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1).call(this.frame_2).wait(1).call(this.frame_3).wait(7));
 
 	// Layer_4
 	this.Hatch = new lib.Hatch();
@@ -17696,7 +17900,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 	this.Hatch.setTransform(641.05,637,0.4193,0.4193,0,0,0,247.2,59);
 	this.Hatch._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.Hatch).wait(1).to({_off:false},0).to({_off:true},1).wait(3));
+	this.timeline.addTween(cjs.Tween.get(this.Hatch).wait(1).to({_off:false},0).to({_off:true},1).wait(8));
 
 	// Layer_1
 	this.egg = new lib.egg();
@@ -17705,7 +17909,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 	this.egg.setTransform(640,360,1,1,0,0,0,116.5,116.5);
 	this.egg._off = true;
 
-	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1).to({_off:false},0).to({_off:true},1).wait(3));
+	this.timeline.addTween(cjs.Tween.get(this.egg).wait(1).to({_off:false},0).to({_off:true},1).wait(8));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(0,0,834.3,661.9);
@@ -17718,9 +17922,9 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791363991885", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791363991885", id:"index_atlas_2"},
-		{src:"images/index_atlas_3.png?1791363991886", id:"index_atlas_3"}
+		{src:"images/index_atlas_.png?1791509090056", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791509090057", id:"index_atlas_2"},
+		{src:"images/index_atlas_3.png?1791509090057", id:"index_atlas_3"}
 	],
 	preloads: []
 };
