@@ -4,7 +4,7 @@ var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
 		{name:"index_atlas_", frames: [[994,0,992,870],[0,0,992,870],[988,872,980,826],[0,872,986,832]]},
-		{name:"index_atlas_2", frames: [[944,770,939,519],[0,770,942,522],[944,1291,894,540],[0,0,768,768],[0,1294,512,512],[770,0,768,768]]},
+		{name:"index_atlas_2", frames: [[944,770,939,519],[0,770,942,522],[944,1291,894,540],[770,0,768,768],[0,0,768,768],[0,1294,512,512]]},
 		{name:"index_atlas_3", frames: [[514,470,398,398],[502,514,4,12],[81,842,29,21],[196,615,188,188],[416,514,84,117],[0,615,194,194],[0,811,51,51],[0,870,894,148],[0,1110,894,20],[196,805,62,62],[514,0,468,468],[53,842,26,26],[386,615,28,28],[0,514,414,99],[416,1020,414,7],[0,1020,414,88],[53,811,46,29],[0,0,512,512]]}
 ];
 
@@ -189,22 +189,22 @@ lib.ssMetadata = [
 
 
 (lib.eggsketches2 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(4);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(17);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.SLUGGITY = function() {
 	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(5);
+	this.gotoAndStop(4);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.terratortleegg = function() {
-	this.initialize(ss["index_atlas_3"]);
-	this.gotoAndStop(17);
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(5);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -568,266 +568,482 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 	this.frame_0 = function() {
 		//localStorage.removeItem("eggGameSave");
 		//location.reload();
-		// --------------------------------------------------
-		// SAVE SYSTEM
-		// --------------------------------------------------
+		// ==================================================
+		 // SAVE SYSTEM
+		 // Adobe Animate / CreateJS + Firestore REST API
+		 // ==================================================
 		
-		// Only define it once, even if frame 1 ever runs again
 		if (!window.SaveSystem) {
 		
 		    window.SaveSystem = (function () {
 		
-		        // ---------- Settings ----------
+		        // --------------------------------------------------
+		        // SETTINGS
+		        // --------------------------------------------------
+		
 		        var PROJECT_ID = "alister-1e745";
-		        var DOC_BASE =
-		            "https://firestore.googleapis.com/v1/projects/" + PROJECT_ID +
-		            "/databases/(default)/documents/players/";
-		        var SAVE_PATH = "/saves/main";
 		
-		        var SECRET     = "q7Xv2LmK9tRb4WzN8cPd3HfYs6JgUa1EoTn5MiVq0XrBz7CwA4kDe9Gy2Su8Fh3L";   // pick once, never change
-		        var LOCAL_KEY  = "eggGameSave";
-		        var SAVE_DELAY = 1000;              // save 1 second after the last change
-		        var WAIT_DELAY = 5000;              // waiting for sign-in or encryption
-		        var BASE_RETRY = 5000;              // first retry after a failed request
-		        var MAX_RETRY  = 5 * 60 * 1000;     // never wait more than 5 minutes between retries
+		        var FIRESTORE_ROOT =
+		            "https://firestore.googleapis.com/v1/projects/" +
+		            PROJECT_ID +
+		            "/databases/(default)/documents";
 		
-		        // Starter eggs for a brand-new player (monsterId of each species).
-		        // 4 = Terratortle, so [4, 4] is two Terratortle eggs.
+		        // New save location:
+		        // usernames/{username}/saves/main
+		        var SAVE_DELAY = 1000;
+		        var WAIT_DELAY = 5000;
+		        var BASE_RETRY = 5000;
+		        var MAX_RETRY = 5 * 60 * 1000;
+		
+		        var LOCAL_KEY = "eggGameSave";
+		
+		        // Retain your existing encryption format for compatibility.
+		        // This key is visible to anyone who can download the game.
+		        var SECRET =
+		            "q7Xv2LmK9tRb4WzN8cPd3HfYs6JgUa1EoTn5MiVq0XrBz7CwA4kDe9Gy2Su8Fh3L";
+		
 		        var STARTER_EGGS = [4, 4];
-		
-		        // How many egg slots the player has
 		        var SLOT_COUNT = 5;
+		        var EXPORT_LIMIT = 6;
 		
-		        // Starting values for a brand-new player.
-		        // Add a key here to store new data (number, string or array).
+		        // --------------------------------------------------
+		        // DEFAULT SAVE DATA
+		        // --------------------------------------------------
+		
 		        var DEFAULTS = {
 		            starGems: 0,
 		            cryst: 0,
 		            eggEndTimes: "0,0,0,0,0",
 		            eggLevel: 1,
-		            eggs: [],               // owned eggs, saved as species monsterIds
-		            starterGiven: 0,        // 1 once the starter eggs were handed out
-		            discovered: [],         // every egg species the player has ever had (monsterIds)
-		            slots: [0, 0, 0, 0, 0], // the egg in each slot (species monsterId, 0 = empty)
-		            tapReduction: 5,        // seconds removed from an egg timer per tap
-		            monsters: [],           // owned monsters: { uid, monsterId, name, nickname, shiny, level, experience, nature, gender, heldItem }
-		            monsterSeq: 1           // next monster uid to hand out
+		            eggs: [],
+		            starterGiven: 0,
+		            discovered: [],
+		            slots: [0, 0, 0, 0, 0],
+		            tapReduction: 5,
+		            monsters: [],
+		            monsterSeq: 1
 		        };
+		
 		        var NAMES = Object.keys(DEFAULTS);
 		
-		        // ---------- State ----------
+		        // --------------------------------------------------
+		        // STATE
+		        // --------------------------------------------------
+		
 		        var data = {};
-		        var blob = null;             // latest encrypted save, always ready to send
+		        var blob = null;
 		        var sealSeq = 0;
 		        var dirty = {};
 		        var listeners = {};
+		
 		        var loaded = false;
-		        var owner = null;            // "cloud:<uid>" or "local"
+		        var owner = null;
 		        var loadingFor = null;
 		        var loadPromise = null;
+		
 		        var saveTimer = null;
 		        var loadTimer = null;
+		
 		        var saving = false;
 		        var loadFailures = 0;
 		        var saveFailures = 0;
-		        var migrate = false;         // true when the save has to be written to the new place
+		        var migrate = false;
 		
+		        // --------------------------------------------------
+		        // RETRY HELPERS
+		        // --------------------------------------------------
 		
-		        // ---------- Retry helpers ----------
 		        function backoff(failures) {
-		            return Math.min(BASE_RETRY * Math.pow(2, failures - 1), MAX_RETRY);
+		            return Math.min(
+		                BASE_RETRY * Math.pow(2, failures - 1),
+		                MAX_RETRY
+		            );
 		        }
 		
-		        // Sign-in and rules problems won't fix themselves, so don't keep retrying them
 		        function isFatal(err) {
-		            return /HTTP (401|403)/.test(String(err && err.message));
+		            return /HTTP (401|403)/.test(
+		                String(err && err.message)
+		            );
 		        }
 		
+		        // --------------------------------------------------
+		        // PLAYER IDENTITY
+		        // --------------------------------------------------
 		
-		        // ---------- Who is playing? ----------
 		        function currentOwner() {
 		            var u = exportRoot.user;
-		            if (u && exportRoot.idToken && u.uid !== "dev-user") {
+		
+		            if (
+		                u &&
+		                exportRoot.idToken &&
+		                u.uid &&
+		                u.uid !== "dev-user" &&
+		                u.username
+		            ) {
 		                return "cloud:" + u.uid;
 		            }
-		            return "local";          // logged out, unverified, or testing
+		
+		            return "local";
 		        }
 		
 		        function uidOf(o) {
 		            return o.slice(6);
 		        }
 		
+		        function usernameOf() {
+		            var u = exportRoot.user;
+		
+		            if (!u || !u.username) {
+		                throw new Error("missing-username");
+		            }
+		
+		            return String(u.username);
+		        }
+		
+		        function usernameDocumentUrl() {
+		            return FIRESTORE_ROOT +
+		                "/usernames/" +
+		                encodeURIComponent(usernameOf());
+		        }
+		
 		        function saveUrl() {
-		            return DOC_BASE + uidOf(owner) + SAVE_PATH;
+		            return usernameDocumentUrl() + "/saves/main";
 		        }
 		
 		        function authHeaders() {
+		            if (!exportRoot.idToken) {
+		                throw new Error("missing-auth-token");
+		            }
+		
 		            return {
-		                "Authorization": "Bearer " + exportRoot.idToken,
+		                "Authorization":
+		                    "Bearer " + exportRoot.idToken,
 		                "Content-Type": "application/json"
 		            };
 		        }
 		
-		        // Reads a Firestore document, or returns null if it doesn't exist
+		        // --------------------------------------------------
+		        // FIRESTORE READ
+		        // --------------------------------------------------
+		
 		        function getDoc(url) {
-		            return fetch(url, { headers: authHeaders() }).then(function (r) {
-		                if (r.status === 404) return null;
-		                if (!r.ok) throw new Error("HTTP " + r.status);
+		            return fetch(url, {
+		                headers: authHeaders()
+		            }).then(function (r) {
+		                if (r.status === 404) {
+		                    return null;
+		                }
+		
+		                if (!r.ok) {
+		                    throw new Error("HTTP " + r.status);
+		                }
+		
 		                return r.json();
 		            });
 		        }
 		
+		        // --------------------------------------------------
+		        // ENCRYPTION
+		        // --------------------------------------------------
 		
-		        // ---------- Encryption (AES-GCM) ----------
-		        // crypto.subtle only exists on https or localhost. Anywhere else
-		        // (like the Animate preview) the save is stored as plain base64
-		        // with a "plain:" prefix, so nothing can throw.
-		        var canCrypto = !!(window.crypto && crypto.subtle);
+		        var canCrypto = !!(
+		            window.crypto &&
+		            window.crypto.subtle
+		        );
+		
 		        var keyPromise = null;
 		
-		        function toB64(s)   { return btoa(unescape(encodeURIComponent(s))); }
-		        function fromB64(s) { return decodeURIComponent(escape(atob(s))); }
+		        function toB64(s) {
+		            return btoa(unescape(encodeURIComponent(s)));
+		        }
+		
+		        function fromB64(s) {
+		            return decodeURIComponent(escape(atob(s)));
+		        }
 		
 		        function getKey() {
 		            if (!keyPromise) {
 		                var enc = new TextEncoder();
-		                keyPromise = crypto.subtle.importKey("raw", enc.encode(SECRET), "PBKDF2", false, ["deriveKey"])
-		                    .then(function (base) {
-		                        return crypto.subtle.deriveKey(
-		                            { name: "PBKDF2", salt: enc.encode("alister"), iterations: 100000, hash: "SHA-256" },
-		                            base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
-		                        );
-		                    });
+		
+		                keyPromise = crypto.subtle.importKey(
+		                    "raw",
+		                    enc.encode(SECRET),
+		                    "PBKDF2",
+		                    false,
+		                    ["deriveKey"]
+		                ).then(function (base) {
+		                    return crypto.subtle.deriveKey(
+		                        {
+		                            name: "PBKDF2",
+		                            salt: enc.encode("alister"),
+		                            iterations: 100000,
+		                            hash: "SHA-256"
+		                        },
+		                        base,
+		                        {
+		                            name: "AES-GCM",
+		                            length: 256
+		                        },
+		                        false,
+		                        ["encrypt", "decrypt"]
+		                    );
+		                });
 		            }
+		
 		            return keyPromise;
 		        }
 		
-		        // Both always return a promise and never throw
 		        function encrypt(obj) {
 		            return Promise.resolve().then(function () {
 		                var json = JSON.stringify(obj);
-		                if (!canCrypto) return "plain:" + toB64(json);
 		
-		                var iv = crypto.getRandomValues(new Uint8Array(12));
-		                return getKey().then(function (k) {
-		                    return crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, k, new TextEncoder().encode(json));
+		                if (!canCrypto) {
+		                    return "plain:" + toB64(json);
+		                }
+		
+		                var iv = crypto.getRandomValues(
+		                    new Uint8Array(12)
+		                );
+		
+		                return getKey().then(function (key) {
+		                    return crypto.subtle.encrypt(
+		                        {
+		                            name: "AES-GCM",
+		                            iv: iv
+		                        },
+		                        key,
+		                        new TextEncoder().encode(json)
+		                    );
 		                }).then(function (buf) {
-		                    var out = new Uint8Array(12 + buf.byteLength);
+		                    var out = new Uint8Array(
+		                        12 + buf.byteLength
+		                    );
+		
 		                    out.set(iv);
 		                    out.set(new Uint8Array(buf), 12);
-		                    return btoa(String.fromCharCode.apply(null, out));
+		
+		                    return btoa(
+		                        String.fromCharCode.apply(null, out)
+		                    );
 		                });
 		            });
 		        }
 		
 		        function decrypt(str) {
 		            return Promise.resolve().then(function () {
-		                if (str.indexOf("plain:") === 0) return JSON.parse(fromB64(str.slice(6)));
-		                if (!canCrypto) throw new Error("Encrypted save needs https");
+		                str = String(str);
 		
-		                var bytes = Uint8Array.from(atob(str), function (c) { return c.charCodeAt(0); });
-		                return getKey().then(function (k) {
-		                    return crypto.subtle.decrypt({ name: "AES-GCM", iv: bytes.slice(0, 12) }, k, bytes.slice(12));
+		                if (str.indexOf("plain:") === 0) {
+		                    return JSON.parse(fromB64(str.slice(6)));
+		                }
+		
+		                if (!canCrypto) {
+		                    throw new Error(
+		                        "Encrypted save requires HTTPS."
+		                    );
+		                }
+		
+		                var bytes = Uint8Array.from(
+		                    atob(str),
+		                    function (c) {
+		                        return c.charCodeAt(0);
+		                    }
+		                );
+		
+		                return getKey().then(function (key) {
+		                    return crypto.subtle.decrypt(
+		                        {
+		                            name: "AES-GCM",
+		                            iv: bytes.slice(0, 12)
+		                        },
+		                        key,
+		                        bytes.slice(12)
+		                    );
 		                }).then(function (buf) {
-		                    return JSON.parse(new TextDecoder().decode(buf));
+		                    return JSON.parse(
+		                        new TextDecoder().decode(buf)
+		                    );
 		                });
 		            });
 		        }
 		
-		        // Encrypts in the background so flush() can send synchronously (needed on pagehide).
-		        // Only the newest call is allowed to set the blob.
+		        // --------------------------------------------------
+		        // ENCRYPT CURRENT DATA
+		        // --------------------------------------------------
+		
 		        function seal() {
 		            var n = ++sealSeq;
+		
 		            return encrypt(data).then(function (b) {
-		                if (n === sealSeq) blob = b;
-		            }).catch(console.error);
+		                if (n === sealSeq) {
+		                    blob = b;
+		                }
+		            }).catch(function (err) {
+		                console.error(
+		                    "SaveSystem: encryption failed",
+		                    err
+		                );
+		            });
 		        }
 		
+		        // --------------------------------------------------
+		        // LOCAL STORAGE
+		        // --------------------------------------------------
 		
-		        // ---------- Local (browser) storage ----------
 		        function localRead() {
 		            var s = null;
-		            try { s = localStorage.getItem(LOCAL_KEY); } catch (e) {}
-		            if (!s) return Promise.resolve({});
+		
+		            try {
+		                s = localStorage.getItem(LOCAL_KEY);
+		            } catch (e) {}
+		
+		            if (!s) {
+		                return Promise.resolve({});
+		            }
+		
 		            return decrypt(s).catch(function () {
-		                try { return JSON.parse(s) || {}; } catch (e) { return {}; }   // old unencrypted save
+		                // Compatibility with older plain JSON saves.
+		                try {
+		                    return JSON.parse(s) || {};
+		                } catch (e) {
+		                    return {};
+		                }
 		            });
 		        }
 		
 		        function localWrite() {
-		            try { localStorage.setItem(LOCAL_KEY, blob); } catch (e) {}
+		            try {
+		                if (blob) {
+		                    localStorage.setItem(LOCAL_KEY, blob);
+		                }
+		            } catch (e) {
+		                console.error(
+		                    "SaveSystem: local storage failed",
+		                    e
+		                );
+		            }
 		        }
 		
+		        // --------------------------------------------------
+		        // GENERAL HELPERS
+		        // --------------------------------------------------
 		
-		        // ---------- Helpers ----------
 		        function clean(v) {
 		            v = Math.floor(Number(v));
-		            return (isFinite(v) && v > 0) ? v : 0;
+		
+		            return isFinite(v) && v > 0 ? v : 0;
 		        }
 		
 		        function notify(name) {
 		            Object.keys(listeners).forEach(function (k) {
 		                try {
-		                    listeners[k](name, name ? data[name] : null);
+		                    listeners[k](
+		                        name,
+		                        name ? data[name] : null
+		                    );
 		                } catch (e) {
 		                    console.error(e);
 		                }
 		            });
 		        }
 		
-		        // True when a stored value has the same kind as its default
-		        // (number, string, or array)
 		        function sameType(v, d) {
-		            if (Array.isArray(d)) return Array.isArray(v);
+		            if (Array.isArray(d)) {
+		                return Array.isArray(v);
+		            }
+		
 		            return typeof v === typeof d && v !== null;
 		        }
 		
-		        // The species name for a monsterId, or "" if the species list isn't loaded
 		        function speciesName(monsterId) {
-		            var s = window.Monster && Monster.BY_ID && Monster.BY_ID[monsterId];
-		            return s ? s.name : "";
+		            var species =
+		                window.Monster &&
+		                Monster.BY_ID &&
+		                Monster.BY_ID[monsterId];
+		
+		            return species ? species.name : "";
 		        }
 		
-		        // Copies stored values into data; missing or wrong-type values get defaults.
-		        // Defaults are copied, so arrays are never shared between players.
+		        // --------------------------------------------------
+		        // APPLY LOADED SAVE
+		        // --------------------------------------------------
+		
 		        function apply(stored) {
-		            NAMES.forEach(function (n) {
-		                var v = stored[n];
-		                if (sameType(v, DEFAULTS[n])) {
-		                    data[n] = typeof v === "number" ? clean(v) : v;
+		            stored = stored || {};
+		
+		            NAMES.forEach(function (name) {
+		                var v = stored[name];
+		
+		                if (sameType(v, DEFAULTS[name])) {
+		                    data[name] =
+		                        typeof v === "number" ? clean(v) : v;
 		                } else {
-		                    data[n] = JSON.parse(JSON.stringify(DEFAULTS[n]));
-		                    dirty[n] = true;
+		                    data[name] = JSON.parse(
+		                        JSON.stringify(DEFAULTS[name])
+		                    );
+		
+		                    dirty[name] = true;
 		                }
 		            });
 		
-		            // Drop broken monster records and keep monsterSeq ahead of every uid
+		            // Ensure the egg slot array has exactly five entries.
+		            data.slots = data.slots.slice(0, SLOT_COUNT);
+		
+		            while (data.slots.length < SLOT_COUNT) {
+		                data.slots.push(0);
+		            }
+		
+		            // Remove malformed monster records.
 		            data.monsters = data.monsters.filter(function (m) {
-		                return m && clean(m.monsterId) > 0 && clean(m.uid) > 0;
+		                return m &&
+		                    clean(m.monsterId) > 0 &&
+		                    clean(m.uid) > 0;
 		            });
 		
-		            // Older saves have no species name: fill it in from the species list
+		            // Restore missing species names in older saves.
 		            data.monsters = data.monsters.map(function (m) {
-		                if (typeof m.name === "string" && m.name !== "") return m;
+		                if (typeof m.name === "string" && m.name) {
+		                    return m;
+		                }
+		
 		                var name = speciesName(m.monsterId);
-		                if (!name) return m;
+		
+		                if (!name) {
+		                    return m;
+		                }
+		
 		                dirty.monsters = true;
-		                return Object.assign({}, m, { name: name });
+		
+		                return Object.assign({}, m, {
+		                    name: name
+		                });
 		            });
 		
 		            var top = 0;
-		            data.monsters.forEach(function (m) { if (m.uid > top) top = m.uid; });
-		            if (data.monsterSeq < 1 || data.monsterSeq <= top) {
+		
+		            data.monsters.forEach(function (m) {
+		                if (m.uid > top) {
+		                    top = m.uid;
+		                }
+		            });
+		
+		            if (
+		                data.monsterSeq < 1 ||
+		                data.monsterSeq <= top
+		            ) {
 		                data.monsterSeq = top + 1;
 		                dirty.monsterSeq = true;
 		            }
 		        }
 		
-		        // New players with no eggs get the starter eggs, once.
-		        // Players who already have eggs are just marked as done.
-		        function giveStarterEggs() {
+		        // --------------------------------------------------
+		        // STARTER EGGS
+		        // --------------------------------------------------
 		
-		            if (data.starterGiven) return;
+		        function giveStarterEggs() {
+		            if (data.starterGiven) {
+		                return;
+		            }
 		
 		            if (data.eggs.length === 0) {
 		                data.eggs = STARTER_EGGS.slice();
@@ -838,66 +1054,140 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            dirty.starterGiven = true;
 		        }
 		
-		        // Records every egg the player owns as discovered (never removes anything)
 		        function markDiscovered() {
-		
 		            var found = data.discovered.slice();
 		
 		            data.eggs.forEach(function (id) {
-		                if (found.indexOf(id) < 0) found.push(id);
+		                if (found.indexOf(id) < 0) {
+		                    found.push(id);
+		                }
 		            });
 		
-		            if (found.length !== data.discovered.length) {
+		            if (
+		                found.length !== data.discovered.length
+		            ) {
 		                data.discovered = found;
 		                dirty.discovered = true;
 		            }
 		        }
 		
+		        // --------------------------------------------------
+		        // CLOUD LOAD AND LEGACY MIGRATION
+		        // --------------------------------------------------
 		
-		        // ---------- Loading ----------
 		        function cloudRead() {
 		            return getDoc(saveUrl()).then(function (doc) {
-		                var f = doc && doc.fields;
-		                if (f && f.save && f.save.stringValue) {
+		                var fields = doc && doc.fields;
+		
+		                if (
+		                    fields &&
+		                    fields.save &&
+		                    fields.save.stringValue
+		                ) {
 		                    migrate = false;
-		                    return decrypt(f.save.stringValue);
+		
+		                    return decrypt(
+		                        fields.save.stringValue
+		                    );
 		                }
 		
-		                // Nothing in the sub collection yet: look at the old location
+		                // No save under the username yet.
+		                // Read the legacy UID-based save.
 		                migrate = true;
-		                return getDoc(DOC_BASE + uidOf(owner)).then(function (old) {
-		                    var o = (old && old.fields) || {};
-		                    if (o.save && o.save.stringValue) return decrypt(o.save.stringValue);
 		
-		                    var out = {};
-		                    NAMES.forEach(function (n) {
-		                        if (o[n] && o[n].stringValue !== undefined) out[n] = o[n].stringValue;
-		                        else if (o[n] && o[n].integerValue !== undefined) out[n] = Number(o[n].integerValue);
+		                return getDoc(
+		                    FIRESTORE_ROOT +
+		                    "/players/" +
+		                    encodeURIComponent(uidOf(owner))
+		                ).then(function (old) {
+		                    var fields = (old && old.fields) || {};
+		
+		                    if (
+		                        fields.save &&
+		                        fields.save.stringValue
+		                    ) {
+		                        return decrypt(
+		                            fields.save.stringValue
+		                        );
+		                    }
+		
+		                    var result = {};
+		
+		                    NAMES.forEach(function (name) {
+		                        var field = fields[name];
+		
+		                        if (!field) {
+		                            return;
+		                        }
+		
+		                        if (field.stringValue !== undefined) {
+		                            var value = field.stringValue;
+		
+		                            if (
+		                                value &&
+		                                (
+		                                    value.charAt(0) === "[" ||
+		                                    value.charAt(0) === "{"
+		                                )
+		                            ) {
+		                                try {
+		                                    value = JSON.parse(value);
+		                                } catch (e) {}
+		                            }
+		
+		                            result[name] = value;
+		
+		                        } else if (
+		                            field.integerValue !== undefined
+		                        ) {
+		                            result[name] =
+		                                Number(field.integerValue);
+		
+		                        } else if (
+		                            field.booleanValue !== undefined
+		                        ) {
+		                            result[name] =
+		                                field.booleanValue;
+		                        }
 		                    });
-		                    return out;
+		
+		                    return result;
 		                });
 		            });
 		        }
+		
+		        // --------------------------------------------------
+		        // LOAD
+		        // --------------------------------------------------
 		
 		        function load() {
 		            var wanted = currentOwner();
 		
 		            if (loaded && owner === wanted) {
-		                // A fresh login token arrived: retry anything that failed to save
-		                if (Object.keys(dirty).length) queueSave(SAVE_DELAY);
+		                if (Object.keys(dirty).length) {
+		                    queueSave(SAVE_DELAY);
+		                }
+		
 		                return Promise.resolve(data);
 		            }
-		            if (loadingFor === wanted && loadPromise) return loadPromise;
 		
-		            // A different player, or signed out: start clean
+		            if (
+		                loadingFor === wanted &&
+		                loadPromise
+		            ) {
+		                return loadPromise;
+		            }
+		
 		            if (owner !== wanted) {
 		                owner = wanted;
 		                loaded = false;
 		                data = {};
 		                blob = null;
 		                dirty = {};
+		                saving = false;
 		                loadFailures = 0;
 		                saveFailures = 0;
+		                migrate = false;
 		            }
 		
 		            loadingFor = wanted;
@@ -907,11 +1197,12 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                loadTimer = null;
 		            }
 		
-		            var read = (wanted === "local") ? localRead() : cloudRead();
+		            var read =
+		                wanted === "local" ?
+		                localRead() :
+		                cloudRead();
 		
 		            loadPromise = read.then(function (stored) {
-		
-		                // The player changed while we were loading: load the new one
 		                if (currentOwner() !== wanted) {
 		                    loadingFor = null;
 		                    loadPromise = null;
@@ -922,67 +1213,85 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		                apply(stored);
 		
-		                // Existing player: copy the save into the new document
+		                // Migrate old saves to the username profile.
 		                if (migrate) {
-		                    NAMES.forEach(function (n) { dirty[n] = true; });
+		                    NAMES.forEach(function (name) {
+		                        dirty[name] = true;
+		                    });
+		
 		                    migrate = false;
 		                }
 		
-		                // New player (or one who never got them): hand out the starter eggs
 		                giveStarterEggs();
 		                markDiscovered();
-		
-		                seal();
 		
 		                loaded = true;
 		                loadingFor = null;
 		                loadPromise = null;
+		
+		                seal();
 		                notify(null);
 		                queueSave(SAVE_DELAY);
+		
 		                return data;
 		
 		            }).catch(function (err) {
-		                console.error("SaveSystem: load failed", err);
+		                console.error(
+		                    "SaveSystem: load failed",
+		                    err
+		                );
+		
 		                loadingFor = null;
 		                loadPromise = null;
 		                loadFailures++;
 		
-		                // A local save must never block the game: start from the defaults
+		                // Local saves may start from defaults.
 		                if (wanted === "local") {
 		                    apply({});
 		                    giveStarterEggs();
 		                    markDiscovered();
-		                    seal();
+		
 		                    loaded = true;
+		
+		                    seal();
 		                    notify(null);
+		
 		                    return data;
 		                }
 		
-		                // Cloud: never save anything if loading failed, or we could
-		                // overwrite the real save with the defaults
+		                // Never overwrite a cloud save when its read fails.
 		                if (isFatal(err)) {
 		                    console.error(
-		                        "SaveSystem: not retrying automatically. " +
-		                        "Check the Firestore rules and that the player is signed in. " +
-		                        "It will try again when the login token refreshes."
+		                        "SaveSystem: cloud load failed. " +
+		                        "Check authentication, username ownership, " +
+		                        "and Firestore rules."
 		                    );
 		                } else {
-		                    loadTimer = setTimeout(load, backoff(loadFailures));
+		                    loadTimer = setTimeout(
+		                        load,
+		                        backoff(loadFailures)
+		                    );
 		                }
+		
 		                return null;
 		            });
 		
 		            return loadPromise;
 		        }
 		
+		        // --------------------------------------------------
+		        // SAVE QUEUE
+		        // --------------------------------------------------
 		
-		        // ---------- Saving ----------
 		        function queueSave(delay) {
 		            if (saveTimer) {
 		                clearTimeout(saveTimer);
 		                saveTimer = null;
 		            }
-		            if (!Object.keys(dirty).length) return;
+		
+		            if (!Object.keys(dirty).length) {
+		                return;
+		            }
 		
 		            saveTimer = setTimeout(function () {
 		                saveTimer = null;
@@ -990,13 +1299,22 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            }, delay);
 		        }
 		
+		        // --------------------------------------------------
+		        // WRITE MAIN SAVE TO FIRESTORE
+		        // --------------------------------------------------
+		
 		        function flush(leaving) {
 		            var names = Object.keys(dirty);
-		            if (!loaded || !names.length) return;
 		
-		            // Encryption not finished yet: try again shortly
+		            if (!loaded || !names.length) {
+		                return;
+		            }
+		
 		            if (!blob) {
-		                if (!leaving) queueSave(500);
+		                if (!leaving) {
+		                    queueSave(500);
+		                }
+		
 		                return;
 		            }
 		
@@ -1006,77 +1324,167 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                return;
 		            }
 		
-		            // Cloud: only save if the same player is still signed in
 		            var u = exportRoot.user;
-		            if (!exportRoot.idToken || !u || ("cloud:" + u.uid) !== owner) {
-		                queueSave(WAIT_DELAY);       // waiting for sign-in, no request sent
+		
+		            if (
+		                !exportRoot.idToken ||
+		                !u ||
+		                !u.uid ||
+		                ("cloud:" + u.uid) !== owner ||
+		                !u.username
+		            ) {
+		                queueSave(WAIT_DELAY);
 		                return;
 		            }
+		
 		            if (saving && !leaving) {
 		                queueSave(WAIT_DELAY);
+		                return;
+		            }
+		
+		            // Firestore rules require save to be a string
+		            // shorter than 20,000 characters.
+		            if (blob.length >= 20000) {
+		                console.error(
+		                    "SaveSystem: save is too large for " +
+		                    "the current Firestore rules."
+		                );
+		
+		                return;
+		            }
+		
+		            var saveSnapshot = blob;
+		            var startOwner = owner;
+		            var url;
+		
+		            try {
+		                url = saveUrl() +
+		                    "?updateMask.fieldPaths=save";
+		            } catch (e) {
+		                console.error(e);
 		                return;
 		            }
 		
 		            saving = true;
 		            dirty = {};
 		
-		            var url = saveUrl() + "?updateMask.fieldPaths=save";
-		
 		            fetch(url, {
 		                method: "PATCH",
 		                headers: authHeaders(),
-		                body: JSON.stringify({ fields: { save: { stringValue: blob } } }),
-		                keepalive: !!leaving      // lets the save finish while the page closes
+		                body: JSON.stringify({
+		                    fields: {
+		                        save: {
+		                            stringValue: saveSnapshot
+		                        }
+		                    }
+		                }),
+		                keepalive: !!leaving
 		            }).then(function (r) {
-		                if (!r.ok) throw new Error("HTTP " + r.status);
+		                if (!r.ok) {
+		                    throw new Error("HTTP " + r.status);
+		                }
+		
 		                saveFailures = 0;
+		
 		            }).catch(function (err) {
-		                console.error("SaveSystem: save failed", err);
-		                names.forEach(function (n) { dirty[n] = true; });
+		                console.error(
+		                    "SaveSystem: save failed",
+		                    err
+		                );
+		
+		                // Do not mix another player's data into this save.
+		                if (owner === startOwner) {
+		                    names.forEach(function (name) {
+		                        dirty[name] = true;
+		                    });
+		                }
+		
 		                saveFailures++;
 		
 		                if (isFatal(err)) {
 		                    console.error(
-		                        "SaveSystem: not retrying automatically. " +
-		                        "It will try again on the next change or login refresh."
+		                        "SaveSystem: check username ownership, " +
+		                        "authentication, and Firestore rules."
 		                    );
 		                } else {
 		                    queueSave(backoff(saveFailures));
 		                }
+		
 		            }).then(function () {
 		                saving = false;
+		
+		                // Save any changes made during the request.
+		                if (Object.keys(dirty).length) {
+		                    queueSave(SAVE_DELAY);
+		                }
 		            });
 		        }
 		
-		        // Save right away when the player leaves or switches tabs
-		        document.addEventListener("visibilitychange", function () {
-		            if (document.visibilityState === "hidden") flush(true);
-		        });
+		        // --------------------------------------------------
+		        // SAVE WHEN LEAVING THE PAGE
+		        // --------------------------------------------------
+		
+		        document.addEventListener(
+		            "visibilitychange",
+		            function () {
+		                if (
+		                    document.visibilityState === "hidden"
+		                ) {
+		                    flush(true);
+		                }
+		            }
+		        );
+		
 		        window.addEventListener("pagehide", function () {
 		            flush(true);
 		        });
 		
+		        // --------------------------------------------------
+		        // PUBLIC DATA FUNCTIONS
+		        // --------------------------------------------------
 		
-		        // ---------- What the rest of the game uses ----------
 		        function get(name) {
-		            return data[name] !== undefined ? data[name] : 0;
+		            return data[name] !== undefined ?
+		                data[name] : 0;
 		        }
 		
 		        function set(name, value) {
-		            if (!loaded || NAMES.indexOf(name) < 0) {
-		                console.warn("SaveSystem: can't set", name, "(not loaded yet, or unknown name)");
+		            if (
+		                !loaded ||
+		                NAMES.indexOf(name) < 0
+		            ) {
+		                console.warn(
+		                    "SaveSystem: cannot set",
+		                    name,
+		                    "(not loaded or unknown key)"
+		                );
+		
 		                return false;
 		            }
 		
-		            if (typeof DEFAULTS[name] === "number") value = clean(value);
-		            if (JSON.stringify(value) === JSON.stringify(data[name])) return true;
+		            if (typeof DEFAULTS[name] === "number") {
+		                value = clean(value);
+		            }
+		
+		            if (
+		                JSON.stringify(value) ===
+		                JSON.stringify(data[name])
+		            ) {
+		                return true;
+		            }
 		
 		            data[name] = value;
-		            if (name === "eggs") markDiscovered();
+		
+		            if (name === "eggs") {
+		                markDiscovered();
+		            }
+		
 		            dirty[name] = true;
+		
 		            seal();
 		            notify(name);
 		            queueSave(SAVE_DELAY);
+		
 		            return true;
 		        }
 		
@@ -1084,40 +1492,59 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            return set(name, get(name) + amount);
 		        }
 		
-		        // Returns false (and changes nothing) if the player can't afford it
 		        function spend(name, amount) {
-		            if (!loaded || get(name) < amount) return false;
+		            if (!loaded || get(name) < amount) {
+		                return false;
+		            }
+		
 		            return set(name, get(name) - amount);
 		        }
 		
-		        // Moves one owned egg of this species into an empty slot.
-		        //   slot       0 to 4
-		        //   monsterId  the species of the egg
-		        //   endTime    when it finishes hatching (ms, like Date.now())
-		        // Returns false (and changes nothing) if the slot is taken
-		        // or the player doesn't own that egg.
+		        // --------------------------------------------------
+		        // EGG PLACEMENT
+		        // --------------------------------------------------
+		
 		        function placeEgg(slot, monsterId, endTime) {
+		            if (
+		                !loaded ||
+		                slot < 0 ||
+		                slot >= SLOT_COUNT
+		            ) {
+		                return false;
+		            }
 		
-		            if (!loaded || slot < 0 || slot >= SLOT_COUNT) return false;
-		
-		            // Keep the slots list the right length
 		            var slots = data.slots.slice();
-		            while (slots.length < SLOT_COUNT) slots.push(0);
 		
-		            if (slots[slot]) return false;                    // slot already has an egg
+		            while (slots.length < SLOT_COUNT) {
+		                slots.push(0);
+		            }
+		
+		            if (slots[slot]) {
+		                return false;
+		            }
 		
 		            var at = data.eggs.indexOf(monsterId);
-		            if (at < 0) return false;                         // player doesn't own one
+		
+		            if (at < 0) {
+		                return false;
+		            }
 		
 		            var eggs = data.eggs.slice();
-		            eggs.splice(at, 1);                               // use up one owned egg
+		            eggs.splice(at, 1);
 		
 		            slots[slot] = monsterId;
 		
-		            // eggEndTimes is "t0,t1,t2,t3,t4" with 0 for an empty slot
-		            var times = String(data.eggEndTimes).split(",");
-		            while (times.length < SLOT_COUNT) times.push("0");
-		            times[slot] = String(Math.floor(endTime));
+		            var times = String(
+		                data.eggEndTimes
+		            ).split(",");
+		
+		            while (times.length < SLOT_COUNT) {
+		                times.push("0");
+		            }
+		
+		            times[slot] = String(
+		                Math.floor(Number(endTime) || 0)
+		            );
 		
 		            set("slots", slots);
 		            set("eggs", eggs);
@@ -1126,24 +1553,43 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            return true;
 		        }
 		
-		
-		        // ---------- Monsters ----------
-		        // The save only stores what is unique to each owned monster, plus the
-		        // species name. Base stats, types and descriptions come from the species
-		        // list (Monster.BY_ID) when a full Monster object is built.
+		        // --------------------------------------------------
+		        // MONSTERS
+		        // --------------------------------------------------
 		
 		        function randomNature() {
-		            var names = Object.keys(Monster.NATURE_MODIFIERS);
-		            return names[Math.floor(Math.random() * names.length)];
+		            if (
+		                !window.Monster ||
+		                !Monster.NATURE_MODIFIERS
+		            ) {
+		                return "Hardy";
+		            }
+		
+		            var names = Object.keys(
+		                Monster.NATURE_MODIFIERS
+		            );
+		
+		            return names[
+		                Math.floor(Math.random() * names.length)
+		            ] || "Hardy";
 		        }
 		
-		        // Creates a new monster of this species. Returns its uid, or 0 on failure.
-		        // `extra` can override fields, e.g. { level: 5, shiny: true }
 		        function addMonster(monsterId, extra) {
-		            if (!loaded || !Monster.BY_ID[monsterId]) return 0;
+		            if (
+		                !loaded ||
+		                !window.Monster ||
+		                !Monster.BY_ID ||
+		                !Monster.BY_ID[monsterId]
+		            ) {
+		                return 0;
+		            }
 		
 		            var species = Monster.BY_ID[monsterId];
 		            var uid = data.monsterSeq;
+		
+		            var genderRate =
+		                typeof species.genderRate === "number" ?
+		                species.genderRate : 50;
 		
 		            var rec = {
 		                uid: uid,
@@ -1154,73 +1600,154 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                level: 1,
 		                experience: 0,
 		                nature: randomNature(),
-		                gender: (Math.random() * 100 < species.genderRate) ? "Female" : "Male",
+		                gender:
+		                    Math.random() * 100 < genderRate ?
+		                    "Female" : "Male",
 		                heldItem: null
 		            };
-		            if (extra) Object.keys(extra).forEach(function (k) { rec[k] = extra[k]; });
-		            rec.uid = uid;               // never let extra change the uid
-		            rec.monsterId = monsterId;   // or the species
-		            rec.name = species.name;     // or the species name
+		
+		            if (extra) {
+		                Object.keys(extra).forEach(function (k) {
+		                    rec[k] = extra[k];
+		                });
+		            }
+		
+		            // Identity fields cannot be overridden.
+		            rec.uid = uid;
+		            rec.monsterId = monsterId;
+		            rec.name = species.name;
+		
+		            rec.level = Math.max(
+		                1,
+		                Math.min(100, clean(rec.level) || 1)
+		            );
+		
+		            rec.experience = clean(rec.experience);
 		
 		            var list = data.monsters.slice();
 		            list.push(rec);
 		
 		            set("monsters", list);
 		            set("monsterSeq", uid + 1);
+		
 		            return uid;
 		        }
 		
 		        function getMonsterRecord(uid) {
 		            for (var i = 0; i < data.monsters.length; i++) {
-		                if (data.monsters[i].uid === uid) return data.monsters[i];
+		                if (data.monsters[i].uid === uid) {
+		                    return data.monsters[i];
+		                }
 		            }
+		
 		            return null;
 		        }
 		
-		        // Returns a full Monster object (stats, types, description) for display and battles
 		        function getMonster(uid) {
 		            var rec = getMonsterRecord(uid);
-		            return rec ? Monster.fromSave(rec) : null;
+		
+		            if (!rec) {
+		                return null;
+		            }
+		
+		            return Monster.fromSave(rec);
 		        }
 		
 		        function getAllMonsters() {
-		            return data.monsters.map(Monster.fromSave).filter(Boolean);
+		            if (!window.Monster) {
+		                return [];
+		            }
+		
+		            return data.monsters.map(function (rec) {
+		                return Monster.fromSave(rec);
+		            }).filter(Boolean);
 		        }
 		
-		        // Change fields on one monster, e.g. updateMonster(3, { nickname: "Spike", level: 6 })
 		        function updateMonster(uid, changes) {
-		            if (!loaded) return false;
+		            if (!loaded || !changes) {
+		                return false;
+		            }
+		
 		            var found = false;
+		
 		            var list = data.monsters.map(function (m) {
-		                if (m.uid !== uid) return m;
+		                if (m.uid !== uid) {
+		                    return m;
+		                }
+		
 		                found = true;
+		
 		                var copy = Object.assign({}, m, changes);
-		                copy.uid = uid;
-		                copy.monsterId = m.monsterId;   // species can't change this way
-		                copy.name = m.name;             // and neither can its species name
+		
+		                copy.uid = m.uid;
+		                copy.monsterId = m.monsterId;
+		                copy.name = m.name;
+		
+		                copy.level = Math.max(
+		                    1,
+		                    Math.min(100, clean(copy.level) || 1)
+		                );
+		
+		                copy.experience = clean(copy.experience);
+		
 		                return copy;
 		            });
+		
 		            return found && set("monsters", list);
 		        }
 		
 		        function removeMonster(uid) {
-		            if (!loaded || !getMonsterRecord(uid)) return false;
-		            return set("monsters", data.monsters.filter(function (m) { return m.uid !== uid; }));
+		            if (
+		                !loaded ||
+		                !getMonsterRecord(uid)
+		            ) {
+		                return false;
+		            }
+		
+		            return set(
+		                "monsters",
+		                data.monsters.filter(function (m) {
+		                    return m.uid !== uid;
+		                })
+		            );
 		        }
 		
-		        // Hatches the egg in a slot once its timer is up. Returns the new monster's uid, or 0.
+		        // --------------------------------------------------
+		        // HATCH EGG
+		        // --------------------------------------------------
+		
 		        function hatchEgg(slot) {
-		            if (!loaded || slot < 0 || slot >= SLOT_COUNT) return 0;
+		            if (
+		                !loaded ||
+		                slot < 0 ||
+		                slot >= SLOT_COUNT
+		            ) {
+		                return 0;
+		            }
 		
 		            var monsterId = data.slots[slot];
-		            if (!monsterId) return 0;
 		
-		            var times = String(data.eggEndTimes).split(",");
-		            while (times.length < SLOT_COUNT) times.push("0");
-		            if (Date.now() < Number(times[slot])) return 0;   // not ready yet
+		            if (!monsterId) {
+		                return 0;
+		            }
+		
+		            var times = String(
+		                data.eggEndTimes
+		            ).split(",");
+		
+		            while (times.length < SLOT_COUNT) {
+		                times.push("0");
+		            }
+		
+		            if (Date.now() < Number(times[slot])) {
+		                return 0;
+		            }
 		
 		            var uid = addMonster(monsterId);
-		            if (!uid) return 0;
+		
+		            if (!uid) {
+		                return 0;
+		            }
 		
 		            var slots = data.slots.slice();
 		            slots[slot] = 0;
@@ -1228,74 +1755,133 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		            set("slots", slots);
 		            set("eggEndTimes", times.join(","));
+		
 		            return uid;
 		        }
 		
-		
-		        // ---------- Exported monsters (kept on the player's profile) ----------
-		        // Each exported monster is its own document:
-		        //   usernames/<username>/monsters/<0-5>
-		        // The document id is the export slot, so there can never be more than 6.
-		
-		        var EXPORT_LIMIT = 6;
-		        var DOCS_ROOT    = DOC_BASE.replace(/players\/$/, "");
+		        // --------------------------------------------------
+		        // EXPORTED MONSTERS
+		        // usernames/{username}/monsters/{0-5}
+		        // --------------------------------------------------
 		
 		        function exportName() {
-		            return exportRoot.user && exportRoot.user.username;
+		            return usernameOf();
 		        }
 		
 		        function fsValue(v) {
-		            if (v === null || v === undefined) return { nullValue: null };
-		            if (typeof v === "number")  return { integerValue: String(Math.floor(v)) };
-		            if (typeof v === "boolean") return { booleanValue: v };
-		            if (typeof v === "object")  return { stringValue: JSON.stringify(v) };
+		            if (v === null || v === undefined) {
+		                return { nullValue: null };
+		            }
+		
+		            if (typeof v === "number") {
+		                return {
+		                    integerValue: String(Math.floor(v))
+		                };
+		            }
+		
+		            if (typeof v === "boolean") {
+		                return { booleanValue: v };
+		            }
+		
 		            return { stringValue: String(v) };
 		        }
 		
 		        function fromFsValue(v) {
-		            if ("integerValue" in v) return Number(v.integerValue);
-		            if ("booleanValue" in v) return v.booleanValue;
-		            if ("stringValue" in v)  return v.stringValue;
+		            if ("integerValue" in v) {
+		                return Number(v.integerValue);
+		            }
+		
+		            if ("booleanValue" in v) {
+		                return v.booleanValue;
+		            }
+		
+		            if ("stringValue" in v) {
+		                return v.stringValue;
+		            }
+		
+		            if ("nullValue" in v) {
+		                return null;
+		            }
+		
 		            return null;
 		        }
 		
-		        // Resolves to [{ slot, rec }] for the monsters already exported
 		        function readExported() {
-		            var name = exportName();
+		            var name;
 		
-		            if (!owner || owner === "local" || !exportRoot.idToken || !name) {
-		                return Promise.reject(new Error("not-signed-in"));
+		            try {
+		                name = exportName();
+		            } catch (e) {
+		                return Promise.reject(e);
 		            }
 		
-		            var url = DOCS_ROOT + "usernames/" + encodeURIComponent(name) + "/monsters?pageSize=20";
+		            if (
+		                !owner ||
+		                owner === "local" ||
+		                !exportRoot.idToken ||
+		                !exportRoot.user ||
+		                ("cloud:" + exportRoot.user.uid) !== owner
+		            ) {
+		                return Promise.reject(
+		                    new Error("not-signed-in")
+		                );
+		            }
+		
+		            var url =
+		                FIRESTORE_ROOT +
+		                "/usernames/" +
+		                encodeURIComponent(name) +
+		                "/monsters?pageSize=20";
 		
 		            return getDoc(url).then(function (res) {
 		                var docs = (res && res.documents) || [];
 		
 		                return docs.map(function (d) {
 		                    var rec = {};
-		                    Object.keys(d.fields || {}).forEach(function (k) {
-		                        rec[k] = fromFsValue(d.fields[k]);
-		                    });
-		                    return { slot: Number(d.name.split("/").pop()), rec: rec };
+		
+		                    Object.keys(d.fields || {}).forEach(
+		                        function (k) {
+		                            rec[k] = fromFsValue(d.fields[k]);
+		                        }
+		                    );
+		
+		                    return {
+		                        slot: Number(
+		                            d.name.split("/").pop()
+		                        ),
+		                        rec: rec
+		                    };
 		                });
 		            });
 		        }
 		
-		        // Resolves to { count, limit }
 		        function getExportInfo() {
 		            return readExported().then(function (list) {
-		                return { count: list.length, limit: EXPORT_LIMIT };
+		                return {
+		                    count: list.length,
+		                    limit: EXPORT_LIMIT
+		                };
 		            });
 		        }
 		
-		        // Moves monsters (by uid) from the game save to the player's profile.
-		        // Never goes over EXPORT_LIMIT. Resolves to { count, limit }.
-		        // All the monsters are written in one all-or-nothing request, and they
-		        // only leave the game save after that request succeeded.
 		        function exportMonsters(uids) {
-		            if (!loaded) return Promise.reject(new Error("not-loaded"));
-		            if (owner === "local") return Promise.reject(new Error("not-signed-in"));
+		            if (!loaded) {
+		                return Promise.reject(
+		                    new Error("not-loaded")
+		                );
+		            }
+		
+		            if (owner === "local") {
+		                return Promise.reject(
+		                    new Error("not-signed-in")
+		                );
+		            }
+		
+		            if (!Array.isArray(uids) || !uids.length) {
+		                return Promise.reject(
+		                    new Error("nothing-selected")
+		                );
+		            }
 		
 		            var startOwner = owner;
 		
@@ -1303,74 +1889,163 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                return uids.indexOf(m.uid) >= 0;
 		            });
 		
-		            if (!picked.length) return Promise.reject(new Error("nothing-selected"));
+		            if (!picked.length) {
+		                return Promise.reject(
+		                    new Error("nothing-selected")
+		                );
+		            }
+		
+		            // Firestore rules allow only these fields.
+		            var allowedFields = [
+		                "uid",
+		                "monsterId",
+		                "name",
+		                "nickname",
+		                "shiny",
+		                "level",
+		                "experience",
+		                "nature",
+		                "gender",
+		                "heldItem"
+		            ];
 		
 		            return readExported().then(function (current) {
-		
-		                var used = {};
-		                current.forEach(function (e) { used[e.slot] = true; });
-		
-		                var free = [];
-		                for (var i = 0; i < EXPORT_LIMIT; i++) {
-		                    if (!used[i]) free.push(i);
+		                if (owner !== startOwner) {
+		                    throw new Error("player-changed");
 		                }
 		
-		                if (picked.length > free.length) throw new Error("limit");
+		                var used = {};
+		
+		                current.forEach(function (e) {
+		                    used[e.slot] = true;
+		                });
+		
+		                var free = [];
+		
+		                for (var i = 0; i < EXPORT_LIMIT; i++) {
+		                    if (!used[i]) {
+		                        free.push(i);
+		                    }
+		                }
+		
+		                if (picked.length > free.length) {
+		                    throw new Error("limit");
+		                }
+		
+		                var username = exportName();
 		
 		                var prefix =
-		                    "projects/" + PROJECT_ID + "/databases/(default)/documents/usernames/" +
-		                    exportName() + "/monsters/";
+		                    "projects/" + PROJECT_ID +
+		                    "/databases/(default)/documents/usernames/" +
+		                    username +
+		                    "/monsters/";
 		
 		                var writes = picked.map(function (m, n) {
-		
 		                    var fields = {};
 		
-		                    Object.keys(m).forEach(function (k) {
-		                        if (k !== "slot") fields[k] = fsValue(m[k]);   // the guarding slot only means something in this game
+		                    allowedFields.forEach(function (key) {
+		                        var value = m[key];
+		
+		                        if (
+		                            key === "name" &&
+		                            (!value || value === "")
+		                        ) {
+		                            value = speciesName(m.monsterId);
+		                        }
+		
+		                        if (
+		                            key === "heldItem" &&
+		                            value === undefined
+		                        ) {
+		                            value = null;
+		                        }
+		
+		                        if (value !== undefined) {
+		                            fields[key] = fsValue(value);
+		                        }
 		                    });
 		
-		                    // Make sure the species name is always sent
-		                    if (!fields.name || fields.name.stringValue === "") {
-		                        fields.name = fsValue(speciesName(m.monsterId));
-		                    }
+		                    // Required by the security rules.
+		                    fields.uid = fsValue(m.uid);
+		                    fields.monsterId = fsValue(
+		                        Math.floor(m.monsterId)
+		                    );
+		                    fields.name = fsValue(
+		                        m.name || speciesName(m.monsterId)
+		                    );
+		                    fields.level = fsValue(
+		                        Math.max(
+		                            1,
+		                            Math.min(100, clean(m.level) || 1)
+		                        )
+		                    );
 		
 		                    return {
-		                        update: { name: prefix + free[n], fields: fields },
-		                        currentDocument: { exists: false }              // never overwrite an exported monster
+		                        update: {
+		                            name: prefix + free[n],
+		                            fields: fields
+		                        },
+		                        currentDocument: {
+		                            exists: false
+		                        }
 		                    };
 		                });
 		
-		                return fetch(DOCS_ROOT.slice(0, -1) + ":commit", {
+		                var commitUrl =
+		                    FIRESTORE_ROOT + ":commit";
+		
+		                return fetch(commitUrl, {
 		                    method: "POST",
 		                    headers: authHeaders(),
-		                    body: JSON.stringify({ writes: writes })
+		                    body: JSON.stringify({
+		                        writes: writes
+		                    })
 		                }).then(function (r) {
-		                    if (!r.ok) throw new Error("HTTP " + r.status);
+		                    if (!r.ok) {
+		                        return r.text().then(function (body) {
+		                            throw new Error(
+		                                "HTTP " + r.status + ": " + body
+		                            );
+		                        });
+		                    }
 		
-		                    // The player changed while we were sending: leave the save alone
-		                    if (owner !== startOwner) throw new Error("player-changed");
+		                    if (owner !== startOwner) {
+		                        throw new Error("player-changed");
+		                    }
 		
+		                    // Remove only after Firestore confirms success.
 		                    var gone = {};
-		                    picked.forEach(function (m) { gone[m.uid] = true; });
 		
-		                    set("monsters", data.monsters.filter(function (m) {
-		                        return !gone[m.uid];
-		                    }));
+		                    picked.forEach(function (m) {
+		                        gone[m.uid] = true;
+		                    });
 		
-		                    // Write the smaller save right away, so the monsters
-		                    // can't come back if the page closes
-		                    flush(false);
+		                    set(
+		                        "monsters",
+		                        data.monsters.filter(function (m) {
+		                            return !gone[m.uid];
+		                        })
+		                    );
 		
-		                    return { count: current.length + picked.length, limit: EXPORT_LIMIT };
+		                    return {
+		                        count: current.length + picked.length,
+		                        limit: EXPORT_LIMIT
+		                    };
 		                });
 		            });
 		        }
 		
+		        // --------------------------------------------------
+		        // LISTENERS
+		        // --------------------------------------------------
 		
-		        // One listener per key, so re-registering never creates duplicates
 		        function onChange(key, fn) {
 		            listeners[key] = fn;
 		        }
+		
+		        // --------------------------------------------------
+		        // PUBLIC API
+		        // --------------------------------------------------
 		
 		        return {
 		            load: load,
@@ -1378,37 +2053,67 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            set: set,
 		            add: add,
 		            spend: spend,
+		
 		            placeEgg: placeEgg,
+		
 		            addMonster: addMonster,
 		            getMonster: getMonster,
+		            getMonsterRecord: getMonsterRecord,
 		            getAllMonsters: getAllMonsters,
 		            updateMonster: updateMonster,
 		            removeMonster: removeMonster,
+		
 		            hatchEgg: hatchEgg,
+		
 		            getExportInfo: getExportInfo,
 		            exportMonsters: exportMonsters,
-		            onChange: onChange,
-		            saveNow: function () { flush(false); },
-		            isLoaded: function () { return loaded; },
-		            where: function () { return owner; },
 		
-		            // Used by the top bar's Export / Import buttons
-		            exportSave: function () { return blob || ""; },
+		            onChange: onChange,
+		
+		            saveNow: function () {
+		                flush(false);
+		            },
+		
+		            isLoaded: function () {
+		                return loaded;
+		            },
+		
+		            where: function () {
+		                return owner;
+		            },
+		
+		            exportSave: function () {
+		                return blob || "";
+		            },
 		
 		            importSave: function (text) {
-		                if (!loaded) return Promise.resolve(false);
-		                return decrypt(String(text).trim()).then(function (obj) {
-		                    apply(obj);
-		                    markDiscovered();
-		                    NAMES.forEach(function (n) { dirty[n] = true; });
-		                    seal();
-		                    notify(null);
-		                    queueSave(SAVE_DELAY);
-		                    return true;
-		                }).catch(function (err) {
-		                    console.error("SaveSystem: import failed", err);
-		                    return false;
-		                });
+		                if (!loaded) {
+		                    return Promise.resolve(false);
+		                }
+		
+		                return decrypt(String(text).trim())
+		                    .then(function (obj) {
+		                        apply(obj);
+		                        markDiscovered();
+		
+		                        NAMES.forEach(function (name) {
+		                            dirty[name] = true;
+		                        });
+		
+		                        seal();
+		                        notify(null);
+		                        queueSave(SAVE_DELAY);
+		
+		                        return true;
+		                    })
+		                    .catch(function (err) {
+		                        console.error(
+		                            "SaveSystem: import failed",
+		                            err
+		                        );
+		
+		                        return false;
+		                    });
 		            }
 		        };
 		
@@ -14598,7 +15303,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    var H = lib.properties.height;
 		    var portrait = H > W;
 		
-		
 		    // --------------------------------------------------
 		    // CLEAN UP THE HOME SCREEN UI
 		    // --------------------------------------------------
@@ -14608,212 +15312,138 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    if (self.cleanupEggNavigation) self.cleanupEggNavigation();
 		    if (self.cleanupEggs) self.cleanupEggs();
 		
-		
-		    // Hide the home screen's egg while this screen is open
 		    var eggUi = self.egg || null;
 		    var eggWasVisible = eggUi ? eggUi.visible : true;
 		
-		    if (eggUi) {
-		        eggUi.visible = false;
-		    }
-		
+		    if (eggUi) eggUi.visible = false;
 		
 		    // --------------------------------------------------
 		    // SETTINGS
 		    // --------------------------------------------------
 		
 		    var COLUMNS = portrait ? 2 : 4;
-		
 		    var RESERVE_TOP_BAR = true;
-		
 		    var MAX_CONTENT_WIDTH = 1200;
-		    var SIDE_MARGIN       = portrait ? 24 : 40;
-		    var CARD_GAP          = portrait ? 14 : 24;
+		    var SIDE_MARGIN = portrait ? 24 : 40;
+		    var CARD_GAP = portrait ? 14 : 24;
 		
 		    var HEADER_HEIGHT = portrait ? 84 : 72;
-		    var TITLE_SIZE    = portrait ? 34 : 30;
-		    var COUNT_SIZE    = portrait ? 22 : 18;
+		    var TITLE_SIZE = portrait ? 34 : 30;
+		    var COUNT_SIZE = portrait ? 22 : 18;
 		
 		    var TITLE_COLOR = "#dbeaf5";
 		    var COUNT_COLOR = "#8DBBD1";
 		
-		    var LINE_COLOR     = "#8fd8ff";
-		    var LINE_ALPHA     = 0.75;
+		    var LINE_COLOR = "#8fd8ff";
+		    var LINE_ALPHA = 0.75;
 		    var LINE_THICKNESS = 2;
 		
-		    var SCROLL_PAD_TOP    = 20;
+		    var SCROLL_PAD_TOP = 20;
 		    var SCROLL_PAD_BOTTOM = 40;
 		
 		    var DRAG_THRESHOLD = 10;
-		    var FRICTION       = 0.92;
+		    var FRICTION = 0.92;
 		
 		    var BROWSE_TITLE = "Your monsters";
-		    var PICK_TITLE   = "Choose a monster";
-		    var SELL_TITLE   = "Select monsters to sell";
+		    var PICK_TITLE = "Choose a monster";
+		    var SELL_TITLE = "Select monsters to sell";
 		    var EXPORT_TITLE = "Select monsters to export";
-		    var EMPTY_TEXT   = "No monsters yet";
+		    var EMPTY_TEXT = "No monsters yet";
 		
-		    var NO_TYPE     = "NONE";
-		    var SEPARATOR   = " \u00B7 ";
+		    var NO_TYPE = "NONE";
+		    var SEPARATOR = " \u00B7 ";
 		    var FONT_FAMILY = "'DM Sans'";
 		    var LISTENER_ID = "monstersMenu";
-		    var GAME_LABEL  = "game";
+		    var GAME_LABEL = "game";
 		
-		    // Instance name of the picture clip inside MonsterContainer.
 		    var ART_CLIP = "egg";
-		
-		    // Frame the MonsterContainer itself goes to.
-		    // CreateJS counts from 0, so 1 is frame 2 in Animate.
 		    var ART_FRAME = 1;
 		
-		
-		    // ---------- Button reactions ----------
-		
-		    // 1 = full size. Hovered buttons shrink a little,
-		    // pressed buttons shrink even more.
 		    var HOVER_SCALE = 0.96;
 		    var PRESS_SCALE = 0.90;
-		    var REACT_TIME  = 120;      // milliseconds
+		    var REACT_TIME = 120;
 		
-		    // Hover only exists with a mouse. On touch screens
-		    // buttons shrink while they are being pressed.
 		    var canHover = !!(
 		        window.matchMedia &&
 		        window.matchMedia("(hover: hover)").matches
 		    );
 		
+		    // --------------------------------------------------
+		    // BOTTOM BAR
+		    // --------------------------------------------------
 		
-		    // ---------- Bottom bar ----------
-		
-		    var BTN_H   = portrait ? 76 : 48;
+		    var BTN_H = portrait ? 76 : 48;
 		    var BTN_PAD = portrait ? 22 : 16;
 		    var BTN_GAP = portrait ? 16 : 14;
-		    var BAR_H   = BTN_H + BTN_PAD * 2;
+		    var BAR_H = BTN_H + BTN_PAD * 2;
 		
-		    var BTN_FILL       = "#173b5d";
-		    var BTN_FILL_LIT   = "#1d5381";
-		    var BTN_STROKE     = "#527896";
+		    var BTN_FILL = "#173b5d";
+		    var BTN_FILL_LIT = "#1d5381";
+		    var BTN_STROKE = "#527896";
 		    var BTN_STROKE_LIT = "#8fd8ff";
-		    var BTN_TEXT       = "#cfe6f5";
-		    var BTN_TEXT_LIT   = "#ffffff";
+		    var BTN_TEXT = "#cfe6f5";
+		    var BTN_TEXT_LIT = "#ffffff";
 		
+		    // --------------------------------------------------
+		    // SELL SETTINGS
+		    // --------------------------------------------------
 		
-		    // ---------- Selling ----------
-		
-		    // Placeholder price. Change these to balance the game.
-		    //   price = (sum of base stats) x SELL_STAT_RATE + level x SELL_LEVEL_BONUS
-		    var SELL_STAT_RATE   = 0.05;
+		    var SELL_STAT_RATE = 0.05;
 		    var SELL_LEVEL_BONUS = 5;
-		    var SELL_MIN         = 1;
-		
+		    var SELL_MIN = 1;
 		
 		    // --------------------------------------------------
 		    // CONTAINERS
 		    // --------------------------------------------------
 		
-		    var viewport =
-		        new createjs.Container();
+		    var viewport = new createjs.Container();
+		    self.addChild(viewport);
 		
-		    self.addChild(
-		        viewport
+		    var scrollHit = new createjs.Shape();
+		    viewport.addChild(scrollHit);
+		
+		    var content = new createjs.Container();
+		    viewport.addChild(content);
+		
+		    var viewMask = new createjs.Shape();
+		    viewport.mask = viewMask;
+		
+		    var header = new createjs.Container();
+		    self.addChild(header);
+		
+		    var titleText = new createjs.Text(
+		        BROWSE_TITLE,
+		        "30px 'Marcellus'",
+		        TITLE_COLOR
 		    );
 		
+		    titleText.textAlign = "left";
+		    titleText.textBaseline = "middle";
+		    header.addChild(titleText);
 		
-		    var scrollHit =
-		        new createjs.Shape();
-		
-		    viewport.addChild(
-		        scrollHit
+		    var countText = new createjs.Text(
+		        "0 monsters",
+		        "bold 18px 'DM Sans'",
+		        COUNT_COLOR
 		    );
 		
+		    countText.textAlign = "right";
+		    countText.textBaseline = "middle";
+		    header.addChild(countText);
 		
-		    var content =
-		        new createjs.Container();
+		    var headerLine = new createjs.Shape();
+		    header.addChild(headerLine);
 		
-		    viewport.addChild(
-		        content
+		    var emptyText = new createjs.Text(
+		        EMPTY_TEXT,
+		        "bold 22px 'DM Sans'",
+		        COUNT_COLOR
 		    );
 		
-		
-		    var viewMask =
-		        new createjs.Shape();
-		
-		    viewport.mask =
-		        viewMask;
-		
-		
-		    var header =
-		        new createjs.Container();
-		
-		    self.addChild(
-		        header
-		    );
-		
-		
-		    var titleText =
-		        new createjs.Text(
-		            BROWSE_TITLE,
-		            "30px 'Marcellus'",
-		            TITLE_COLOR
-		        );
-		
-		    titleText.textAlign =
-		        "left";
-		
-		    titleText.textBaseline =
-		        "middle";
-		
-		    header.addChild(
-		        titleText
-		    );
-		
-		
-		    var countText =
-		        new createjs.Text(
-		            "0 monsters",
-		            "bold 18px 'DM Sans'",
-		            COUNT_COLOR
-		        );
-		
-		    countText.textAlign =
-		        "right";
-		
-		    countText.textBaseline =
-		        "middle";
-		
-		    header.addChild(
-		        countText
-		    );
-		
-		
-		    var headerLine =
-		        new createjs.Shape();
-		
-		    header.addChild(
-		        headerLine
-		    );
-		
-		
-		    var emptyText =
-		        new createjs.Text(
-		            EMPTY_TEXT,
-		            "bold 22px 'DM Sans'",
-		            COUNT_COLOR
-		        );
-		
-		    emptyText.textAlign =
-		        "center";
-		
-		    emptyText.textBaseline =
-		        "middle";
-		
-		    emptyText.visible =
-		        false;
-		
-		    header.addChild(
-		        emptyText
-		    );
-		
+		    emptyText.textAlign = "center";
+		    emptyText.textBaseline = "middle";
+		    emptyText.visible = false;
+		    header.addChild(emptyText);
 		
 		    // --------------------------------------------------
 		    // STATE
@@ -14821,7 +15451,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		    var cards = [];
 		    var entries = [];
-		
 		    var destroyed = false;
 		
 		    var viewTop = 0;
@@ -14836,43 +15465,31 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    var lastTime = 0;
 		    var velocity = 0;
 		
-		    // The button or card being pressed right now
 		    var pressedObj = null;
 		
-		    // Picking monsters: "" (just browsing), "sell" or "export"
 		    var pickMode = "";
-		    var selected = {};          // uid -> true
+		    var selected = {};
 		
-		    // The pop-up: "sell", "export" or "notice" (just a message)
 		    var dialogOpen = false;
 		    var dialogKind = "";
 		
-		    // Exporting to the player's account
-		    var exportFree = 0;         // how many more monsters the account can take
+		    var exportFree = 0;
 		    var exportLimit = 6;
 		    var exportBusy = false;
 		    var exportBusyText = "Sending...";
 		
-		
 		    function placementActive() {
-		
 		        return !!(
 		            window.MonsterPlacement &&
 		            window.MonsterPlacement.active
 		        );
 		    }
 		
-		
 		    function formatAmount(n) {
-		
 		        return Number(n).toLocaleString("en-US");
 		    }
 		
-		
-		    // The species list can be Monster.BY_ID or Monster.registry,
-		    // so look in both and never throw if neither exists yet
 		    function speciesOf(monsterId) {
-		
 		        if (typeof Monster === "undefined") {
 		            return null;
 		        }
@@ -14884,83 +15501,51 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        );
 		    }
 		
-		
 		    // --------------------------------------------------
-		    // BUTTON REACTIONS (SHRINK ON HOVER / PRESS)
+		    // BUTTON REACTIONS
 		    // --------------------------------------------------
-		
-		    // Every reactive object remembers:
-		    //   reactBase     its normal scale
-		    //   reactCx/Cy    where its center sits in its parent
-		    //   reactLocalCx  where its center is inside itself
-		    //   reactF        current shrink amount (1 = none)
-		    //
-		    // Scaling around the center keeps it from sliding to a corner.
 		
 		    function applyReact(o) {
+		        if (o.reactBase === undefined) return;
 		
-		        if (o.reactBase === undefined) {
-		            return;
-		        }
-		
-		        var s =
-		            o.reactBase *
-		            o.reactF;
+		        var s = o.reactBase * o.reactF;
 		
 		        o.scaleX = s;
 		        o.scaleY = s;
 		
-		        o.x =
-		            o.reactCx -
-		            (o.reactLocalCx - o.regX) * s;
-		
-		        o.y =
-		            o.reactCy -
-		            (o.reactLocalCy - o.regY) * s;
+		        o.x = o.reactCx - (o.reactLocalCx - o.regX) * s;
+		        o.y = o.reactCy - (o.reactLocalCy - o.regY) * s;
 		    }
 		
-		
 		    function placeReactive(o, base, cx, cy, localCx, localCy) {
-		
 		        o.reactBase = base;
 		        o.reactCx = cx;
 		        o.reactCy = cy;
 		        o.reactLocalCx = localCx;
 		        o.reactLocalCy = localCy;
 		
-		        if (o.reactF === undefined) {
-		            o.reactF = 1;
-		        }
+		        if (o.reactF === undefined) o.reactF = 1;
 		
 		        applyReact(o);
 		    }
 		
-		
 		    function reactTo(o, f) {
-		
-		        createjs.Tween.get(
-		            o,
-		            {
-		                override: true,
-		                onChange: function () {
-		                    applyReact(o);
-		                }
+		        createjs.Tween.get(o, {
+		            override: true,
+		            onChange: function () {
+		                applyReact(o);
 		            }
-		        )
-		        .to(
+		        }).to(
 		            { reactF: f },
 		            REACT_TIME,
 		            createjs.Ease.quadOut
 		        );
 		    }
 		
-		
 		    function refreshReact(o) {
-		
 		        var f = 1;
 		
 		        if (!o.reactOff) {
-		
 		            if (o.pressed) {
 		                f = PRESS_SCALE;
 		            } else if (o.hovered) {
@@ -14975,37 +15560,30 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        }
 		    }
 		
-		
 		    function wireReactions(o) {
-		
 		        o.reactF = 1;
 		        o.hovered = false;
 		        o.pressed = false;
 		
 		        if (canHover) {
-		
 		            o.on("rollover", function () {
-		
 		                o.hovered = true;
 		                refreshReact(o);
 		            });
 		
 		            o.on("rollout", function () {
-		
 		                o.hovered = false;
 		                refreshReact(o);
 		            });
 		        }
 		
 		        o.on("mousedown", function () {
-		
 		            o.pressed = true;
 		            pressedObj = o;
 		            refreshReact(o);
 		        });
 		
 		        o.on("pressup", function () {
-		
 		            o.pressed = false;
 		
 		            if (pressedObj === o) {
@@ -15016,33 +15594,20 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        });
 		    }
 		
-		
 		    // --------------------------------------------------
 		    // CRYST ICON
 		    // --------------------------------------------------
 		
-		    // The icon is centered on the middle of its holder,
-		    // so the holder can simply be placed where the icon goes.
-		
 		    function makeCrystIcon() {
-		
-		        var holder =
-		            new createjs.Container();
+		        var holder = new createjs.Container();
 		
 		        holder.mouseEnabled = false;
 		        holder.mouseChildren = false;
 		
 		        if (lib.Cryst) {
-		
-		            holder.icon =
-		                new lib.Cryst();
-		
-		            holder.addChild(
-		                holder.icon
-		            );
-		
+		            holder.icon = new lib.Cryst();
+		            holder.addChild(holder.icon);
 		        } else {
-		
 		            console.warn(
 		                "Cryst not found. Check AS Linkage on the symbol."
 		            );
@@ -15051,74 +15616,37 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        return holder;
 		    }
 		
-		
 		    function sizeCrystIcon(holder, size) {
-		
 		        var icon = holder.icon;
+		        if (!icon) return;
 		
-		        if (!icon) {
-		            return;
-		        }
+		        var b = icon.nominalBounds || icon.getBounds();
+		        if (!b || !b.width || !b.height) return;
 		
-		        var b =
-		            icon.nominalBounds ||
-		            icon.getBounds();
-		
-		        if (!b || !b.width || !b.height) {
-		            return;
-		        }
-		
-		        var s =
-		            Math.min(
-		                size / b.width,
-		                size / b.height
-		            );
+		        var s = Math.min(size / b.width, size / b.height);
 		
 		        icon.scaleX = s;
 		        icon.scaleY = s;
-		
 		        icon.x = -(b.x + b.width / 2) * s;
 		        icon.y = -(b.y + b.height / 2) * s;
 		    }
-		
 		
 		    // --------------------------------------------------
 		    // BUTTONS
 		    // --------------------------------------------------
 		
 		    function drawButton(b, lit) {
-		
-		        var radius =
-		            b.bh * 0.28;
+		        var radius = b.bh * 0.28;
 		
 		        b.bg.graphics.clear();
 		
 		        b.bg.graphics
-		            .setStrokeStyle(
-		                lit ? 1.5 : 1
-		            )
-		            .beginStroke(
-		                lit
-		                    ? BTN_STROKE_LIT
-		                    : BTN_STROKE
-		            )
-		            .beginFill(
-		                lit
-		                    ? BTN_FILL_LIT
-		                    : BTN_FILL
-		            )
-		            .drawRoundRect(
-		                0,
-		                0,
-		                b.bw,
-		                b.bh,
-		                radius
-		            );
+		            .setStrokeStyle(lit ? 1.5 : 1)
+		            .beginStroke(lit ? BTN_STROKE_LIT : BTN_STROKE)
+		            .beginFill(lit ? BTN_FILL_LIT : BTN_FILL)
+		            .drawRoundRect(0, 0, b.bw, b.bh, radius);
 		
-		        var textColor =
-		            lit
-		                ? BTN_TEXT_LIT
-		                : BTN_TEXT;
+		        var textColor = lit ? BTN_TEXT_LIT : BTN_TEXT;
 		
 		        b.label.color = textColor;
 		
@@ -15127,25 +15655,20 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        }
 		    }
 		
-		
 		    function makeButton(text) {
-		
-		        var b =
-		            new createjs.Container();
+		        var b = new createjs.Container();
 		
 		        b.bw = 100;
 		        b.bh = 40;
 		        b.fs = 16;
 		
-		        b.bg =
-		            new createjs.Shape();
+		        b.bg = new createjs.Shape();
 		
-		        b.label =
-		            new createjs.Text(
-		                text,
-		                "bold 16px 'DM Sans'",
-		                BTN_TEXT
-		            );
+		        b.label = new createjs.Text(
+		            text,
+		            "bold 16px 'DM Sans'",
+		            BTN_TEXT
+		        );
 		
 		        b.label.textAlign = "left";
 		        b.label.textBaseline = "middle";
@@ -15165,19 +15688,12 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        return b;
 		    }
 		
-		
 		    function centerLabel(b) {
-		
-		        b.label.x =
-		            (b.bw - b.label.getMeasuredWidth()) / 2;
-		
-		        b.label.y =
-		            b.bh / 2;
+		        b.label.x = (b.bw - b.label.getMeasuredWidth()) / 2;
+		        b.label.y = b.bh / 2;
 		    }
 		
-		
 		    function sizeButton(b, w, h, fontSize) {
-		
 		        b.bw = w;
 		        b.bh = h;
 		        b.fs = fontSize;
@@ -15185,68 +15701,39 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        b.regX = w / 2;
 		        b.regY = h / 2;
 		
-		        b.label.font =
-		            "bold " +
-		            fontSize +
-		            "px 'DM Sans'";
+		        b.label.font = "bold " + fontSize + "px 'DM Sans'";
 		
 		        if (b.amount) {
-		
-		            b.amount.font =
-		                "bold " +
-		                fontSize +
-		                "px 'DM Sans'";
+		            b.amount.font = "bold " + fontSize + "px 'DM Sans'";
 		        }
 		
-		        var hit =
-		            new createjs.Shape();
-		
-		        hit.graphics
-		            .beginFill("#000")
-		            .drawRect(0, 0, w, h);
-		
+		        var hit = new createjs.Shape();
+		        hit.graphics.beginFill("#000").drawRect(0, 0, w, h);
 		        b.hitArea = hit;
 		
-		        drawButton(
-		            b,
-		            b.hovered || b.pressed
-		        );
-		
+		        drawButton(b, b.hovered || b.pressed);
 		        centerLabel(b);
 		    }
 		
+		    // --------------------------------------------------
+		    // ACTION BAR
+		    // --------------------------------------------------
 		
-		    // ---------- The two bottom bar buttons ----------
+		    var actionBar = new createjs.Container();
+		    self.addChild(actionBar);
 		
-		    var actionBar =
-		        new createjs.Container();
+		    var actionBg = new createjs.Shape();
+		    actionBar.addChild(actionBg);
 		
-		    self.addChild(
-		        actionBar
+		    var sellBtn = makeButton("Sell");
+		
+		    sellBtn.iconHolder = makeCrystIcon();
+		
+		    sellBtn.amount = new createjs.Text(
+		        "0",
+		        "bold 16px 'DM Sans'",
+		        BTN_TEXT
 		    );
-		
-		
-		    var actionBg =
-		        new createjs.Shape();
-		
-		    actionBar.addChild(
-		        actionBg
-		    );
-		
-		
-		    // SELL: label, Cryst icon, and the total for the selection
-		    var sellBtn =
-		        makeButton("Sell");
-		
-		    sellBtn.iconHolder =
-		        makeCrystIcon();
-		
-		    sellBtn.amount =
-		        new createjs.Text(
-		            "0",
-		            "bold 16px 'DM Sans'",
-		            BTN_TEXT
-		        );
 		
 		    sellBtn.amount.textAlign = "left";
 		    sellBtn.amount.textBaseline = "middle";
@@ -15255,38 +15742,24 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		    sellBtn.addChild(sellBtn.iconHolder);
 		    sellBtn.addChild(sellBtn.amount);
-		
 		    actionBar.addChild(sellBtn);
 		
-		
-		    var exportBtn =
-		        makeButton("Export");
-		
+		    var exportBtn = makeButton("Export");
 		    actionBar.addChild(exportBtn);
 		
-		
-		    // Lines up "Sell", the Cryst icon, and the amount in the middle
 		    function layoutSellContent() {
-		
 		        var b = sellBtn;
-		
 		        var iconSize = b.fs * 1.4;
 		        var gap = b.fs * 0.45;
 		
 		        var showIcon = b.iconHolder.visible;
 		        var showAmount = b.amount.visible;
-		
 		        var labelW = b.label.getMeasuredWidth();
 		
 		        var total = labelW;
 		
-		        if (showIcon) {
-		            total += gap + iconSize;
-		        }
-		
-		        if (showAmount) {
-		            total += gap * 0.6 + b.amount.getMeasuredWidth();
-		        }
+		        if (showIcon) total += gap + iconSize;
+		        if (showAmount) total += gap * 0.6 + b.amount.getMeasuredWidth();
 		
 		        var x = (b.bw - total) / 2;
 		
@@ -15296,11 +15769,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        x += labelW;
 		
 		        if (showIcon) {
-		
-		            sizeCrystIcon(
-		                b.iconHolder,
-		                iconSize
-		            );
+		            sizeCrystIcon(b.iconHolder, iconSize);
 		
 		            b.iconHolder.x = x + gap + iconSize / 2;
 		            b.iconHolder.y = b.bh / 2;
@@ -15309,125 +15778,85 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        }
 		
 		        if (showAmount) {
-		
 		            b.amount.x = x + gap * 0.6;
 		            b.amount.y = b.bh / 2;
 		        }
 		    }
 		
-		
 		    // --------------------------------------------------
-		    // SELL CONFIRMATION PROMPT
+		    // CONFIRMATION DIALOG
 		    // --------------------------------------------------
 		
-		    var dialog =
-		        new createjs.Container();
-		
+		    var dialog = new createjs.Container();
 		    dialog.visible = false;
+		    self.addChild(dialog);
 		
-		    self.addChild(
-		        dialog
-		    );
-		
-		
-		    // Covers the whole screen so nothing underneath can be tapped
-		    var dim =
-		        new createjs.Shape();
-		
+		    var dim = new createjs.Shape();
 		    dialog.addChild(dim);
 		
-		
-		    var panel =
-		        new createjs.Shape();
-		
+		    var panel = new createjs.Shape();
 		    dialog.addChild(panel);
 		
-		
-		    var dialogTitle =
-		        new createjs.Text(
-		            "Sell monsters?",
-		            "30px 'Marcellus'",
-		            TITLE_COLOR
-		        );
+		    var dialogTitle = new createjs.Text(
+		        "Sell monsters?",
+		        "30px 'Marcellus'",
+		        TITLE_COLOR
+		    );
 		
 		    dialogTitle.textAlign = "center";
 		    dialogTitle.textBaseline = "middle";
-		
 		    dialog.addChild(dialogTitle);
 		
-		
-		    var dialogBody =
-		        new createjs.Text(
-		            "",
-		            "bold 18px 'DM Sans'",
-		            BTN_TEXT
-		        );
+		    var dialogBody = new createjs.Text(
+		        "",
+		        "bold 18px 'DM Sans'",
+		        BTN_TEXT
+		    );
 		
 		    dialogBody.textAlign = "center";
 		    dialogBody.textBaseline = "middle";
-		
 		    dialog.addChild(dialogBody);
 		
-		
-		    var rewardLabel =
-		        new createjs.Text(
-		            "You will receive",
-		            "bold 18px 'DM Sans'",
-		            COUNT_COLOR
-		        );
+		    var rewardLabel = new createjs.Text(
+		        "You will receive",
+		        "bold 18px 'DM Sans'",
+		        COUNT_COLOR
+		    );
 		
 		    rewardLabel.textAlign = "left";
 		    rewardLabel.textBaseline = "middle";
-		
 		    dialog.addChild(rewardLabel);
 		
-		
-		    var rewardIcon =
-		        makeCrystIcon();
-		
+		    var rewardIcon = makeCrystIcon();
 		    dialog.addChild(rewardIcon);
 		
-		
-		    var rewardAmount =
-		        new createjs.Text(
-		            "0",
-		            "bold 18px 'DM Sans'",
-		            "#ffffff"
-		        );
+		    var rewardAmount = new createjs.Text(
+		        "0",
+		        "bold 18px 'DM Sans'",
+		        "#ffffff"
+		    );
 		
 		    rewardAmount.textAlign = "left";
 		    rewardAmount.textBaseline = "middle";
-		
 		    dialog.addChild(rewardAmount);
 		
-		
-		    var dialogNote =
-		        new createjs.Text(
-		            "This can't be undone.",
-		            "14px 'DM Sans'",
-		            COUNT_COLOR
-		        );
+		    var dialogNote = new createjs.Text(
+		        "This can't be undone.",
+		        "14px 'DM Sans'",
+		        COUNT_COLOR
+		    );
 		
 		    dialogNote.textAlign = "center";
 		    dialogNote.textBaseline = "middle";
-		
 		    dialog.addChild(dialogNote);
 		
-		
-		    var cancelBtn =
-		        makeButton("Cancel");
-		
+		    var cancelBtn = makeButton("Cancel");
 		    dialog.addChild(cancelBtn);
 		
-		
-		    var confirmBtn =
-		        makeButton("Sell");
-		
+		    var confirmBtn = makeButton("Sell");
 		    dialog.addChild(confirmBtn);
 		
-		
 		    function layoutDialog() {
-		
 		        var kind = dialogKind;
 		
 		        var pw = portrait ? Math.min(W - 60, 640) : 480;
@@ -15439,13 +15868,11 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        var pad = portrait ? 32 : 24;
 		
 		        dim.graphics.clear();
-		
 		        dim.graphics
 		            .beginFill("rgba(0, 0, 0, 0.62)")
 		            .drawRect(0, 0, W, H);
 		
 		        panel.graphics.clear();
-		
 		        panel.graphics
 		            .setStrokeStyle(1.5)
 		            .beginStroke("#527896")
@@ -15455,39 +15882,23 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                0, py,
 		                0, py + ph
 		            )
-		            .drawRoundRect(
-		                px,
-		                py,
-		                pw,
-		                ph,
-		                portrait ? 30 : 18
-		            );
-		
+		            .drawRoundRect(px, py, pw, ph, portrait ? 30 : 18);
 		
 		        var fs = portrait ? 28 : 17;
 		        var noteFs = portrait ? 22 : 14;
 		        var textW = pw - pad * 2;
 		
-		        dialogTitle.font =
-		            (portrait ? 40 : 28) +
-		            "px 'Marcellus'";
-		
+		        dialogTitle.font = (portrait ? 40 : 28) + "px 'Marcellus'";
 		        dialogTitle.x = W / 2;
 		        dialogTitle.y = py + ph * 0.17;
 		
-		
-		        dialogBody.font =
-		            "bold " + fs + "px 'DM Sans'";
-		
+		        dialogBody.font = "bold " + fs + "px 'DM Sans'";
 		        dialogBody.textBaseline = "top";
 		        dialogBody.lineWidth = textW;
 		        dialogBody.lineHeight = fs * 1.35;
-		
 		        dialogBody.x = W / 2;
 		        dialogBody.y = py + ph * (kind === "notice" ? 0.34 : 0.30);
 		
-		
-		        // "You will receive [icon] 123" only shows when selling
 		        var showReward = kind === "sell";
 		
 		        rewardLabel.visible = showReward;
@@ -15495,12 +15906,8 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        rewardAmount.visible = showReward;
 		
 		        if (showReward) {
-		
-		            rewardLabel.font =
-		                "bold " + fs + "px 'DM Sans'";
-		
-		            rewardAmount.font =
-		                "bold " + fs + "px 'DM Sans'";
+		            rewardLabel.font = "bold " + fs + "px 'DM Sans'";
+		            rewardAmount.font = "bold " + fs + "px 'DM Sans'";
 		
 		            var iconSize = fs * 1.4;
 		            var gap = fs * 0.5;
@@ -15520,10 +15927,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		            x += rewardLabel.getMeasuredWidth();
 		
-		            sizeCrystIcon(
-		                rewardIcon,
-		                iconSize
-		            );
+		            sizeCrystIcon(rewardIcon, iconSize);
 		
 		            rewardIcon.x = x + gap + iconSize / 2;
 		            rewardIcon.y = rowY;
@@ -15534,93 +15938,47 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            rewardAmount.y = rowY;
 		        }
 		
-		
 		        dialogNote.visible = kind !== "notice";
-		
-		        dialogNote.font =
-		            noteFs + "px 'DM Sans'";
-		
+		        dialogNote.font = noteFs + "px 'DM Sans'";
 		        dialogNote.textBaseline = "top";
 		        dialogNote.lineWidth = textW;
 		        dialogNote.lineHeight = noteFs * 1.35;
-		
 		        dialogNote.x = W / 2;
 		        dialogNote.y = py + ph * (kind === "sell" ? 0.64 : 0.50);
-		
 		
 		        var bh = portrait ? 72 : 46;
 		        var by = py + ph - pad - bh / 2;
 		
 		        if (kind === "notice") {
-		
-		            // Just one OK button in the middle
 		            var nw = Math.min(pw - pad * 2, portrait ? 320 : 200);
 		
 		            confirmBtn.visible = false;
-		
 		            sizeButton(cancelBtn, nw, bh, fs);
 		
-		            placeReactive(
-		                cancelBtn,
-		                1,
-		                W / 2,
-		                by,
-		                nw / 2,
-		                bh / 2
-		            );
-		
+		            placeReactive(cancelBtn, 1, W / 2, by, nw / 2, bh / 2);
 		        } else {
-		
 		            var bw = (pw - pad * 3) / 2;
 		
 		            confirmBtn.visible = true;
-		
 		            sizeButton(cancelBtn, bw, bh, fs);
 		            sizeButton(confirmBtn, bw, bh, fs);
 		
-		            placeReactive(
-		                cancelBtn,
-		                1,
-		                px + pad + bw / 2,
-		                by,
-		                bw / 2,
-		                bh / 2
-		            );
-		
-		            placeReactive(
-		                confirmBtn,
-		                1,
-		                px + pw - pad - bw / 2,
-		                by,
-		                bw / 2,
-		                bh / 2
-		            );
+		            placeReactive(cancelBtn, 1, px + pad + bw / 2, by, bw / 2, bh / 2);
+		            placeReactive(confirmBtn, 1, px + pw - pad - bw / 2, by, bw / 2, bh / 2);
 		        }
 		    }
-		
 		
 		    function showDialog() {
-		
 		        layoutDialog();
-		
 		        dialogOpen = true;
 		        dialog.visible = true;
-		
-		        // Bring it in front of everything, including the top bar
-		        self.addChild(
-		            dialog
-		        );
+		        self.addChild(dialog);
 		    }
 		
-		
-		    // Asks "are you sure?" for selling or exporting the selection
 		    function openConfirm(kind) {
-		
 		        var sel = getSelection();
 		
-		        if (!sel.count) {
-		            return;
-		        }
+		        if (!sel.count) return;
 		
 		        var n = sel.count;
 		        var word = n === 1 ? " monster" : " monsters";
@@ -15628,122 +15986,81 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        dialogKind = kind;
 		
 		        if (kind === "sell") {
-		
 		            dialogTitle.text = "Sell monsters?";
-		
-		            dialogBody.text =
-		                "You are about to sell " + n + word + ".";
-		
+		            dialogBody.text = "You are about to sell " + n + word + ".";
 		            rewardLabel.text = "You will receive";
 		            rewardAmount.text = formatAmount(sel.total);
-		
 		            dialogNote.text = "This can't be undone.";
-		
 		            confirmBtn.label.text = "Sell";
-		
 		        } else {
-		
 		            dialogTitle.text = "Send to your account?";
-		
-		            dialogBody.text =
-		                "Send " + n + word + " to your account?";
-		
+		            dialogBody.text = "Send " + n + word + " to your account?";
 		            dialogNote.text =
 		                "They will be removed from this game. Your account can hold " +
 		                exportLimit + " in total, so " +
-		                (exportFree - n) + " more could still be sent after this.";
-		
+		                Math.max(0, exportFree - n) +
+		                " more could still be sent after this.";
 		            confirmBtn.label.text = "Send";
 		        }
 		
 		        cancelBtn.label.text = "Cancel";
-		
 		        showDialog();
 		    }
 		
-		
-		    // A message with a single OK button
 		    function showNotice(title, body) {
-		
 		        dialogKind = "notice";
-		
 		        dialogTitle.text = title;
 		        dialogBody.text = body;
-		
 		        cancelBtn.label.text = "OK";
-		
 		        showDialog();
 		    }
 		
-		
 		    function closeConfirm() {
-		
 		        dialogOpen = false;
 		        dialog.visible = false;
 		    }
 		
-		
 		    // --------------------------------------------------
-		    // SELLING
+		    // SELLING / SELECTION
 		    // --------------------------------------------------
 		
-		    // Monsters that sit in a slot can't be sold or exported
 		    function isLocked(entry) {
-		
 		        return (
 		            typeof entry.slot === "number" &&
 		            entry.slot >= 0
 		        );
 		    }
 		
-		
 		    function sellValue(entry) {
+		        var def = speciesOf(entry.monsterId);
 		
-		        var def =
-		            speciesOf(
-		                entry.monsterId
-		            );
-		
-		        if (!def) {
-		            return SELL_MIN;
-		        }
+		        if (!def) return SELL_MIN;
 		
 		        var stats =
-		            def.baseHp +
-		            def.baseAttack +
-		            def.baseDefense +
-		            def.baseSpAttack +
-		            def.baseSpDefense +
-		            def.baseSpeed;
+		            (Number(def.baseHp) || 0) +
+		            (Number(def.baseAttack) || 0) +
+		            (Number(def.baseDefense) || 0) +
+		            (Number(def.baseSpAttack) || 0) +
+		            (Number(def.baseSpDefense) || 0) +
+		            (Number(def.baseSpeed) || 0);
 		
 		        return Math.max(
 		            SELL_MIN,
 		            Math.round(
 		                stats * SELL_STAT_RATE +
-		                (entry.level || 1) * SELL_LEVEL_BONUS
+		                (Number(entry.level) || 1) * SELL_LEVEL_BONUS
 		            )
 		        );
 		    }
 		
-		
 		    function getSelection() {
-		
 		        var list = [];
 		        var total = 0;
 		
-		        for (
-		            var i = 0;
-		            i < entries.length;
-		            i++
-		        ) {
-		
+		        for (var i = 0; i < entries.length; i++) {
 		            var m = entries[i];
 		
-		            if (
-		                selected[m.uid] &&
-		                !isLocked(m)
-		            ) {
-		
+		            if (selected[m.uid] && !isLocked(m)) {
 		                list.push(m);
 		                total += sellValue(m);
 		            }
@@ -15756,69 +16073,37 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        };
 		    }
 		
-		
 		    function setTitle() {
-		
 		        if (placementActive()) {
-		
 		            titleText.text = PICK_TITLE;
-		
 		        } else if (pickMode === "sell") {
-		
 		            titleText.text = SELL_TITLE;
-		
 		        } else if (pickMode === "export") {
-		
 		            titleText.text = EXPORT_TITLE;
-		
 		        } else {
-		
 		            titleText.text = BROWSE_TITLE;
 		        }
 		    }
 		
-		
-		    // Updates everything that depends on the picking mode or the
-		    // selection: the title, count, card highlights, and both buttons
 		    function refreshSellUI() {
-		
-		        if (destroyed) {
-		            return;
-		        }
+		        if (destroyed) return;
 		
 		        var sel = getSelection();
 		        var picking = pickMode !== "";
 		
 		        setTitle();
 		
-		        for (
-		            var i = 0;
-		            i < cards.length;
-		            i++
-		        ) {
-		
+		        for (var i = 0; i < cards.length; i++) {
 		            var card = cards[i];
 		            var entry = entries[card.monsterIndex];
 		
-		            var locked =
-		                picking &&
-		                !!entry &&
-		                isLocked(entry);
-		
-		            var on =
-		                picking &&
-		                !!entry &&
-		                !locked &&
-		                !!selected[entry.uid];
+		            var locked = picking && !!entry && isLocked(entry);
+		            var on = picking && !!entry && !locked && !!selected[entry.uid];
 		
 		            card.alpha = locked ? 0.45 : 1;
 		            card.reactOff = locked;
 		
-		            if (
-		                card.selectMark &&
-		                card.selectMark.visible !== on
-		            ) {
-		
+		            if (card.selectMark && card.selectMark.visible !== on) {
 		                card.selectMark.visible = on;
 		
 		                if (card.cacheCanvas) {
@@ -15827,39 +16112,21 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            }
 		        }
 		
-		
 		        if (pickMode === "sell") {
-		
-		            countText.text =
-		                sel.count + " selected";
-		
+		            countText.text = sel.count + " selected";
 		        } else if (pickMode === "export") {
-		
-		            countText.text =
-		                sel.count + " of " + exportFree + " selected";
-		
+		            countText.text = sel.count + " of " + exportFree + " selected";
 		        } else {
-		
 		            countText.text =
 		                entries.length +
-		                (
-		                    entries.length === 1
-		                        ? " monster"
-		                        : " monsters"
-		                );
+		                (entries.length === 1 ? " monster" : " monsters");
 		        }
 		
-		
-		        // Sell button: "Cancel" when nothing is picked yet,
-		        // otherwise "Sell" with the Cryst icon and the total
 		        if (pickMode === "sell" && sel.count === 0) {
-		
 		            sellBtn.label.text = "Cancel";
 		            sellBtn.iconHolder.visible = false;
 		            sellBtn.amount.visible = false;
-		
 		        } else {
-		
 		            sellBtn.label.text = "Sell";
 		            sellBtn.iconHolder.visible = true;
 		            sellBtn.amount.visible = pickMode === "sell";
@@ -15868,63 +16135,38 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		        layoutSellContent();
 		
-		
-		        // Export button
 		        if (exportBusy) {
-		
 		            exportBtn.label.text = exportBusyText;
-		
 		        } else if (pickMode === "export") {
-		
-		            exportBtn.label.text =
-		                sel.count === 0
-		                    ? "Cancel"
-		                    : "Send " + sel.count;
-		
+		            exportBtn.label.text = sel.count === 0 ? "Cancel" : "Send " + sel.count;
 		        } else {
-		
 		            exportBtn.label.text = "Export";
 		        }
 		
 		        centerLabel(exportBtn);
 		    }
 		
-		
 		    function startPicking(mode) {
-		
 		        pickMode = mode;
 		        selected = {};
-		
 		        refreshSellUI();
 		    }
-		
 		
 		    function stopPicking() {
-		
 		        pickMode = "";
 		        selected = {};
-		
 		        refreshSellUI();
 		    }
 		
-		
 		    function onSellPress() {
+		        if (placementActive() || dialogOpen || exportBusy) return;
 		
-		        if (placementActive() || dialogOpen || exportBusy) {
-		            return;
-		        }
-		
-		        // Start picking monsters to sell
-		        // (this also switches over from export mode)
 		        if (pickMode !== "sell") {
-		
 		            startPicking("sell");
 		            return;
 		        }
 		
-		        // Nothing picked: the button says Cancel
 		        if (getSelection().count === 0) {
-		
 		            stopPicking();
 		            return;
 		        }
@@ -15932,18 +16174,71 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        openConfirm("sell");
 		    }
 		
+		    // --------------------------------------------------
+		    // EXPORT ERROR HANDLING
+		    // --------------------------------------------------
 		
-		    function onExportPress() {
+		    function exportErrorText(err) {
+		        var code = String(
+		            err && err.message
+		                ? err.message
+		                : err || "unknown-error"
+		        );
 		
-		        if (placementActive() || dialogOpen || exportBusy) {
-		            return;
+		        if (code.indexOf("not-signed-in") >= 0) {
+		            return "Sign in with your username before exporting monsters.";
 		        }
 		
-		        // Already picking: Cancel, or ask before sending
+		        if (code.indexOf("limit") >= 0) {
+		            return "Your account can only hold " +
+		                exportLimit +
+		                " exported monsters. Select fewer monsters and try again.";
+		        }
+		
+		        if (code.indexOf("not-loaded") >= 0) {
+		            return "Your save has not loaded yet. Try again in a moment.";
+		        }
+		
+		        if (code.indexOf("player-changed") >= 0) {
+		            return "Your signed-in player changed. Nothing was exported. Try again.";
+		        }
+		
+		        if (code.indexOf("HTTP 401") >= 0) {
+		            return "Your sign-in may have expired. Reload the game and sign in again.";
+		        }
+		
+		        if (code.indexOf("HTTP 403") >= 0) {
+		            return "The server denied the export. Check your Firestore security rules and make sure you are signed in.";
+		        }
+		
+		        if (
+		            code.indexOf("exportMonsters is not a function") >= 0 ||
+		            code.indexOf("getExportInfo is not a function") >= 0
+		        ) {
+		            return "The save system is missing a required export function. Update SaveSystem and try again.";
+		        }
+		
+		        if (
+		            code.indexOf("Failed to fetch") >= 0 ||
+		            code.indexOf("NetworkError") >= 0
+		        ) {
+		            return "A network error interrupted the export. Check your connection and try again.";
+		        }
+		
+		        console.error("Monster export error:", err);
+		
+		        return "Something went wrong during export. Check the browser console for details and try again.";
+		    }
+		
+		    // --------------------------------------------------
+		    // EXPORT SELECTION
+		    // --------------------------------------------------
+		
+		    function onExportPress() {
+		        if (placementActive() || dialogOpen || exportBusy) return;
+		
 		        if (pickMode === "export") {
-		
 		            if (getSelection().count === 0) {
-		
 		                stopPicking();
 		                return;
 		            }
@@ -15952,186 +16247,174 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            return;
 		        }
 		
-		        // Starting: first find out how much room the account has
+		        if (
+		            typeof SaveSystem === "undefined" ||
+		            typeof SaveSystem.getExportInfo !== "function" ||
+		            typeof SaveSystem.exportMonsters !== "function"
+		        ) {
+		            showNotice(
+		                "Export unavailable",
+		                "The save system is missing its export functions. Update SaveSystem before exporting."
+		            );
+		            return;
+		        }
+		
 		        exportBusy = true;
 		        exportBusyText = "Checking...";
 		        refreshSellUI();
 		
-		        SaveSystem.getExportInfo()
-		            .then(
-		                function (info) {
+		        Promise.resolve()
+		            .then(function () {
+		                return SaveSystem.getExportInfo();
+		            })
+		            .then(function (info) {
+		                if (destroyed) return;
 		
-		                    exportBusy = false;
-		
-		                    if (destroyed) {
-		                        return;
-		                    }
-		
-		                    exportLimit = info.limit;
-		                    exportFree = Math.max(0, info.limit - info.count);
-		
-		                    if (exportFree === 0) {
-		
-		                        refreshSellUI();
-		
-		                        showNotice(
-		                            "Account is full",
-		                            "Your account already holds " +
-		                            info.limit +
-		                            " exported monsters, which is the limit."
-		                        );
-		
-		                        return;
-		                    }
-		
-		                    startPicking("export");
+		                if (
+		                    !info ||
+		                    !Number.isFinite(Number(info.limit)) ||
+		                    !Number.isFinite(Number(info.count)) ||
+		                    Number(info.limit) < 0 ||
+		                    Number(info.count) < 0
+		                ) {
+		                    throw new Error("invalid-export-info");
 		                }
-		            )
-		            .catch(
-		                function (err) {
 		
-		                    exportBusy = false;
+		                exportLimit = Number(info.limit);
+		                exportFree = Math.max(0, exportLimit - Number(info.count));
 		
-		                    if (destroyed) {
-		                        return;
-		                    }
+		                exportBusy = false;
+		                exportBusyText = "Sending...";
 		
+		                if (exportFree === 0) {
 		                    refreshSellUI();
 		
 		                    showNotice(
-		                        "Can't export",
-		                        exportErrorText(err)
+		                        "Account is full",
+		                        "Your account already holds " +
+		                        exportLimit +
+		                        " exported monsters, which is the limit."
 		                    );
+		
+		                    return;
 		                }
-		            );
+		
+		                startPicking("export");
+		            })
+		            .catch(function (err) {
+		                if (destroyed) return;
+		
+		                exportBusy = false;
+		                exportBusyText = "Sending...";
+		                refreshSellUI();
+		
+		                showNotice("Can't export", exportErrorText(err));
+		            });
 		    }
-		
-		
-		    function exportErrorText(err) {
-		
-		        var code =
-		            String(
-		                err && err.message
-		            );
-		
-		        if (code === "not-signed-in") {
-		
-		            return "Sign in with your username to send monsters to your account.";
-		        }
-		
-		        if (code === "limit") {
-		
-		            return "Your account can only hold " +
-		                   exportLimit +
-		                   " exported monsters. Pick fewer and try again.";
-		        }
-		
-		        if (code === "not-loaded") {
-		
-		            return "Your save hasn't loaded yet. Try again in a moment.";
-		        }
-		
-		        if (code === "player-changed") {
-		
-		            return "You signed in as a different player while sending, so nothing was changed.";
-		        }
-		
-		        if (code.indexOf("HTTP 401") >= 0) {
-		
-		            return "Your sign-in has expired. Reload the page and try again.";
-		        }
-		
-		        if (code.indexOf("HTTP 403") >= 0) {
-		
-		            return "The server refused the export. Make sure you are signed in and your username is set.";
-		        }
-		
-		        return "Something went wrong, so nothing was changed. Try again in a moment.";
-		    }
-		
 		
 		    function onConfirm() {
-		
 		        if (dialogKind === "sell") {
-		
 		            doSell();
-		
 		        } else if (dialogKind === "export") {
-		
 		            doExport();
-		
 		        } else {
-		
 		            closeConfirm();
 		        }
 		    }
 		
-		
 		    function doSell() {
-		
 		        var sel = getSelection();
 		
 		        closeConfirm();
 		
-		        if (!sel.count) {
-		            return;
-		        }
+		        if (!sel.count) return;
 		
 		        var gone = {};
 		
-		        for (
-		            var i = 0;
-		            i < sel.list.length;
-		            i++
-		        ) {
-		
+		        for (var i = 0; i < sel.list.length; i++) {
 		            gone[sel.list[i].uid] = true;
 		        }
 		
-		        var remaining =
-		            entries.filter(
-		                function (m) {
-		                    return !gone[m.uid];
-		                }
-		            );
+		        var remaining = entries.filter(function (m) {
+		            return !gone[m.uid];
+		        });
 		
 		        pickMode = "";
 		        selected = {};
 		
-		        // Both changes go into the same save
-		        SaveSystem.set(
-		            "monsters",
-		            remaining
-		        );
-		
-		        SaveSystem.add(
-		            "cryst",
-		            sel.total
-		        );
+		        SaveSystem.set("monsters", remaining);
+		        SaveSystem.add("cryst", sel.total);
 		
 		        refreshSellUI();
 		    }
 		
+		    // --------------------------------------------------
+		    // SEND SELECTED MONSTERS TO THE PLAYER ACCOUNT
+		    // --------------------------------------------------
 		
 		    function doExport() {
-		
 		        var sel = getSelection();
 		
 		        closeConfirm();
 		
-		        if (!sel.count) {
+		        if (!sel.count) return;
+		
+		        if (
+		            typeof SaveSystem === "undefined" ||
+		            typeof SaveSystem.exportMonsters !== "function"
+		        ) {
+		            showNotice(
+		                "Export unavailable",
+		                "The save system cannot export monsters yet. Update SaveSystem and try again."
+		            );
 		            return;
 		        }
 		
 		        var uids = [];
+		        var seen = {};
 		
-		        for (
-		            var i = 0;
-		            i < sel.list.length;
-		            i++
-		        ) {
+		        for (var i = 0; i < sel.list.length; i++) {
+		            var entry = sel.list[i];
 		
-		            uids.push(sel.list[i].uid);
+		            if (
+		                !entry ||
+		                entry.uid === undefined ||
+		                entry.uid === null ||
+		                String(entry.uid).trim() === "" ||
+		                isLocked(entry)
+		            ) {
+		                continue;
+		            }
+		
+		            var uid = String(entry.uid);
+		
+		            if (seen[uid]) continue;
+		
+		            seen[uid] = true;
+		            uids.push(uid);
+		        }
+		
+		        if (!uids.length) {
+		            refreshSellUI();
+		
+		            showNotice(
+		                "No monsters selected",
+		                "Select at least one monster that is not assigned to an egg slot."
+		            );
+		            return;
+		        }
+		
+		        if (uids.length > exportFree) {
+		            refreshSellUI();
+		
+		            showNotice(
+		                "Export limit reached",
+		                "Your account has room for only " +
+		                exportFree +
+		                (exportFree === 1 ? " more monster." : " more monsters.") +
+		                " Select fewer monsters and try again."
+		            );
+		            return;
 		        }
 		
 		        var n = uids.length;
@@ -16140,52 +16423,52 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        exportBusyText = "Sending...";
 		        refreshSellUI();
 		
-		        SaveSystem.exportMonsters(uids)
-		            .then(
-		                function (info) {
+		        Promise.resolve()
+		            .then(function () {
+		                return SaveSystem.exportMonsters(uids);
+		            })
+		            .then(function (info) {
+		                if (destroyed) return;
 		
-		                    exportBusy = false;
-		
-		                    if (destroyed) {
-		                        return;
-		                    }
-		
-		                    pickMode = "";
-		                    selected = {};
-		
-		                    refreshSellUI();
-		
-		                    showNotice(
-		                        "Sent!",
-		                        n +
-		                        (n === 1 ? " monster was" : " monsters were") +
-		                        " sent to your account. It now holds " +
-		                        info.count +
-		                        " of " +
-		                        info.limit +
-		                        "."
-		                    );
+		                if (
+		                    !info ||
+		                    !Number.isFinite(Number(info.count)) ||
+		                    !Number.isFinite(Number(info.limit))
+		                ) {
+		                    throw new Error("invalid-export-response");
 		                }
-		            )
-		            .catch(
-		                function (err) {
 		
-		                    exportBusy = false;
+		                exportBusy = false;
+		                exportBusyText = "Sending...";
 		
-		                    if (destroyed) {
-		                        return;
-		                    }
+		                pickMode = "";
+		                selected = {};
 		
-		                    refreshSellUI();
+		                refreshSellUI();
 		
-		                    showNotice(
-		                        "Export failed",
-		                        exportErrorText(err)
-		                    );
-		                }
-		            );
+		                showNotice(
+		                    "Sent!",
+		                    n +
+		                    (n === 1
+		                        ? " monster was sent"
+		                        : " monsters were sent") +
+		                    " to your account. It now holds " +
+		                    Number(info.count) +
+		                    " of " +
+		                    Number(info.limit) +
+		                    "."
+		                );
+		            })
+		            .catch(function (err) {
+		                if (destroyed) return;
+		
+		                exportBusy = false;
+		                exportBusyText = "Sending...";
+		                refreshSellUI();
+		
+		                showNotice("Export failed", exportErrorText(err));
+		            });
 		    }
-		
 		
 		    // --------------------------------------------------
 		    // BUTTON CLICKS
@@ -16196,1545 +16479,590 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    cancelBtn.on("click", closeConfirm);
 		    confirmBtn.on("click", onConfirm);
 		
-		
 		    // --------------------------------------------------
 		    // CARD TEXT
 		    // --------------------------------------------------
 		
 		    function typeLabel(def) {
-		
 		        var types = [];
 		
-		
-		        if (def.type1) {
-		            types.push(
-		                def.type1
-		            );
-		        }
-		
-		
-		        if (def.type2) {
-		            types.push(
-		                def.type2
-		            );
-		        }
-		
+		        if (def.type1) types.push(def.type1);
+		        if (def.type2) types.push(def.type2);
 		
 		        return types.length
-		            ? types.join(
-		                SEPARATOR
-		            ).toUpperCase()
-		
+		            ? types.join(SEPARATOR).toUpperCase()
 		            : NO_TYPE;
 		    }
 		
-		
-		    // "Level 12 · Slot 3",
-		    // or just "Level 12" when it isn't in a slot
 		    function levelLabel(entry) {
+		        var text = "Level " + (entry.level || 1);
 		
-		        var text =
-		            "Level " +
-		            (entry.level || 1);
-		
-		
-		        if (
-		            typeof entry.slot ===
-		            "number" &&
-		            entry.slot >= 0
-		        ) {
-		
-		            text +=
-		                SEPARATOR +
-		                "Slot " +
-		                (entry.slot + 1);
+		        if (typeof entry.slot === "number" && entry.slot >= 0) {
+		            text += SEPARATOR + "Slot " + (entry.slot + 1);
 		        }
-		
 		
 		        return text;
 		    }
-		
 		
 		    // --------------------------------------------------
 		    // REMOVE OLD EGG ART
 		    // --------------------------------------------------
 		
-		    // Removes every child stored under the property name "egg",
-		    // wherever it is inside the card (including nested clips)
 		    function removeEgg(node) {
+		        if (!node) return;
 		
-		        if (!node) {
-		            return;
+		        if (node.egg && node.egg.parent) {
+		            node.egg.parent.removeChild(node.egg);
 		        }
 		
+		        var kids = (node.children || []).slice();
 		
-		        if (
-		            node.egg &&
-		            node.egg.parent
-		        ) {
-		
-		            node.egg.parent.removeChild(
-		                node.egg
-		            );
-		        }
-		
-		
-		        var kids =
-		            (node.children || []).slice();
-		
-		
-		        for (
-		            var i = 0;
-		            i < kids.length;
-		            i++
-		        ) {
-		
-		            removeEgg(
-		                kids[i]
-		            );
+		        for (var i = 0; i < kids.length; i++) {
+		            removeEgg(kids[i]);
 		        }
 		    }
-		
 		
 		    // --------------------------------------------------
 		    // SHOW MONSTER ART
 		    // --------------------------------------------------
 		
 		    function showArt(card) {
+		        card.gotoAndStop(ART_FRAME);
 		
-		        // The whole MonsterContainer card goes to frame 2
-		        card.gotoAndStop(
-		            ART_FRAME
-		        );
-		
-		
-		        // Find MonsterArt inside the MonsterContainer
-		        var monsterArt =
-		            card.MonsterArt;
-		
+		        var monsterArt = card.MonsterArt;
 		
 		        if (!monsterArt) {
-		
-		            console.warn(
-		                "MonsterArt not found inside MonsterContainer."
-		            );
-		
-		
-		            removeEgg(
-		                card
-		            );
-		
+		            console.warn("MonsterArt not found inside MonsterContainer.");
+		            removeEgg(card);
 		            return;
 		        }
 		
+		        var entry = entries[card.monsterIndex];
+		        var def = entry ? speciesOf(entry.monsterId) : null;
 		
-		        // Get the monster assigned to this card
-		        var entry =
-		            entries[
-		                card.monsterIndex
-		            ];
+		        var monsterName = def
+		            ? String(def.name || "").trim()
+		            : String((entry && entry.name) || "").trim();
 		
+		        var frameToUse = "default";
+		        var labels = [];
 		
-		        var def =
-		            entry
-		                ? speciesOf(
-		                    entry.monsterId
-		                )
-		                : null;
+		        if (monsterArt.timeline && monsterArt.timeline.getLabels) {
+		            labels = monsterArt.timeline.getLabels();
+		        }
 		
-		
-		        // Monster name to search for: the species list first,
-		        // then the name saved on the monster itself
-		        var monsterName =
-		            def
-		                ? String(
-		                    def.name || ""
-		                ).trim()
-		
-		                : String(
-		                    (entry && entry.name) || ""
-		                ).trim();
-		
-		
-		        // Default frame
-		        var frameToUse =
-		            "default";
-		
-		
-		        // --------------------------------------------------
-		        // FIND MATCHING MONSTER FRAME LABEL
-		        // --------------------------------------------------
-		
-		        if (
-		            monsterName !== ""
-		        ) {
-		
-		            var labels = [];
-		
+		        for (var i = 0; i < labels.length; i++) {
+		            var labelName = String(labels[i].label || "").trim();
 		
 		            if (
-		                monsterArt.timeline &&
-		                monsterArt.timeline.getLabels
+		                monsterName !== "" &&
+		                labelName.toLowerCase() === monsterName.toLowerCase()
 		            ) {
-		
-		                labels =
-		                    monsterArt.timeline.getLabels();
-		            }
-		
-		
-		            for (
-		                var i = 0;
-		                i < labels.length;
-		                i++
-		            ) {
-		
-		                // CreateJS uses .label
-		                // for frame labels
-		                var labelName =
-		                    String(
-		                        labels[i].label || ""
-		                    ).trim();
-		
-		
-		                if (
-		                    labelName ===
-		                    monsterName
-		                ) {
-		
-		                    frameToUse =
-		                        labelName;
-		
-		                    break;
-		                }
+		                frameToUse = labelName;
+		                break;
 		            }
 		        }
 		
-		
-		        // --------------------------------------------------
-		        // SHOW MONSTER ART
-		        // --------------------------------------------------
-		
-		        monsterArt.gotoAndStop(
-		            frameToUse
-		        );
-		
-		
-		        // Switching frames can put timeline
-		        // content back, so delete the old egg afterward.
-		        removeEgg(
-		            card
-		        );
+		        monsterArt.gotoAndStop(frameToUse);
+		        removeEgg(card);
 		    }
 		
-		
 		    // --------------------------------------------------
-		    // SELECTION HIGHLIGHT (drawn on the card itself)
+		    // SELECTION MARK
 		    // --------------------------------------------------
-		
-		    // A light ring and a check badge, hidden until the monster
-		    // is selected for selling or exporting. It lives inside the
-		    // card, so it is part of the card's cached picture.
 		
 		    function ensureMark(card) {
+		        if (card.selectMark && card.selectMark.parent === card) return;
 		
-		        if (
-		            card.selectMark &&
-		            card.selectMark.parent === card
-		        ) {
+		        var b = card.nominalBounds;
 		
-		            return;
-		        }
+		        if (!b) return;
 		
-		        var b =
-		            card.nominalBounds;
-		
-		        var mark =
-		            new createjs.Container();
-		
+		        var mark = new createjs.Container();
 		        mark.visible = false;
 		        mark.mouseEnabled = false;
 		        mark.mouseChildren = false;
 		
-		
-		        var ring =
-		            new createjs.Shape();
+		        var ring = new createjs.Shape();
 		
 		        ring.graphics
-		            .setStrokeStyle(
-		                Math.max(3, b.width * 0.015)
-		            )
+		            .setStrokeStyle(Math.max(3, b.width * 0.015))
 		            .beginStroke("#8fd8ff")
 		            .beginFill("rgba(143, 216, 255, 0.2)")
-		            .drawRoundRect(
-		                b.x,
-		                b.y,
-		                b.width,
-		                b.height,
-		                b.width * 0.06
-		            );
+		            .drawRoundRect(b.x, b.y, b.width, b.height, b.width * 0.06);
 		
 		        mark.addChild(ring);
 		
+		        var r = b.width * 0.07;
+		        var cx = b.x + b.width - r * 1.7;
+		        var cy = b.y + r * 1.7;
 		
-		        var r =
-		            b.width * 0.07;
-		
-		        var cx =
-		            b.x + b.width - r * 1.7;
-		
-		        var cy =
-		            b.y + r * 1.7;
-		
-		
-		        var badge =
-		            new createjs.Shape();
+		        var badge = new createjs.Shape();
 		
 		        badge.graphics
 		            .beginFill("#8fd8ff")
 		            .drawCircle(cx, cy, r);
 		
 		        badge.graphics
-		            .setStrokeStyle(
-		                Math.max(3, r * 0.22),
-		                "round"
-		            )
+		            .setStrokeStyle(Math.max(3, r * 0.22), "round")
 		            .beginStroke("#061a2d")
 		            .moveTo(cx - r * 0.45, cy)
 		            .lineTo(cx - r * 0.1, cy + r * 0.35)
 		            .lineTo(cx + r * 0.5, cy - r * 0.35);
 		
 		        mark.addChild(badge);
-		
-		
 		        card.addChild(mark);
-		
 		        card.selectMark = mark;
 		    }
-		
 		
 		    // --------------------------------------------------
 		    // APPLY CARD DATA
 		    // --------------------------------------------------
 		
 		    function applyCard(card) {
+		        var entry = entries[card.monsterIndex];
+		        if (!entry) return;
 		
-		        var entry =
-		            entries[
-		                card.monsterIndex
-		            ];
+		        var def = speciesOf(entry.monsterId);
 		
-		
-		        var def =
-		            speciesOf(
-		                entry.monsterId
-		            );
-		
-		
-		        // Switch frames first
-		        showArt(
-		            card
-		        );
-		
+		        showArt(card);
 		
 		        if (card.type) {
-		
-		            card.type.text =
-		                def
-		                    ? typeLabel(def)
-		                    : "";
+		            card.type.text = def ? typeLabel(def) : "";
 		        }
-		
 		
 		        if (card.MonsterName) {
+		            var nick = String(entry.nickname || "").trim();
 		
-		            var nick =
-		                String(
-		                    entry.nickname || ""
-		                ).trim();
-		
-		
-		            card.MonsterName.text =
-		                nick !== ""
-		                    ? nick
-		
-		                    : (
-		                        def
-		                            ? def.name
-		                            : (entry.name || "???")
-		                    );
+		            card.MonsterName.text = nick !== ""
+		                ? nick
+		                : (def ? def.name : (entry.name || "???"));
 		        }
-		
 		
 		        if (card.guarding) {
-		
-		            var m =
-		                /^(.*?\d+(?:\.\d+)?px)\s/
-		                    .exec(
-		                        card.guarding.font ||
-		                        ""
-		                    );
-		
+		            var m = /^(.*?\d+(?:\.\d+)?px)\s/.exec(card.guarding.font || "");
 		
 		            if (m) {
-		
-		                card.guarding.font =
-		                    m[1] +
-		                    " " +
-		                    FONT_FAMILY;
+		                card.guarding.font = m[1] + " " + FONT_FAMILY;
 		            }
 		
-		
-		            card.guarding.visible =
-		                true;
-		
-		
-		            card.guarding.text =
-		                levelLabel(
-		                    entry
-		                );
+		            card.guarding.visible = true;
+		            card.guarding.text = levelLabel(entry);
 		        }
 		
-		
-		        ensureMark(
-		            card
-		        );
-		
+		        ensureMark(card);
 		
 		        if (card.cacheCanvas) {
-		
 		            card.updateCache();
 		        }
 		    }
 		
-		
 		    // --------------------------------------------------
-		    // BUILD THE CARDS FROM THE SAVE
+		    // BUILD CARDS
 		    // --------------------------------------------------
 		
 		    function clearCards() {
-		
-		        for (
-		            var i = 0;
-		            i < cards.length;
-		            i++
-		        ) {
-		
-		            createjs.Tween.removeTweens(
-		                cards[i]
-		            );
-		
-		
-		            cards[i]
-		                .removeAllEventListeners();
-		
-		
-		            content.removeChild(
-		                cards[i]
-		            );
+		        for (var i = 0; i < cards.length; i++) {
+		            createjs.Tween.removeTweens(cards[i]);
+		            cards[i].removeAllEventListeners();
+		            content.removeChild(cards[i]);
 		        }
 		
-		
 		        cards = [];
-		
 		        pressedObj = null;
 		    }
 		
-		
 		    function rebuild() {
-		
-		        // The player already left this screen
-		        if (destroyed) {
-		            return;
-		        }
-		
+		        if (destroyed) return;
 		
 		        if (!lib.MonsterContainer) {
-		
-		            console.error(
-		                "MonsterContainer not found. Check AS Linkage on the symbol."
-		            );
-		
+		            console.error("MonsterContainer not found. Check AS Linkage on the symbol.");
 		            return;
 		        }
 		
+		        var saved = SaveSystem.get("monsters");
+		        entries = Array.isArray(saved) ? saved : [];
 		
-		        var saved =
-		            SaveSystem.get(
-		                "monsters"
-		            );
-		
-		
-		        entries =
-		            Array.isArray(saved)
-		                ? saved
-		                : [];
-		
-		
-		        // Forget selections for monsters that no longer exist
 		        var stillThere = {};
 		
-		        entries.forEach(
-		            function (m) {
-		                stillThere[m.uid] = true;
-		            }
-		        );
+		        entries.forEach(function (m) {
+		            stillThere[m.uid] = true;
+		        });
 		
-		        Object.keys(selected).forEach(
-		            function (uid) {
+		        Object.keys(selected).forEach(function (uid) {
+		            if (!stillThere[uid]) delete selected[uid];
+		        });
 		
-		                if (!stillThere[uid]) {
-		                    delete selected[uid];
-		                }
-		            }
-		        );
-		
-		
-		        // Picking a monster for a slot never happens in sell mode
 		        if (placementActive()) {
-		
 		            pickMode = "";
 		            selected = {};
 		        }
 		
-		
 		        clearCards();
 		
+		        for (var i = 0; i < entries.length; i++) {
+		            var card = new lib.MonsterContainer();
 		
-		        for (
-		            var i = 0;
-		            i < entries.length;
-		            i++
-		        ) {
+		            card.monsterIndex = i;
+		            card.cursor = "pointer";
+		            card.addEventListener("click", onCardClick);
 		
-		            var card =
-		                new lib.MonsterContainer();
+		            wireReactions(card);
+		            content.addChild(card);
+		            cards.push(card);
 		
-		
-		            card.monsterIndex =
-		                i;
-		
-		
-		            card.cursor =
-		                "pointer";
-		
-		
-		            card.addEventListener(
-		                "click",
-		                onCardClick
-		            );
-		
-		
-		            wireReactions(
-		                card
-		            );
-		
-		
-		            content.addChild(
-		                card
-		            );
-		
-		
-		            cards.push(
-		                card
-		            );
-		
-		
-		            applyCard(
-		                card
-		            );
+		            applyCard(card);
 		        }
 		
-		
-		        emptyText.visible =
-		            !entries.length;
-		
+		        emptyText.visible = !entries.length;
 		
 		        layout();
-		
-		
 		        refreshSellUI();
 		    }
-		
 		
 		    // --------------------------------------------------
 		    // LEAVE MONSTER SCREEN
 		    // --------------------------------------------------
 		
 		    function leave() {
-		
 		        if (self.showScreen) {
-		
-		            self.showScreen(
-		                GAME_LABEL
-		            );
-		
+		            self.showScreen(GAME_LABEL);
 		        } else {
-		
-		            if (
-		                self.cleanupMonsters
-		            ) {
-		
-		                self.cleanupMonsters();
-		            }
-		
-		
-		            self.gotoAndStop(
-		                GAME_LABEL
-		            );
+		            if (self.cleanupMonsters) self.cleanupMonsters();
+		            self.gotoAndStop(GAME_LABEL);
 		        }
 		    }
 		
-		
 		    // --------------------------------------------------
-		    // UPDATE SLOTS SAVE DATA
+		    // UPDATE MONSTER SLOTS
 		    // --------------------------------------------------
 		
-		    function updateMonsterSlots(
-		        chosenMonsterId,
-		        targetSlot
-		    ) {
+		    function updateMonsterSlots(chosenMonsterId, targetSlot) {
+		        var savedSlots = SaveSystem.get("slots");
 		
-		        var savedSlots =
-		            SaveSystem.get(
-		                "slots"
-		            );
+		        var nextSlots = Array.isArray(savedSlots)
+		            ? savedSlots.slice()
+		            : [];
 		
-		
-		        var nextSlots =
-		            Array.isArray(
-		                savedSlots
-		            )
-		                ? savedSlots.slice()
-		                : [];
-		
-		
-		        // Make sure the array has
-		        // all five egg slots.
-		        while (
-		            nextSlots.length <
-		            5
-		        ) {
-		
-		            nextSlots.push(
-		                null
-		            );
+		        while (nextSlots.length < 5) {
+		            nextSlots.push(null);
 		        }
 		
-		
-		        // --------------------------------------------------
-		        // REMOVE THIS MONSTER FROM
-		        // ANY OTHER SLOT
-		        // --------------------------------------------------
-		
-		        for (
-		            var i = 0;
-		            i < nextSlots.length;
-		            i++
-		        ) {
-		
-		            if (
-		                i !== targetSlot &&
-		                nextSlots[i] ===
-		                chosenMonsterId
-		            ) {
-		
-		                nextSlots[i] =
-		                    null;
+		        for (var i = 0; i < nextSlots.length; i++) {
+		            if (i !== targetSlot && nextSlots[i] === chosenMonsterId) {
+		                nextSlots[i] = null;
 		            }
 		        }
 		
+		        nextSlots[targetSlot] = chosenMonsterId;
 		
-		        // --------------------------------------------------
-		        // PUT MONSTER INTO
-		        // SELECTED SLOT
-		        // --------------------------------------------------
-		
-		        nextSlots[
-		            targetSlot
-		        ] =
-		            chosenMonsterId;
-		
-		
-		        // --------------------------------------------------
-		        // SAVE SLOTS
-		        // --------------------------------------------------
-		
-		        SaveSystem.set(
-		            "slots",
-		            nextSlots
-		        );
+		        SaveSystem.set("slots", nextSlots);
 		    }
-		
 		
 		    // --------------------------------------------------
 		    // CARD CLICK
 		    // --------------------------------------------------
 		
 		    function onCardClick(evt) {
+		        if (dragMoved) return;
+		        if (dialogOpen || exportBusy) return;
 		
-		        // A press that turned into
-		        // a drag is not a tap
-		        if (dragMoved) {
-		            return;
-		        }
+		        var placement = window.MonsterPlacement;
 		
-		
-		        if (dialogOpen || exportBusy) {
-		            return;
-		        }
-		
-		
-		        var placement =
-		            window.MonsterPlacement;
-		
-		
-		        // --------------------------------------------------
-		        // NOT PICKING A MONSTER FOR A SLOT
-		        // --------------------------------------------------
-		
-		        if (
-		            !placement ||
-		            !placement.active
-		        ) {
-		
-		            // In sell or export mode a tap selects or unselects the monster
+		        if (!placement || !placement.active) {
 		            if (pickMode !== "") {
+		                var tapped = entries[evt.currentTarget.monsterIndex];
 		
-		                var tapped =
-		                    entries[
-		                        evt.currentTarget.monsterIndex
-		                    ];
-		
-		
-		                if (
-		                    !tapped ||
-		                    isLocked(tapped)
-		                ) {
-		
-		                    return;
-		                }
-		
+		                if (!tapped || isLocked(tapped)) return;
 		
 		                if (selected[tapped.uid]) {
-		
 		                    delete selected[tapped.uid];
-		
 		                } else {
-		
-		                    // Only as many monsters as the account has room for
 		                    if (
 		                        pickMode === "export" &&
 		                        getSelection().count >= exportFree
 		                    ) {
-		
 		                        showNotice(
 		                            "Export limit reached",
 		                            "Your account has room for " +
 		                            exportFree +
-		                            (exportFree === 1 ? " more monster" : " more monsters") +
-		                            ". The limit is " +
-		                            exportLimit +
-		                            " in total."
+		                            (exportFree === 1 ? " more monster." : " more monsters.") +
+		                            " The limit is " + exportLimit + " in total."
 		                        );
-		
 		                        return;
 		                    }
 		
 		                    selected[tapped.uid] = true;
 		                }
 		
-		
 		                refreshSellUI();
 		            }
 		
-		
 		            return;
 		        }
 		
-		
-		        var chosen =
-		            evt.currentTarget.monsterIndex;
-		
-		
-		        // --------------------------------------------------
-		        // CHECK CHOSEN ENTRY
-		        // --------------------------------------------------
-		
-		        var chosenEntry =
-		            entries[
-		                chosen
-		            ];
-		
+		        var chosen = evt.currentTarget.monsterIndex;
+		        var chosenEntry = entries[chosen];
 		
 		        if (!chosenEntry) {
-		
-		            console.warn(
-		                "Could not find selected monster:",
-		                chosen
-		            );
-		
+		            console.warn("Could not find selected monster:", chosen);
 		            return;
 		        }
 		
-		
-		        var chosenMonsterId =
-		            chosenEntry.monsterId;
-		
-		
-		        var targetSlot =
-		            placement.slot;
-		
-		
-		        // --------------------------------------------------
-		        // VALIDATE SLOT
-		        // --------------------------------------------------
+		        var chosenMonsterId = chosenEntry.monsterId;
+		        var targetSlot = placement.slot;
 		
 		        if (
-		            typeof targetSlot !==
-		            "number" ||
+		            typeof targetSlot !== "number" ||
 		            targetSlot < 0 ||
 		            targetSlot >= 5
 		        ) {
-		
-		            console.warn(
-		                "Invalid monster placement slot:",
-		                targetSlot
-		            );
-		
+		            console.warn("Invalid monster placement slot:", targetSlot);
 		            return;
 		        }
 		
+		        var next = entries.map(function (m, i) {
+		            var c = Object.assign({}, m);
 		
-		        // --------------------------------------------------
-		        // UPDATE MONSTERS DATA
-		        // --------------------------------------------------
+		            if (i === chosen) {
+		                c.slot = targetSlot;
+		            } else if (c.slot === targetSlot) {
+		                c.slot = -1;
+		            }
 		
-		        // Always build a new array so
-		        // SaveSystem sees the change.
-		        var next =
-		            entries.map(
-		                function (m, i) {
+		            return c;
+		        });
 		
-		                    var c =
-		                        Object.assign(
-		                            {},
-		                            m
-		                        );
+		        SaveSystem.set("monsters", next);
+		        updateMonsterSlots(chosenMonsterId, targetSlot);
 		
-		
-		                    // --------------------------------------------------
-		                    // SELECTED MONSTER
-		                    // --------------------------------------------------
-		
-		                    if (
-		                        i === chosen
-		                    ) {
-		
-		                        c.slot =
-		                            targetSlot;
-		
-		
-		                    // --------------------------------------------------
-		                    // REMOVE ANY MONSTER
-		                    // THAT WAS ALREADY IN
-		                    // THIS SLOT
-		                    // --------------------------------------------------
-		
-		                    } else if (
-		                        c.slot ===
-		                        targetSlot
-		                    ) {
-		
-		                        c.slot =
-		                            -1;
-		                    }
-		
-		
-		                    return c;
-		                }
-		            );
-		
-		
-		        // --------------------------------------------------
-		        // UPDATE MONSTERS SAVE
-		        // --------------------------------------------------
-		
-		        SaveSystem.set(
-		            "monsters",
-		            next
-		        );
-		
-		
-		        // --------------------------------------------------
-		        // UPDATE FIVE EGG SLOTS
-		        // --------------------------------------------------
-		
-		        updateMonsterSlots(
-		            chosenMonsterId,
-		            targetSlot
-		        );
-		
-		
-		        // --------------------------------------------------
-		        // PLACEMENT COMPLETE
-		        // --------------------------------------------------
-		
-		        placement.active =
-		            false;
-		
-		
-		        placement.slot =
-		            -1;
-		
-		
-		        // --------------------------------------------------
-		        // RETURN TO GAME
-		        // --------------------------------------------------
+		        placement.active = false;
+		        placement.slot = -1;
 		
 		        leave();
 		    }
-		
 		
 		    // --------------------------------------------------
 		    // SCROLLING
 		    // --------------------------------------------------
 		
 		    function setScroll(y) {
-		
-		        scrollY =
-		            Math.max(
-		                0,
-		                Math.min(
-		                    maxScroll,
-		                    y
-		                )
-		            );
-		
-		
-		        content.y =
-		            viewTop -
-		            scrollY;
+		        scrollY = Math.max(0, Math.min(maxScroll, y));
+		        content.y = viewTop - scrollY;
 		    }
 		
-		
 		    function onPress(evt) {
-		
 		        dragging = true;
 		        dragMoved = false;
 		        velocity = 0;
-		
-		
-		        dragStartY =
-		            evt.stageY;
-		
-		
-		        dragStartScroll =
-		            scrollY;
-		
-		
-		        lastY =
-		            evt.stageY;
-		
-		
-		        lastTime =
-		            Date.now();
+		        dragStartY = evt.stageY;
+		        dragStartScroll = scrollY;
+		        lastY = evt.stageY;
+		        lastTime = Date.now();
 		    }
 		
-		
 		    function onDragMove(evt) {
+		        if (!dragging) return;
 		
-		        if (!dragging) {
-		            return;
-		        }
-		
-		
-		        var y =
-		            evt.stageY;
-		
+		        var y = evt.stageY;
 		
 		        if (!dragMoved) {
+		            if (Math.abs(y - dragStartY) <= DRAG_THRESHOLD) return;
 		
-		            if (
-		                Math.abs(
-		                    y -
-		                    dragStartY
-		                ) <=
-		                DRAG_THRESHOLD
-		            ) {
+		            dragMoved = true;
 		
-		                return;
-		            }
-		
-		
-		            dragMoved =
-		                true;
-		
-		
-		            // The press turned into a scroll, so the card
-		            // under the finger springs back to full size
 		            if (pressedObj) {
-		
 		                pressedObj.pressed = false;
-		
-		                refreshReact(
-		                    pressedObj
-		                );
-		
+		                refreshReact(pressedObj);
 		                pressedObj = null;
 		            }
 		
-		
-		            dragStartY =
-		                y;
-		
-		
-		            dragStartScroll =
-		                scrollY;
-		
-		
-		            lastY =
-		                y;
-		
-		
-		            lastTime =
-		                Date.now();
-		
+		            dragStartY = y;
+		            dragStartScroll = scrollY;
+		            lastY = y;
+		            lastTime = Date.now();
 		
 		            return;
 		        }
 		
+		        setScroll(dragStartScroll - (y - dragStartY));
 		
-		        setScroll(
-		            dragStartScroll -
-		            (
-		                y -
-		                dragStartY
-		            )
-		        );
-		
-		
-		        var now =
-		            Date.now();
-		
-		
-		        var dt =
-		            now -
-		            lastTime;
-		
+		        var now = Date.now();
+		        var dt = now - lastTime;
 		
 		        if (dt > 0) {
-		
-		            velocity =
-		                velocity * 0.6 +
-		                (
-		                    (
-		                        lastY -
-		                        y
-		                    ) /
-		                    dt
-		                ) *
-		                0.4;
-		
-		
-		            lastY =
-		                y;
-		
-		            lastTime =
-		                now;
+		            velocity = velocity * 0.6 + ((lastY - y) / dt) * 0.4;
+		            lastY = y;
+		            lastTime = now;
 		        }
 		    }
-		
 		
 		    function onRelease() {
+		        if (!dragging) return;
 		
-		        if (!dragging) {
-		            return;
-		        }
+		        dragging = false;
 		
-		
-		        dragging =
-		            false;
-		
-		
-		        if (
-		            Date.now() -
-		            lastTime >
-		            100
-		        ) {
-		
-		            velocity =
-		                0;
+		        if (Date.now() - lastTime > 100) {
+		            velocity = 0;
 		        }
 		    }
-		
 		
 		    function scrollTick(evt) {
+		        if (dragging) return;
 		
-		        if (dragging) {
+		        if (Math.abs(velocity) < 0.01) {
+		            velocity = 0;
 		            return;
 		        }
 		
+		        setScroll(scrollY + velocity * evt.delta);
 		
-		        if (
-		            Math.abs(
-		                velocity
-		            ) <
-		            0.01
-		        ) {
+		        velocity *= Math.pow(FRICTION, evt.delta / 16.67);
 		
-		            velocity =
-		                0;
-		
-		            return;
-		        }
-		
-		
-		        setScroll(
-		            scrollY +
-		            velocity *
-		            evt.delta
-		        );
-		
-		
-		        velocity *=
-		            Math.pow(
-		                FRICTION,
-		                evt.delta /
-		                16.67
-		            );
-		
-		
-		        if (
-		            scrollY <= 0 ||
-		            scrollY >= maxScroll
-		        ) {
-		
-		            velocity =
-		                0;
+		        if (scrollY <= 0 || scrollY >= maxScroll) {
+		            velocity = 0;
 		        }
 		    }
 		
-		
-		    var canvas =
-		        self.stage
-		            ? self.stage.canvas
-		            : null;
-		
+		    var canvas = self.stage ? self.stage.canvas : null;
 		
 		    function onWheel(e) {
-		
 		        e.preventDefault();
+		        velocity = 0;
 		
-		        velocity =
-		            0;
+		        if (dialogOpen) return;
 		
-		
-		        // The list stays put while the prompt is open
-		        if (dialogOpen) {
-		            return;
-		        }
-		
-		
-		        var unitsPerPixel =
-		            canvas &&
-		            canvas.clientWidth
-		
-		                ? W /
-		                  canvas.clientWidth
-		
-		                : 1;
-		
+		        var unitsPerPixel = canvas && canvas.clientWidth
+		            ? W / canvas.clientWidth
+		            : 1;
 		
 		        setScroll(
 		            scrollY +
 		            e.deltaY *
-		            (
-		                e.deltaMode === 1
-		                    ? 20
-		                    : 1
-		            ) *
+		            (e.deltaMode === 1 ? 20 : 1) *
 		            unitsPerPixel
 		        );
 		    }
-		
 		
 		    // --------------------------------------------------
 		    // LAYOUT
 		    // --------------------------------------------------
 		
 		    function layoutActionBar() {
+		        var show = !placementActive();
+		        actionBar.visible = show;
 		
-		        // Hidden while the player is picking a monster for a slot
-		        var show =
-		            !placementActive();
+		        if (!show) return;
 		
-		        actionBar.visible =
-		            show;
+		        var contentW = Math.min(W - SIDE_MARGIN * 2, MAX_CONTENT_WIDTH);
 		
-		        if (!show) {
-		            return;
-		        }
+		        var btnW = portrait
+		            ? (contentW - BTN_GAP) / 2
+		            : Math.min(240, (contentW - BTN_GAP) / 2);
 		
+		        var fontSize = portrait ? 30 : 18;
 		
-		        var contentW =
-		            Math.min(
-		                W -
-		                SIDE_MARGIN * 2,
-		                MAX_CONTENT_WIDTH
-		            );
-		
-		
-		        var btnW =
-		            portrait
-		                ? (contentW - BTN_GAP) / 2
-		                : Math.min(
-		                    240,
-		                    (contentW - BTN_GAP) / 2
-		                );
-		
-		
-		        var fontSize =
-		            portrait
-		                ? 30
-		                : 18;
-		
-		
-		        actionBar.y =
-		            H -
-		            BAR_H;
-		
+		        actionBar.y = H - BAR_H;
 		
 		        actionBg.graphics.clear();
 		
+		        actionBg.graphics
+		            .beginFill("rgba(6, 26, 45, 0.94)")
+		            .drawRect(0, 0, W, BAR_H);
 		
 		        actionBg.graphics
-		            .beginFill(
-		                "rgba(6, 26, 45, 0.94)"
-		            )
-		            .drawRect(
-		                0,
-		                0,
-		                W,
-		                BAR_H
-		            );
+		            .beginFill(LINE_COLOR)
+		            .drawRect(0, 0, W, 1);
 		
+		        var left = (W - (btnW * 2 + BTN_GAP)) / 2;
+		        var cy = BAR_H / 2;
 		
-		        actionBg.graphics
-		            .beginFill(
-		                LINE_COLOR
-		            )
-		            .drawRect(
-		                0,
-		                0,
-		                W,
-		                1
-		            );
+		        sizeButton(sellBtn, btnW, BTN_H, fontSize);
+		        sizeButton(exportBtn, btnW, BTN_H, fontSize);
 		
-		
-		        var left =
-		            (
-		                W -
-		                (btnW * 2 + BTN_GAP)
-		            ) /
-		            2;
-		
-		
-		        var cy =
-		            BAR_H / 2;
-		
-		
-		        sizeButton(
-		            sellBtn,
-		            btnW,
-		            BTN_H,
-		            fontSize
-		        );
-		
-		
-		        sizeButton(
-		            exportBtn,
-		            btnW,
-		            BTN_H,
-		            fontSize
-		        );
-		
-		
-		        placeReactive(
-		            sellBtn,
-		            1,
-		            left + btnW / 2,
-		            cy,
-		            btnW / 2,
-		            BTN_H / 2
-		        );
-		
-		
-		        placeReactive(
-		            exportBtn,
-		            1,
-		            left + btnW + BTN_GAP + btnW / 2,
-		            cy,
-		            btnW / 2,
-		            BTN_H / 2
-		        );
-		
+		        placeReactive(sellBtn, 1, left + btnW / 2, cy, btnW / 2, BTN_H / 2);
+		        placeReactive(exportBtn, 1, left + btnW + BTN_GAP + btnW / 2, cy, btnW / 2, BTN_H / 2);
 		
 		        layoutSellContent();
 		    }
 		
-		
 		    function layout() {
-		
 		        layoutActionBar();
 		
+		        var topOffset = RESERVE_TOP_BAR
+		            ? (portrait ? Math.max(82, H * 0.11) : Math.max(66, H * 0.09))
+		            : 0;
 		
-		        var topOffset =
-		            RESERVE_TOP_BAR
-		                ? (
-		                    portrait
-		                        ? Math.max(
-		                            82,
-		                            H * 0.11
-		                        )
+		        var contentW = Math.min(W - SIDE_MARGIN * 2, MAX_CONTENT_WIDTH);
+		        var contentLeft = (W - contentW) / 2;
 		
-		                        : Math.max(
-		                            66,
-		                            H * 0.09
-		                        )
-		                )
+		        var headerMiddle = topOffset + HEADER_HEIGHT / 2;
+		        var lineY = topOffset + HEADER_HEIGHT;
 		
-		                : 0;
+		        titleText.font = TITLE_SIZE + "px 'Marcellus'";
+		        titleText.x = contentLeft;
+		        titleText.y = headerMiddle;
 		
-		
-		        var contentW =
-		            Math.min(
-		                W -
-		                SIDE_MARGIN * 2,
-		                MAX_CONTENT_WIDTH
-		            );
-		
-		
-		        var contentLeft =
-		            (
-		                W -
-		                contentW
-		            ) /
-		            2;
-		
-		
-		        var headerMiddle =
-		            topOffset +
-		            HEADER_HEIGHT /
-		            2;
-		
-		
-		        var lineY =
-		            topOffset +
-		            HEADER_HEIGHT;
-		
-		
-		        titleText.font =
-		            TITLE_SIZE +
-		            "px 'Marcellus'";
-		
-		
-		        titleText.x =
-		            contentLeft;
-		
-		
-		        titleText.y =
-		            headerMiddle;
-		
-		
-		        countText.font =
-		            "bold " +
-		            COUNT_SIZE +
-		            "px 'DM Sans'";
-		
-		
-		        countText.x =
-		            contentLeft +
-		            contentW;
-		
-		
-		        countText.y =
-		            headerMiddle;
-		
+		        countText.font = "bold " + COUNT_SIZE + "px 'DM Sans'";
+		        countText.x = contentLeft + contentW;
+		        countText.y = headerMiddle;
 		
 		        headerLine.graphics.clear();
-		
-		
 		        headerLine.graphics
-		            .beginFill(
-		                LINE_COLOR
-		            )
-		            .drawRect(
-		                contentLeft,
-		                lineY,
-		                contentW,
-		                LINE_THICKNESS
-		            );
+		            .beginFill(LINE_COLOR)
+		            .drawRect(contentLeft, lineY, contentW, LINE_THICKNESS);
 		
+		        headerLine.alpha = LINE_ALPHA;
+		        viewTop = lineY + LINE_THICKNESS;
 		
-		        headerLine.alpha =
-		            LINE_ALPHA;
+		        var barH = actionBar.visible ? BAR_H : 0;
+		        var viewH = H - viewTop - barH;
 		
-		
-		        viewTop =
-		            lineY +
-		            LINE_THICKNESS;
-		
-		
-		        // The list ends where the bottom bar begins
-		        var barH =
-		            actionBar.visible
-		                ? BAR_H
-		                : 0;
-		
-		
-		        var viewH =
-		            H -
-		            viewTop -
-		            barH;
-		
-		
-		        emptyText.x =
-		            W / 2;
-		
-		
-		        emptyText.y =
-		            viewTop +
-		            90;
-		
+		        emptyText.x = W / 2;
+		        emptyText.y = viewTop + 90;
 		
 		        viewMask.graphics.clear();
-		
-		
 		        viewMask.graphics
-		            .beginFill(
-		                "#000"
-		            )
-		            .drawRect(
-		                0,
-		                viewTop,
-		                W,
-		                viewH
-		            );
-		
+		            .beginFill("#000")
+		            .drawRect(0, viewTop, W, viewH);
 		
 		        scrollHit.graphics.clear();
-		
-		
 		        scrollHit.graphics
-		            .beginFill(
-		                "rgba(0, 0, 0, 0.02)"
-		            )
-		            .drawRect(
-		                0,
-		                viewTop,
-		                W,
-		                viewH
-		            );
-		
+		            .beginFill("rgba(0, 0, 0, 0.02)")
+		            .drawRect(0, viewTop, W, viewH);
 		
 		        if (!cards.length) {
-		
-		            maxScroll =
-		                0;
-		
-		
-		            setScroll(
-		                0
-		            );
-		
-		
+		            maxScroll = 0;
+		            setScroll(0);
 		            return;
 		        }
 		
+		        var b = cards[0].nominalBounds;
 		
-		        var b =
-		            cards[0].nominalBounds;
+		        if (!b || !b.width || !b.height) {
+		            console.warn("MonsterContainer needs valid nominal bounds.");
+		            return;
+		        }
 		
+		        var cardW = (contentW - CARD_GAP * (COLUMNS - 1)) / COLUMNS;
+		        var scale = cardW / b.width;
+		        var cardH = b.height * scale;
 		
-		        var cardW =
-		            (
-		                contentW -
-		                CARD_GAP *
-		                (COLUMNS - 1)
-		            ) /
-		            COLUMNS;
+		        var rows = Math.ceil(cards.length / COLUMNS);
 		
+		        var cacheScale = scale * Math.max(
+		            1,
+		            Math.min(2, window.devicePixelRatio || 1)
+		        );
 		
-		        var scale =
-		            cardW /
-		            b.width;
+		        for (var i = 0; i < cards.length; i++) {
+		            var col = i % COLUMNS;
+		            var row = Math.floor(i / COLUMNS);
 		
+		            var left = contentLeft + col * (cardW + CARD_GAP);
+		            var top = SCROLL_PAD_TOP + row * (cardH + CARD_GAP);
+		            var c = cards[i];
 		
-		        var cardH =
-		            b.height *
-		            scale;
-		
-		
-		        var rows =
-		            Math.ceil(
-		                cards.length /
-		                COLUMNS
-		            );
-		
-		
-		        var cacheScale =
-		            scale *
-		            Math.max(
-		                1,
-		                Math.min(
-		                    2,
-		                    window.devicePixelRatio ||
-		                    1
-		                )
-		            );
-		
-		
-		        for (
-		            var i = 0;
-		            i < cards.length;
-		            i++
-		        ) {
-		
-		            var col =
-		                i %
-		                COLUMNS;
-		
-		
-		            var row =
-		                Math.floor(
-		                    i /
-		                    COLUMNS
-		                );
-		
-		
-		            var left =
-		                contentLeft +
-		                col *
-		                (
-		                    cardW +
-		                    CARD_GAP
-		                );
-		
-		
-		            var top =
-		                SCROLL_PAD_TOP +
-		                row *
-		                (
-		                    cardH +
-		                    CARD_GAP
-		                );
-		
-		
-		            var c =
-		                cards[i];
-		
-		
-		            // Cards shrink around their center, so remember it
 		            placeReactive(
 		                c,
 		                scale,
@@ -17744,246 +17072,111 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                b.y + b.height / 2
 		            );
 		
-		
-		            c.cache(
-		                b.x,
-		                b.y,
-		                b.width,
-		                b.height,
-		                cacheScale
-		            );
+		            c.cache(b.x, b.y, b.width, b.height, cacheScale);
 		        }
-		
 		
 		        var contentH =
 		            SCROLL_PAD_TOP +
-		            rows *
-		            cardH +
-		            (
-		                rows - 1
-		            ) *
-		            CARD_GAP +
+		            rows * cardH +
+		            (rows - 1) * CARD_GAP +
 		            SCROLL_PAD_BOTTOM;
 		
-		
-		        maxScroll =
-		            Math.max(
-		                0,
-		                contentH -
-		                viewH
-		            );
-		
-		
-		        setScroll(
-		            scrollY
-		        );
+		        maxScroll = Math.max(0, contentH - viewH);
+		        setScroll(scrollY);
 		    }
-		
 		
 		    // --------------------------------------------------
 		    // EVENTS
 		    // --------------------------------------------------
 		
-		    viewport.on(
-		        "mousedown",
-		        onPress
-		    );
+		    viewport.on("mousedown", onPress);
+		    viewport.on("pressmove", onDragMove);
+		    viewport.on("pressup", onRelease);
 		
-		
-		    viewport.on(
-		        "pressmove",
-		        onDragMove
-		    );
-		
-		
-		    viewport.on(
-		        "pressup",
-		        onRelease
-		    );
-		
-		
-		    createjs.Ticker.addEventListener(
-		        "tick",
-		        scrollTick
-		    );
-		
+		    createjs.Ticker.addEventListener("tick", scrollTick);
 		
 		    if (canvas) {
-		
-		        canvas.addEventListener(
-		            "wheel",
-		            onWheel,
-		            {
-		                passive: false
-		            }
-		        );
+		        canvas.addEventListener("wheel", onWheel, { passive: false });
 		    }
-		
 		
 		    if (self.stage) {
+		        createjs.Touch.enable(self.stage);
+		        self.stage.mouseMoveOutside = true;
 		
-		        createjs.Touch.enable(
-		            self.stage
-		        );
-		
-		
-		        self.stage.mouseMoveOutside =
-		            true;
-		
-		
-		        // Needed for hover reactions
 		        if (canHover) {
-		
-		            self.stage.enableMouseOver(
-		                20
-		            );
+		            self.stage.enableMouseOver(20);
 		        }
 		    }
-		
 		
 		    // --------------------------------------------------
 		    // CLEANUP
 		    // --------------------------------------------------
 		
-		    self.cleanupMonsters =
-		        function () {
+		    self.cleanupMonsters = function () {
+		        destroyed = true;
 		
-		            destroyed =
-		                true;
+		        if (eggUi) {
+		            eggUi.visible = eggWasVisible;
+		        }
 		
+		        createjs.Ticker.removeEventListener("tick", scrollTick);
 		
-		            // Put the home screen's egg back
-		            if (eggUi) {
+		        if (canvas) {
+		            canvas.removeEventListener("wheel", onWheel);
+		        }
 		
-		                eggUi.visible =
-		                    eggWasVisible;
-		            }
+		        SaveSystem.onChange(LISTENER_ID, function () {});
 		
+		        if (window.MonsterPlacement) {
+		            window.MonsterPlacement.active = false;
+		        }
 		
-		            createjs.Ticker
-		                .removeEventListener(
-		                    "tick",
-		                    scrollTick
-		                );
+		        clearCards();
 		
+		        [sellBtn, exportBtn, cancelBtn, confirmBtn].forEach(function (btn) {
+		            createjs.Tween.removeTweens(btn);
+		            btn.removeAllEventListeners();
+		        });
 		
-		            if (canvas) {
+		        viewport.removeAllEventListeners();
 		
-		                canvas.removeEventListener(
-		                    "wheel",
-		                    onWheel
-		                );
-		            }
+		        self.removeChild(viewport);
+		        self.removeChild(header);
+		        self.removeChild(actionBar);
+		        self.removeChild(dialog);
 		
-		
-		            SaveSystem.onChange(
-		                LISTENER_ID,
-		                function () {}
-		            );
-		
-		
-		            if (
-		                window.MonsterPlacement
-		            ) {
-		
-		                window.MonsterPlacement.active =
-		                    false;
-		            }
-		
-		
-		            clearCards();
-		
-		
-		            [
-		                sellBtn,
-		                exportBtn,
-		                cancelBtn,
-		                confirmBtn
-		            ].forEach(
-		                function (btn) {
-		
-		                    createjs.Tween.removeTweens(
-		                        btn
-		                    );
-		
-		                    btn.removeAllEventListeners();
-		                }
-		            );
-		
-		
-		            viewport
-		                .removeAllEventListeners();
-		
-		
-		            self.removeChild(
-		                viewport
-		            );
-		
-		
-		            self.removeChild(
-		                header
-		            );
-		
-		
-		            self.removeChild(
-		                actionBar
-		            );
-		
-		
-		            self.removeChild(
-		                dialog
-		            );
-		
-		
-		            self.cleanupMonsters =
-		                null;
-		        };
-		
+		        self.cleanupMonsters = null;
+		    };
 		
 		    // --------------------------------------------------
 		    // START
 		    // --------------------------------------------------
 		
 		    setTitle();
-		
-		
 		    layout();
-		
-		
 		    refreshSellUI();
 		
-		
-		    SaveSystem.onChange(
-		        LISTENER_ID,
-		        function (name) {
-		
-		            if (
-		                name === null ||
-		                name === "monsters" ||
-		                name === "slots"
-		            ) {
-		
-		                rebuild();
-		            }
+		    SaveSystem.onChange(LISTENER_ID, function (name) {
+		        if (
+		            name === null ||
+		            name === "monsters" ||
+		            name === "slots"
+		        ) {
+		            rebuild();
 		        }
-		    );
+		    });
 		
-		
-		    if (
-		        SaveSystem.isLoaded()
-		    ) {
-		
+		    if (SaveSystem.isLoaded()) {
 		        rebuild();
-		
 		    } else {
-		
-		        SaveSystem
-		            .load()
-		            .then(
-		                rebuild
+		        SaveSystem.load().then(rebuild).catch(function (err) {
+		            console.error("Could not load monster screen:", err);
+		            showNotice(
+		                "Load failed",
+		                "Your monsters could not be loaded. Try reloading the game."
 		            );
+		        });
 		    }
-		
 		
 		})(this);
 	}
@@ -18020,9 +17213,9 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791510863748", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791510863749", id:"index_atlas_2"},
-		{src:"images/index_atlas_3.png?1791510863749", id:"index_atlas_3"}
+		{src:"images/index_atlas_.png?1791512542655", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791512542655", id:"index_atlas_2"},
+		{src:"images/index_atlas_3.png?1791512542656", id:"index_atlas_3"}
 	],
 	preloads: []
 };
