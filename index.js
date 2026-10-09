@@ -610,7 +610,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            discovered: [],         // every egg species the player has ever had (monsterIds)
 		            slots: [0, 0, 0, 0, 0], // the egg in each slot (species monsterId, 0 = empty)
 		            tapReduction: 5,        // seconds removed from an egg timer per tap
-		            monsters: [],           // owned monsters: { uid, monsterId, nickname, shiny, level, experience, nature, gender, heldItem }
+		            monsters: [],           // owned monsters: { uid, monsterId, name, nickname, shiny, level, experience, nature, gender, heldItem }
 		            monsterSeq: 1           // next monster uid to hand out
 		        };
 		        var NAMES = Object.keys(DEFAULTS);
@@ -782,6 +782,12 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            return typeof v === typeof d && v !== null;
 		        }
 		
+		        // The species name for a monsterId, or "" if the species list isn't loaded
+		        function speciesName(monsterId) {
+		            var s = window.Monster && Monster.BY_ID && Monster.BY_ID[monsterId];
+		            return s ? s.name : "";
+		        }
+		
 		        // Copies stored values into data; missing or wrong-type values get defaults.
 		        // Defaults are copied, so arrays are never shared between players.
 		        function apply(stored) {
@@ -799,6 +805,16 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            data.monsters = data.monsters.filter(function (m) {
 		                return m && clean(m.monsterId) > 0 && clean(m.uid) > 0;
 		            });
+		
+		            // Older saves have no species name: fill it in from the species list
+		            data.monsters = data.monsters.map(function (m) {
+		                if (typeof m.name === "string" && m.name !== "") return m;
+		                var name = speciesName(m.monsterId);
+		                if (!name) return m;
+		                dirty.monsters = true;
+		                return Object.assign({}, m, { name: name });
+		            });
+		
 		            var top = 0;
 		            data.monsters.forEach(function (m) { if (m.uid > top) top = m.uid; });
 		            if (data.monsterSeq < 1 || data.monsterSeq <= top) {
@@ -1112,9 +1128,9 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		
 		        // ---------- Monsters ----------
-		        // The save only stores what is unique to each owned monster.
-		        // Base stats, types and descriptions come from the species list
-		        // (Monster.BY_ID) when a full Monster object is built.
+		        // The save only stores what is unique to each owned monster, plus the
+		        // species name. Base stats, types and descriptions come from the species
+		        // list (Monster.BY_ID) when a full Monster object is built.
 		
 		        function randomNature() {
 		            var names = Object.keys(Monster.NATURE_MODIFIERS);
@@ -1132,6 +1148,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            var rec = {
 		                uid: uid,
 		                monsterId: monsterId,
+		                name: species.name,
 		                nickname: "",
 		                shiny: Math.random() < 1 / 4096,
 		                level: 1,
@@ -1143,6 +1160,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            if (extra) Object.keys(extra).forEach(function (k) { rec[k] = extra[k]; });
 		            rec.uid = uid;               // never let extra change the uid
 		            rec.monsterId = monsterId;   // or the species
+		            rec.name = species.name;     // or the species name
 		
 		            var list = data.monsters.slice();
 		            list.push(rec);
@@ -1179,6 +1197,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                var copy = Object.assign({}, m, changes);
 		                copy.uid = uid;
 		                copy.monsterId = m.monsterId;   // species can't change this way
+		                copy.name = m.name;             // and neither can its species name
 		                return copy;
 		            });
 		            return found && set("monsters", list);
@@ -1213,31 +1232,53 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        }
 		
 		
-		        // ---------- Exported monsters (kept on the player's account) ----------
-		        // Stored in players/<uid>/exports/monsters as a list of JSON strings,
-		        // one per monster, so Firestore rules can limit the list length.
+		        // ---------- Exported monsters (kept on the player's profile) ----------
+		        // Each exported monster is its own document:
+		        //   usernames/<username>/monsters/<0-5>
+		        // The document id is the export slot, so there can never be more than 6.
 		
 		        var EXPORT_LIMIT = 6;
-		        var EXPORT_PATH  = "/exports/monsters";
+		        var DOCS_ROOT    = DOC_BASE.replace(/players\/$/, "");
 		
-		        function exportUrl() {
-		            return DOC_BASE + uidOf(owner) + EXPORT_PATH;
+		        function exportName() {
+		            return exportRoot.user && exportRoot.user.username;
 		        }
 		
-		        // Resolves to the array of monsters already exported
+		        function fsValue(v) {
+		            if (v === null || v === undefined) return { nullValue: null };
+		            if (typeof v === "number")  return { integerValue: String(Math.floor(v)) };
+		            if (typeof v === "boolean") return { booleanValue: v };
+		            if (typeof v === "object")  return { stringValue: JSON.stringify(v) };
+		            return { stringValue: String(v) };
+		        }
+		
+		        function fromFsValue(v) {
+		            if ("integerValue" in v) return Number(v.integerValue);
+		            if ("booleanValue" in v) return v.booleanValue;
+		            if ("stringValue" in v)  return v.stringValue;
+		            return null;
+		        }
+		
+		        // Resolves to [{ slot, rec }] for the monsters already exported
 		        function readExported() {
-		            if (!owner || owner === "local" || !exportRoot.idToken) {
+		            var name = exportName();
+		
+		            if (!owner || owner === "local" || !exportRoot.idToken || !name) {
 		                return Promise.reject(new Error("not-signed-in"));
 		            }
 		
-		            return getDoc(exportUrl()).then(function (doc) {
-		                var f = doc && doc.fields;
-		                var vals = (f && f.monsters && f.monsters.arrayValue &&
-		                            f.monsters.arrayValue.values) || [];
+		            var url = DOCS_ROOT + "usernames/" + encodeURIComponent(name) + "/monsters?pageSize=20";
 		
-		                return vals.map(function (v) {
-		                    try { return JSON.parse(v.stringValue); } catch (e) { return null; }
-		                }).filter(Boolean);
+		            return getDoc(url).then(function (res) {
+		                var docs = (res && res.documents) || [];
+		
+		                return docs.map(function (d) {
+		                    var rec = {};
+		                    Object.keys(d.fields || {}).forEach(function (k) {
+		                        rec[k] = fromFsValue(d.fields[k]);
+		                    });
+		                    return { slot: Number(d.name.split("/").pop()), rec: rec };
+		                });
 		            });
 		        }
 		
@@ -1248,10 +1289,10 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            });
 		        }
 		
-		        // Moves monsters (by uid) from the game save to the player's account.
+		        // Moves monsters (by uid) from the game save to the player's profile.
 		        // Never goes over EXPORT_LIMIT. Resolves to { count, limit }.
-		        // The account is written first, and the monsters only leave the
-		        // game save after that write succeeded.
+		        // All the monsters are written in one all-or-nothing request, and they
+		        // only leave the game save after that request succeeded.
 		        function exportMonsters(uids) {
 		            if (!loaded) return Promise.reject(new Error("not-loaded"));
 		            if (owner === "local") return Promise.reject(new Error("not-signed-in"));
@@ -1266,33 +1307,43 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		            return readExported().then(function (current) {
 		
-		                if (current.length + picked.length > EXPORT_LIMIT) {
-		                    throw new Error("limit");
+		                var used = {};
+		                current.forEach(function (e) { used[e.slot] = true; });
+		
+		                var free = [];
+		                for (var i = 0; i < EXPORT_LIMIT; i++) {
+		                    if (!used[i]) free.push(i);
 		                }
 		
-		                // The slot only means something inside this game
-		                var sent = picked.map(function (m) {
-		                    var c = Object.assign({}, m);
-		                    delete c.slot;
-		                    return c;
+		                if (picked.length > free.length) throw new Error("limit");
+		
+		                var prefix =
+		                    "projects/" + PROJECT_ID + "/databases/(default)/documents/usernames/" +
+		                    exportName() + "/monsters/";
+		
+		                var writes = picked.map(function (m, n) {
+		
+		                    var fields = {};
+		
+		                    Object.keys(m).forEach(function (k) {
+		                        if (k !== "slot") fields[k] = fsValue(m[k]);   // the guarding slot only means something in this game
+		                    });
+		
+		                    // Make sure the species name is always sent
+		                    if (!fields.name || fields.name.stringValue === "") {
+		                        fields.name = fsValue(speciesName(m.monsterId));
+		                    }
+		
+		                    return {
+		                        update: { name: prefix + free[n], fields: fields },
+		                        currentDocument: { exists: false }              // never overwrite an exported monster
+		                    };
 		                });
 		
-		                var all = current.concat(sent);
-		
-		                return fetch(exportUrl() + "?updateMask.fieldPaths=monsters", {
-		                    method: "PATCH",
+		                return fetch(DOCS_ROOT.slice(0, -1) + ":commit", {
+		                    method: "POST",
 		                    headers: authHeaders(),
-		                    body: JSON.stringify({
-		                        fields: {
-		                            monsters: {
-		                                arrayValue: {
-		                                    values: all.map(function (m) {
-		                                        return { stringValue: JSON.stringify(m) };
-		                                    })
-		                                }
-		                            }
-		                        }
-		                    })
+		                    body: JSON.stringify({ writes: writes })
 		                }).then(function (r) {
 		                    if (!r.ok) throw new Error("HTTP " + r.status);
 		
@@ -1310,7 +1361,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                    // can't come back if the page closes
 		                    flush(false);
 		
-		                    return { count: all.length, limit: EXPORT_LIMIT };
+		                    return { count: current.length + picked.length, limit: EXPORT_LIMIT };
 		                });
 		            });
 		        }
@@ -5556,6 +5607,11 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    )
 		        ? window.EggPlacement.slot
 		        : 0;
+		
+		
+		// Use the saved slot once, so an old slot can't be picked again later
+		window.EggPlacement.slot =
+		    -1;
 		
 		
 		// ==================================================
@@ -14795,6 +14851,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    var exportFree = 0;         // how many more monsters the account can take
 		    var exportLimit = 6;
 		    var exportBusy = false;
+		    var exportBusyText = "Sending...";
 		
 		
 		    function placementActive() {
@@ -14809,6 +14866,22 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    function formatAmount(n) {
 		
 		        return Number(n).toLocaleString("en-US");
+		    }
+		
+		
+		    // The species list can be Monster.BY_ID or Monster.registry,
+		    // so look in both and never throw if neither exists yet
+		    function speciesOf(monsterId) {
+		
+		        if (typeof Monster === "undefined") {
+		            return null;
+		        }
+		
+		        return (
+		            (Monster.BY_ID && Monster.BY_ID[monsterId]) ||
+		            (Monster.registry && Monster.registry[monsterId]) ||
+		            null
+		        );
 		    }
 		
 		
@@ -15614,7 +15687,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // SELLING
 		    // --------------------------------------------------
 		
-		    // Monsters that sit in a slot can't be sold
+		    // Monsters that sit in a slot can't be sold or exported
 		    function isLocked(entry) {
 		
 		        return (
@@ -15627,9 +15700,9 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    function sellValue(entry) {
 		
 		        var def =
-		            Monster.registry[
+		            speciesOf(
 		                entry.monsterId
-		            ];
+		            );
 		
 		        if (!def) {
 		            return SELL_MIN;
@@ -15799,7 +15872,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        // Export button
 		        if (exportBusy) {
 		
-		            exportBtn.label.text = "Sending...";
+		            exportBtn.label.text = exportBusyText;
 		
 		        } else if (pickMode === "export") {
 		
@@ -15881,6 +15954,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		        // Starting: first find out how much room the account has
 		        exportBusy = true;
+		        exportBusyText = "Checking...";
 		        refreshSellUI();
 		
 		        SaveSystem.getExportInfo()
@@ -15942,7 +16016,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		        if (code === "not-signed-in") {
 		
-		            return "Sign in to send monsters to your account.";
+		            return "Sign in with your username to send monsters to your account.";
 		        }
 		
 		        if (code === "limit") {
@@ -15950,6 +16024,26 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            return "Your account can only hold " +
 		                   exportLimit +
 		                   " exported monsters. Pick fewer and try again.";
+		        }
+		
+		        if (code === "not-loaded") {
+		
+		            return "Your save hasn't loaded yet. Try again in a moment.";
+		        }
+		
+		        if (code === "player-changed") {
+		
+		            return "You signed in as a different player while sending, so nothing was changed.";
+		        }
+		
+		        if (code.indexOf("HTTP 401") >= 0) {
+		
+		            return "Your sign-in has expired. Reload the page and try again.";
+		        }
+		
+		        if (code.indexOf("HTTP 403") >= 0) {
+		
+		            return "The server refused the export. Make sure you are signed in and your username is set.";
 		        }
 		
 		        return "Something went wrong, so nothing was changed. Try again in a moment.";
@@ -16043,6 +16137,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        var n = uids.length;
 		
 		        exportBusy = true;
+		        exportBusyText = "Sending...";
 		        refreshSellUI();
 		
 		        SaveSystem.exportMonsters(uids)
@@ -16242,20 +16337,23 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		        var def =
 		            entry
-		                ? Monster.registry[
+		                ? speciesOf(
 		                    entry.monsterId
-		                ]
+		                )
 		                : null;
 		
 		
-		        // Monster name to search for
+		        // Monster name to search for: the species list first,
+		        // then the name saved on the monster itself
 		        var monsterName =
 		            def
 		                ? String(
 		                    def.name || ""
 		                ).trim()
 		
-		                : "";
+		                : String(
+		                    (entry && entry.name) || ""
+		                ).trim();
 		
 		
 		        // Default frame
@@ -16334,8 +16432,8 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // --------------------------------------------------
 		
 		    // A light ring and a check badge, hidden until the monster
-		    // is selected for selling. It lives inside the card, so it
-		    // is part of the card's cached picture.
+		    // is selected for selling or exporting. It lives inside the
+		    // card, so it is part of the card's cached picture.
 		
 		    function ensureMark(card) {
 		
@@ -16427,9 +16525,9 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		
 		        var def =
-		            Monster.registry[
+		            speciesOf(
 		                entry.monsterId
-		            ];
+		            );
 		
 		
 		        // Switch frames first
@@ -16462,7 +16560,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                    : (
 		                        def
 		                            ? def.name
-		                            : "???"
+		                            : (entry.name || "???")
 		                    );
 		        }
 		
@@ -17922,9 +18020,9 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791509090056", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791509090057", id:"index_atlas_2"},
-		{src:"images/index_atlas_3.png?1791509090057", id:"index_atlas_3"}
+		{src:"images/index_atlas_.png?1791510863748", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791510863749", id:"index_atlas_2"},
+		{src:"images/index_atlas_3.png?1791510863749", id:"index_atlas_3"}
 	],
 	preloads: []
 };
