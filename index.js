@@ -588,8 +588,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            PROJECT_ID +
 		            "/databases/(default)/documents";
 		
-		        // New save location:
-		        // usernames/{username}/saves/main
 		        var SAVE_DELAY = 1000;
 		        var WAIT_DELAY = 5000;
 		        var BASE_RETRY = 5000;
@@ -597,8 +595,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		        var LOCAL_KEY = "eggGameSave";
 		
-		        // Retain your existing encryption format for compatibility.
-		        // This key is visible to anyone who can download the game.
 		        var SECRET =
 		            "q7Xv2LmK9tRb4WzN8cPd3HfYs6JgUa1EoTn5MiVq0XrBz7CwA4kDe9Gy2Su8Fh3L";
 		
@@ -902,7 +898,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            }
 		
 		            return decrypt(s).catch(function () {
-		                // Compatibility with older plain JSON saves.
 		                try {
 		                    return JSON.parse(s) || {};
 		                } catch (e) {
@@ -986,21 +981,18 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                }
 		            });
 		
-		            // Ensure the egg slot array has exactly five entries.
 		            data.slots = data.slots.slice(0, SLOT_COUNT);
 		
 		            while (data.slots.length < SLOT_COUNT) {
 		                data.slots.push(0);
 		            }
 		
-		            // Remove malformed monster records.
 		            data.monsters = data.monsters.filter(function (m) {
 		                return m &&
 		                    clean(m.monsterId) > 0 &&
 		                    clean(m.uid) > 0;
 		            });
 		
-		            // Restore missing species names in older saves.
 		            data.monsters = data.monsters.map(function (m) {
 		                if (typeof m.name === "string" && m.name) {
 		                    return m;
@@ -1091,8 +1083,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                    );
 		                }
 		
-		                // No save under the username yet.
-		                // Read the legacy UID-based save.
 		                migrate = true;
 		
 		                return getDoc(
@@ -1213,7 +1203,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		                apply(stored);
 		
-		                // Migrate old saves to the username profile.
 		                if (migrate) {
 		                    NAMES.forEach(function (name) {
 		                        dirty[name] = true;
@@ -1245,7 +1234,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                loadPromise = null;
 		                loadFailures++;
 		
-		                // Local saves may start from defaults.
 		                if (wanted === "local") {
 		                    apply({});
 		                    giveStarterEggs();
@@ -1259,7 +1247,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                    return data;
 		                }
 		
-		                // Never overwrite a cloud save when its read fails.
 		                if (isFatal(err)) {
 		                    console.error(
 		                        "SaveSystem: cloud load failed. " +
@@ -1342,8 +1329,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                return;
 		            }
 		
-		            // Firestore rules require save to be a string
-		            // shorter than 20,000 characters.
 		            if (blob.length >= 20000) {
 		                console.error(
 		                    "SaveSystem: save is too large for " +
@@ -1381,7 +1366,11 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                keepalive: !!leaving
 		            }).then(function (r) {
 		                if (!r.ok) {
-		                    throw new Error("HTTP " + r.status);
+		                    return r.text().then(function (body) {
+		                        throw new Error(
+		                            "HTTP " + r.status + ": " + body
+		                        );
+		                    });
 		                }
 		
 		                saveFailures = 0;
@@ -1392,7 +1381,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                    err
 		                );
 		
-		                // Do not mix another player's data into this save.
 		                if (owner === startOwner) {
 		                    names.forEach(function (name) {
 		                        dirty[name] = true;
@@ -1413,7 +1401,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            }).then(function () {
 		                saving = false;
 		
-		                // Save any changes made during the request.
 		                if (Object.keys(dirty).length) {
 		                    queueSave(SAVE_DELAY);
 		                }
@@ -1612,7 +1599,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                });
 		            }
 		
-		            // Identity fields cannot be overridden.
 		            rec.uid = uid;
 		            rec.monsterId = monsterId;
 		            rec.name = species.name;
@@ -1774,13 +1760,29 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            }
 		
 		            if (typeof v === "number") {
+		                if (!isFinite(v)) {
+		                    return { nullValue: null };
+		                }
+		
+		                if (Number.isInteger(v)) {
+		                    return {
+		                        integerValue: String(v)
+		                    };
+		                }
+		
 		                return {
-		                    integerValue: String(Math.floor(v))
+		                    doubleValue: v
 		                };
 		            }
 		
 		            if (typeof v === "boolean") {
 		                return { booleanValue: v };
+		            }
+		
+		            if (typeof v === "object") {
+		                return {
+		                    stringValue: JSON.stringify(v)
+		                };
 		            }
 		
 		            return { stringValue: String(v) };
@@ -1789,6 +1791,10 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        function fromFsValue(v) {
 		            if ("integerValue" in v) {
 		                return Number(v.integerValue);
+		            }
+		
+		            if ("doubleValue" in v) {
+		                return Number(v.doubleValue);
 		            }
 		
 		            if ("booleanValue" in v) {
@@ -1806,6 +1812,10 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            return null;
 		        }
 		
+		        // --------------------------------------------------
+		        // READ EXPORTED MONSTERS
+		        // --------------------------------------------------
+		
 		        function readExported() {
 		            var name;
 		
@@ -1815,12 +1825,15 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                return Promise.reject(e);
 		            }
 		
+		            var user = exportRoot.user;
+		
 		            if (
 		                !owner ||
 		                owner === "local" ||
 		                !exportRoot.idToken ||
-		                !exportRoot.user ||
-		                ("cloud:" + exportRoot.user.uid) !== owner
+		                !user ||
+		                !user.uid ||
+		                ("cloud:" + user.uid) !== owner
 		            ) {
 		                return Promise.reject(
 		                    new Error("not-signed-in")
@@ -1855,6 +1868,10 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            });
 		        }
 		
+		        // --------------------------------------------------
+		        // EXPORT INFO
+		        // --------------------------------------------------
+		
 		        function getExportInfo() {
 		            return readExported().then(function (list) {
 		                return {
@@ -1864,6 +1881,10 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            });
 		        }
 		
+		        // --------------------------------------------------
+		        // EXPORT MONSTERS
+		        // --------------------------------------------------
+		
 		        function exportMonsters(uids) {
 		            if (!loaded) {
 		                return Promise.reject(
@@ -1871,7 +1892,17 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                );
 		            }
 		
-		            if (owner === "local") {
+		            var user = exportRoot.user;
+		
+		            if (
+		                !user ||
+		                !user.uid ||
+		                !user.username ||
+		                !exportRoot.idToken ||
+		                !owner ||
+		                owner === "local" ||
+		                owner !== "cloud:" + user.uid
+		            ) {
 		                return Promise.reject(
 		                    new Error("not-signed-in")
 		                );
@@ -1885,8 +1916,19 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		            var startOwner = owner;
 		
+		            // Remove duplicate IDs from the selection.
+		            var uniqueUIDs = [];
+		
+		            uids.forEach(function (uid) {
+		                if (
+		                    uniqueUIDs.indexOf(uid) < 0
+		                ) {
+		                    uniqueUIDs.push(uid);
+		                }
+		            });
+		
 		            var picked = data.monsters.filter(function (m) {
-		                return uids.indexOf(m.uid) >= 0;
+		                return uniqueUIDs.indexOf(m.uid) >= 0;
 		            });
 		
 		            if (!picked.length) {
@@ -1895,7 +1937,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                );
 		            }
 		
-		            // Firestore rules allow only these fields.
 		            var allowedFields = [
 		                "uid",
 		                "monsterId",
@@ -1910,20 +1951,24 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            ];
 		
 		            return readExported().then(function (current) {
-		                if (owner !== startOwner) {
+		                if (
+		                    owner !== startOwner ||
+		                    !exportRoot.user ||
+		                    exportRoot.user.uid !== user.uid
+		                ) {
 		                    throw new Error("player-changed");
 		                }
 		
 		                var used = {};
 		
-		                current.forEach(function (e) {
-		                    used[e.slot] = true;
+		                current.forEach(function (entry) {
+		                    used[String(entry.slot)] = true;
 		                });
 		
 		                var free = [];
 		
 		                for (var i = 0; i < EXPORT_LIMIT; i++) {
-		                    if (!used[i]) {
+		                    if (!used[String(i)]) {
 		                        free.push(i);
 		                    }
 		                }
@@ -1934,23 +1979,25 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		                var username = exportName();
 		
+		                // This is a Firestore resource name, not a URL.
+		                // Keep the document path separators intact.
 		                var prefix =
 		                    "projects/" + PROJECT_ID +
 		                    "/databases/(default)/documents/usernames/" +
 		                    username +
 		                    "/monsters/";
 		
-		                var writes = picked.map(function (m, n) {
+		                var writes = picked.map(function (monster, index) {
 		                    var fields = {};
 		
 		                    allowedFields.forEach(function (key) {
-		                        var value = m[key];
+		                        var value = monster[key];
 		
 		                        if (
 		                            key === "name" &&
 		                            (!value || value === "")
 		                        ) {
-		                            value = speciesName(m.monsterId);
+		                            value = speciesName(monster.monsterId);
 		                        }
 		
 		                        if (
@@ -1965,24 +2012,38 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                        }
 		                    });
 		
-		                    // Required by the security rules.
-		                    fields.uid = fsValue(m.uid);
-		                    fields.monsterId = fsValue(
-		                        Math.floor(m.monsterId)
-		                    );
-		                    fields.name = fsValue(
-		                        m.name || speciesName(m.monsterId)
-		                    );
-		                    fields.level = fsValue(
-		                        Math.max(
-		                            1,
-		                            Math.min(100, clean(m.level) || 1)
-		                        )
-		                    );
+		                    // Force required fields to valid Firestore types.
+		                    fields.uid = fsValue(monster.uid);
 		
+		                    fields.monsterId = {
+		                        integerValue: String(
+		                            Math.floor(Number(monster.monsterId))
+		                        )
+		                    };
+		
+		                    fields.name = {
+		                        stringValue:
+		                            monster.name ||
+		                            speciesName(monster.monsterId) ||
+		                            ""
+		                    };
+		
+		                    fields.level = {
+		                        integerValue: String(
+		                            Math.max(
+		                                1,
+		                                Math.min(
+		                                    100,
+		                                    clean(monster.level) || 1
+		                                )
+		                            )
+		                        )
+		                    };
+		
+		                    // Create-only write: never overwrite an existing slot.
 		                    return {
 		                        update: {
-		                            name: prefix + free[n],
+		                            name: prefix + free[index],
 		                            fields: fields
 		                        },
 		                        currentDocument: {
@@ -1991,46 +2052,72 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                    };
 		                });
 		
-		                var commitUrl =
-		                    FIRESTORE_ROOT + ":commit";
-		
-		                return fetch(commitUrl, {
+		                return fetch(FIRESTORE_ROOT + ":commit", {
 		                    method: "POST",
 		                    headers: authHeaders(),
 		                    body: JSON.stringify({
 		                        writes: writes
 		                    })
-		                }).then(function (r) {
-		                    if (!r.ok) {
-		                        return r.text().then(function (body) {
-		                            throw new Error(
-		                                "HTTP " + r.status + ": " + body
-		                            );
+		                }).then(function (response) {
+		                    return response.text().then(function (body) {
+		                        if (!response.ok) {
+		                            var message =
+		                                "HTTP " + response.status;
+		
+		                            try {
+		                                var errorJSON = JSON.parse(body);
+		
+		                                if (
+		                                    errorJSON.error &&
+		                                    errorJSON.error.message
+		                                ) {
+		                                    message += ": " +
+		                                        errorJSON.error.message;
+		                                } else {
+		                                    message += ": " + body;
+		                                }
+		                            } catch (e) {
+		                                message += ": " + body;
+		                            }
+		
+		                            throw new Error(message);
+		                        }
+		
+		                        if (
+		                            owner !== startOwner ||
+		                            !exportRoot.user ||
+		                            exportRoot.user.uid !== user.uid
+		                        ) {
+		                            // The server has already committed the export.
+		                            // Do not remove monsters from a different player.
+		                            throw new Error("player-changed");
+		                        }
+		
+		                        var exported = {};
+		
+		                        picked.forEach(function (monster) {
+		                            exported[monster.uid] = true;
 		                        });
-		                    }
 		
-		                    if (owner !== startOwner) {
-		                        throw new Error("player-changed");
-		                    }
+		                        var remaining = data.monsters.filter(
+		                            function (monster) {
+		                                return !exported[monster.uid];
+		                            }
+		                        );
 		
-		                    // Remove only after Firestore confirms success.
-		                    var gone = {};
+		                        if (!set("monsters", remaining)) {
+		                            console.error(
+		                                "SaveSystem: exported monsters were saved " +
+		                                "to Firestore, but the local save could not " +
+		                                "be updated."
+		                            );
+		                        }
 		
-		                    picked.forEach(function (m) {
-		                        gone[m.uid] = true;
+		                        return {
+		                            count: current.length + picked.length,
+		                            limit: EXPORT_LIMIT
+		                        };
 		                    });
-		
-		                    set(
-		                        "monsters",
-		                        data.monsters.filter(function (m) {
-		                            return !gone[m.uid];
-		                        })
-		                    );
-		
-		                    return {
-		                        count: current.length + picked.length,
-		                        limit: EXPORT_LIMIT
-		                    };
 		                });
 		            });
 		        }
@@ -17213,9 +17300,9 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791512542655", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791512542655", id:"index_atlas_2"},
-		{src:"images/index_atlas_3.png?1791512542656", id:"index_atlas_3"}
+		{src:"images/index_atlas_.png?1791513015887", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791513015887", id:"index_atlas_2"},
+		{src:"images/index_atlas_3.png?1791513015887", id:"index_atlas_3"}
 	],
 	preloads: []
 };
