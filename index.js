@@ -4,7 +4,7 @@ var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
 		{name:"index_atlas_", frames: [[994,0,992,870],[0,0,992,870],[988,872,980,826],[0,872,986,832]]},
-		{name:"index_atlas_2", frames: [[944,770,939,519],[0,770,942,522],[944,1291,894,540],[0,0,768,768],[770,0,768,768],[0,1294,512,512]]},
+		{name:"index_atlas_2", frames: [[944,770,939,519],[0,770,942,522],[944,1291,894,540],[0,0,768,768],[0,1294,512,512],[770,0,768,768]]},
 		{name:"index_atlas_3", frames: [[514,470,398,398],[502,514,4,12],[81,842,29,21],[196,615,188,188],[416,514,84,117],[0,615,194,194],[0,811,51,51],[0,870,894,148],[0,1110,894,20],[196,805,62,62],[514,0,468,468],[53,842,26,26],[386,615,28,28],[0,514,414,99],[416,1020,414,7],[0,1020,414,88],[53,811,46,29],[0,0,512,512]]}
 ];
 
@@ -189,22 +189,22 @@ lib.ssMetadata = [
 
 
 (lib.eggsketches2 = function() {
-	this.initialize(ss["index_atlas_3"]);
-	this.gotoAndStop(17);
-}).prototype = p = new cjs.Sprite();
-
-
-
-(lib.SLUGGITY = function() {
 	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(4);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.terratortleegg = function() {
+(lib.SLUGGITY = function() {
 	this.initialize(ss["index_atlas_2"]);
 	this.gotoAndStop(5);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.terratortleegg = function() {
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(17);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -6425,8 +6425,11 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		addStarterMonsters();
 	}
 	this.frame_1 = function() {
-		var self = this;
+		// ==================================================
+		// EGG SCREEN — COMPLETE FRAME SCRIPT
+		// ==================================================
 		
+		var self = this;
 		this.stop();
 		
 		
@@ -6435,38 +6438,26 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// --------------------------------------------------
 		
 		var EGG_RAISE = 0.15;
-		
 		var EGG_COUNT = 5;
-		
 		var MONSTER_SLOTS_PER_EGG = 5;
 		
-		var W =
-		    lib.properties.width;
-		
-		var H =
-		    lib.properties.height;
-		
-		var portrait =
-		    H > W;
-		
-		
-		// --------------------------------------------------
-		// PLACING AN EGG IN A SLOT
-		// --------------------------------------------------
+		var W = lib.properties.width;
+		var H = lib.properties.height;
+		var portrait = H > W;
 		
 		var EGG_MENU_LABEL = "eggs";
 		
 		
+		// --------------------------------------------------
+		// EGG PLACEMENT
+		// --------------------------------------------------
+		
 		if (!window.EggPlacement) {
-		
 		    window.EggPlacement = {
-		
 		        active: false,
-		
 		        slot: -1
 		    };
 		}
-		
 		
 		window.EggPlacement.active = false;
 		
@@ -6476,11 +6467,8 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// --------------------------------------------------
 		
 		var EGG_SLIDE_DISTANCE = 0.06;
-		
 		var EGG_SLIDE_OUT_TIME = 220;
-		
 		var EGG_SLIDE_IN_TIME = 320;
-		
 		var EGG_SLIDE_TOWARD_ARROW = true;
 		
 		
@@ -6489,48 +6477,38 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// --------------------------------------------------
 		
 		var TAP_NUM_SIZE = 30;
-		
 		var TAP_NUM_COLOR = "#E8F5FF";
-		
 		var TAP_NUM_GLOW = "#2496FF";
-		
-		var TAP_NUM_START =
-		    W * 0.05;
-		
-		var TAP_NUM_TRAVEL =
-		    W * 0.07;
-		
+		var TAP_NUM_START = W * 0.05;
+		var TAP_NUM_TRAVEL = W * 0.07;
 		var TAP_NUM_TIME = 800;
-		
 		var TAP_NUM_MOBILE_SCALE = 2;
 		
 		
 		// --------------------------------------------------
-		// EGG
+		// EGG AND HATCH STATE
 		// --------------------------------------------------
 		
-		var egg =
-		    self.egg;
+		var egg = self.egg;
 		
+		if (!egg) {
+		    console.error("Egg screen error: self.egg was not found.");
+		}
 		
-		// --------------------------------------------------
-		// NESTED EGG SHELLS
-		// --------------------------------------------------
+		var eggShells = egg ? egg.egg_shells : null;
 		
-		var eggShells =
-		    egg.egg_shells;
+		var eggHatching = false;
+		var hatchClickCount = 0;
+		var hatchEggIndex = -1;
+		var hatchClickTarget = 3;
 		
 		
 		// --------------------------------------------------
 		// TAP NUMBER LAYER
 		// --------------------------------------------------
 		
-		var tapNumbers =
-		    new createjs.Container();
-		
-		self.addChild(
-		    tapNumbers
-		);
+		var tapNumbers = new createjs.Container();
+		self.addChild(tapNumbers);
 		
 		
 		// --------------------------------------------------
@@ -6538,33 +6516,15 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// --------------------------------------------------
 		
 		var currentEggIndex =
-		    (
-		        window.EggPlacement.slot >= 0 &&
-		        window.EggPlacement.slot < EGG_COUNT
-		    )
+		    window.EggPlacement.slot >= 0 &&
+		    window.EggPlacement.slot < EGG_COUNT
 		        ? window.EggPlacement.slot
 		        : 0;
 		
+		window.EggPlacement.slot = -1;
 		
-		// Use the saved slot once, so an old slot can't be picked again later
-		window.EggPlacement.slot =
-		    -1;
-		
-		
-		// ==================================================
-		// GLOBAL ACTIVE EGG INDEX
-		// ==================================================
-		
-		window.CurrentEggIndex =
-		    currentEggIndex;
-		
-		
-		// --------------------------------------------------
-		// GLOBAL MONSTER SLOT INFORMATION
-		// --------------------------------------------------
-		
-		window.MonsterSlotsPerEgg =
-		    MONSTER_SLOTS_PER_EGG;
+		window.CurrentEggIndex = currentEggIndex;
+		window.MonsterSlotsPerEgg = MONSTER_SLOTS_PER_EGG;
 		
 		
 		// ==================================================
@@ -6572,27 +6532,18 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// ==================================================
 		
 		function slotIsEmpty(slot) {
-		
 		    if (
 		        !window.SaveSystem ||
 		        !SaveSystem.isLoaded()
 		    ) {
-		
 		        return false;
 		    }
 		
-		
-		    var slots =
-		        SaveSystem.get(
-		            "slots"
-		        );
-		
+		    var slots = SaveSystem.get("slots");
 		
 		    return (
 		        Array.isArray(slots) &&
-		        !Number(
-		            slots[slot]
-		        )
+		        !Number(slots[slot])
 		    );
 		}
 		
@@ -6602,21 +6553,14 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// ==================================================
 		
 		function eggIsLocked(index) {
-		
 		    if (
 		        !window.EggLockStatus ||
-		        !Array.isArray(
-		            window.EggLockStatus.locked
-		        )
+		        !Array.isArray(window.EggLockStatus.locked)
 		    ) {
-		
 		        return true;
 		    }
 		
-		
-		    return (
-		        window.EggLockStatus.locked[index] === true
-		    );
+		    return window.EggLockStatus.locked[index] === true;
 		}
 		
 		
@@ -6625,25 +6569,14 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// ==================================================
 		
 		function openEggMenuToPlace(slot) {
+		    window.EggPlacement.active = true;
+		    window.EggPlacement.slot = slot;
 		
-		    window.EggPlacement.active =
-		        true;
-		
-		    window.EggPlacement.slot =
-		        slot;
-		
-		
-		    if (
-		        self.cleanupEggNavigation
-		    ) {
-		
+		    if (self.cleanupEggNavigation) {
 		        self.cleanupEggNavigation();
 		    }
 		
-		
-		    self.gotoAndStop(
-		        EGG_MENU_LABEL
-		    );
+		    self.gotoAndStop(EGG_MENU_LABEL);
 		}
 		
 		
@@ -6652,117 +6585,54 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// ==================================================
 		
 		function spawnTapNumber(secs) {
-		
-		    var text =
-		        new createjs.Text(
-		
-		            "-" +
-		            secs +
-		            "s",
-		
-		            "bold " +
-		            TAP_NUM_SIZE *
-		            (
-		                portrait
-		                    ? TAP_NUM_MOBILE_SCALE
-		                    : 1
-		            ) +
+		    var text = new createjs.Text(
+		        "-" + secs + "s",
+		        "bold " +
+		            TAP_NUM_SIZE * (portrait ? TAP_NUM_MOBILE_SCALE : 1) +
 		            "px 'DM Sans'",
+		        TAP_NUM_COLOR
+		    );
 		
-		            TAP_NUM_COLOR
-		        );
+		    text.textAlign = "center";
+		    text.textBaseline = "middle";
+		    text.mouseEnabled = false;
 		
+		    text.shadow = new createjs.Shadow(
+		        TAP_NUM_GLOW,
+		        0,
+		        0,
+		        8
+		    );
 		
-		    text.textAlign =
-		        "center";
-		
-		
-		    text.textBaseline =
-		        "middle";
-		
-		
-		    text.mouseEnabled =
-		        false;
-		
-		
-		    text.shadow =
-		        new createjs.Shadow(
-		
-		            TAP_NUM_GLOW,
-		
-		            0,
-		
-		            0,
-		
-		            8
-		        );
-		
-		
-		    var angle =
-		        Math.random() *
-		        Math.PI *
-		        2;
-		
+		    var angle = Math.random() * Math.PI * 2;
 		
 		    var travel =
 		        TAP_NUM_TRAVEL *
-		        (
-		            0.7 +
-		            Math.random() *
-		            0.6
-		        );
-		
+		        (0.7 + Math.random() * 0.6);
 		
 		    text.x =
 		        egg.eggRestX +
-		        Math.cos(angle) *
-		        TAP_NUM_START;
-		
+		        Math.cos(angle) * TAP_NUM_START;
 		
 		    text.y =
 		        egg.y +
-		        Math.sin(angle) *
-		        TAP_NUM_START;
+		        Math.sin(angle) * TAP_NUM_START;
 		
+		    tapNumbers.addChild(text);
 		
-		    tapNumbers.addChild(
-		        text
-		    );
-		
-		
-		    createjs.Tween.get(
-		        text
-		    )
+		    createjs.Tween.get(text)
 		        .to(
 		            {
-		
-		                x:
-		                    text.x +
-		                    Math.cos(angle) *
-		                    travel,
-		
-		                y:
-		                    text.y +
-		                    Math.sin(angle) *
-		                    travel,
-		
-		                alpha:
-		                    0
-		
+		                x: text.x + Math.cos(angle) * travel,
+		                y: text.y + Math.sin(angle) * travel,
+		                alpha: 0
 		            },
-		
 		            TAP_NUM_TIME,
-		
 		            createjs.Ease.cubicOut
 		        )
-		        .call(
-		            function () {
-		
-		                tapNumbers.removeChild(
-		                    text
-		                );
-		            }
-		        );
+		        .call(function () {
+		            tapNumbers.removeChild(text);
+		        });
 		}
 		
 		
@@ -6771,48 +6641,24 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// ==================================================
 		
 		function getEggSpecies(monsterId) {
+		    var speciesList = window.EGG_SPECIES;
 		
-		    var speciesList =
-		        window.EGG_SPECIES;
-		
-		
-		    if (
-		        !Array.isArray(
-		            speciesList
-		        )
-		    ) {
-		
+		    if (!Array.isArray(speciesList)) {
 		        return null;
 		    }
 		
+		    var wantedId = Number(monsterId);
 		
-		    var wantedId =
-		        Number(
-		            monsterId
-		        );
-		
-		
-		    for (
-		        var i = 0;
-		        i < speciesList.length;
-		        i++
-		    ) {
-		
-		        var candidate =
-		            speciesList[i];
-		
+		    for (var i = 0; i < speciesList.length; i++) {
+		        var candidate = speciesList[i];
 		
 		        if (
 		            candidate &&
-		            Number(
-		                candidate.monsterId
-		            ) === wantedId
+		            Number(candidate.monsterId) === wantedId
 		        ) {
-		
 		            return candidate;
 		        }
 		    }
-		
 		
 		    return null;
 		}
@@ -6822,68 +6668,35 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// FIND EGG FRAME LABEL
 		// ==================================================
 		
-		function findEggFrameLabel(
-		    shells,
-		    frameName
-		) {
-		
-		    var timelineLabels =
-		        [];
-		
+		function findEggFrameLabel(shells, frameName) {
+		    var timelineLabels = [];
 		
 		    if (
 		        shells.timeline &&
-		        typeof shells.timeline.getLabels ===
-		            "function"
+		        typeof shells.timeline.getLabels === "function"
 		    ) {
-		
-		        timelineLabels =
-		            shells.timeline.getLabels();
+		        timelineLabels = shells.timeline.getLabels();
 		    }
 		
+		    var wanted = String(frameName || "")
+		        .trim()
+		        .toLowerCase();
 		
-		    var wanted =
-		        String(
-		            frameName || ""
-		        )
-		            .trim()
-		            .toLowerCase();
+		    for (var i = 0; i < timelineLabels.length; i++) {
+		        var label = timelineLabels[i];
 		
-		
-		    for (
-		        var i = 0;
-		        i < timelineLabels.length;
-		        i++
-		    ) {
-		
-		        var label =
-		            timelineLabels[i];
-		
-		
-		        if (
-		            !label
-		        ) {
-		
+		        if (!label) {
 		            continue;
 		        }
 		
+		        var labelName = String(label.label || "")
+		            .trim()
+		            .toLowerCase();
 		
-		        var labelName =
-		            String(
-		                label.label || ""
-		            )
-		                .trim()
-		                .toLowerCase();
-		
-		
-		        if (
-		            labelName === wanted
-		        ) {
-		
+		        if (labelName === wanted) {
 		            return label;
 		        }
 		    }
-		
 		
 		    return null;
 		}
@@ -6891,88 +6704,37 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		// ==================================================
 		// UPDATE EGG ARTWORK
+		// Empty slots use frame 1 (the default egg).
 		// ==================================================
 		
 		function updateEggFrame() {
+		    var shells = egg.egg_shells;
 		
-		    var shells =
-		        egg.egg_shells;
-		
-		
-		    if (
-		        !shells
-		    ) {
-		
-		        console.warn(
-		            "egg_shells was not found inside egg."
-		        );
-		
-		
-		        egg.alpha =
-		            1;
-		
-		
+		    if (!shells) {
+		        console.warn("egg_shells was not found inside egg.");
+		        egg.alpha = 1;
 		        return false;
 		    }
-		
-		
-		    egg.alpha =
-		        1;
-		
 		
 		    shells.stop();
 		
-		
-		    // --------------------------------------------------
-		    // SAVE SYSTEM NOT READY
-		    // --------------------------------------------------
-		
 		    if (
 		        !window.SaveSystem ||
-		        typeof SaveSystem.isLoaded !==
-		            "function" ||
+		        typeof SaveSystem.isLoaded !== "function" ||
 		        !SaveSystem.isLoaded()
 		    ) {
-		
 		        return false;
 		    }
 		
+		    var slots = SaveSystem.get("slots");
 		
-		    // --------------------------------------------------
-		    // GET SAVED EGG SLOTS
-		    // --------------------------------------------------
-		
-		    var slots =
-		        SaveSystem.get(
-		            "slots"
-		        );
-		
-		
-		    if (
-		        !Array.isArray(slots)
-		    ) {
-		
+		    if (!Array.isArray(slots)) {
 		        return false;
 		    }
 		
+		    console.log("EGG SLOTS:", JSON.stringify(slots));
 		
-		    // --------------------------------------------------
-		    // IMPORTANT DEBUG INFORMATION
-		    // --------------------------------------------------
-		
-		    console.log(
-		        "EGG SLOTS:",
-		        JSON.stringify(
-		            slots
-		        )
-		    );
-		
-		
-		    var monsterId =
-		        Number(
-		            slots[currentEggIndex]
-		        );
-		
+		    var monsterId = Number(slots[currentEggIndex]);
 		
 		    console.log(
 		        "Egg",
@@ -6981,178 +6743,77 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        monsterId
 		    );
 		
-		
-		    // --------------------------------------------------
-		    // EMPTY SLOT
-		    // --------------------------------------------------
-		
-		    if (
-		        !monsterId
-		    ) {
-		
-		        shells.gotoAndStop(
-		            1
-		        );
-		
+		    // Empty slot: show the default egg.
+		    if (!monsterId) {
+		        shells.gotoAndStop(1);
 		        shells.stop();
-		
-		        egg.alpha =
-		            1;
-		
+		        egg.alpha = 1;
 		
 		        console.log(
 		            "Egg",
 		            currentEggIndex + 1,
-		            "is empty."
+		            "is empty. Showing default egg."
 		        );
-		
 		
 		        return true;
 		    }
 		
+		    var species = getEggSpecies(monsterId);
 		
-		    // --------------------------------------------------
-		    // FIND SPECIES
-		    // --------------------------------------------------
-		
-		    var species =
-		        getEggSpecies(
+		    if (!species) {
+		        console.error(
+		            "No EGG_SPECIES entry for monsterId:",
 		            monsterId
 		        );
 		
-		
-		    if (
-		        !species
-		    ) {
-		
-		        console.error(
-		            "EGG DATA ERROR:",
-		            "No EGG_SPECIES entry for saved monsterId",
-		            monsterId,
-		            "in egg slot",
-		            currentEggIndex + 1
-		        );
-		
-		
-		        shells.gotoAndStop(
-		            1
-		        );
-		
+		        shells.gotoAndStop(1);
 		        shells.stop();
-		
-		        egg.alpha =
-		            1;
-		
+		        egg.alpha = 1;
 		
 		        return true;
 		    }
 		
+		    var frameName = String(species.name || "").trim();
 		
-		    var frameName =
-		        String(
-		            species.name || ""
-		        )
-		            .trim();
+		    if (frameName === "") {
+		        shells.gotoAndStop(1);
+		        shells.stop();
+		        egg.alpha = 1;
 		
+		        return true;
+		    }
 		
-		    console.log(
-		        "Egg",
-		        currentEggIndex + 1,
-		        "ID",
-		        monsterId,
-		        "maps to",
+		    var matchingLabel = findEggFrameLabel(
+		        shells,
 		        frameName
 		    );
 		
-		
-		    if (
-		        frameName === ""
-		    ) {
-		
-		        shells.gotoAndStop(
-		            1
-		        );
-		
-		        shells.stop();
-		
-		        egg.alpha =
-		            1;
-		
-		
-		        return true;
-		    }
-		
-		
-		    // --------------------------------------------------
-		    // FIND ACTUAL ANIMATE LABEL
-		    // --------------------------------------------------
-		
-		    var matchingLabel =
-		        findEggFrameLabel(
-		            shells,
-		            frameName
-		        );
-		
-		
-		    if (
-		        !matchingLabel
-		    ) {
-		
+		    if (!matchingLabel) {
 		        console.error(
 		            "Could not find egg frame label:",
 		            frameName,
-		            "| saved monsterId:",
-		            monsterId,
-		            "| egg slot:",
-		            currentEggIndex + 1
+		            "| monsterId:",
+		            monsterId
 		        );
 		
-		
-		        shells.gotoAndStop(
-		            1
-		        );
-		
+		        shells.gotoAndStop(1);
 		        shells.stop();
-		
-		        egg.alpha =
-		            1;
-		
+		        egg.alpha = 1;
 		
 		        return true;
 		    }
 		
-		
-		    // --------------------------------------------------
-		    // GO TO CORRECT EGG
-		    // --------------------------------------------------
-		
+		    shells.gotoAndStop(matchingLabel.position);
 		    shells.stop();
 		
-		
-		    shells.gotoAndStop(
-		        matchingLabel.position
-		    );
-		
-		
-		    shells.stop();
-		
-		
-		    egg.alpha =
-		        1;
-		
+		    egg.alpha = 1;
 		
 		    console.log(
 		        "Egg frame loaded:",
-		        "Egg",
-		        currentEggIndex + 1,
-		        "| monsterId:",
-		        monsterId,
-		        "| frame:",
 		        frameName,
 		        "| position:",
 		        matchingLabel.position
 		    );
-		
 		
 		    return true;
 		}
@@ -7161,52 +6822,33 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// ==================================================
 		// SAVE SYSTEM SLOT CHANGE LISTENER
 		// ==================================================
-		//
-		// This is important.
-		//
-		// When placeEgg() changes slots, or hatchEgg() clears
-		// a slot, the egg artwork updates immediately.
-		//
 		
 		function registerEggSlotListener() {
-		
 		    if (
 		        !window.SaveSystem ||
-		        typeof SaveSystem.onChange !==
-		            "function"
+		        typeof SaveSystem.onChange !== "function"
 		    ) {
-		
 		        return;
 		    }
 		
-		
-		    SaveSystem.onChange(
-		        "slots",
-		        function (
-		            key,
-		            slots
-		        ) {
-		
-		            if (
-		                !slots ||
-		                !Array.isArray(slots)
-		            ) {
-		
-		                return;
-		            }
-		
-		
-		            console.log(
-		                "Egg slot data changed:",
-		                JSON.stringify(
-		                    slots
-		                )
-		            );
-		
-		
-		            updateEggFrame();
+		    SaveSystem.onChange("slots", function (key, slots) {
+		        if (!Array.isArray(slots)) {
+		            return;
 		        }
-		    );
+		
+		        console.log(
+		            "Egg slot data changed:",
+		            JSON.stringify(slots)
+		        );
+		
+		        // During hatching, completeEggHatch() updates
+		        // the artwork after the save operation finishes.
+		        if (eggHatching) {
+		            return;
+		        }
+		
+		        updateEggFrame();
+		    });
 		}
 		
 		
@@ -7214,80 +6856,45 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// WAIT FOR SAVE + EGG SPECIES
 		// ==================================================
 		
-		var eggFrameWaitActive =
-		    true;
-		
-		var eggFrameWaitTicks =
-		    0;
-		
-		var eggFrameWaitMaxTicks =
-		    300;
-		
+		var eggFrameWaitActive = true;
+		var eggFrameWaitTicks = 0;
+		var eggFrameWaitMaxTicks = 300;
 		
 		function waitForInitialEggFrame() {
-		
-		    if (
-		        !eggFrameWaitActive
-		    ) {
-		
+		    if (!eggFrameWaitActive) {
 		        return;
 		    }
 		
-		
-		    if (
-		        !self.parent
-		    ) {
-		
+		    if (!self.parent) {
 		        return;
 		    }
-		
 		
 		    eggFrameWaitTicks++;
 		
+		    var updated = updateEggFrame();
 		
-		    var updated =
-		        updateEggFrame();
-		
-		
-		    if (
-		        updated === true
-		    ) {
-		
-		        eggFrameWaitActive =
-		            false;
-		
+		    if (updated === true) {
+		        eggFrameWaitActive = false;
 		
 		        createjs.Ticker.removeEventListener(
 		            "tick",
 		            waitForInitialEggFrame
 		        );
-		
 		
 		        return;
 		    }
 		
-		
-		    if (
-		        eggFrameWaitTicks >=
-		        eggFrameWaitMaxTicks
-		    ) {
-		
-		        eggFrameWaitActive =
-		            false;
-		
+		    if (eggFrameWaitTicks >= eggFrameWaitMaxTicks) {
+		        eggFrameWaitActive = false;
 		
 		        createjs.Ticker.removeEventListener(
 		            "tick",
 		            waitForInitialEggFrame
 		        );
 		
-		
-		        console.warn(
-		            "Timed out waiting for saved egg data."
-		        );
+		        console.warn("Timed out waiting for saved egg data.");
 		    }
 		}
-		
 		
 		createjs.Ticker.addEventListener(
 		    "tick",
@@ -7300,341 +6907,174 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// ==================================================
 		
 		function setupEgg(egg) {
-		
-		    if (
-		        egg.baseY ===
-		        undefined
-		    ) {
-		
-		        egg.baseY =
-		            egg.y;
+		    if (egg.baseY === undefined) {
+		        egg.baseY = egg.y;
 		    }
 		
+		    egg.y = egg.baseY - H * EGG_RAISE;
 		
-		    egg.y =
-		        egg.baseY -
-		        H *
-		        EGG_RAISE;
+		    egg.eggRestY = egg.y;
+		    egg.eggRestX = egg.x;
 		
+		    egg.floatTime = Math.random() * Math.PI * 2;
 		
-		    egg.eggRestY =
-		        egg.y;
+		    egg.originalScaleX = egg.scaleX;
+		    egg.originalScaleY = egg.scaleY;
 		
+		    egg.eggSwitching = false;
+		    egg.eggShaking = false;
 		
-		    egg.eggRestX =
-		        egg.x;
+		    egg.cursor = "pointer";
 		
-		
-		    egg.floatTime =
-		        Math.random() *
-		        Math.PI *
-		        2;
-		
-		
-		    egg.originalScaleX =
-		        egg.scaleX;
-		
-		    egg.originalScaleY =
-		        egg.scaleY;
-		
-		
-		    egg.eggSwitching =
-		        false;
-		
-		    egg.eggShaking =
-		        false;
-		
-		
-		    egg.cursor =
-		        "pointer";
-		
-		
-		    // --------------------------------------------------
 		    // HOVER IN
-		    // --------------------------------------------------
-		
-		    egg.on(
-		        "rollover",
-		        function () {
-		
-		            if (
-		                egg.eggShaking ||
-		                egg.eggSwitching
-		            ) {
-		
-		                return;
-		            }
-		
-		
-		            createjs.Tween.removeTweens(
-		                egg
-		            );
-		
-		
-		            createjs.Tween.get(
-		                egg
-		            )
-		                .to(
-		                    {
-		
-		                        scaleX:
-		                            egg.originalScaleX *
-		                            0.97,
-		
-		                        scaleY:
-		                            egg.originalScaleY *
-		                            0.97
-		
-		                    },
-		
-		                    100,
-		
-		                    createjs.Ease.quadOut
-		                );
+		    egg.on("rollover", function () {
+		        if (
+		            egg.eggShaking ||
+		            egg.eggSwitching ||
+		            eggHatching
+		        ) {
+		            return;
 		        }
-		    );
 		
+		        createjs.Tween.removeTweens(egg);
 		
-		    // --------------------------------------------------
+		        createjs.Tween.get(egg)
+		            .to(
+		                {
+		                    scaleX: egg.originalScaleX * 0.97,
+		                    scaleY: egg.originalScaleY * 0.97
+		                },
+		                100,
+		                createjs.Ease.quadOut
+		            );
+		    });
+		
 		    // HOVER OUT
-		    // --------------------------------------------------
-		
-		    egg.on(
-		        "rollout",
-		        function () {
-		
-		            if (
-		                egg.eggShaking ||
-		                egg.eggSwitching
-		            ) {
-		
-		                return;
-		            }
-		
-		
-		            createjs.Tween.removeTweens(
-		                egg
-		            );
-		
-		
-		            createjs.Tween.get(
-		                egg
-		            )
-		                .to(
-		                    {
-		
-		                        scaleX:
-		                            egg.originalScaleX,
-		
-		                        scaleY:
-		                            egg.originalScaleY
-		
-		                    },
-		
-		                    100,
-		
-		                    createjs.Ease.quadOut
-		                );
+		    egg.on("rollout", function () {
+		        if (
+		            egg.eggShaking ||
+		            egg.eggSwitching ||
+		            eggHatching
+		        ) {
+		            return;
 		        }
-		    );
 		
+		        createjs.Tween.removeTweens(egg);
 		
-		    // --------------------------------------------------
+		        createjs.Tween.get(egg)
+		            .to(
+		                {
+		                    scaleX: egg.originalScaleX,
+		                    scaleY: egg.originalScaleY
+		                },
+		                100,
+		                createjs.Ease.quadOut
+		            );
+		    });
+		
+		    // ==================================================
 		    // EGG CLICK
-		    // --------------------------------------------------
+		    // ==================================================
 		
-		    egg.on(
-		        "click",
-		        function () {
+		    egg.on("click", function () {
 		
-		            if (
-		                egg.eggSwitching
-		            ) {
-		
-		                return;
-		            }
-		
-		
-		            var locked =
-		                eggIsLocked(
-		                    currentEggIndex
-		                );
-		
-		
-		            // --------------------------------------------------
-		            // UNLOCKED + EMPTY
-		            // --------------------------------------------------
-		
-		            if (
-		                !locked &&
-		                slotIsEmpty(
-		                    currentEggIndex
-		                )
-		            ) {
-		
-		                openEggMenuToPlace(
-		                    currentEggIndex
-		                );
-		
-		                return;
-		            }
-		
-		
-		            // --------------------------------------------------
-		            // EVERY CLICK: REDUCE TIMER
-		            // --------------------------------------------------
-		
-		            if (
-		                !locked &&
-		                self.reduceEggTimer
-		            ) {
-		
-		                var cut =
-		                    self.reduceEggTimer(
-		                        currentEggIndex
-		                    );
-		
-		
-		                if (
-		                    cut > 0
-		                ) {
-		
-		                    spawnTapNumber(
-		                        cut
-		                    );
-		                }
-		            }
-		
-		
-		            // --------------------------------------------------
-		            // ALREADY SHAKING
-		            // --------------------------------------------------
-		
-		            if (
-		                egg.eggShaking
-		            ) {
-		
-		                return;
-		            }
-		
-		
-		            // --------------------------------------------------
-		            // SHAKE
-		            // --------------------------------------------------
-		
-		            egg.eggShaking =
-		                true;
-		
-		
-		            var shakeTime =
-		                0;
-		
-		            var shakeDuration =
-		                350;
-		
-		
-		            var originalX =
-		                egg.x;
-		
-		            var originalRotation =
-		                egg.rotation;
-		
-		
-		            var shakeAmount =
-		                12 +
-		                Math.random() *
-		                8;
-		
-		
-		            var rotationAmount =
-		                5 +
-		                Math.random() *
-		                5;
-		
-		
-		            var xDirection =
-		                Math.random() < 0.5
-		                    ? -1
-		                    : 1;
-		
-		
-		            var rotationDirection =
-		                Math.random() < 0.5
-		                    ? -1
-		                    : 1;
-		
-		
-		            function shakeEgg(evt) {
-		
-		                shakeTime +=
-		                    evt.delta;
-		
-		
-		                var progress =
-		                    shakeTime /
-		                    shakeDuration;
-		
-		
-		                if (
-		                    progress >= 1
-		                ) {
-		
-		                    egg.x =
-		                        originalX;
-		
-		                    egg.rotation =
-		                        originalRotation;
-		
-		                    egg.eggShaking =
-		                        false;
-		
-		
-		                    createjs.Ticker.removeEventListener(
-		                        "tick",
-		                        shakeEgg
-		                    );
-		
-		
-		                    return;
-		                }
-		
-		
-		                var strength =
-		                    1 -
-		                    progress;
-		
-		
-		                egg.x =
-		                    originalX +
-		                    Math.sin(
-		                        progress *
-		                        Math.PI *
-		                        12
-		                    ) *
-		                    shakeAmount *
-		                    strength *
-		                    xDirection;
-		
-		
-		                egg.rotation =
-		                    originalRotation +
-		                    Math.sin(
-		                        progress *
-		                        Math.PI *
-		                        8
-		                    ) *
-		                    rotationAmount *
-		                    strength *
-		                    rotationDirection;
-		            }
-		
-		
-		            createjs.Ticker.addEventListener(
-		                "tick",
-		                shakeEgg
-		            );
+		        // During hatching, clicks advance the hatch sequence.
+		        if (eggHatching) {
+		            handleHatchClick();
+		            return;
 		        }
-		    );
+		
+		        if (egg.eggSwitching) {
+		            return;
+		        }
+		
+		        var locked = eggIsLocked(currentEggIndex);
+		
+		        // UNLOCKED + EMPTY: OPEN EGG MENU
+		        if (
+		            !locked &&
+		            slotIsEmpty(currentEggIndex)
+		        ) {
+		            openEggMenuToPlace(currentEggIndex);
+		            return;
+		        }
+		
+		        // EVERY NORMAL CLICK: REDUCE TIMER
+		        if (
+		            !locked &&
+		            self.reduceEggTimer
+		        ) {
+		            var cut = self.reduceEggTimer(
+		                currentEggIndex
+		            );
+		
+		            if (cut > 0) {
+		                spawnTapNumber(cut);
+		            }
+		        }
+		
+		        // ALREADY SHAKING
+		        if (egg.eggShaking) {
+		            return;
+		        }
+		
+		        // NORMAL SHAKE ANIMATION
+		        egg.eggShaking = true;
+		
+		        var shakeTime = 0;
+		        var shakeDuration = 350;
+		
+		        var originalX = egg.x;
+		        var originalRotation = egg.rotation;
+		
+		        var shakeAmount = 12 + Math.random() * 8;
+		        var rotationAmount = 5 + Math.random() * 5;
+		
+		        var xDirection = Math.random() < 0.5 ? -1 : 1;
+		
+		        var rotationDirection =
+		            Math.random() < 0.5 ? -1 : 1;
+		
+		        function shakeEgg(evt) {
+		            shakeTime += evt.delta;
+		
+		            var progress = shakeTime / shakeDuration;
+		
+		            if (progress >= 1) {
+		                egg.x = originalX;
+		                egg.rotation = originalRotation;
+		                egg.eggShaking = false;
+		
+		                createjs.Ticker.removeEventListener(
+		                    "tick",
+		                    shakeEgg
+		                );
+		
+		                return;
+		            }
+		
+		            var strength = 1 - progress;
+		
+		            egg.x =
+		                originalX +
+		                Math.sin(progress * Math.PI * 12) *
+		                shakeAmount *
+		                strength *
+		                xDirection;
+		
+		            egg.rotation =
+		                originalRotation +
+		                Math.sin(progress * Math.PI * 8) *
+		                rotationAmount *
+		                strength *
+		                rotationDirection;
+		        }
+		
+		        createjs.Ticker.addEventListener(
+		            "tick",
+		            shakeEgg
+		        );
+		    });
 		}
 		
 		
@@ -7642,9 +7082,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// SETUP EGG
 		// --------------------------------------------------
 		
-		setupEgg(
-		    egg
-		);
+		setupEgg(egg);
 		
 		
 		// --------------------------------------------------
@@ -7667,48 +7105,29 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		if (
 		    window.SaveSystem &&
-		    typeof SaveSystem.isLoaded ===
-		        "function" &&
+		    typeof SaveSystem.isLoaded === "function" &&
 		    !SaveSystem.isLoaded()
 		) {
-		
-		    if (
-		        typeof SaveSystem.load ===
-		            "function"
-		    ) {
-		
+		    if (typeof SaveSystem.load === "function") {
 		        try {
-		
-		            var saveLoadResult =
-		                SaveSystem.load();
-		
+		            var saveLoadResult = SaveSystem.load();
 		
 		            if (
 		                saveLoadResult &&
-		                typeof saveLoadResult.then ===
-		                    "function"
+		                typeof saveLoadResult.then === "function"
 		            ) {
-		
-		                saveLoadResult.then(
-		                    function () {
-		
+		                saveLoadResult
+		                    .then(function () {
 		                        updateEggFrame();
-		
-		                    }
-		                )
-		                .catch(
-		                    function (error) {
-		
+		                    })
+		                    .catch(function (error) {
 		                        console.warn(
 		                            "SaveSystem load failed:",
 		                            error
 		                        );
-		                    }
-		                );
+		                    });
 		            }
-		
 		        } catch (error) {
-		
 		            console.warn(
 		                "Could not start SaveSystem load:",
 		                error
@@ -7723,103 +7142,62 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// ==================================================
 		
 		function floatEggs(evt) {
+		    if (eggHatching || egg.eggSwitching) {
+		        return;
+		    }
 		
-		    egg.floatTime +=
-		        evt.delta /
-		        1000;
-		
+		    egg.floatTime += evt.delta / 1000;
 		
 		    egg.y =
 		        egg.eggRestY +
-		        Math.sin(
-		            egg.floatTime *
-		            1.5
-		        ) *
-		        15;
+		        Math.sin(egg.floatTime * 1.5) * 15;
 		}
 		
-		
-		createjs.Ticker.addEventListener(
-		    "tick",
-		    floatEggs
-		);
+		createjs.Ticker.addEventListener("tick", floatEggs);
 		
 		
 		// ==================================================
 		// EGG NAVIGATION
 		// ==================================================
 		
-		var eggNavigation =
-		    new createjs.Container();
-		
-		self.addChild(
-		    eggNavigation
-		);
+		var eggNavigation = new createjs.Container();
+		self.addChild(eggNavigation);
 		
 		
 		// --------------------------------------------------
 		// NAVIGATION SETTINGS
 		// --------------------------------------------------
 		
-		var NAV_BUTTON_SIZE =
-		    70;
-		
-		var NAV_BUTTON_WIDTH =
-		    32;
-		
-		var NAV_BUTTON_RADIUS =
-		    10;
-		
-		var NAV_BUTTON_ALPHA =
-		    0.65;
-		
-		var NAV_OUTLINE_COLOR =
-		    "#8FD8FF";
-		
-		var NAV_EGG_GAP =
-		    230;
-		
-		var NAV_DISABLED_ALPHA =
-		    0.3;
-		
-		var NAV_MOBILE_SCALE =
-		    2;
-		
-		var NAV_SCREEN_MARGIN =
-		    12;
+		var NAV_BUTTON_SIZE = 70;
+		var NAV_BUTTON_WIDTH = 32;
+		var NAV_BUTTON_RADIUS = 10;
+		var NAV_BUTTON_ALPHA = 0.65;
+		var NAV_OUTLINE_COLOR = "#8FD8FF";
+		var NAV_EGG_GAP = 230;
+		var NAV_DISABLED_ALPHA = 0.3;
+		var NAV_MOBILE_SCALE = 2;
+		var NAV_SCREEN_MARGIN = 12;
 		
 		
 		// --------------------------------------------------
 		// SAVE ORIGINAL EGG POSITION
 		// --------------------------------------------------
 		
-		var navEggX =
-		    egg.eggRestX;
-		
-		var navEggY =
-		    egg.eggRestY;
+		var navEggX = egg.eggRestX;
+		var navEggY = egg.eggRestY;
 		
 		
 		// ==================================================
 		// LEFT BUTTON
 		// ==================================================
 		
-		var leftButton =
-		    new createjs.Container();
-		
-		
-		var leftBg =
-		    new createjs.Shape();
-		
+		var leftButton = new createjs.Container();
+		var leftBg = new createjs.Shape();
 		
 		leftBg.graphics
 		    .setStrokeStyle(2)
-		    .beginStroke(
-		        NAV_OUTLINE_COLOR
-		    )
-		    .beginFill(
-		        "#123B5C"
-		    )
+		    .beginStroke(NAV_OUTLINE_COLOR)
+		    .beginFill("#123B5C")
 		    .drawRoundRect(
 		        -NAV_BUTTON_WIDTH / 2,
 		        -NAV_BUTTON_SIZE / 2,
@@ -7828,72 +7206,33 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        NAV_BUTTON_RADIUS
 		    );
 		
+		leftBg.alpha = NAV_BUTTON_ALPHA;
+		leftButton.addChild(leftBg);
 		
-		leftBg.alpha =
-		    NAV_BUTTON_ALPHA;
-		
-		
-		leftButton.addChild(
-		    leftBg
-		);
-		
-		
-		// --------------------------------------------------
-		// LEFT ARROW
-		// --------------------------------------------------
-		
-		var leftArrow =
-		    new createjs.Shape();
-		
+		var leftArrow = new createjs.Shape();
 		
 		leftArrow.graphics
 		    .setStrokeStyle(2)
-		    .beginStroke(
-		        "#FFFFFF"
-		    )
-		    .moveTo(
-		        5,
-		        -10
-		    )
-		    .lineTo(
-		        -5,
-		        0
-		    )
-		    .lineTo(
-		        5,
-		        10
-		    );
+		    .beginStroke("#FFFFFF")
+		    .moveTo(5, -10)
+		    .lineTo(-5, 0)
+		    .lineTo(5, 10);
 		
-		
-		leftButton.addChild(
-		    leftArrow
-		);
-		
-		
-		leftButton.cursor =
-		    "pointer";
+		leftButton.addChild(leftArrow);
+		leftButton.cursor = "pointer";
 		
 		
 		// ==================================================
 		// RIGHT BUTTON
 		// ==================================================
 		
-		var rightButton =
-		    new createjs.Container();
-		
-		
-		var rightBg =
-		    new createjs.Shape();
-		
+		var rightButton = new createjs.Container();
+		var rightBg = new createjs.Shape();
 		
 		rightBg.graphics
 		    .setStrokeStyle(2)
-		    .beginStroke(
-		        NAV_OUTLINE_COLOR
-		    )
-		    .beginFill(
-		        "#123B5C"
-		    )
+		    .beginStroke(NAV_OUTLINE_COLOR)
+		    .beginFill("#123B5C")
 		    .drawRoundRect(
 		        -NAV_BUTTON_WIDTH / 2,
 		        -NAV_BUTTON_SIZE / 2,
@@ -7902,126 +7241,57 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        NAV_BUTTON_RADIUS
 		    );
 		
+		rightBg.alpha = NAV_BUTTON_ALPHA;
+		rightButton.addChild(rightBg);
 		
-		rightBg.alpha =
-		    NAV_BUTTON_ALPHA;
-		
-		
-		rightButton.addChild(
-		    rightBg
-		);
-		
-		
-		// --------------------------------------------------
-		// RIGHT ARROW
-		// --------------------------------------------------
-		
-		var rightArrow =
-		    new createjs.Shape();
-		
+		var rightArrow = new createjs.Shape();
 		
 		rightArrow.graphics
 		    .setStrokeStyle(2)
-		    .beginStroke(
-		        "#FFFFFF"
-		    )
-		    .moveTo(
-		        -5,
-		        -10
-		    )
-		    .lineTo(
-		        5,
-		        0
-		    )
-		    .lineTo(
-		        -5,
-		        10
-		    );
+		    .beginStroke("#FFFFFF")
+		    .moveTo(-5, -10)
+		    .lineTo(5, 0)
+		    .lineTo(-5, 10);
 		
-		
-		rightButton.addChild(
-		    rightArrow
-		);
-		
-		
-		rightButton.cursor =
-		    "pointer";
+		rightButton.addChild(rightArrow);
+		rightButton.cursor = "pointer";
 		
 		
 		// --------------------------------------------------
 		// ADD BUTTONS
 		// --------------------------------------------------
 		
-		eggNavigation.addChild(
-		    leftButton
-		);
-		
-		eggNavigation.addChild(
-		    rightButton
-		);
+		eggNavigation.addChild(leftButton);
+		eggNavigation.addChild(rightButton);
 		
 		
 		// --------------------------------------------------
 		// SCALE + POSITION BUTTONS
 		// --------------------------------------------------
 		
-		var navScale =
-		    portrait
-		        ? NAV_MOBILE_SCALE
-		        : 1;
+		var navScale = portrait ? NAV_MOBILE_SCALE : 1;
 		
+		leftButton.scaleX = navScale;
+		leftButton.scaleY = navScale;
 		
-		leftButton.scaleX =
-		    navScale;
-		
-		leftButton.scaleY =
-		    navScale;
-		
-		
-		rightButton.scaleX =
-		    navScale;
-		
-		rightButton.scaleY =
-		    navScale;
-		
+		rightButton.scaleX = navScale;
+		rightButton.scaleY = navScale;
 		
 		var navHalfWidth =
-		    (
-		        NAV_BUTTON_WIDTH *
-		        navScale
-		    ) / 2;
-		
+		    (NAV_BUTTON_WIDTH * navScale) / 2;
 		
 		var navMaxGap =
-		    Math.min(
-		        navEggX,
-		        W - navEggX
-		    ) -
+		    Math.min(navEggX, W - navEggX) -
 		    navHalfWidth -
 		    NAV_SCREEN_MARGIN;
 		
+		var navGap = Math.min(NAV_EGG_GAP, navMaxGap);
 		
-		var navGap =
-		    Math.min(
-		        NAV_EGG_GAP,
-		        navMaxGap
-		    );
+		leftButton.x = navEggX - navGap;
+		leftButton.y = navEggY;
 		
-		
-		leftButton.x =
-		    navEggX -
-		    navGap;
-		
-		leftButton.y =
-		    navEggY;
-		
-		
-		rightButton.x =
-		    navEggX +
-		    navGap;
-		
-		rightButton.y =
-		    navEggY;
+		rightButton.x = navEggX + navGap;
+		rightButton.y = navEggY;
 		
 		
 		// ==================================================
@@ -8029,25 +7299,12 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// ==================================================
 		
 		function updateNavButtons() {
+		    var canGoLeft = currentEggIndex > 0;
 		
-		    var canGoLeft =
-		        currentEggIndex > 0;
+		    leftButton.alpha = canGoLeft ? 1 : NAV_DISABLED_ALPHA;
+		    leftButton.cursor = canGoLeft ? "pointer" : null;
 		
-		
-		    leftButton.alpha =
-		        canGoLeft
-		            ? 1
-		            : NAV_DISABLED_ALPHA;
-		
-		
-		    leftButton.cursor =
-		        canGoLeft
-		            ? "pointer"
-		            : null;
-		
-		
-		    leftBg.alpha =
-		        NAV_BUTTON_ALPHA;
+		    leftBg.alpha = NAV_BUTTON_ALPHA;
 		}
 		
 		
@@ -8055,11 +7312,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// EGG CHANGED
 		// ==================================================
 		
-		function onEggChanged(
-		    index,
-		    direction
-		) {
-		
+		function onEggChanged(index, direction) {
 		    console.log(
 		        "Showing egg",
 		        index + 1,
@@ -8067,76 +7320,31 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        EGG_COUNT
 		    );
 		
-		
-		    window.CurrentEggIndex =
-		        currentEggIndex;
-		
-		
-		    // --------------------------------------------------
-		    // UPDATE EGG ART
-		    // --------------------------------------------------
+		    window.CurrentEggIndex = currentEggIndex;
 		
 		    updateEggFrame();
 		
-		
-		    // --------------------------------------------------
-		    // TELL MONSTER CARDS
-		    // --------------------------------------------------
-		
-		    if (
-		        typeof window.dispatchEvent ===
-		        "function"
-		    ) {
-		
+		    if (typeof window.dispatchEvent === "function") {
 		        window.dispatchEvent(
-		            new CustomEvent(
-		                "eggChanged",
-		                {
-		
-		                    detail: {
-		
-		                        eggIndex:
-		                            currentEggIndex,
-		
-		                        direction:
-		                            direction
-		                    }
+		            new CustomEvent("eggChanged", {
+		                detail: {
+		                    eggIndex: currentEggIndex,
+		                    direction: direction
 		                }
-		            )
+		            })
 		        );
 		    }
 		
-		
-		    // --------------------------------------------------
-		    // SAME-SCRIPT FALLBACK
-		    // --------------------------------------------------
-		
-		    if (
-		        typeof self.updateAllCardMonsters ===
-		        "function"
-		    ) {
-		
+		    if (typeof self.updateAllCardMonsters === "function") {
 		        self.updateAllCardMonsters();
 		    }
 		
-		
-		    if (
-		        typeof self.layoutCards ===
-		        "function"
-		    ) {
-		
+		    if (typeof self.layoutCards === "function") {
 		        self.layoutCards();
 		    }
 		
-		
-		    if (
-		        typeof self.replayCardsIntro ===
-		        "function"
-		    ) {
-		
-		        self.replayCardsIntro(
-		            direction
-		        );
+		    if (typeof self.replayCardsIntro === "function") {
+		        self.replayCardsIntro(direction);
 		    }
 		}
 		
@@ -8145,368 +7353,565 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// SWITCH EGG
 		// ==================================================
 		
-		function switchEgg(
-		    newIndex,
-		    direction
-		) {
-		
+		function switchEgg(newIndex, direction) {
 		    if (
-		        egg.eggSwitching
+		        egg.eggSwitching ||
+		        eggHatching
 		    ) {
-		
 		        return;
 		    }
 		
-		
-		    if (
-		        newIndex >= EGG_COUNT
-		    ) {
-		
-		        newIndex =
-		            0;
+		    if (newIndex >= EGG_COUNT) {
+		        newIndex = 0;
 		    }
 		
-		
-		    if (
-		        newIndex < 0
-		    ) {
-		
+		    if (newIndex < 0) {
 		        return;
 		    }
 		
-		
-		    currentEggIndex =
-		        newIndex;
-		
-		
-		    window.CurrentEggIndex =
-		        currentEggIndex;
-		
+		    currentEggIndex = newIndex;
+		    window.CurrentEggIndex = currentEggIndex;
 		
 		    updateNavButtons();
 		
-		
-		    if (
-		        self.setActiveDot
-		    ) {
-		
-		        self.setActiveDot(
-		            currentEggIndex
-		        );
+		    if (self.setActiveDot) {
+		        self.setActiveDot(currentEggIndex);
 		    }
 		
+		    egg.eggSwitching = true;
 		
-		    egg.eggSwitching =
-		        true;
-		
-		
-		    if (
-		        self.fadeOutCards
-		    ) {
-		
-		        self.fadeOutCards(
-		            EGG_SLIDE_OUT_TIME
-		        );
+		    if (self.fadeOutCards) {
+		        self.fadeOutCards(EGG_SLIDE_OUT_TIME);
 		    }
 		
+		    createjs.Tween.removeTweens(egg);
 		
-		    createjs.Tween.removeTweens(
-		        egg
-		    );
+		    egg.scaleX = egg.originalScaleX;
+		    egg.scaleY = egg.originalScaleY;
 		
+		    var distance = lib.properties.width * EGG_SLIDE_DISTANCE;
 		
-		    egg.scaleX =
-		        egg.originalScaleX;
+		    var exitDirection = EGG_SLIDE_TOWARD_ARROW
+		        ? direction
+		        : -direction;
 		
-		    egg.scaleY =
-		        egg.originalScaleY;
-		
-		
-		    var distance =
-		        lib.properties.width *
-		        EGG_SLIDE_DISTANCE;
-		
-		
-		    var exitDirection =
-		        EGG_SLIDE_TOWARD_ARROW
-		            ? direction
-		            : -direction;
-		
-		
-		    // --------------------------------------------------
 		    // SLIDE OUT
-		    // --------------------------------------------------
-		
-		    createjs.Tween.get(
-		        egg
-		    )
+		    createjs.Tween.get(egg)
 		        .to(
 		            {
-		
-		                x:
-		                    egg.eggRestX +
-		                    exitDirection *
-		                    distance,
-		
-		                alpha:
-		                    0
-		
+		                x: egg.eggRestX + exitDirection * distance,
+		                alpha: 0
 		            },
-		
 		            EGG_SLIDE_OUT_TIME,
-		
 		            createjs.Ease.quadIn
 		        )
-		        .call(
-		            function () {
+		        .call(function () {
 		
-		                // --------------------------------------------------
-		                // CHANGE EGG ART
-		                // --------------------------------------------------
+		            onEggChanged(currentEggIndex, direction);
 		
-		                onEggChanged(
-		                    currentEggIndex,
-		                    direction
-		                );
+		            // MOVE TO OPPOSITE SIDE
+		            egg.x =
+		                egg.eggRestX -
+		                exitDirection * distance;
 		
+		            egg.alpha = 0;
 		
-		                // --------------------------------------------------
-		                // MOVE TO OPPOSITE SIDE
-		                // --------------------------------------------------
-		
-		                egg.x =
-		                    egg.eggRestX -
-		                    exitDirection *
-		                    distance;
-		
-		
-		                egg.alpha =
-		                    0;
-		
-		
-		                // --------------------------------------------------
-		                // SLIDE IN
-		                // --------------------------------------------------
-		
-		                createjs.Tween.get(
-		                    egg
+		            // SLIDE IN
+		            createjs.Tween.get(egg)
+		                .to(
+		                    {
+		                        x: egg.eggRestX,
+		                        alpha: 1
+		                    },
+		                    EGG_SLIDE_IN_TIME,
+		                    createjs.Ease.quadOut
 		                )
-		                    .to(
-		                        {
-		
-		                            x:
-		                                egg.eggRestX,
-		
-		                            alpha:
-		                                1
-		
-		                        },
-		
-		                        EGG_SLIDE_IN_TIME,
-		
-		                        createjs.Ease.quadOut
-		                    )
-		                    .call(
-		                        function () {
-		
-		                            egg.alpha =
-		                                1;
-		
-		                            egg.eggSwitching =
-		                                false;
-		                        }
-		                    );
-		            }
-		        );
+		                .call(function () {
+		                    egg.alpha = 1;
+		                    egg.eggSwitching = false;
+		                });
+		        });
 		}
 		
 		
 		// ==================================================
-		// LEFT BUTTON
+		// NAVIGATION BUTTON EVENTS
 		// ==================================================
 		
-		leftButton.on(
-		    "click",
-		    function () {
+		leftButton.on("click", function () {
+		    switchEgg(currentEggIndex - 1, -1);
+		});
 		
-		        switchEgg(
-		            currentEggIndex - 1,
-		            -1
-		        );
+		rightButton.on("click", function () {
+		    switchEgg(currentEggIndex + 1, 1);
+		});
+		
+		leftButton.on("rollover", function () {
+		    if (currentEggIndex === 0 || eggHatching) {
+		        return;
 		    }
+		
+		    leftBg.alpha = 0.85;
+		});
+		
+		leftButton.on("rollout", function () {
+		    leftBg.alpha = NAV_BUTTON_ALPHA;
+		});
+		
+		rightButton.on("rollover", function () {
+		    if (eggHatching) {
+		        return;
+		    }
+		
+		    rightBg.alpha = 0.85;
+		});
+		
+		rightButton.on("rollout", function () {
+		    rightBg.alpha = NAV_BUTTON_ALPHA;
+		});
+		
+		
+		// ==================================================
+		// HATCH OVERLAY
+		// It is placed behind the egg so the egg remains clickable.
+		// ==================================================
+		
+		var hatchOverlay = new createjs.Shape();
+		
+		hatchOverlay.graphics
+		    .beginFill("#000000")
+		    .drawRect(0, 0, W, H);
+		
+		hatchOverlay.alpha = 0;
+		hatchOverlay.visible = false;
+		hatchOverlay.mouseEnabled = false;
+		
+		
+		// Put the overlay behind the egg.
+		self.addChildAt(
+		    hatchOverlay,
+		    Math.max(0, self.getChildIndex(egg))
 		);
 		
 		
 		// ==================================================
-		// RIGHT BUTTON
+		// START HATCHING
+		// Called by the bottom bar's Hatch button.
 		// ==================================================
 		
-		rightButton.on(
-		    "click",
-		    function () {
+		window.beginEggHatch = function (index) {
+		    index = Number(index);
 		
-		        switchEgg(
-		            currentEggIndex + 1,
-		            1
-		        );
+		    if (
+		        eggHatching ||
+		        egg.eggSwitching
+		    ) {
+		        return false;
 		    }
-		);
+		
+		    if (
+		        !Number.isInteger(index) ||
+		        index < 0 ||
+		        index >= EGG_COUNT
+		    ) {
+		        console.error("Invalid egg slot:", index);
+		        return false;
+		    }
+		
+		    if (
+		        !window.SaveSystem ||
+		        !SaveSystem.isLoaded() ||
+		        typeof SaveSystem.hatchEgg !== "function"
+		    ) {
+		        console.error(
+		            "Hatching failed: SaveSystem.hatchEgg(index) is unavailable."
+		        );
+		        return false;
+		    }
+		
+		    var slots = SaveSystem.get("slots");
+		
+		    if (
+		        !Array.isArray(slots) ||
+		        !Number(slots[index])
+		    ) {
+		        console.warn("There is no egg in slot", index + 1);
+		        return false;
+		    }
+		
+		    if (eggIsLocked(index)) {
+		        console.warn("This egg slot is locked:", index + 1);
+		        return false;
+		    }
+		
+		    if (
+		        typeof window.isEggReadyToHatch !== "function" ||
+		        !window.isEggReadyToHatch(index)
+		    ) {
+		        console.warn(
+		            "The egg timer is not ready, or isEggReadyToHatch(index) is unavailable."
+		        );
+		        return false;
+		    }
+		
+		    // Switch to the selected egg if needed.
+		    currentEggIndex = index;
+		    window.CurrentEggIndex = index;
+		
+		    eggHatching = true;
+		    hatchClickCount = 0;
+		    hatchEggIndex = index;
+		
+		    egg.eggShaking = false;
+		    egg.eggSwitching = false;
+		
+		    createjs.Tween.removeTweens(egg);
+		
+		    eggNavigation.visible = false;
+		    tapNumbers.visible = false;
+		
+		    hatchOverlay.visible = true;
+		    hatchOverlay.alpha = 0;
+		
+		    // Keep the overlay behind the egg so the egg can receive clicks.
+		    self.setChildIndex(
+		        hatchOverlay,
+		        Math.max(0, self.getChildIndex(egg))
+		    );
+		
+		    createjs.Tween.get(hatchOverlay)
+		        .to(
+		            { alpha: 0.78 },
+		            300,
+		            createjs.Ease.quadOut
+		        );
+		
+		    console.log(
+		        "Hatching started for egg slot",
+		        index + 1
+		    );
+		
+		    return true;
+		};
 		
 		
 		// ==================================================
-		// LEFT BUTTON HOVER
+		// HANDLE HATCH CLICK
+		// Three clicks trigger the hatch.
 		// ==================================================
 		
-		leftButton.on(
-		    "rollover",
-		    function () {
 		
-		        if (
-		            currentEggIndex === 0
-		        ) {
+		function handleHatchClick() {
+		
+		    if (
+		        !eggHatching ||
+		        egg.eggShaking
+		    ) {
+		        return;
+		    }
+		
+		    hatchClickCount++;
+		
+		    console.log(
+		        "Hatch click",
+		        hatchClickCount,
+		        "of",
+		        hatchClickTarget
+		    );
+		
+		    // Use the same shake animation as a normal egg click,
+		    // but increase its intensity while hatching.
+		
+		    egg.eggShaking = true;
+		
+		    var shakeTime = 0;
+		    var shakeDuration = 350;
+		
+		    var originalX = egg.eggRestX;
+		    var originalRotation = 0;
+		
+		    // Stronger than the normal shake.
+		    var shakeAmount = 30 + Math.random() * 10;
+		    var rotationAmount = 12 + Math.random() * 6;
+		
+		    var xDirection = Math.random() < 0.5 ? -1 : 1;
+		
+		    var rotationDirection =
+		        Math.random() < 0.5 ? -1 : 1;
+		
+		    function shakeEgg(evt) {
+		
+		        shakeTime += evt.delta;
+		
+		        var progress = shakeTime / shakeDuration;
+		
+		        if (progress >= 1) {
+		
+		            egg.x = originalX;
+		            egg.rotation = originalRotation;
+		            egg.eggShaking = false;
+		
+		            createjs.Ticker.removeEventListener(
+		                "tick",
+		                shakeEgg
+		            );
+		
+		            // After the final hatch shake, hatch the egg.
+		            if (hatchClickCount >= hatchClickTarget) {
+		                completeEggHatch();
+		            }
 		
 		            return;
 		        }
 		
+		        var strength = 1 - progress;
 		
-		        leftBg.alpha =
-		            0.85;
+		        // Same sine-wave motion as the normal egg shake.
+		        egg.x =
+		            originalX +
+		            Math.sin(
+		                progress * Math.PI * 12
+		            ) *
+		            shakeAmount *
+		            strength *
+		            xDirection;
+		
+		        egg.rotation =
+		            originalRotation +
+		            Math.sin(
+		                progress * Math.PI * 8
+		            ) *
+		            rotationAmount *
+		            strength *
+		            rotationDirection;
 		    }
-		);
 		
-		
-		leftButton.on(
-		    "rollout",
-		    function () {
-		
-		        leftBg.alpha =
-		            NAV_BUTTON_ALPHA;
-		    }
-		);
+		    createjs.Ticker.addEventListener(
+		        "tick",
+		        shakeEgg
+		    );
+		}
 		
 		
 		// ==================================================
-		// RIGHT BUTTON HOVER
+		// COMPLETE HATCHING
+		// Fades out the egg, awards the monster, then shows
+		// the default egg frame after the slot has been cleared.
 		// ==================================================
 		
-		rightButton.on(
-		    "rollover",
-		    function () {
-		
-		        rightBg.alpha =
-		            0.85;
+		function completeEggHatch() {
+		    if (!eggHatching) {
+		        return;
 		    }
-		);
+		
+		    var index = hatchEggIndex;
+		
+		    egg.eggShaking = false;
+		
+		    createjs.Tween.removeTweens(egg);
+		
+		    createjs.Tween.get(egg)
+		        .to(
+		            {
+		                alpha: 0,
+		                scaleX: egg.originalScaleX * 1.2,
+		                scaleY: egg.originalScaleY * 1.2
+		            },
+		            250,
+		            createjs.Ease.quadOut
+		        )
+		        .call(function () {
+		
+		            if (
+		                !window.SaveSystem ||
+		                !SaveSystem.isLoaded() ||
+		                typeof SaveSystem.hatchEgg !== "function"
+		            ) {
+		                console.error("SaveSystem is not ready to hatch this egg.");
+		                restoreEggAfterHatchFailure();
+		                return;
+		            }
+		
+		            var monsterUid;
+		
+		            try {
+		                monsterUid = SaveSystem.hatchEgg(index);
+		            } catch (error) {
+		                console.error("Error while hatching egg:", error);
+		                restoreEggAfterHatchFailure();
+		                return;
+		            }
+		
+		            if (!monsterUid) {
+		                console.error(
+		                    "Hatching failed. The egg slot was not successfully hatched:",
+		                    index + 1
+		                );
+		
+		                restoreEggAfterHatchFailure();
+		                return;
+		            }
+		
+		            console.log(
+		                "Egg hatched successfully!",
+		                "Slot:",
+		                index + 1,
+		                "Monster UID:",
+		                monsterUid
+		            );
+		
+		            // Reset hatch state.
+		            eggHatching = false;
+		            hatchClickCount = 0;
+		            hatchEggIndex = -1;
+		
+		            // Reset egg transform.
+		            egg.eggShaking = false;
+		            egg.eggSwitching = false;
+		
+		            egg.x = egg.eggRestX;
+		            egg.y = egg.eggRestY;
+		            egg.rotation = 0;
+		            egg.scaleX = egg.originalScaleX;
+		            egg.scaleY = egg.originalScaleY;
+		
+		            // SaveSystem.hatchEgg(index) should have cleared the slot.
+		            // updateEggFrame() sees the empty slot and selects frame 1.
+		            updateEggFrame();
+		
+		            egg.alpha = 0;
+		
+		            eggNavigation.visible = true;
+		            tapNumbers.visible = true;
+		
+		            createjs.Tween.get(egg)
+		                .to(
+		                    { alpha: 1 },
+		                    300,
+		                    createjs.Ease.quadOut
+		                );
+		
+		            createjs.Tween.get(hatchOverlay)
+		                .to(
+		                    { alpha: 0 },
+		                    300,
+		                    createjs.Ease.quadOut
+		                )
+		                .call(function () {
+		                    hatchOverlay.visible = false;
+		                });
+		
+		            updateNavButtons();
+		
+		            if (typeof self.setActiveDot === "function") {
+		                self.setActiveDot(currentEggIndex);
+		            }
+		
+		            // Refresh any monster cards that show the saved monsters.
+		            if (typeof self.updateAllCardMonsters === "function") {
+		                self.updateAllCardMonsters();
+		            }
+		
+		            if (typeof self.layoutCards === "function") {
+		                self.layoutCards();
+		            }
+		        });
+		}
 		
 		
-		rightButton.on(
-		    "rollout",
-		    function () {
+		// ==================================================
+		// RESTORE IF HATCHING FAILS
+		// ==================================================
 		
-		        rightBg.alpha =
-		            NAV_BUTTON_ALPHA;
-		    }
-		);
+		function restoreEggAfterHatchFailure() {
+		    eggHatching = false;
+		    hatchClickCount = 0;
+		    hatchEggIndex = -1;
+		
+		    createjs.Tween.removeTweens(egg);
+		
+		    egg.eggShaking = false;
+		    egg.eggSwitching = false;
+		
+		    egg.x = egg.eggRestX;
+		    egg.y = egg.eggRestY;
+		    egg.rotation = 0;
+		    egg.scaleX = egg.originalScaleX;
+		    egg.scaleY = egg.originalScaleY;
+		    egg.alpha = 1;
+		
+		    eggNavigation.visible = true;
+		    tapNumbers.visible = true;
+		
+		    createjs.Tween.get(hatchOverlay)
+		        .to(
+		            { alpha: 0 },
+		            300,
+		            createjs.Ease.quadOut
+		        )
+		        .call(function () {
+		            hatchOverlay.visible = false;
+		        });
+		}
 		
 		
 		// ==================================================
 		// CLEANUP
 		// ==================================================
 		
-		self.cleanupEggNavigation =
-		    function () {
+		self.cleanupEggNavigation = function () {
+		    eggFrameWaitActive = false;
 		
-		        eggFrameWaitActive =
-		            false;
+		    createjs.Ticker.removeEventListener(
+		        "tick",
+		        waitForInitialEggFrame
+		    );
 		
+		    createjs.Ticker.removeEventListener(
+		        "tick",
+		        floatEggs
+		    );
 		
-		        createjs.Ticker.removeEventListener(
-		            "tick",
-		            waitForInitialEggFrame
-		        );
+		    leftButton.removeAllEventListeners();
+		    rightButton.removeAllEventListeners();
+		    egg.removeAllEventListeners();
 		
+		    createjs.Tween.removeTweens(egg);
+		    createjs.Tween.removeTweens(leftButton);
+		    createjs.Tween.removeTweens(rightButton);
+		    createjs.Tween.removeTweens(hatchOverlay);
 		
-		        createjs.Ticker.removeEventListener(
-		            "tick",
-		            floatEggs
-		        );
+		    egg.x = egg.eggRestX;
+		    egg.y = egg.eggRestY;
+		    egg.alpha = 1;
+		    egg.rotation = 0;
+		    egg.scaleX = egg.originalScaleX;
+		    egg.scaleY = egg.originalScaleY;
 		
+		    egg.eggShaking = false;
+		    egg.eggSwitching = false;
 		
-		        leftButton.removeAllEventListeners();
+		    if (egg.egg_shells) {
+		        egg.egg_shells.stop();
+		    }
 		
-		        rightButton.removeAllEventListeners();
+		    egg.stop();
 		
-		        egg.removeAllEventListeners();
+		    eggNavigation.removeAllEventListeners();
+		    self.removeChild(eggNavigation);
 		
+		    tapNumbers.removeAllChildren();
+		    self.removeChild(tapNumbers);
 		
-		        createjs.Tween.removeTweens(
-		            egg
-		        );
+		    hatchOverlay.visible = false;
+		    self.removeChild(hatchOverlay);
 		
-		        createjs.Tween.removeTweens(
-		            leftButton
-		        );
+		    eggHatching = false;
+		    hatchClickCount = 0;
+		    hatchEggIndex = -1;
 		
-		        createjs.Tween.removeTweens(
-		            rightButton
-		        );
-		
-		
-		        egg.x =
-		            egg.eggRestX;
-		
-		        egg.y =
-		            egg.eggRestY;
-		
-		        egg.alpha =
-		            1;
-		
-		        egg.rotation =
-		            0;
-		
-		        egg.scaleX =
-		            egg.originalScaleX;
-		
-		        egg.scaleY =
-		            egg.originalScaleY;
-		
-		        egg.eggShaking =
-		            false;
-		
-		        egg.eggSwitching =
-		            false;
-		
-		
-		        if (
-		            egg.egg_shells
-		        ) {
-		
-		            egg.egg_shells.stop();
-		        }
-		
-		
-		        egg.stop();
-		
-		
-		        eggNavigation.removeAllEventListeners();
-		
-		
-		        self.removeChild(
-		            eggNavigation
-		        );
-		
-		
-		        tapNumbers.removeAllChildren();
-		
-		
-		        self.removeChild(
-		            tapNumbers
-		        );
-		
-		
-		        self.cleanupEggNavigation =
-		            null;
-		    };
+		    self.cleanupEggNavigation = null;
+		};
 		
 		
 		// ==================================================
@@ -8515,18 +7920,10 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		updateNavButtons();
 		
+		window.CurrentEggIndex = currentEggIndex;
 		
-		window.CurrentEggIndex =
-		    currentEggIndex;
-		
-		
-		if (
-		    self.setActiveDot
-		) {
-		
-		    self.setActiveDot(
-		        currentEggIndex
-		    );
+		if (self.setActiveDot) {
+		    self.setActiveDot(currentEggIndex);
 		}
 		//this is for the players username
 		exportRoot.onUserChange = showName;
@@ -12561,1311 +11958,538 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		var self = this;
 		this.stop();
 		
-		// Clean up the previous run first
-		if (self.cleanupBottomBar) {
-		    self.cleanupBottomBar();
-		}
+		if (self.cleanupBottomBar) self.cleanupBottomBar();
 		
-		
-		// --------------------------------------------------
+		// ==================================================
 		// BOTTOM EGG HATCH BAR
-		// --------------------------------------------------
-		
-		var bottomBar = new createjs.Container();
-		var bottomBarBg = new createjs.Shape();
-		
-		bottomBar.addChild(bottomBarBg);
-		
-		// Background only is 33% opacity
-		bottomBarBg.alpha = 0.33;
-		
-		// Add after existing artwork
-		self.addChild(bottomBar);
-		
-		
-		// --------------------------------------------------
-		// EGG LOCK STATUS & TIMERS
-		// --------------------------------------------------
-		
-		// --------------------------------------------------
-		// SHARED EGG LOCK STATUS
-		// --------------------------------------------------
-		//
-		// This is shared with the egg-click/navigation script.
-		//
-		// false = unlocked
-		// true  = locked
-		//
-		// Egg 1 starts unlocked.
-		// Eggs 2-5 start locked.
-		//
-		
+		// ==================================================
 		var EGG_COUNT = 5;
+		var FIRST_EGG_SECONDS = 30;
+		var eggEnd = [0, 0, 0, 0, 0];
+		var timersReady = false;
+		var currentEggIndex = 0;
+		var countdownTimer = null;
+		var saveChangeHandler = null;
 		
-		if (!window.EggLockStatus) {
-		
+		if (!window.EggLockStatus ||
+		    !Array.isArray(window.EggLockStatus.locked) ||
+		    window.EggLockStatus.locked.length !== EGG_COUNT) {
 		    window.EggLockStatus = {
 		        locked: [false, true, true, true, true]
 		    };
-		
-		} else {
-		
-		    // Make sure the array exists and has the correct size.
-		    if (
-		        !Array.isArray(window.EggLockStatus.locked) ||
-		        window.EggLockStatus.locked.length !== EGG_COUNT
-		    ) {
-		
-		        window.EggLockStatus.locked =
-		            [false, true, true, true, true];
-		    }
 		}
 		
+		var eggLocked = window.EggLockStatus.locked;
 		
-		// Local reference to the shared lock array
-		var eggLocked =
-		    window.EggLockStatus.locked;
-		
-		
-		// --------------------------------------------------
-		// TIMER SETTINGS
-		// --------------------------------------------------
-		
-		// Only the END time of each egg is stored.
-		// The time remaining is calculated from Date.now(),
-		// so switching eggs or screens does not restart it.
-		
-		var FIRST_EGG_SECONDS = 30;
-		
-		var eggEnd =
-		    [0, 0, 0, 0, 0];
-		
-		var timersReady = false;
-		
-		var currentEggIndex = 0;
-		
-		var countdownTimer = null;
-		
-		
-		// --------------------------------------------------
-		// HATCH TEXT
-		// --------------------------------------------------
+		var bottomBar = new createjs.Container();
+		var bottomBarBg = new createjs.Shape();
+		bottomBarBg.alpha = 0.33;
+		bottomBar.addChild(bottomBarBg);
+		self.addChild(bottomBar);
 		
 		var hatchText = new createjs.Text(
 		    "-  Until the egg hatches.  -",
 		    "bold 10px 'DM Sans'",
 		    "#8DBBD1"
 		);
-		
 		hatchText.textAlign = "center";
-		
 		bottomBar.addChild(hatchText);
-		
-		
-		// --------------------------------------------------
-		// TIMER
-		// --------------------------------------------------
 		
 		var hatchTimer = new createjs.Text(
 		    "--:--:--",
 		    "37px 'Marcellus'",
 		    "#e8f5ff"
 		);
-		
 		hatchTimer.textAlign = "center";
-		
 		bottomBar.addChild(hatchTimer);
-		
-		
-		// --------------------------------------------------
-		// TIMER LABELS
-		// --------------------------------------------------
 		
 		var timerLabels = new createjs.Text(
 		    "HOURS   •   MINUTES   •   SECONDS",
 		    "bold 8px 'DM Sans'",
 		    "#8DBBD1"
 		);
-		
 		timerLabels.textAlign = "center";
-		
 		bottomBar.addChild(timerLabels);
 		
-		
-		// --------------------------------------------------
+		// ==================================================
 		// HATCH BUTTON
-		// --------------------------------------------------
-		
+		// ==================================================
 		var hatchButton = self.Hatch;
-		
-		
-		// --------------------------------------------------
-		// HATCH BUTTON BASE SCALE
-		// --------------------------------------------------
-		
 		var hatchBaseScaleX = 1;
 		var hatchBaseScaleY = 1;
-		
 		var hatchHovered = false;
 		var hatchPressed = false;
 		
-		
 		if (hatchButton) {
-		
-		    // Clear listeners from earlier visits
-		    hatchButton.removeAllEventListeners("mouseover");
-		    hatchButton.removeAllEventListeners("mouseout");
-		    hatchButton.removeAllEventListeners("mousedown");
-		    hatchButton.removeAllEventListeners("pressup");
+		    [
+		        "mouseover",
+		        "mouseout",
+		        "mousedown",
+		        "pressup",
+		        "click"
+		    ].forEach(function (eventName) {
+		        hatchButton.removeAllEventListeners(eventName);
+		    });
 		
 		    hatchButton.cursor = "pointer";
 		
-		
-		    // --------------------------------------------------
-		    // SAVE ORIGINAL SCALE
-		    // --------------------------------------------------
-		
 		    if (hatchButton.baseScaleX === undefined) {
-		
-		        hatchButton.baseScaleX =
-		            hatchButton.scaleX;
-		
-		        hatchButton.baseScaleY =
-		            hatchButton.scaleY;
+		        hatchButton.baseScaleX = hatchButton.scaleX;
+		        hatchButton.baseScaleY = hatchButton.scaleY;
 		    }
 		
-		    hatchBaseScaleX =
-		        hatchButton.baseScaleX;
-		
-		    hatchBaseScaleY =
-		        hatchButton.baseScaleY;
-		
-		
-		    // --------------------------------------------------
-		    // HATCH BUTTON TEXT
-		    // --------------------------------------------------
+		    hatchBaseScaleX = hatchButton.baseScaleX;
+		    hatchBaseScaleY = hatchButton.baseScaleY;
 		
 		    if (hatchButton.hatchButtonText) {
-		
 		        hatchButton.hatchButtonText.font =
 		            "bold 50px 'DM Sans'";
 		    }
 		
+		    function updateHatchButtonScale(multiplier) {
+		        var mobileScale =
+		            lib.properties.height > lib.properties.width
+		                ? 2.5
+		                : 1;
 		
-		    // --------------------------------------------------
-		    // UPDATE BUTTON SCALE
-		    // --------------------------------------------------
+		        createjs.Tween.removeTweens(hatchButton);
 		
-		    function updateHatchButtonScale(scaleMultiplier) {
+		        createjs.Tween.get(hatchButton).to({
+		            scaleX: hatchBaseScaleX * mobileScale * multiplier,
+		            scaleY: hatchBaseScaleY * mobileScale * multiplier
+		        }, 80, createjs.Ease.quadOut);
+		    }
 		
-		        if (!hatchButton) {
+		    hatchButton.on("mouseover", function () {
+		        hatchHovered = true;
+		        updateHatchButtonScale(0.96);
+		    });
+		
+		    hatchButton.on("mouseout", function () {
+		        hatchHovered = false;
+		        if (!hatchPressed) updateHatchButtonScale(1);
+		    });
+		
+		    hatchButton.on("mousedown", function () {
+		        hatchPressed = true;
+		        updateHatchButtonScale(0.90);
+		    });
+		
+		    hatchButton.on("pressup", function () {
+		        hatchPressed = false;
+		        updateHatchButtonScale(hatchHovered ? 0.96 : 1);
+		    });
+		
+		    // Start hatching only when the current egg is ready.
+		    hatchButton.on("click", function () {
+		        if (!timersReady ||
+		            !window.SaveSystem ||
+		            !SaveSystem.isLoaded()) {
 		            return;
 		        }
 		
-		        var portrait =
-		            lib.properties.height >
-		            lib.properties.width;
+		        var index = currentEggIndex;
+		        var slots = SaveSystem.get("slots");
 		
+		        if (eggLocked[index]) return;
 		
-		        // Mobile button is 2.5x larger
-		        var mobileScale =
-		            portrait
-		                ? 2.50
-		                : 1.00;
-		
-		
-		        createjs.Tween.removeTweens(
-		            hatchButton
-		        );
-		
-		
-		        createjs.Tween.get(hatchButton)
-		            .to(
-		                {
-		                    scaleX:
-		                        hatchBaseScaleX *
-		                        mobileScale *
-		                        scaleMultiplier,
-		
-		                    scaleY:
-		                        hatchBaseScaleY *
-		                        mobileScale *
-		                        scaleMultiplier
-		                },
-		                80,
-		                createjs.Ease.quadOut
+		        if (!Array.isArray(slots) || !Number(slots[index])) {
+		            console.warn(
+		                "There is no egg assigned to hatch in slot",
+		                index + 1
 		            );
-		    }
-		
-		
-		    // --------------------------------------------------
-		    // HOVER
-		    // --------------------------------------------------
-		
-		    hatchButton.on(
-		        "mouseover",
-		        function () {
-		
-		            hatchHovered = true;
-		
-		            updateHatchButtonScale(0.96);
+		            return;
 		        }
-		    );
 		
+		        if (Date.now() < eggEnd[index]) return;
 		
-		    // --------------------------------------------------
-		    // MOUSE OUT
-		    // --------------------------------------------------
-		
-		    hatchButton.on(
-		        "mouseout",
-		        function () {
-		
-		            hatchHovered = false;
-		
-		            if (!hatchPressed) {
-		
-		                updateHatchButtonScale(1.00);
-		            }
+		        if (typeof window.beginEggHatch === "function") {
+		            window.beginEggHatch(index);
+		        } else {
+		            console.warn(
+		                "Hatch sequence is not available. Check the egg screen script."
+		            );
 		        }
-		    );
-		
-		
-		    // --------------------------------------------------
-		    // PRESS
-		    // --------------------------------------------------
-		
-		    hatchButton.on(
-		        "mousedown",
-		        function () {
-		
-		            hatchPressed = true;
-		
-		            updateHatchButtonScale(0.90);
-		        }
-		    );
-		
-		
-		    // --------------------------------------------------
-		    // RELEASE
-		    // --------------------------------------------------
-		
-		    hatchButton.on(
-		        "pressup",
-		        function () {
-		
-		            hatchPressed = false;
-		
-		            if (hatchHovered) {
-		
-		                updateHatchButtonScale(0.96);
-		
-		            } else {
-		
-		                updateHatchButtonScale(1.00);
-		            }
-		        }
-		    );
+		    });
 		}
 		
-		
-		// --------------------------------------------------
+		// ==================================================
 		// PAGE INDICATOR DOTS
-		// --------------------------------------------------
-		
-		var pageDots =
-		    new createjs.Container();
-		
+		// ==================================================
+		var pageDots = new createjs.Container();
 		self.addChild(pageDots);
 		
-		
-		// --------------------------------------------------
-		// DOT SETTINGS
-		// --------------------------------------------------
-		
 		var DOT_COUNT = 5;
-		
 		var DOT_RADIUS = 4;
-		
 		var DOT_SPACING = 18;
 		
-		
-		// --------------------------------------------------
-		// DOT STYLE
-		// --------------------------------------------------
-		
-		// Active   = white with blue glow
-		// Inactive = dark blue with blue outline
-		
 		function styleDot(dot, active) {
-		
 		    dot.graphics.clear();
 		
 		    if (active) {
-		
 		        dot.graphics
 		            .beginFill("#FFFFFF")
-		            .drawCircle(
-		                0,
-		                0,
-		                DOT_RADIUS
-		            );
+		            .drawCircle(0, 0, DOT_RADIUS);
 		
-		        dot.shadow =
-		            new createjs.Shadow(
-		                "#2496FF",
-		                0,
-		                0,
-		                8
-		            );
+		        dot.shadow = new createjs.Shadow(
+		            "#2496FF", 0, 0, 8
+		        );
 		
 		        dot.alpha = 1;
-		
 		    } else {
-		
 		        dot.graphics
 		            .setStrokeStyle(1.5)
 		            .beginStroke("#2789C9")
 		            .beginFill("#123B5C")
-		            .drawCircle(
-		                0,
-		                0,
-		                DOT_RADIUS
-		            );
+		            .drawCircle(0, 0, DOT_RADIUS);
 		
 		        dot.shadow = null;
-		
 		        dot.alpha = 0.85;
 		    }
 		}
 		
-		
-		// --------------------------------------------------
-		// CREATE DOTS
-		// --------------------------------------------------
-		
-		for (
-		    var i = 0;
-		    i < DOT_COUNT;
-		    i++
-		) {
-		
-		    var dot =
-		        new createjs.Shape();
-		
-		    styleDot(
-		        dot,
-		        i === 0
-		    );
-		
-		    // Desktop spacing
-		    dot.x =
-		        (
-		            i -
-		            (DOT_COUNT - 1) / 2
-		        ) *
-		        DOT_SPACING;
-		
+		for (var i = 0; i < DOT_COUNT; i++) {
+		    var dot = new createjs.Shape();
+		    styleDot(dot, i === 0);
+		    dot.x = (i - (DOT_COUNT - 1) / 2) * DOT_SPACING;
 		    pageDots.addChild(dot);
 		}
 		
+		self.setActiveDot = function (index) {
+		    if (index < 0 || index >= DOT_COUNT) return;
 		
-		// --------------------------------------------------
-		// SET ACTIVE DOT
-		// --------------------------------------------------
-		//
-		// Called by the egg navigation script.
-		//
+		    currentEggIndex = index;
 		
-		self.setActiveDot =
-		    function (index) {
+		    for (var j = 0; j < DOT_COUNT; j++) {
+		        styleDot(pageDots.getChildAt(j), j === index);
+		    }
 		
-		        // Safety
-		        if (
-		            index < 0 ||
-		            index >= DOT_COUNT
-		        ) {
-		            return;
-		        }
+		    updateCountdown();
+		};
 		
-		        currentEggIndex =
-		            index;
-		
-		        for (
-		            var j = 0;
-		            j < DOT_COUNT;
-		            j++
-		        ) {
-		
-		            styleDot(
-		                pageDots.getChildAt(j),
-		                j === index
-		            );
-		        }
-		
-		        updateCountdown();
-		    };
-		
-		
-		// --------------------------------------------------
-		// SAVE / READ EGG TIMERS
-		// --------------------------------------------------
-		
-		// The end times go into SaveSystem.
-		
+		// ==================================================
+		// SAVE AND READ EGG TIMERS
+		// ==================================================
 		function saveEggTimers() {
-		
-		    if (window.SaveSystem) {
-		
-		        SaveSystem.set(
-		            "eggEndTimes",
-		            eggEnd.join(",")
-		        );
+		    if (window.SaveSystem && SaveSystem.isLoaded()) {
+		        SaveSystem.set("eggEndTimes", eggEnd.join(","));
 		    }
 		}
 		
+		self.reduceEggTimer = function (index) {
+		    if (!timersReady ||
+		        eggLocked[index] ||
+		        !eggEnd[index] ||
+		        !window.SaveSystem ||
+		        !SaveSystem.isLoaded()) {
+		        return 0;
+		    }
 		
-		// --------------------------------------------------
-		// REDUCE EGG TIMER (called by the egg click)
-		// --------------------------------------------------
-		//
-		// Removes SaveSystem "tapReduction" seconds.
-		// Returns the seconds actually removed (0 = nothing happened).
-		//
+		    var reduction = Number(SaveSystem.get("tapReduction")) || 0;
+		    if (reduction <= 0) return 0;
 		
-		self.reduceEggTimer =
-		    function (index) {
+		    var before = eggEnd[index];
 		
-		        if (
-		            !timersReady ||
-		            eggLocked[index] ||
-		            !eggEnd[index]
-		        ) {
+		    eggEnd[index] = Math.max(
+		        Date.now(),
+		        before - reduction * 1000
+		    );
 		
-		            return 0;
-		        }
+		    saveEggTimers();
+		    updateCountdown();
 		
-		
-		        var before =
-		            eggEnd[index];
-		
-		        eggEnd[index] =
-		            Math.max(
-		                Date.now(),
-		                before -
-		                SaveSystem.get("tapReduction") * 1000
-		            );
-		
-		
-		        saveEggTimers();
-		
-		        updateCountdown();
-		
-		
-		        return Math.round(
-		            (before - eggEnd[index]) / 1000
-		        );
-		    };
-		
-		
-		// --------------------------------------------------
-		// READ SAVED TIMERS
-		// --------------------------------------------------
+		    return Math.round((before - eggEnd[index]) / 1000);
+		};
 		
 		function readTimers() {
+		    if (!window.SaveSystem || !SaveSystem.isLoaded()) return;
 		
-		    var savedValue =
-		        SaveSystem.get("eggEndTimes");
+		    var savedValue = SaveSystem.get("eggEndTimes");
+		    var t = String(savedValue || "").split(",").map(Number);
 		
-		    var t =
-		        String(savedValue)
-		            .split(",")
-		            .map(Number);
-		
-		
-		    for (
-		        var i = 0;
-		        i < EGG_COUNT;
-		        i++
-		    ) {
-		
-		        eggEnd[i] =
-		            t[i] > 0
-		                ? t[i]
-		                : 0;
+		    for (var i = 0; i < EGG_COUNT; i++) {
+		        eggEnd[i] = t[i] > 0 ? t[i] : 0;
 		    }
 		
-		
-		    // First egg starts its timer the first time ever
 		    if (!eggEnd[0]) {
-		
-		        eggEnd[0] =
-		            Date.now() +
-		            FIRST_EGG_SECONDS * 1000;
-		
+		        eggEnd[0] = Date.now() + FIRST_EGG_SECONDS * 1000;
 		        saveEggTimers();
 		    }
 		
-		
 		    timersReady = true;
-		
 		    updateCountdown();
 		}
 		
-		
-		// --------------------------------------------------
-		// UPDATE COUNTDOWN DISPLAY
-		// --------------------------------------------------
-		
+		// ==================================================
+		// UPDATE COUNTDOWN
+		// ==================================================
 		function updateCountdown() {
+		    currentEggIndex = Math.max(
+		        0,
+		        Math.min(EGG_COUNT - 1, currentEggIndex)
+		    );
 		
-		    // Safety
-		    if (
-		        currentEggIndex < 0 ||
-		        currentEggIndex >= EGG_COUNT
-		    ) {
-		        currentEggIndex = 0;
-		    }
-		
-		
-		    // Read the SHARED lock state
-		    var locked =
+		    eggLocked =
 		        window.EggLockStatus &&
-		        Array.isArray(
-		            window.EggLockStatus.locked
-		        )
-		            ? window.EggLockStatus.locked[
-		                currentEggIndex
-		            ] === true
-		            : true;
+		        Array.isArray(window.EggLockStatus.locked)
+		            ? window.EggLockStatus.locked
+		            : [false, true, true, true, true];
 		
+		    var locked = eggLocked[currentEggIndex] === true;
 		
 		    var secs =
-		        (
-		            locked ||
-		            !timersReady
-		        )
+		        locked || !timersReady
 		            ? -1
 		            : Math.max(
 		                0,
 		                Math.ceil(
-		                    (
-		                        eggEnd[
-		                            currentEggIndex
-		                        ] -
-		                        Date.now()
-		                    ) / 1000
+		                    (eggEnd[currentEggIndex] - Date.now()) / 1000
 		                )
 		            );
 		
-		
 		    function pad(n) {
-		
-		        return n < 10
-		            ? "0" + n
-		            : n;
+		        return n < 10 ? "0" + n : String(n);
 		    }
-		
-		
-		    // --------------------------------------------------
-		    // TIMER TEXT
-		    // --------------------------------------------------
 		
 		    hatchTimer.text =
 		        secs < 0
-		
 		            ? "--:--:--"
-		
-		            : pad(
-		                Math.floor(
-		                    secs / 3600
-		                )
-		            ) +
-		            ":" +
-		            pad(
-		                Math.floor(
-		                    secs % 3600 / 60
-		                )
-		            ) +
-		            ":" +
-		            pad(
-		                secs % 60
-		            );
-		
-		
-		    // --------------------------------------------------
-		    // UPDATE LABEL
-		    // --------------------------------------------------
+		            : pad(Math.floor(secs / 3600)) +
+		              ":" +
+		              pad(Math.floor((secs % 3600) / 60)) +
+		              ":" +
+		              pad(secs % 60);
 		
 		    timerLabels.text =
 		        locked
-		
 		            ? "LOCKED"
-		
 		            : !timersReady
-		
 		                ? "LOADING"
-		
 		                : secs > 0
-		
 		                    ? "HOURS   •   MINUTES   •   SECONDS"
-		
 		                    : "READY TO HATCH";
 		
-		
-		    // --------------------------------------------------
-		    // UPDATE HATCH BUTTON TEXT
-		    // --------------------------------------------------
-		
-		    if (
-		        hatchButton &&
-		        hatchButton.hatchButtonText &&
-		        (
-		            locked ||
-		            timersReady
-		        )
-		    ) {
-		
+		    if (hatchButton && hatchButton.hatchButtonText) {
 		        hatchButton.hatchButtonText.text =
-		
 		            locked
-		
 		                ? "Egg locked"
-		
-		                : secs > 0
-		
-		                    ? "Change the rarity."
-		
-		                    : "Hatch the egg";
+		                : !timersReady
+		                    ? "Loading..."
+		                    : secs > 0
+		                        ? "Change the rarity."
+		                        : "Hatch the egg";
 		    }
 		}
 		
-		
-		// --------------------------------------------------
-		// START COUNTDOWN
-		// --------------------------------------------------
-		
-		function startCountdown() {
-		
-		    clearInterval(
-		        countdownTimer
+		// Shared readiness check for the egg-screen script.
+		window.isEggReadyToHatch = function (index) {
+		    return (
+		        timersReady &&
+		        index >= 0 &&
+		        index < EGG_COUNT &&
+		        !eggLocked[index] &&
+		        !!eggEnd[index] &&
+		        Date.now() >= eggEnd[index]
 		    );
+		};
 		
-		    updateCountdown();
-		
-		    countdownTimer =
-		        setInterval(
-		            updateCountdown,
-		            250
-		        );
-		}
-		
-		
-		// --------------------------------------------------
-		// LAYOUT
-		// --------------------------------------------------
-		
+		// ==================================================
+		// RESPONSIVE LAYOUT
+		// ==================================================
 		function layoutBottomBar() {
+		    var W = lib.properties.width;
+		    var H = lib.properties.height;
+		    var portrait = H > W;
 		
-		    var W =
-		        lib.properties.width;
+		    var barHeight = portrait
+		        ? Math.max(118, H * 0.16)
+		        : Math.max(82, H * 0.11);
 		
-		    var H =
-		        lib.properties.height;
+		    var hatchFontSize = portrait
+		        ? Math.max(20, Math.min(28, H * 0.030))
+		        : Math.max(10, H * 0.014);
 		
-		    var portrait =
-		        H > W;
+		    var timerFontSize = portrait
+		        ? Math.max(58, Math.min(76, H * 0.082))
+		        : Math.max(37, H * 0.052);
 		
+		    var labelFontSize = portrait
+		        ? Math.max(13, Math.min(18, H * 0.020))
+		        : Math.max(8, H * 0.011);
 		
-		    // --------------------------------------------------
-		    // RESPONSIVE SIZING
-		    // --------------------------------------------------
+		    var barTop = H - barHeight;
 		
-		    var barHeight;
-		
-		    var hatchFontSize;
-		    var timerFontSize;
-		    var labelFontSize;
-		
-		
-		    if (portrait) {
-		
-		        // ----------------------------------------------
-		        // MOBILE / PORTRAIT
-		        // ----------------------------------------------
-		
-		        barHeight =
-		            Math.max(
-		                118,
-		                H * 0.16
-		            );
-		
-		
-		        hatchFontSize =
-		            Math.max(
-		                20,
-		                Math.min(
-		                    28,
-		                    H * 0.030
-		                )
-		            );
-		
-		
-		        timerFontSize =
-		            Math.max(
-		                58,
-		                Math.min(
-		                    76,
-		                    H * 0.082
-		                )
-		            );
-		
-		
-		        labelFontSize =
-		            Math.max(
-		                13,
-		                Math.min(
-		                    18,
-		                    H * 0.020
-		                )
-		            );
-		
-		    } else {
-		
-		        // ----------------------------------------------
-		        // DESKTOP / LANDSCAPE
-		        // ----------------------------------------------
-		
-		        barHeight =
-		            Math.max(
-		                82,
-		                H * 0.11
-		            );
-		
-		
-		        hatchFontSize =
-		            Math.max(
-		                10,
-		                H * 0.014
-		            );
-		
-		
-		        timerFontSize =
-		            Math.max(
-		                37,
-		                H * 0.052
-		            );
-		
-		
-		        labelFontSize =
-		            Math.max(
-		                8,
-		                H * 0.011
-		            );
-		    }
-		
-		
-		    // --------------------------------------------------
-		    // BACKGROUND — VERTICAL GRADIENT
-		    // --------------------------------------------------
-		
-		    bottomBarBg.graphics.clear();
-		
-		    bottomBarBg.graphics
+		    bottomBarBg.graphics.clear()
 		        .beginLinearGradientFill(
-		            [
-		                "#123B5C",
-		                "#092642",
-		                "#061A2D"
-		            ],
+		            ["#123B5C", "#092642", "#061A2D"],
 		            [0, 0.5, 1],
-		            0,
-		            H - barHeight,
-		            0,
-		            H
+		            0, barTop, 0, H
 		        )
-		        .drawRect(
-		            0,
-		            H - barHeight,
-		            W,
-		            barHeight
-		        );
-		
-		
-		    // --------------------------------------------------
-		    // SLIGHTLY DARKER TOP EDGE
-		    // --------------------------------------------------
+		        .drawRect(0, barTop, W, barHeight);
 		
 		    bottomBarBg.graphics
 		        .beginFill("#08233d")
-		        .drawRect(
-		            0,
-		            H - barHeight,
-		            W,
-		            2
-		        );
-		
-		
-		    // --------------------------------------------------
-		    // WHITE GRADIENT ACCENT LINE
-		    // --------------------------------------------------
+		        .drawRect(0, barTop, W, 2);
 		
 		    bottomBarBg.graphics
 		        .beginLinearGradientFill(
 		            [
-		                "rgba(255, 255, 255, 0.45)",
-		                "rgba(255, 255, 255, 0.66)",
-		                "rgba(255, 255, 255, 0.45)"
+		                "rgba(255,255,255,0.45)",
+		                "rgba(255,255,255,0.66)",
+		                "rgba(255,255,255,0.45)"
 		            ],
 		            [0, 0.15, 0.85],
-		            0,
-		            0,
-		            W,
-		            0
+		            0, 0, W, 0
 		        )
-		        .drawRect(
-		            0,
-		            H - barHeight,
-		            W,
-		            1
-		        );
+		        .drawRect(0, barTop, W, 1);
 		
+		    hatchText.font = "bold " + hatchFontSize + "px 'DM Sans'";
+		    hatchTimer.font = timerFontSize + "px 'Marcellus'";
+		    timerLabels.font = "bold " + labelFontSize + "px 'DM Sans'";
 		
-		    // --------------------------------------------------
-		    // UPDATE FONT SIZES
-		    // --------------------------------------------------
-		
-		    hatchText.font =
-		        "bold " +
-		        hatchFontSize +
-		        "px 'DM Sans'";
-		
-		
-		    hatchTimer.font =
-		        timerFontSize +
-		        "px 'Marcellus'";
-		
-		
-		    timerLabels.font =
-		        "bold " +
-		        labelFontSize +
-		        "px 'DM Sans'";
-		
-		
-		    // --------------------------------------------------
-		    // BAR TOP
-		    // --------------------------------------------------
-		
-		    var barTop =
-		        H - barHeight;
-		
-		
-		    // --------------------------------------------------
-		    // MOBILE LAYOUT
-		    // --------------------------------------------------
+		    hatchText.x = W / 2;
+		    hatchTimer.x = W / 2;
+		    timerLabels.x = W / 2;
 		
 		    if (portrait) {
-		
-		        var hatchHeight =
-		            hatchText.getMeasuredHeight();
-		
-		        var timerHeight =
-		            hatchTimer.getMeasuredHeight();
-		
-		        var labelHeight =
-		            timerLabels.getMeasuredHeight();
-		
-		
-		        var topPadding = 6;
-		        var bottomPadding = 6;
-		
-		
-		        var contentHeight =
-		            hatchHeight +
-		            timerHeight +
-		            labelHeight;
-		
-		
-		        var availableGapSpace =
-		            barHeight -
-		            topPadding -
-		            bottomPadding -
-		            contentHeight;
-		
-		
-		        var gap =
-		            Math.max(
-		                1,
-		                availableGapSpace / 2
-		            );
-		
-		
-		        // ROW 1
-		
-		        hatchText.x =
-		            W / 2;
-		
-		        hatchText.y =
-		            barTop +
-		            topPadding;
-		
-		
-		        // ROW 2
-		
-		        hatchTimer.x =
-		            W / 2;
+		        hatchText.y = barTop + 6;
 		
 		        hatchTimer.y =
 		            hatchText.y +
-		            hatchHeight +
-		            gap;
-		
-		
-		        // ROW 3
-		
-		        timerLabels.x =
-		            W / 2;
-		
-		        timerLabels.y =
-		            hatchTimer.y +
-		            timerHeight +
-		            gap;
-		
-		
-		        // FINAL SAFETY CHECK
-		
-		        var labelBottom =
-		            timerLabels.y +
-		            labelHeight;
-		
-		
-		        if (
-		            labelBottom >
-		            H - bottomPadding
-		        ) {
-		
-		            var correction =
-		                labelBottom -
+		            hatchText.getMeasuredHeight() +
+		            Math.max(
+		                1,
 		                (
-		                    H -
-		                    bottomPadding
-		                );
-		
-		
-		            hatchText.y -=
-		                correction;
-		
-		            hatchTimer.y -=
-		                correction;
-		
-		            timerLabels.y -=
-		                correction;
-		        }
-		
-		    } else {
-		
-		        // --------------------------------------------------
-		        // DESKTOP LAYOUT
-		        // --------------------------------------------------
-		
-		        hatchText.x =
-		            W / 2;
-		
-		        hatchText.y =
-		            barTop + 10;
-		
-		
-		        hatchTimer.x =
-		            W / 2;
-		
-		        hatchTimer.y =
-		            barTop + 24;
-		
-		
-		        timerLabels.x =
-		            W / 2;
+		                    barHeight -
+		                    12 -
+		                    hatchText.getMeasuredHeight() -
+		                    hatchTimer.getMeasuredHeight() -
+		                    timerLabels.getMeasuredHeight()
+		                ) / 2
+		            );
 		
 		        timerLabels.y =
-		            barTop + 63;
+		            hatchTimer.y + hatchTimer.getMeasuredHeight() + 1;
+		
+		        var overflow =
+		            timerLabels.y +
+		            timerLabels.getMeasuredHeight() -
+		            (H - 6);
+		
+		        if (overflow > 0) {
+		            hatchText.y -= overflow;
+		            hatchTimer.y -= overflow;
+		            timerLabels.y -= overflow;
+		        }
+		    } else {
+		        hatchText.y = barTop + 10;
+		        hatchTimer.y = barTop + 24;
+		        timerLabels.y = barTop + 63;
 		    }
-		
-		
-		    // --------------------------------------------------
-		    // HATCH BUTTON POSITION
-		    // --------------------------------------------------
 		
 		    if (hatchButton) {
+		        hatchButton.x = W / 2;
+		        hatchButton.y = portrait ? barTop - 70 : barTop - 28;
 		
-		        hatchButton.x =
-		            W / 2;
-		
-		
-		        if (portrait) {
-		
-		            hatchButton.y =
-		                barTop - 70;
-		
-		        } else {
-		
-		            hatchButton.y =
-		                barTop - 28;
-		        }
-		
-		
-		        // --------------------------------------------------
-		        // RESPONSIVE BUTTON SCALE
-		        // --------------------------------------------------
-		
-		        if (
-		            !hatchHovered &&
-		            !hatchPressed
-		        ) {
-		
-		            var buttonScale =
-		                portrait
-		                    ? 2.50
-		                    : 1.00;
-		
-		
-		            hatchButton.scaleX =
-		                hatchBaseScaleX *
-		                buttonScale;
-		
-		            hatchButton.scaleY =
-		                hatchBaseScaleY *
-		                buttonScale;
+		        if (!hatchHovered && !hatchPressed) {
+		            var s = portrait ? 2.5 : 1;
+		            hatchButton.scaleX = hatchBaseScaleX * s;
+		            hatchButton.scaleY = hatchBaseScaleY * s;
 		        }
 		    }
 		
+		    pageDots.x = W / 2;
+		    pageDots.scaleX = portrait ? 2 : 1;
+		    pageDots.scaleY = portrait ? 2 : 1;
 		
-		    // --------------------------------------------------
-		    // PAGE DOTS
-		    // --------------------------------------------------
-		
-		    pageDots.x =
-		        W / 2;
-		
-		
-		    // --------------------------------------------------
-		    // MOBILE DOTS
-		    // --------------------------------------------------
-		
-		    if (portrait) {
-		
-		        pageDots.scaleX = 2;
-		        pageDots.scaleY = 2;
-		
-		
-		        for (
-		            var d = 0;
-		            d < pageDots.numChildren;
-		            d++
-		        ) {
-		
-		            pageDots.getChildAt(d).x =
-		                (
-		                    d -
-		                    (DOT_COUNT - 1) / 2
-		                ) *
-		                24;
-		        }
-		
-		
-		        if (hatchButton) {
-		
-		            pageDots.y =
-		                hatchButton.y - 75;
-		
-		        } else {
-		
-		            pageDots.y =
-		                barTop - 95;
-		        }
-		
-		    } else {
-		
-		        pageDots.scaleX = 1;
-		        pageDots.scaleY = 1;
-		
-		
-		        for (
-		            var d2 = 0;
-		            d2 < pageDots.numChildren;
-		            d2++
-		        ) {
-		
-		            pageDots.getChildAt(d2).x =
-		                (
-		                    d2 -
-		                    (DOT_COUNT - 1) / 2
-		                ) *
-		                DOT_SPACING;
-		        }
-		
-		
-		        if (hatchButton) {
-		
-		            pageDots.y =
-		                hatchButton.y - 42;
-		
-		        } else {
-		
-		            pageDots.y =
-		                barTop - 70;
-		        }
+		    for (var d = 0; d < pageDots.numChildren; d++) {
+		        pageDots.getChildAt(d).x =
+		            (d - (DOT_COUNT - 1) / 2) *
+		            (portrait ? 24 : DOT_SPACING);
 		    }
+		
+		    pageDots.y = hatchButton
+		        ? hatchButton.y - (portrait ? 75 : 42)
+		        : barTop - (portrait ? 95 : 70);
 		}
 		
-		
-		// --------------------------------------------------
-		// INITIAL LAYOUT
-		// --------------------------------------------------
-		
-		layoutBottomBar();
-		
-		
-		// --------------------------------------------------
-		// START COUNTDOWN
-		// --------------------------------------------------
-		
-		startCountdown();
-		
-		
-		// --------------------------------------------------
-		// RESPONSIVE LAYOUT UPDATE
-		// --------------------------------------------------
-		
-		createjs.Ticker.addEventListener(
-		    "tick",
-		    layoutBottomBar
-		);
-		
-		
-		// --------------------------------------------------
-		// LOAD THE SAVED TIMERS
-		// --------------------------------------------------
+		// ==================================================
+		// START COUNTDOWN AND CONNECT SAVE
+		// ==================================================
+		function startCountdown() {
+		    clearInterval(countdownTimer);
+		    updateCountdown();
+		    countdownTimer = setInterval(updateCountdown, 250);
+		}
 		
 		function connectSave() {
+		    if (!window.SaveSystem) return;
 		
-		    // Re-reads timers when the save loads,
-		    // player changes, or save is imported.
-		
-		    SaveSystem.onChange(
-		        "bottomBar",
-		        function (name) {
-		
-		            if (
-		                !name ||
-		                name === "eggEndTimes"
-		            ) {
-		
+		    if (typeof SaveSystem.onChange === "function") {
+		        saveChangeHandler = function (name) {
+		            if (!name || name === "eggEndTimes" || name === "slots") {
 		                readTimers();
 		            }
-		        }
-		    );
+		        };
 		
+		        SaveSystem.onChange("bottomBar", saveChangeHandler);
+		    }
 		
 		    if (SaveSystem.isLoaded()) {
-		
 		        readTimers();
-		
 		    } else {
+		        var result = SaveSystem.load();
 		
-		        SaveSystem.load();
+		        if (result && typeof result.then === "function") {
+		            result.then(readTimers).catch(function (e) {
+		                console.warn("Save load failed:", e);
+		            });
+		        }
 		    }
 		}
 		
+		layoutBottomBar();
+		startCountdown();
 		
-		// --------------------------------------------------
-		// WAIT FOR SAVE SYSTEM
-		// --------------------------------------------------
+		createjs.Ticker.addEventListener("tick", layoutBottomBar);
+		
+		if (window.SaveSystem) {
+		    connectSave();
+		}
 		
 		var saveWaitTicks = 0;
 		
 		function waitForSave() {
-		
 		    if (window.SaveSystem) {
-		
-		        createjs.Ticker.removeEventListener(
-		            "tick",
-		            waitForSave
-		        );
-		
+		        createjs.Ticker.removeEventListener("tick", waitForSave);
 		        connectSave();
-		
-		        return;
-		    }
-		
-		
-		    if (++saveWaitTicks > 120) {
-		
-		        createjs.Ticker.removeEventListener(
-		            "tick",
-		            waitForSave
-		        );
+		    } else if (++saveWaitTicks > 120) {
+		        createjs.Ticker.removeEventListener("tick", waitForSave);
 		    }
 		}
 		
-		
-		if (window.SaveSystem) {
-		
-		    connectSave();
-		
-		} else {
-		
-		    createjs.Ticker.addEventListener(
-		        "tick",
-		        waitForSave
-		    );
+		if (!window.SaveSystem) {
+		    createjs.Ticker.addEventListener("tick", waitForSave);
 		}
 		
-		
-		// --------------------------------------------------
+		// ==================================================
 		// CLEANUP
-		// --------------------------------------------------
+		// ==================================================
+		self.cleanupBottomBar = function () {
+		    clearInterval(countdownTimer);
 		
-		self.cleanupBottomBar =
-		    function () {
+		    createjs.Ticker.removeEventListener("tick", layoutBottomBar);
+		    createjs.Ticker.removeEventListener("tick", waitForSave);
 		
-		        clearInterval(
-		            countdownTimer
-		        );
+		    if (window.SaveSystem && typeof SaveSystem.onChange === "function") {
+		        SaveSystem.onChange("bottomBar", function () {});
+		    }
 		
+		    self.removeChild(bottomBar);
+		    self.removeChild(pageDots);
 		
-		        createjs.Ticker.removeEventListener(
-		            "tick",
-		            layoutBottomBar
-		        );
-		
-		
-		        createjs.Ticker.removeEventListener(
-		            "tick",
-		            waitForSave
-		        );
-		
-		
-		        // Stop listening while this screen is gone
-		        if (window.SaveSystem) {
-		
-		            SaveSystem.onChange(
-		                "bottomBar",
-		                function () {}
-		            );
-		        }
-		
-		
-		        self.removeChild(
-		            bottomBar
-		        );
-		
-		        self.removeChild(
-		            pageDots
-		        );
-		
-		
-		        self.cleanupBottomBar =
-		            null;
-		    };
+		    self.cleanupBottomBar = null;
+		};
 	}
 	this.frame_2 = function() {
 		this.stop();
@@ -17445,9 +16069,9 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791647415249", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791647415249", id:"index_atlas_2"},
-		{src:"images/index_atlas_3.png?1791647415250", id:"index_atlas_3"}
+		{src:"images/index_atlas_.png?1791648645791", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791648645792", id:"index_atlas_2"},
+		{src:"images/index_atlas_3.png?1791648645792", id:"index_atlas_3"}
 	],
 	preloads: []
 };
