@@ -4,7 +4,7 @@ var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
 		{name:"index_atlas_", frames: [[994,0,992,870],[0,0,992,870],[988,872,980,826],[0,872,986,832]]},
-		{name:"index_atlas_2", frames: [[944,770,939,519],[0,770,942,522],[944,1291,894,540],[770,0,768,768],[0,1294,512,512],[0,0,768,768]]},
+		{name:"index_atlas_2", frames: [[944,770,939,519],[0,770,942,522],[944,1291,894,540],[770,0,768,768],[0,0,768,768],[0,1294,512,512]]},
 		{name:"index_atlas_3", frames: [[514,470,398,398],[502,514,4,12],[81,842,29,21],[196,615,188,188],[416,514,84,117],[0,615,194,194],[0,811,51,51],[0,870,894,148],[0,1110,894,20],[196,805,62,62],[514,0,468,468],[53,842,26,26],[386,615,28,28],[0,514,414,99],[416,1020,414,7],[0,1020,414,88],[53,811,46,29],[0,0,512,512]]}
 ];
 
@@ -189,22 +189,22 @@ lib.ssMetadata = [
 
 
 (lib.eggsketches2 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(4);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(17);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.SLUGGITY = function() {
 	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(5);
+	this.gotoAndStop(4);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.terratortleegg = function() {
-	this.initialize(ss["index_atlas_3"]);
-	this.gotoAndStop(17);
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(5);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -14008,1890 +14008,396 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		})(this);
 	}
 	this.frame_3 = function() {
-		this.stop();
+		// ==================================================
+		        // EXPORTED MONSTERS
+		        // usernames/{username}/monsters/{0-5}
+		        // ==================================================
 		
-		(function (self) {
+		        var EXPORT_LIMIT = 6;
+		        var DOCS_ROOT = FIRESTORE_ROOT;
 		
-		    var W = lib.properties.width;
-		    var H = lib.properties.height;
-		    var portrait = H > W;
+		        // --------------------------------------------------
+		        // USERNAME
+		        // --------------------------------------------------
 		
-		    // --------------------------------------------------
-		    // CLEAN UP THE HOME SCREEN UI
-		    // --------------------------------------------------
+		        function exportName() {
+		            var u = exportRoot && exportRoot.user;
 		
-		    if (self.cleanupBottomBar) self.cleanupBottomBar();
-		    if (self.cleanupCards) self.cleanupCards();
-		    if (self.cleanupEggNavigation) self.cleanupEggNavigation();
-		    if (self.cleanupEggs) self.cleanupEggs();
+		            if (!u || !u.username) {
+		                throw new Error("missing-username");
+		            }
 		
-		    var eggUi = self.egg || null;
-		    var eggWasVisible = eggUi ? eggUi.visible : true;
+		            return String(u.username).trim().toLowerCase();
+		        }
 		
-		    if (eggUi) eggUi.visible = false;
+		        // --------------------------------------------------
+		        // FIRESTORE VALUE CONVERSION
+		        // --------------------------------------------------
 		
-		    // --------------------------------------------------
-		    // SETTINGS
-		    // --------------------------------------------------
+		        function fsValue(v) {
+		            if (v === null || v === undefined) {
+		                return { nullValue: null };
+		            }
 		
-		    var COLUMNS = portrait ? 2 : 4;
-		    var RESERVE_TOP_BAR = true;
-		    var MAX_CONTENT_WIDTH = 1200;
-		    var SIDE_MARGIN = portrait ? 24 : 40;
-		    var CARD_GAP = portrait ? 14 : 24;
+		            if (typeof v === "number") {
+		                if (!isFinite(v)) {
+		                    return { nullValue: null };
+		                }
 		
-		    var HEADER_HEIGHT = portrait ? 84 : 72;
-		    var TITLE_SIZE = portrait ? 34 : 30;
-		    var COUNT_SIZE = portrait ? 22 : 18;
+		                if (Number.isInteger(v)) {
+		                    return {
+		                        integerValue: String(v)
+		                    };
+		                }
 		
-		    var TITLE_COLOR = "#dbeaf5";
-		    var COUNT_COLOR = "#8DBBD1";
+		                return {
+		                    doubleValue: v
+		                };
+		            }
 		
-		    var LINE_COLOR = "#8fd8ff";
-		    var LINE_ALPHA = 0.75;
-		    var LINE_THICKNESS = 2;
+		            if (typeof v === "boolean") {
+		                return { booleanValue: v };
+		            }
 		
-		    var SCROLL_PAD_TOP = 20;
-		    var SCROLL_PAD_BOTTOM = 40;
+		            if (typeof v === "object") {
+		                return {
+		                    stringValue: JSON.stringify(v)
+		                };
+		            }
 		
-		    var DRAG_THRESHOLD = 10;
-		    var FRICTION = 0.92;
+		            return {
+		                stringValue: String(v)
+		            };
+		        }
 		
-		    var BROWSE_TITLE = "Your monsters";
-		    var PICK_TITLE = "Choose a monster";
-		    var SELL_TITLE = "Select monsters to sell";
-		    var EXPORT_TITLE = "Select monsters to export";
-		    var EMPTY_TEXT = "No monsters yet";
+		        function fromFsValue(v) {
+		            if ("integerValue" in v) {
+		                return Number(v.integerValue);
+		            }
 		
-		    var NO_TYPE = "NONE";
-		    var SEPARATOR = " \u00B7 ";
-		    var FONT_FAMILY = "'DM Sans'";
-		    var LISTENER_ID = "monstersMenu";
-		    var GAME_LABEL = "game";
+		            if ("doubleValue" in v) {
+		                return Number(v.doubleValue);
+		            }
 		
-		    var ART_CLIP = "egg";
-		    var ART_FRAME = 1;
+		            if ("booleanValue" in v) {
+		                return v.booleanValue;
+		            }
 		
-		    var HOVER_SCALE = 0.96;
-		    var PRESS_SCALE = 0.90;
-		    var REACT_TIME = 120;
+		            if ("stringValue" in v) {
+		                return v.stringValue;
+		            }
 		
-		    var canHover = !!(
-		        window.matchMedia &&
-		        window.matchMedia("(hover: hover)").matches
-		    );
-		
-		    // --------------------------------------------------
-		    // BOTTOM BAR
-		    // --------------------------------------------------
-		
-		    var BTN_H = portrait ? 76 : 48;
-		    var BTN_PAD = portrait ? 22 : 16;
-		    var BTN_GAP = portrait ? 16 : 14;
-		    var BAR_H = BTN_H + BTN_PAD * 2;
-		
-		    var BTN_FILL = "#173b5d";
-		    var BTN_FILL_LIT = "#1d5381";
-		    var BTN_STROKE = "#527896";
-		    var BTN_STROKE_LIT = "#8fd8ff";
-		    var BTN_TEXT = "#cfe6f5";
-		    var BTN_TEXT_LIT = "#ffffff";
-		
-		    // --------------------------------------------------
-		    // SELL SETTINGS
-		    // --------------------------------------------------
-		
-		    var SELL_STAT_RATE = 0.05;
-		    var SELL_LEVEL_BONUS = 5;
-		    var SELL_MIN = 1;
-		
-		    // --------------------------------------------------
-		    // CONTAINERS
-		    // --------------------------------------------------
-		
-		    var viewport = new createjs.Container();
-		    self.addChild(viewport);
-		
-		    var scrollHit = new createjs.Shape();
-		    viewport.addChild(scrollHit);
-		
-		    var content = new createjs.Container();
-		    viewport.addChild(content);
-		
-		    var viewMask = new createjs.Shape();
-		    viewport.mask = viewMask;
-		
-		    var header = new createjs.Container();
-		    self.addChild(header);
-		
-		    var titleText = new createjs.Text(
-		        BROWSE_TITLE,
-		        "30px 'Marcellus'",
-		        TITLE_COLOR
-		    );
-		
-		    titleText.textAlign = "left";
-		    titleText.textBaseline = "middle";
-		    header.addChild(titleText);
-		
-		    var countText = new createjs.Text(
-		        "0 monsters",
-		        "bold 18px 'DM Sans'",
-		        COUNT_COLOR
-		    );
-		
-		    countText.textAlign = "right";
-		    countText.textBaseline = "middle";
-		    header.addChild(countText);
-		
-		    var headerLine = new createjs.Shape();
-		    header.addChild(headerLine);
-		
-		    var emptyText = new createjs.Text(
-		        EMPTY_TEXT,
-		        "bold 22px 'DM Sans'",
-		        COUNT_COLOR
-		    );
-		
-		    emptyText.textAlign = "center";
-		    emptyText.textBaseline = "middle";
-		    emptyText.visible = false;
-		    header.addChild(emptyText);
-		
-		    // --------------------------------------------------
-		    // STATE
-		    // --------------------------------------------------
-		
-		    var cards = [];
-		    var entries = [];
-		    var destroyed = false;
-		
-		    var viewTop = 0;
-		    var maxScroll = 0;
-		    var scrollY = 0;
-		
-		    var dragging = false;
-		    var dragMoved = false;
-		    var dragStartY = 0;
-		    var dragStartScroll = 0;
-		    var lastY = 0;
-		    var lastTime = 0;
-		    var velocity = 0;
-		
-		    var pressedObj = null;
-		
-		    var pickMode = "";
-		    var selected = {};
-		
-		    var dialogOpen = false;
-		    var dialogKind = "";
-		
-		    var exportFree = 0;
-		    var exportLimit = 6;
-		    var exportBusy = false;
-		    var exportBusyText = "Sending...";
-		
-		    function placementActive() {
-		        return !!(
-		            window.MonsterPlacement &&
-		            window.MonsterPlacement.active
-		        );
-		    }
-		
-		    function formatAmount(n) {
-		        return Number(n).toLocaleString("en-US");
-		    }
-		
-		    function speciesOf(monsterId) {
-		        if (typeof Monster === "undefined") {
 		            return null;
 		        }
 		
-		        return (
-		            (Monster.BY_ID && Monster.BY_ID[monsterId]) ||
-		            (Monster.registry && Monster.registry[monsterId]) ||
-		            null
-		        );
-		    }
+		        // --------------------------------------------------
+		        // READ EXPORTED MONSTERS
+		        // Returns [{ slot, rec }]
+		        // --------------------------------------------------
 		
-		    // --------------------------------------------------
-		    // BUTTON REACTIONS
-		    // --------------------------------------------------
+		        function readExported() {
+		            var name;
 		
-		    function applyReact(o) {
-		        if (o.reactBase === undefined) return;
-		
-		        var s = o.reactBase * o.reactF;
-		
-		        o.scaleX = s;
-		        o.scaleY = s;
-		
-		        o.x = o.reactCx - (o.reactLocalCx - o.regX) * s;
-		        o.y = o.reactCy - (o.reactLocalCy - o.regY) * s;
-		    }
-		
-		    function placeReactive(o, base, cx, cy, localCx, localCy) {
-		        o.reactBase = base;
-		        o.reactCx = cx;
-		        o.reactCy = cy;
-		        o.reactLocalCx = localCx;
-		        o.reactLocalCy = localCy;
-		
-		        if (o.reactF === undefined) o.reactF = 1;
-		
-		        applyReact(o);
-		    }
-		
-		    function reactTo(o, f) {
-		        createjs.Tween.get(o, {
-		            override: true,
-		            onChange: function () {
-		                applyReact(o);
-		            }
-		        }).to(
-		            { reactF: f },
-		            REACT_TIME,
-		            createjs.Ease.quadOut
-		        );
-		    }
-		
-		    function refreshReact(o) {
-		        var f = 1;
-		
-		        if (!o.reactOff) {
-		            if (o.pressed) {
-		                f = PRESS_SCALE;
-		            } else if (o.hovered) {
-		                f = HOVER_SCALE;
-		            }
-		        }
-		
-		        reactTo(o, f);
-		
-		        if (o.onLit) {
-		            o.onLit(o.hovered || o.pressed);
-		        }
-		    }
-		
-		    function wireReactions(o) {
-		        o.reactF = 1;
-		        o.hovered = false;
-		        o.pressed = false;
-		
-		        if (canHover) {
-		            o.on("rollover", function () {
-		                o.hovered = true;
-		                refreshReact(o);
-		            });
-		
-		            o.on("rollout", function () {
-		                o.hovered = false;
-		                refreshReact(o);
-		            });
-		        }
-		
-		        o.on("mousedown", function () {
-		            o.pressed = true;
-		            pressedObj = o;
-		            refreshReact(o);
-		        });
-		
-		        o.on("pressup", function () {
-		            o.pressed = false;
-		
-		            if (pressedObj === o) {
-		                pressedObj = null;
+		            try {
+		                name = exportName();
+		            } catch (err) {
+		                return Promise.reject(err);
 		            }
 		
-		            refreshReact(o);
-		        });
-		    }
-		
-		    // --------------------------------------------------
-		    // CRYST ICON
-		    // --------------------------------------------------
-		
-		    function makeCrystIcon() {
-		        var holder = new createjs.Container();
-		
-		        holder.mouseEnabled = false;
-		        holder.mouseChildren = false;
-		
-		        if (lib.Cryst) {
-		            holder.icon = new lib.Cryst();
-		            holder.addChild(holder.icon);
-		        } else {
-		            console.warn(
-		                "Cryst not found. Check AS Linkage on the symbol."
-		            );
-		        }
-		
-		        return holder;
-		    }
-		
-		    function sizeCrystIcon(holder, size) {
-		        var icon = holder.icon;
-		        if (!icon) return;
-		
-		        var b = icon.nominalBounds || icon.getBounds();
-		        if (!b || !b.width || !b.height) return;
-		
-		        var s = Math.min(size / b.width, size / b.height);
-		
-		        icon.scaleX = s;
-		        icon.scaleY = s;
-		        icon.x = -(b.x + b.width / 2) * s;
-		        icon.y = -(b.y + b.height / 2) * s;
-		    }
-		
-		    // --------------------------------------------------
-		    // BUTTONS
-		    // --------------------------------------------------
-		
-		    function drawButton(b, lit) {
-		        var radius = b.bh * 0.28;
-		
-		        b.bg.graphics.clear();
-		
-		        b.bg.graphics
-		            .setStrokeStyle(lit ? 1.5 : 1)
-		            .beginStroke(lit ? BTN_STROKE_LIT : BTN_STROKE)
-		            .beginFill(lit ? BTN_FILL_LIT : BTN_FILL)
-		            .drawRoundRect(0, 0, b.bw, b.bh, radius);
-		
-		        var textColor = lit ? BTN_TEXT_LIT : BTN_TEXT;
-		
-		        b.label.color = textColor;
-		
-		        if (b.amount) {
-		            b.amount.color = textColor;
-		        }
-		    }
-		
-		    function makeButton(text) {
-		        var b = new createjs.Container();
-		
-		        b.bw = 100;
-		        b.bh = 40;
-		        b.fs = 16;
-		
-		        b.bg = new createjs.Shape();
-		
-		        b.label = new createjs.Text(
-		            text,
-		            "bold 16px 'DM Sans'",
-		            BTN_TEXT
-		        );
-		
-		        b.label.textAlign = "left";
-		        b.label.textBaseline = "middle";
-		        b.label.mouseEnabled = false;
-		
-		        b.addChild(b.bg);
-		        b.addChild(b.label);
-		
-		        b.cursor = "pointer";
-		
-		        b.onLit = function (lit) {
-		            drawButton(b, lit);
-		        };
-		
-		        wireReactions(b);
-		
-		        return b;
-		    }
-		
-		    function centerLabel(b) {
-		        b.label.x = (b.bw - b.label.getMeasuredWidth()) / 2;
-		        b.label.y = b.bh / 2;
-		    }
-		
-		    function sizeButton(b, w, h, fontSize) {
-		        b.bw = w;
-		        b.bh = h;
-		        b.fs = fontSize;
-		
-		        b.regX = w / 2;
-		        b.regY = h / 2;
-		
-		        b.label.font = "bold " + fontSize + "px 'DM Sans'";
-		
-		        if (b.amount) {
-		            b.amount.font = "bold " + fontSize + "px 'DM Sans'";
-		        }
-		
-		        var hit = new createjs.Shape();
-		        hit.graphics.beginFill("#000").drawRect(0, 0, w, h);
-		        b.hitArea = hit;
-		
-		        drawButton(b, b.hovered || b.pressed);
-		        centerLabel(b);
-		    }
-		
-		    // --------------------------------------------------
-		    // ACTION BAR
-		    // --------------------------------------------------
-		
-		    var actionBar = new createjs.Container();
-		    self.addChild(actionBar);
-		
-		    var actionBg = new createjs.Shape();
-		    actionBar.addChild(actionBg);
-		
-		    var sellBtn = makeButton("Sell");
-		
-		    sellBtn.iconHolder = makeCrystIcon();
-		
-		    sellBtn.amount = new createjs.Text(
-		        "0",
-		        "bold 16px 'DM Sans'",
-		        BTN_TEXT
-		    );
-		
-		    sellBtn.amount.textAlign = "left";
-		    sellBtn.amount.textBaseline = "middle";
-		    sellBtn.amount.mouseEnabled = false;
-		    sellBtn.amount.visible = false;
-		
-		    sellBtn.addChild(sellBtn.iconHolder);
-		    sellBtn.addChild(sellBtn.amount);
-		    actionBar.addChild(sellBtn);
-		
-		    var exportBtn = makeButton("Export");
-		    actionBar.addChild(exportBtn);
-		
-		    function layoutSellContent() {
-		        var b = sellBtn;
-		        var iconSize = b.fs * 1.4;
-		        var gap = b.fs * 0.45;
-		
-		        var showIcon = b.iconHolder.visible;
-		        var showAmount = b.amount.visible;
-		        var labelW = b.label.getMeasuredWidth();
-		
-		        var total = labelW;
-		
-		        if (showIcon) total += gap + iconSize;
-		        if (showAmount) total += gap * 0.6 + b.amount.getMeasuredWidth();
-		
-		        var x = (b.bw - total) / 2;
-		
-		        b.label.x = x;
-		        b.label.y = b.bh / 2;
-		
-		        x += labelW;
-		
-		        if (showIcon) {
-		            sizeCrystIcon(b.iconHolder, iconSize);
-		
-		            b.iconHolder.x = x + gap + iconSize / 2;
-		            b.iconHolder.y = b.bh / 2;
-		
-		            x += gap + iconSize;
-		        }
-		
-		        if (showAmount) {
-		            b.amount.x = x + gap * 0.6;
-		            b.amount.y = b.bh / 2;
-		        }
-		    }
-		
-		    // --------------------------------------------------
-		    // CONFIRMATION DIALOG
-		    // --------------------------------------------------
-		
-		    var dialog = new createjs.Container();
-		    dialog.visible = false;
-		    self.addChild(dialog);
-		
-		    var dim = new createjs.Shape();
-		    dialog.addChild(dim);
-		
-		    var panel = new createjs.Shape();
-		    dialog.addChild(panel);
-		
-		    var dialogTitle = new createjs.Text(
-		        "Sell monsters?",
-		        "30px 'Marcellus'",
-		        TITLE_COLOR
-		    );
-		
-		    dialogTitle.textAlign = "center";
-		    dialogTitle.textBaseline = "middle";
-		    dialog.addChild(dialogTitle);
-		
-		    var dialogBody = new createjs.Text(
-		        "",
-		        "bold 18px 'DM Sans'",
-		        BTN_TEXT
-		    );
-		
-		    dialogBody.textAlign = "center";
-		    dialogBody.textBaseline = "middle";
-		    dialog.addChild(dialogBody);
-		
-		    var rewardLabel = new createjs.Text(
-		        "You will receive",
-		        "bold 18px 'DM Sans'",
-		        COUNT_COLOR
-		    );
-		
-		    rewardLabel.textAlign = "left";
-		    rewardLabel.textBaseline = "middle";
-		    dialog.addChild(rewardLabel);
-		
-		    var rewardIcon = makeCrystIcon();
-		    dialog.addChild(rewardIcon);
-		
-		    var rewardAmount = new createjs.Text(
-		        "0",
-		        "bold 18px 'DM Sans'",
-		        "#ffffff"
-		    );
-		
-		    rewardAmount.textAlign = "left";
-		    rewardAmount.textBaseline = "middle";
-		    dialog.addChild(rewardAmount);
-		
-		    var dialogNote = new createjs.Text(
-		        "This can't be undone.",
-		        "14px 'DM Sans'",
-		        COUNT_COLOR
-		    );
-		
-		    dialogNote.textAlign = "center";
-		    dialogNote.textBaseline = "middle";
-		    dialog.addChild(dialogNote);
-		
-		    var cancelBtn = makeButton("Cancel");
-		    dialog.addChild(cancelBtn);
-		
-		    var confirmBtn = makeButton("Sell");
-		    dialog.addChild(confirmBtn);
-		
-		    function layoutDialog() {
-		        var kind = dialogKind;
-		
-		        var pw = portrait ? Math.min(W - 60, 640) : 480;
-		        var ph = portrait ? 460 : 310;
-		
-		        var px = (W - pw) / 2;
-		        var py = (H - ph) / 2;
-		
-		        var pad = portrait ? 32 : 24;
-		
-		        dim.graphics.clear();
-		        dim.graphics
-		            .beginFill("rgba(0, 0, 0, 0.62)")
-		            .drawRect(0, 0, W, H);
-		
-		        panel.graphics.clear();
-		        panel.graphics
-		            .setStrokeStyle(1.5)
-		            .beginStroke("#527896")
-		            .beginLinearGradientFill(
-		                ["#0d2f4d", "#071c31"],
-		                [0, 1],
-		                0, py,
-		                0, py + ph
-		            )
-		            .drawRoundRect(px, py, pw, ph, portrait ? 30 : 18);
-		
-		        var fs = portrait ? 28 : 17;
-		        var noteFs = portrait ? 22 : 14;
-		        var textW = pw - pad * 2;
-		
-		        dialogTitle.font = (portrait ? 40 : 28) + "px 'Marcellus'";
-		        dialogTitle.x = W / 2;
-		        dialogTitle.y = py + ph * 0.17;
-		
-		        dialogBody.font = "bold " + fs + "px 'DM Sans'";
-		        dialogBody.textBaseline = "top";
-		        dialogBody.lineWidth = textW;
-		        dialogBody.lineHeight = fs * 1.35;
-		        dialogBody.x = W / 2;
-		        dialogBody.y = py + ph * (kind === "notice" ? 0.34 : 0.30);
-		
-		        var showReward = kind === "sell";
-		
-		        rewardLabel.visible = showReward;
-		        rewardIcon.visible = showReward;
-		        rewardAmount.visible = showReward;
-		
-		        if (showReward) {
-		            rewardLabel.font = "bold " + fs + "px 'DM Sans'";
-		            rewardAmount.font = "bold " + fs + "px 'DM Sans'";
-		
-		            var iconSize = fs * 1.4;
-		            var gap = fs * 0.5;
-		
-		            var rowW =
-		                rewardLabel.getMeasuredWidth() +
-		                gap +
-		                iconSize +
-		                gap * 0.6 +
-		                rewardAmount.getMeasuredWidth();
-		
-		            var x = (W - rowW) / 2;
-		            var rowY = py + ph * 0.51;
-		
-		            rewardLabel.x = x;
-		            rewardLabel.y = rowY;
-		
-		            x += rewardLabel.getMeasuredWidth();
-		
-		            sizeCrystIcon(rewardIcon, iconSize);
-		
-		            rewardIcon.x = x + gap + iconSize / 2;
-		            rewardIcon.y = rowY;
-		
-		            x += gap + iconSize;
-		
-		            rewardAmount.x = x + gap * 0.6;
-		            rewardAmount.y = rowY;
-		        }
-		
-		        dialogNote.visible = kind !== "notice";
-		        dialogNote.font = noteFs + "px 'DM Sans'";
-		        dialogNote.textBaseline = "top";
-		        dialogNote.lineWidth = textW;
-		        dialogNote.lineHeight = noteFs * 1.35;
-		        dialogNote.x = W / 2;
-		        dialogNote.y = py + ph * (kind === "sell" ? 0.64 : 0.50);
-		
-		        var bh = portrait ? 72 : 46;
-		        var by = py + ph - pad - bh / 2;
-		
-		        if (kind === "notice") {
-		            var nw = Math.min(pw - pad * 2, portrait ? 320 : 200);
-		
-		            confirmBtn.visible = false;
-		            sizeButton(cancelBtn, nw, bh, fs);
-		
-		            placeReactive(cancelBtn, 1, W / 2, by, nw / 2, bh / 2);
-		        } else {
-		            var bw = (pw - pad * 3) / 2;
-		
-		            confirmBtn.visible = true;
-		            sizeButton(cancelBtn, bw, bh, fs);
-		            sizeButton(confirmBtn, bw, bh, fs);
-		
-		            placeReactive(cancelBtn, 1, px + pad + bw / 2, by, bw / 2, bh / 2);
-		            placeReactive(confirmBtn, 1, px + pw - pad - bw / 2, by, bw / 2, bh / 2);
-		        }
-		    }
-		
-		    function showDialog() {
-		        layoutDialog();
-		        dialogOpen = true;
-		        dialog.visible = true;
-		        self.addChild(dialog);
-		    }
-		
-		    function openConfirm(kind) {
-		        var sel = getSelection();
-		
-		        if (!sel.count) return;
-		
-		        var n = sel.count;
-		        var word = n === 1 ? " monster" : " monsters";
-		
-		        dialogKind = kind;
-		
-		        if (kind === "sell") {
-		            dialogTitle.text = "Sell monsters?";
-		            dialogBody.text = "You are about to sell " + n + word + ".";
-		            rewardLabel.text = "You will receive";
-		            rewardAmount.text = formatAmount(sel.total);
-		            dialogNote.text = "This can't be undone.";
-		            confirmBtn.label.text = "Sell";
-		        } else {
-		            dialogTitle.text = "Send to your account?";
-		            dialogBody.text = "Send " + n + word + " to your account?";
-		            dialogNote.text =
-		                "They will be removed from this game. Your account can hold " +
-		                exportLimit + " in total, so " +
-		                Math.max(0, exportFree - n) +
-		                " more could still be sent after this.";
-		            confirmBtn.label.text = "Send";
-		        }
-		
-		        cancelBtn.label.text = "Cancel";
-		        showDialog();
-		    }
-		
-		    function showNotice(title, body) {
-		        dialogKind = "notice";
-		        dialogTitle.text = title;
-		        dialogBody.text = body;
-		        cancelBtn.label.text = "OK";
-		        showDialog();
-		    }
-		
-		    function closeConfirm() {
-		        dialogOpen = false;
-		        dialog.visible = false;
-		    }
-		
-		    // --------------------------------------------------
-		    // SELLING / SELECTION
-		    // --------------------------------------------------
-		
-		    function isLocked(entry) {
-		        return (
-		            typeof entry.slot === "number" &&
-		            entry.slot >= 0
-		        );
-		    }
-		
-		    function sellValue(entry) {
-		        var def = speciesOf(entry.monsterId);
-		
-		        if (!def) return SELL_MIN;
-		
-		        var stats =
-		            (Number(def.baseHp) || 0) +
-		            (Number(def.baseAttack) || 0) +
-		            (Number(def.baseDefense) || 0) +
-		            (Number(def.baseSpAttack) || 0) +
-		            (Number(def.baseSpDefense) || 0) +
-		            (Number(def.baseSpeed) || 0);
-		
-		        return Math.max(
-		            SELL_MIN,
-		            Math.round(
-		                stats * SELL_STAT_RATE +
-		                (Number(entry.level) || 1) * SELL_LEVEL_BONUS
-		            )
-		        );
-		    }
-		
-		    function getSelection() {
-		        var list = [];
-		        var total = 0;
-		
-		        for (var i = 0; i < entries.length; i++) {
-		            var m = entries[i];
-		
-		            if (selected[m.uid] && !isLocked(m)) {
-		                list.push(m);
-		                total += sellValue(m);
-		            }
-		        }
-		
-		        return {
-		            list: list,
-		            count: list.length,
-		            total: total
-		        };
-		    }
-		
-		    function setTitle() {
-		        if (placementActive()) {
-		            titleText.text = PICK_TITLE;
-		        } else if (pickMode === "sell") {
-		            titleText.text = SELL_TITLE;
-		        } else if (pickMode === "export") {
-		            titleText.text = EXPORT_TITLE;
-		        } else {
-		            titleText.text = BROWSE_TITLE;
-		        }
-		    }
-		
-		    function refreshSellUI() {
-		        if (destroyed) return;
-		
-		        var sel = getSelection();
-		        var picking = pickMode !== "";
-		
-		        setTitle();
-		
-		        for (var i = 0; i < cards.length; i++) {
-		            var card = cards[i];
-		            var entry = entries[card.monsterIndex];
-		
-		            var locked = picking && !!entry && isLocked(entry);
-		            var on = picking && !!entry && !locked && !!selected[entry.uid];
-		
-		            card.alpha = locked ? 0.45 : 1;
-		            card.reactOff = locked;
-		
-		            if (card.selectMark && card.selectMark.visible !== on) {
-		                card.selectMark.visible = on;
-		
-		                if (card.cacheCanvas) {
-		                    card.updateCache();
-		                }
-		            }
-		        }
-		
-		        if (pickMode === "sell") {
-		            countText.text = sel.count + " selected";
-		        } else if (pickMode === "export") {
-		            countText.text = sel.count + " of " + exportFree + " selected";
-		        } else {
-		            countText.text =
-		                entries.length +
-		                (entries.length === 1 ? " monster" : " monsters");
-		        }
-		
-		        if (pickMode === "sell" && sel.count === 0) {
-		            sellBtn.label.text = "Cancel";
-		            sellBtn.iconHolder.visible = false;
-		            sellBtn.amount.visible = false;
-		        } else {
-		            sellBtn.label.text = "Sell";
-		            sellBtn.iconHolder.visible = true;
-		            sellBtn.amount.visible = pickMode === "sell";
-		            sellBtn.amount.text = formatAmount(sel.total);
-		        }
-		
-		        layoutSellContent();
-		
-		        if (exportBusy) {
-		            exportBtn.label.text = exportBusyText;
-		        } else if (pickMode === "export") {
-		            exportBtn.label.text = sel.count === 0 ? "Cancel" : "Send " + sel.count;
-		        } else {
-		            exportBtn.label.text = "Export";
-		        }
-		
-		        centerLabel(exportBtn);
-		    }
-		
-		    function startPicking(mode) {
-		        pickMode = mode;
-		        selected = {};
-		        refreshSellUI();
-		    }
-		
-		    function stopPicking() {
-		        pickMode = "";
-		        selected = {};
-		        refreshSellUI();
-		    }
-		
-		    function onSellPress() {
-		        if (placementActive() || dialogOpen || exportBusy) return;
-		
-		        if (pickMode !== "sell") {
-		            startPicking("sell");
-		            return;
-		        }
-		
-		        if (getSelection().count === 0) {
-		            stopPicking();
-		            return;
-		        }
-		
-		        openConfirm("sell");
-		    }
-		
-		    // --------------------------------------------------
-		    // EXPORT ERROR HANDLING
-		    // --------------------------------------------------
-		
-		    function exportErrorText(err) {
-		        var code = String(
-		            err && err.message
-		                ? err.message
-		                : err || "unknown-error"
-		        );
-		
-		        if (code.indexOf("not-signed-in") >= 0) {
-		            return "Sign in with your username before exporting monsters.";
-		        }
-		
-		        if (code.indexOf("limit") >= 0) {
-		            return "Your account can only hold " +
-		                exportLimit +
-		                " exported monsters. Select fewer monsters and try again.";
-		        }
-		
-		        if (code.indexOf("not-loaded") >= 0) {
-		            return "Your save has not loaded yet. Try again in a moment.";
-		        }
-		
-		        if (code.indexOf("player-changed") >= 0) {
-		            return "Your signed-in player changed. Nothing was exported. Try again.";
-		        }
-		
-		        if (code.indexOf("HTTP 401") >= 0) {
-		            return "Your sign-in may have expired. Reload the game and sign in again.";
-		        }
-		
-		        if (code.indexOf("HTTP 403") >= 0) {
-		            return "The server denied the export. Check your Firestore security rules and make sure you are signed in.";
-		        }
-		
-		        if (
-		            code.indexOf("exportMonsters is not a function") >= 0 ||
-		            code.indexOf("getExportInfo is not a function") >= 0
-		        ) {
-		            return "The save system is missing a required export function. Update SaveSystem and try again.";
-		        }
-		
-		        if (
-		            code.indexOf("Failed to fetch") >= 0 ||
-		            code.indexOf("NetworkError") >= 0
-		        ) {
-		            return "A network error interrupted the export. Check your connection and try again.";
-		        }
-		
-		        console.error("Monster export error:", err);
-		
-		        return "Something went wrong during export. Check the browser console for details and try again.";
-		    }
-		
-		    // --------------------------------------------------
-		    // EXPORT SELECTION
-		    // --------------------------------------------------
-		
-		    function onExportPress() {
-		        if (placementActive() || dialogOpen || exportBusy) return;
-		
-		        if (pickMode === "export") {
-		            if (getSelection().count === 0) {
-		                stopPicking();
-		                return;
+		            var user = exportRoot && exportRoot.user;
+		
+		            if (
+		                !owner ||
+		                owner === "local" ||
+		                !exportRoot.idToken ||
+		                !user ||
+		                !user.uid ||
+		                ("cloud:" + user.uid) !== owner
+		            ) {
+		                return Promise.reject(
+		                    new Error("not-signed-in")
+		                );
 		            }
 		
-		            openConfirm("export");
-		            return;
-		        }
+		            var url =
+		                DOCS_ROOT +
+		                "usernames/" +
+		                encodeURIComponent(name) +
+		                "/monsters?pageSize=20";
 		
-		        if (
-		            typeof SaveSystem === "undefined" ||
-		            typeof SaveSystem.getExportInfo !== "function" ||
-		            typeof SaveSystem.exportMonsters !== "function"
-		        ) {
-		            showNotice(
-		                "Export unavailable",
-		                "The save system is missing its export functions. Update SaveSystem before exporting."
-		            );
-		            return;
-		        }
+		            return getDoc(url).then(function (res) {
+		                var docs = (res && res.documents) || [];
 		
-		        exportBusy = true;
-		        exportBusyText = "Checking...";
-		        refreshSellUI();
+		                return docs.map(function (doc) {
+		                    var rec = {};
 		
-		        Promise.resolve()
-		            .then(function () {
-		                return SaveSystem.getExportInfo();
-		            })
-		            .then(function (info) {
-		                if (destroyed) return;
-		
-		                if (
-		                    !info ||
-		                    !Number.isFinite(Number(info.limit)) ||
-		                    !Number.isFinite(Number(info.count)) ||
-		                    Number(info.limit) < 0 ||
-		                    Number(info.count) < 0
-		                ) {
-		                    throw new Error("invalid-export-info");
-		                }
-		
-		                exportLimit = Number(info.limit);
-		                exportFree = Math.max(0, exportLimit - Number(info.count));
-		
-		                exportBusy = false;
-		                exportBusyText = "Sending...";
-		
-		                if (exportFree === 0) {
-		                    refreshSellUI();
-		
-		                    showNotice(
-		                        "Account is full",
-		                        "Your account already holds " +
-		                        exportLimit +
-		                        " exported monsters, which is the limit."
+		                    Object.keys(doc.fields || {}).forEach(
+		                        function (key) {
+		                            rec[key] = fromFsValue(
+		                                doc.fields[key]
+		                            );
+		                        }
 		                    );
 		
-		                    return;
-		                }
-		
-		                startPicking("export");
-		            })
-		            .catch(function (err) {
-		                if (destroyed) return;
-		
-		                exportBusy = false;
-		                exportBusyText = "Sending...";
-		                refreshSellUI();
-		
-		                showNotice("Can't export", exportErrorText(err));
+		                    return {
+		                        slot: Number(
+		                            doc.name.split("/").pop()
+		                        ),
+		                        rec: rec
+		                    };
+		                });
 		            });
-		    }
-		
-		    function onConfirm() {
-		        if (dialogKind === "sell") {
-		            doSell();
-		        } else if (dialogKind === "export") {
-		            doExport();
-		        } else {
-		            closeConfirm();
-		        }
-		    }
-		
-		    function doSell() {
-		        var sel = getSelection();
-		
-		        closeConfirm();
-		
-		        if (!sel.count) return;
-		
-		        var gone = {};
-		
-		        for (var i = 0; i < sel.list.length; i++) {
-		            gone[sel.list[i].uid] = true;
 		        }
 		
-		        var remaining = entries.filter(function (m) {
-		            return !gone[m.uid];
-		        });
+		        // --------------------------------------------------
+		        // GET EXPORT CAPACITY
+		        // --------------------------------------------------
 		
-		        pickMode = "";
-		        selected = {};
-		
-		        SaveSystem.set("monsters", remaining);
-		        SaveSystem.add("cryst", sel.total);
-		
-		        refreshSellUI();
-		    }
-		
-		    // --------------------------------------------------
-		    // SEND SELECTED MONSTERS TO THE PLAYER ACCOUNT
-		    // --------------------------------------------------
-		
-		    function doExport() {
-		        var sel = getSelection();
-		
-		        closeConfirm();
-		
-		        if (!sel.count) return;
-		
-		        if (
-		            typeof SaveSystem === "undefined" ||
-		            typeof SaveSystem.exportMonsters !== "function"
-		        ) {
-		            showNotice(
-		                "Export unavailable",
-		                "The save system cannot export monsters yet. Update SaveSystem and try again."
-		            );
-		            return;
+		        function getExportInfo() {
+		            return readExported().then(function (list) {
+		                return {
+		                    count: list.length,
+		                    limit: EXPORT_LIMIT
+		                };
+		            });
 		        }
 		
-		        var uids = [];
-		        var seen = {};
+		        // --------------------------------------------------
+		        // EXPORT SELECTED MONSTERS
+		        // --------------------------------------------------
 		
-		        for (var i = 0; i < sel.list.length; i++) {
-		            var entry = sel.list[i];
-		
-		            if (
-		                !entry ||
-		                entry.uid === undefined ||
-		                entry.uid === null ||
-		                String(entry.uid).trim() === "" ||
-		                isLocked(entry)
-		            ) {
-		                continue;
-		            }
-		
-		            var uid = String(entry.uid);
-		
-		            if (seen[uid]) continue;
-		
-		            seen[uid] = true;
-		            uids.push(uid);
-		        }
-		
-		        if (!uids.length) {
-		            refreshSellUI();
-		
-		            showNotice(
-		                "No monsters selected",
-		                "Select at least one monster that is not assigned to an egg slot."
-		            );
-		            return;
-		        }
-		
-		        if (uids.length > exportFree) {
-		            refreshSellUI();
-		
-		            showNotice(
-		                "Export limit reached",
-		                "Your account has room for only " +
-		                exportFree +
-		                (exportFree === 1 ? " more monster." : " more monsters.") +
-		                " Select fewer monsters and try again."
-		            );
-		            return;
-		        }
-		
-		        var n = uids.length;
-		
-		        exportBusy = true;
-		        exportBusyText = "Sending...";
-		        refreshSellUI();
-		
-		        Promise.resolve()
-		            .then(function () {
-		                return SaveSystem.exportMonsters(uids);
-		            })
-		            .then(function (info) {
-		                if (destroyed) return;
-		
-		                if (
-		                    !info ||
-		                    !Number.isFinite(Number(info.count)) ||
-		                    !Number.isFinite(Number(info.limit))
-		                ) {
-		                    throw new Error("invalid-export-response");
-		                }
-		
-		                exportBusy = false;
-		                exportBusyText = "Sending...";
-		
-		                pickMode = "";
-		                selected = {};
-		
-		                refreshSellUI();
-		
-		                showNotice(
-		                    "Sent!",
-		                    n +
-		                    (n === 1
-		                        ? " monster was sent"
-		                        : " monsters were sent") +
-		                    " to your account. It now holds " +
-		                    Number(info.count) +
-		                    " of " +
-		                    Number(info.limit) +
-		                    "."
+		        function exportMonsters(uids) {
+		            if (!loaded) {
+		                return Promise.reject(
+		                    new Error("not-loaded")
 		                );
-		            })
-		            .catch(function (err) {
-		                if (destroyed) return;
+		            }
 		
-		                exportBusy = false;
-		                exportBusyText = "Sending...";
-		                refreshSellUI();
+		            if (owner === "local") {
+		                return Promise.reject(
+		                    new Error("not-signed-in")
+		                );
+		            }
 		
-		                showNotice("Export failed", exportErrorText(err));
-		            });
-		    }
+		            var startOwner = owner;
+		            var username;
 		
-		    // --------------------------------------------------
-		    // BUTTON CLICKS
-		    // --------------------------------------------------
+		            try {
+		                username = exportName();
+		            } catch (err) {
+		                return Promise.reject(err);
+		            }
 		
-		    sellBtn.on("click", onSellPress);
-		    exportBtn.on("click", onExportPress);
-		    cancelBtn.on("click", closeConfirm);
-		    confirmBtn.on("click", onConfirm);
-		
-		    // --------------------------------------------------
-		    // CARD TEXT
-		    // --------------------------------------------------
-		
-		    function typeLabel(def) {
-		        var types = [];
-		
-		        if (def.type1) types.push(def.type1);
-		        if (def.type2) types.push(def.type2);
-		
-		        return types.length
-		            ? types.join(SEPARATOR).toUpperCase()
-		            : NO_TYPE;
-		    }
-		
-		    function levelLabel(entry) {
-		        var text = "Level " + (entry.level || 1);
-		
-		        if (typeof entry.slot === "number" && entry.slot >= 0) {
-		            text += SEPARATOR + "Slot " + (entry.slot + 1);
-		        }
-		
-		        return text;
-		    }
-		
-		    // --------------------------------------------------
-		    // REMOVE OLD EGG ART
-		    // --------------------------------------------------
-		
-		    function removeEgg(node) {
-		        if (!node) return;
-		
-		        if (node.egg && node.egg.parent) {
-		            node.egg.parent.removeChild(node.egg);
-		        }
-		
-		        var kids = (node.children || []).slice();
-		
-		        for (var i = 0; i < kids.length; i++) {
-		            removeEgg(kids[i]);
-		        }
-		    }
-		
-		    // --------------------------------------------------
-		    // SHOW MONSTER ART
-		    // --------------------------------------------------
-		
-		    function showArt(card) {
-		        card.gotoAndStop(ART_FRAME);
-		
-		        var monsterArt = card.MonsterArt;
-		
-		        if (!monsterArt) {
-		            console.warn("MonsterArt not found inside MonsterContainer.");
-		            removeEgg(card);
-		            return;
-		        }
-		
-		        var entry = entries[card.monsterIndex];
-		        var def = entry ? speciesOf(entry.monsterId) : null;
-		
-		        var monsterName = def
-		            ? String(def.name || "").trim()
-		            : String((entry && entry.name) || "").trim();
-		
-		        var frameToUse = "default";
-		        var labels = [];
-		
-		        if (monsterArt.timeline && monsterArt.timeline.getLabels) {
-		            labels = monsterArt.timeline.getLabels();
-		        }
-		
-		        for (var i = 0; i < labels.length; i++) {
-		            var labelName = String(labels[i].label || "").trim();
+		            var user = exportRoot && exportRoot.user;
 		
 		            if (
-		                monsterName !== "" &&
-		                labelName.toLowerCase() === monsterName.toLowerCase()
+		                !user ||
+		                !user.uid ||
+		                !exportRoot.idToken ||
+		                ("cloud:" + user.uid) !== startOwner
 		            ) {
-		                frameToUse = labelName;
-		                break;
-		            }
-		        }
-		
-		        monsterArt.gotoAndStop(frameToUse);
-		        removeEgg(card);
-		    }
-		
-		    // --------------------------------------------------
-		    // SELECTION MARK
-		    // --------------------------------------------------
-		
-		    function ensureMark(card) {
-		        if (card.selectMark && card.selectMark.parent === card) return;
-		
-		        var b = card.nominalBounds;
-		
-		        if (!b) return;
-		
-		        var mark = new createjs.Container();
-		        mark.visible = false;
-		        mark.mouseEnabled = false;
-		        mark.mouseChildren = false;
-		
-		        var ring = new createjs.Shape();
-		
-		        ring.graphics
-		            .setStrokeStyle(Math.max(3, b.width * 0.015))
-		            .beginStroke("#8fd8ff")
-		            .beginFill("rgba(143, 216, 255, 0.2)")
-		            .drawRoundRect(b.x, b.y, b.width, b.height, b.width * 0.06);
-		
-		        mark.addChild(ring);
-		
-		        var r = b.width * 0.07;
-		        var cx = b.x + b.width - r * 1.7;
-		        var cy = b.y + r * 1.7;
-		
-		        var badge = new createjs.Shape();
-		
-		        badge.graphics
-		            .beginFill("#8fd8ff")
-		            .drawCircle(cx, cy, r);
-		
-		        badge.graphics
-		            .setStrokeStyle(Math.max(3, r * 0.22), "round")
-		            .beginStroke("#061a2d")
-		            .moveTo(cx - r * 0.45, cy)
-		            .lineTo(cx - r * 0.1, cy + r * 0.35)
-		            .lineTo(cx + r * 0.5, cy - r * 0.35);
-		
-		        mark.addChild(badge);
-		        card.addChild(mark);
-		        card.selectMark = mark;
-		    }
-		
-		    // --------------------------------------------------
-		    // APPLY CARD DATA
-		    // --------------------------------------------------
-		
-		    function applyCard(card) {
-		        var entry = entries[card.monsterIndex];
-		        if (!entry) return;
-		
-		        var def = speciesOf(entry.monsterId);
-		
-		        showArt(card);
-		
-		        if (card.type) {
-		            card.type.text = def ? typeLabel(def) : "";
-		        }
-		
-		        if (card.MonsterName) {
-		            var nick = String(entry.nickname || "").trim();
-		
-		            card.MonsterName.text = nick !== ""
-		                ? nick
-		                : (def ? def.name : (entry.name || "???"));
-		        }
-		
-		        if (card.guarding) {
-		            var m = /^(.*?\d+(?:\.\d+)?px)\s/.exec(card.guarding.font || "");
-		
-		            if (m) {
-		                card.guarding.font = m[1] + " " + FONT_FAMILY;
+		                return Promise.reject(
+		                    new Error("not-signed-in")
+		                );
 		            }
 		
-		            card.guarding.visible = true;
-		            card.guarding.text = levelLabel(entry);
-		        }
-		
-		        ensureMark(card);
-		
-		        if (card.cacheCanvas) {
-		            card.updateCache();
-		        }
-		    }
-		
-		    // --------------------------------------------------
-		    // BUILD CARDS
-		    // --------------------------------------------------
-		
-		    function clearCards() {
-		        for (var i = 0; i < cards.length; i++) {
-		            createjs.Tween.removeTweens(cards[i]);
-		            cards[i].removeAllEventListeners();
-		            content.removeChild(cards[i]);
-		        }
-		
-		        cards = [];
-		        pressedObj = null;
-		    }
-		
-		    function rebuild() {
-		        if (destroyed) return;
-		
-		        if (!lib.MonsterContainer) {
-		            console.error("MonsterContainer not found. Check AS Linkage on the symbol.");
-		            return;
-		        }
-		
-		        var saved = SaveSystem.get("monsters");
-		        entries = Array.isArray(saved) ? saved : [];
-		
-		        var stillThere = {};
-		
-		        entries.forEach(function (m) {
-		            stillThere[m.uid] = true;
-		        });
-		
-		        Object.keys(selected).forEach(function (uid) {
-		            if (!stillThere[uid]) delete selected[uid];
-		        });
-		
-		        if (placementActive()) {
-		            pickMode = "";
-		            selected = {};
-		        }
-		
-		        clearCards();
-		
-		        for (var i = 0; i < entries.length; i++) {
-		            var card = new lib.MonsterContainer();
-		
-		            card.monsterIndex = i;
-		            card.cursor = "pointer";
-		            card.addEventListener("click", onCardClick);
-		
-		            wireReactions(card);
-		            content.addChild(card);
-		            cards.push(card);
-		
-		            applyCard(card);
-		        }
-		
-		        emptyText.visible = !entries.length;
-		
-		        layout();
-		        refreshSellUI();
-		    }
-		
-		    // --------------------------------------------------
-		    // LEAVE MONSTER SCREEN
-		    // --------------------------------------------------
-		
-		    function leave() {
-		        if (self.showScreen) {
-		            self.showScreen(GAME_LABEL);
-		        } else {
-		            if (self.cleanupMonsters) self.cleanupMonsters();
-		            self.gotoAndStop(GAME_LABEL);
-		        }
-		    }
-		
-		    // --------------------------------------------------
-		    // UPDATE MONSTER SLOTS
-		    // --------------------------------------------------
-		
-		    function updateMonsterSlots(chosenMonsterId, targetSlot) {
-		        var savedSlots = SaveSystem.get("slots");
-		
-		        var nextSlots = Array.isArray(savedSlots)
-		            ? savedSlots.slice()
-		            : [];
-		
-		        while (nextSlots.length < 5) {
-		            nextSlots.push(null);
-		        }
-		
-		        for (var i = 0; i < nextSlots.length; i++) {
-		            if (i !== targetSlot && nextSlots[i] === chosenMonsterId) {
-		                nextSlots[i] = null;
+		            if (!Array.isArray(uids) || !uids.length) {
+		                return Promise.reject(
+		                    new Error("nothing-selected")
+		                );
 		            }
-		        }
 		
-		        nextSlots[targetSlot] = chosenMonsterId;
+		            // Preserve UID types. Do not convert numeric UIDs
+		            // to strings before comparing them with saved UIDs.
+		            var picked = data.monsters.filter(function (m) {
+		                return uids.some(function (uid) {
+		                    return uid === m.uid;
+		                });
+		            });
 		
-		        SaveSystem.set("slots", nextSlots);
-		    }
+		            if (!picked.length) {
+		                return Promise.reject(
+		                    new Error("nothing-selected")
+		                );
+		            }
 		
-		    // --------------------------------------------------
-		    // CARD CLICK
-		    // --------------------------------------------------
+		            // Verify that the player has enough free slots.
+		            return readExported().then(function (current) {
+		                if (owner !== startOwner) {
+		                    throw new Error("player-changed");
+		                }
 		
-		    function onCardClick(evt) {
-		        if (dragMoved) return;
-		        if (dialogOpen || exportBusy) return;
+		                var used = {};
 		
-		        var placement = window.MonsterPlacement;
-		
-		        if (!placement || !placement.active) {
-		            if (pickMode !== "") {
-		                var tapped = entries[evt.currentTarget.monsterIndex];
-		
-		                if (!tapped || isLocked(tapped)) return;
-		
-		                if (selected[tapped.uid]) {
-		                    delete selected[tapped.uid];
-		                } else {
+		                current.forEach(function (entry) {
 		                    if (
-		                        pickMode === "export" &&
-		                        getSelection().count >= exportFree
+		                        Number.isInteger(entry.slot) &&
+		                        entry.slot >= 0 &&
+		                        entry.slot < EXPORT_LIMIT
 		                    ) {
-		                        showNotice(
-		                            "Export limit reached",
-		                            "Your account has room for " +
-		                            exportFree +
-		                            (exportFree === 1 ? " more monster." : " more monsters.") +
-		                            " The limit is " + exportLimit + " in total."
-		                        );
-		                        return;
+		                        used[entry.slot] = true;
+		                    }
+		                });
+		
+		                var free = [];
+		
+		                for (var i = 0; i < EXPORT_LIMIT; i++) {
+		                    if (!used[i]) {
+		                        free.push(i);
+		                    }
+		                }
+		
+		                if (picked.length > free.length) {
+		                    throw new Error("limit");
+		                }
+		
+		                // Only write fields allowed by Firestore rules.
+		                var allowedFields = [
+		                    "uid",
+		                    "monsterId",
+		                    "name",
+		                    "nickname",
+		                    "shiny",
+		                    "level",
+		                    "experience",
+		                    "nature",
+		                    "gender",
+		                    "heldItem"
+		                ];
+		
+		                var prefix =
+		                    "projects/" +
+		                    PROJECT_ID +
+		                    "/databases/(default)/documents/usernames/" +
+		                    username +
+		                    "/monsters/";
+		
+		                var writes = picked.map(function (monster, index) {
+		                    var fields = {};
+		
+		                    allowedFields.forEach(function (key) {
+		                        if (monster[key] !== undefined) {
+		                            fields[key] = fsValue(monster[key]);
+		                        }
+		                    });
+		
+		                    // Firestore requires monsterId to be an integer.
+		                    var monsterId = Number(monster.monsterId);
+		
+		                    if (
+		                        !Number.isFinite(monsterId) ||
+		                        !Number.isInteger(monsterId) ||
+		                        monsterId <= 0
+		                    ) {
+		                        throw new Error("invalid-monsterId");
 		                    }
 		
-		                    selected[tapped.uid] = true;
+		                    fields.monsterId = {
+		                        integerValue: String(monsterId)
+		                    };
+		
+		                    // Firestore requires a non-empty string name.
+		                    var monsterName =
+		                        typeof monster.name === "string"
+		                            ? monster.name.trim()
+		                            : "";
+		
+		                    if (!monsterName) {
+		                        monsterName = speciesName(monsterId);
+		                    }
+		
+		                    if (!monsterName) {
+		                        throw new Error("missing-monster-name");
+		                    }
+		
+		                    fields.name = {
+		                        stringValue: monsterName
+		                    };
+		
+		                    // Firestore requires level to be an integer
+		                    // from 1 to 100.
+		                    var level = Number(monster.level);
+		
+		                    if (!Number.isFinite(level)) {
+		                        level = 1;
+		                    }
+		
+		                    level = Math.max(
+		                        1,
+		                        Math.min(100, Math.floor(level))
+		                    );
+		
+		                    fields.level = {
+		                        integerValue: String(level)
+		                    };
+		
+		                    return {
+		                        update: {
+		                            name: prefix + free[index],
+		                            fields: fields
+		                        },
+		                        currentDocument: {
+		                            exists: false
+		                        }
+		                    };
+		                });
+		
+		                // Confirm the signed-in player has not changed.
+		                if (owner !== startOwner) {
+		                    throw new Error("player-changed");
 		                }
 		
-		                refreshSellUI();
-		            }
+		                return fetch(
+		                    DOCS_ROOT.slice(0, -1) + ":commit",
+		                    {
+		                        method: "POST",
+		                        headers: authHeaders(),
+		                        body: JSON.stringify({
+		                            writes: writes
+		                        })
+		                    }
+		                ).then(function (response) {
+		                    if (!response.ok) {
+		                        return response.text().then(
+		                            function (body) {
+		                                throw new Error(
+		                                    "HTTP " +
+		                                    response.status +
+		                                    ": " +
+		                                    body
+		                                );
+		                            }
+		                        );
+		                    }
 		
-		            return;
+		                    if (owner !== startOwner) {
+		                        throw new Error("player-changed");
+		                    }
+		
+		                    // Remove exported monsters from the local
+		                    // collection only after Firestore succeeds.
+		                    var exported = {};
+		
+		                    picked.forEach(function (monster) {
+		                        exported[monster.uid] = true;
+		                    });
+		
+		                    set(
+		                        "monsters",
+		                        data.monsters.filter(function (monster) {
+		                            return !exported[monster.uid];
+		                        })
+		                    );
+		
+		                    flush(false);
+		
+		                    return {
+		                        count: current.length + picked.length,
+		                        limit: EXPORT_LIMIT
+		                    };
+		                });
+		            });
 		        }
-		
-		        var chosen = evt.currentTarget.monsterIndex;
-		        var chosenEntry = entries[chosen];
-		
-		        if (!chosenEntry) {
-		            console.warn("Could not find selected monster:", chosen);
-		            return;
-		        }
-		
-		        var chosenMonsterId = chosenEntry.monsterId;
-		        var targetSlot = placement.slot;
-		
-		        if (
-		            typeof targetSlot !== "number" ||
-		            targetSlot < 0 ||
-		            targetSlot >= 5
-		        ) {
-		            console.warn("Invalid monster placement slot:", targetSlot);
-		            return;
-		        }
-		
-		        var next = entries.map(function (m, i) {
-		            var c = Object.assign({}, m);
-		
-		            if (i === chosen) {
-		                c.slot = targetSlot;
-		            } else if (c.slot === targetSlot) {
-		                c.slot = -1;
-		            }
-		
-		            return c;
-		        });
-		
-		        SaveSystem.set("monsters", next);
-		        updateMonsterSlots(chosenMonsterId, targetSlot);
-		
-		        placement.active = false;
-		        placement.slot = -1;
-		
-		        leave();
-		    }
-		
-		    // --------------------------------------------------
-		    // SCROLLING
-		    // --------------------------------------------------
-		
-		    function setScroll(y) {
-		        scrollY = Math.max(0, Math.min(maxScroll, y));
-		        content.y = viewTop - scrollY;
-		    }
-		
-		    function onPress(evt) {
-		        dragging = true;
-		        dragMoved = false;
-		        velocity = 0;
-		        dragStartY = evt.stageY;
-		        dragStartScroll = scrollY;
-		        lastY = evt.stageY;
-		        lastTime = Date.now();
-		    }
-		
-		    function onDragMove(evt) {
-		        if (!dragging) return;
-		
-		        var y = evt.stageY;
-		
-		        if (!dragMoved) {
-		            if (Math.abs(y - dragStartY) <= DRAG_THRESHOLD) return;
-		
-		            dragMoved = true;
-		
-		            if (pressedObj) {
-		                pressedObj.pressed = false;
-		                refreshReact(pressedObj);
-		                pressedObj = null;
-		            }
-		
-		            dragStartY = y;
-		            dragStartScroll = scrollY;
-		            lastY = y;
-		            lastTime = Date.now();
-		
-		            return;
-		        }
-		
-		        setScroll(dragStartScroll - (y - dragStartY));
-		
-		        var now = Date.now();
-		        var dt = now - lastTime;
-		
-		        if (dt > 0) {
-		            velocity = velocity * 0.6 + ((lastY - y) / dt) * 0.4;
-		            lastY = y;
-		            lastTime = now;
-		        }
-		    }
-		
-		    function onRelease() {
-		        if (!dragging) return;
-		
-		        dragging = false;
-		
-		        if (Date.now() - lastTime > 100) {
-		            velocity = 0;
-		        }
-		    }
-		
-		    function scrollTick(evt) {
-		        if (dragging) return;
-		
-		        if (Math.abs(velocity) < 0.01) {
-		            velocity = 0;
-		            return;
-		        }
-		
-		        setScroll(scrollY + velocity * evt.delta);
-		
-		        velocity *= Math.pow(FRICTION, evt.delta / 16.67);
-		
-		        if (scrollY <= 0 || scrollY >= maxScroll) {
-		            velocity = 0;
-		        }
-		    }
-		
-		    var canvas = self.stage ? self.stage.canvas : null;
-		
-		    function onWheel(e) {
-		        e.preventDefault();
-		        velocity = 0;
-		
-		        if (dialogOpen) return;
-		
-		        var unitsPerPixel = canvas && canvas.clientWidth
-		            ? W / canvas.clientWidth
-		            : 1;
-		
-		        setScroll(
-		            scrollY +
-		            e.deltaY *
-		            (e.deltaMode === 1 ? 20 : 1) *
-		            unitsPerPixel
-		        );
-		    }
-		
-		    // --------------------------------------------------
-		    // LAYOUT
-		    // --------------------------------------------------
-		
-		    function layoutActionBar() {
-		        var show = !placementActive();
-		        actionBar.visible = show;
-		
-		        if (!show) return;
-		
-		        var contentW = Math.min(W - SIDE_MARGIN * 2, MAX_CONTENT_WIDTH);
-		
-		        var btnW = portrait
-		            ? (contentW - BTN_GAP) / 2
-		            : Math.min(240, (contentW - BTN_GAP) / 2);
-		
-		        var fontSize = portrait ? 30 : 18;
-		
-		        actionBar.y = H - BAR_H;
-		
-		        actionBg.graphics.clear();
-		
-		        actionBg.graphics
-		            .beginFill("rgba(6, 26, 45, 0.94)")
-		            .drawRect(0, 0, W, BAR_H);
-		
-		        actionBg.graphics
-		            .beginFill(LINE_COLOR)
-		            .drawRect(0, 0, W, 1);
-		
-		        var left = (W - (btnW * 2 + BTN_GAP)) / 2;
-		        var cy = BAR_H / 2;
-		
-		        sizeButton(sellBtn, btnW, BTN_H, fontSize);
-		        sizeButton(exportBtn, btnW, BTN_H, fontSize);
-		
-		        placeReactive(sellBtn, 1, left + btnW / 2, cy, btnW / 2, BTN_H / 2);
-		        placeReactive(exportBtn, 1, left + btnW + BTN_GAP + btnW / 2, cy, btnW / 2, BTN_H / 2);
-		
-		        layoutSellContent();
-		    }
-		
-		    function layout() {
-		        layoutActionBar();
-		
-		        var topOffset = RESERVE_TOP_BAR
-		            ? (portrait ? Math.max(82, H * 0.11) : Math.max(66, H * 0.09))
-		            : 0;
-		
-		        var contentW = Math.min(W - SIDE_MARGIN * 2, MAX_CONTENT_WIDTH);
-		        var contentLeft = (W - contentW) / 2;
-		
-		        var headerMiddle = topOffset + HEADER_HEIGHT / 2;
-		        var lineY = topOffset + HEADER_HEIGHT;
-		
-		        titleText.font = TITLE_SIZE + "px 'Marcellus'";
-		        titleText.x = contentLeft;
-		        titleText.y = headerMiddle;
-		
-		        countText.font = "bold " + COUNT_SIZE + "px 'DM Sans'";
-		        countText.x = contentLeft + contentW;
-		        countText.y = headerMiddle;
-		
-		        headerLine.graphics.clear();
-		        headerLine.graphics
-		            .beginFill(LINE_COLOR)
-		            .drawRect(contentLeft, lineY, contentW, LINE_THICKNESS);
-		
-		        headerLine.alpha = LINE_ALPHA;
-		        viewTop = lineY + LINE_THICKNESS;
-		
-		        var barH = actionBar.visible ? BAR_H : 0;
-		        var viewH = H - viewTop - barH;
-		
-		        emptyText.x = W / 2;
-		        emptyText.y = viewTop + 90;
-		
-		        viewMask.graphics.clear();
-		        viewMask.graphics
-		            .beginFill("#000")
-		            .drawRect(0, viewTop, W, viewH);
-		
-		        scrollHit.graphics.clear();
-		        scrollHit.graphics
-		            .beginFill("rgba(0, 0, 0, 0.02)")
-		            .drawRect(0, viewTop, W, viewH);
-		
-		        if (!cards.length) {
-		            maxScroll = 0;
-		            setScroll(0);
-		            return;
-		        }
-		
-		        var b = cards[0].nominalBounds;
-		
-		        if (!b || !b.width || !b.height) {
-		            console.warn("MonsterContainer needs valid nominal bounds.");
-		            return;
-		        }
-		
-		        var cardW = (contentW - CARD_GAP * (COLUMNS - 1)) / COLUMNS;
-		        var scale = cardW / b.width;
-		        var cardH = b.height * scale;
-		
-		        var rows = Math.ceil(cards.length / COLUMNS);
-		
-		        var cacheScale = scale * Math.max(
-		            1,
-		            Math.min(2, window.devicePixelRatio || 1)
-		        );
-		
-		        for (var i = 0; i < cards.length; i++) {
-		            var col = i % COLUMNS;
-		            var row = Math.floor(i / COLUMNS);
-		
-		            var left = contentLeft + col * (cardW + CARD_GAP);
-		            var top = SCROLL_PAD_TOP + row * (cardH + CARD_GAP);
-		            var c = cards[i];
-		
-		            placeReactive(
-		                c,
-		                scale,
-		                left + cardW / 2,
-		                top + cardH / 2,
-		                b.x + b.width / 2,
-		                b.y + b.height / 2
-		            );
-		
-		            c.cache(b.x, b.y, b.width, b.height, cacheScale);
-		        }
-		
-		        var contentH =
-		            SCROLL_PAD_TOP +
-		            rows * cardH +
-		            (rows - 1) * CARD_GAP +
-		            SCROLL_PAD_BOTTOM;
-		
-		        maxScroll = Math.max(0, contentH - viewH);
-		        setScroll(scrollY);
-		    }
-		
-		    // --------------------------------------------------
-		    // EVENTS
-		    // --------------------------------------------------
-		
-		    viewport.on("mousedown", onPress);
-		    viewport.on("pressmove", onDragMove);
-		    viewport.on("pressup", onRelease);
-		
-		    createjs.Ticker.addEventListener("tick", scrollTick);
-		
-		    if (canvas) {
-		        canvas.addEventListener("wheel", onWheel, { passive: false });
-		    }
-		
-		    if (self.stage) {
-		        createjs.Touch.enable(self.stage);
-		        self.stage.mouseMoveOutside = true;
-		
-		        if (canHover) {
-		            self.stage.enableMouseOver(20);
-		        }
-		    }
-		
-		    // --------------------------------------------------
-		    // CLEANUP
-		    // --------------------------------------------------
-		
-		    self.cleanupMonsters = function () {
-		        destroyed = true;
-		
-		        if (eggUi) {
-		            eggUi.visible = eggWasVisible;
-		        }
-		
-		        createjs.Ticker.removeEventListener("tick", scrollTick);
-		
-		        if (canvas) {
-		            canvas.removeEventListener("wheel", onWheel);
-		        }
-		
-		        SaveSystem.onChange(LISTENER_ID, function () {});
-		
-		        if (window.MonsterPlacement) {
-		            window.MonsterPlacement.active = false;
-		        }
-		
-		        clearCards();
-		
-		        [sellBtn, exportBtn, cancelBtn, confirmBtn].forEach(function (btn) {
-		            createjs.Tween.removeTweens(btn);
-		            btn.removeAllEventListeners();
-		        });
-		
-		        viewport.removeAllEventListeners();
-		
-		        self.removeChild(viewport);
-		        self.removeChild(header);
-		        self.removeChild(actionBar);
-		        self.removeChild(dialog);
-		
-		        self.cleanupMonsters = null;
-		    };
-		
-		    // --------------------------------------------------
-		    // START
-		    // --------------------------------------------------
-		
-		    setTitle();
-		    layout();
-		    refreshSellUI();
-		
-		    SaveSystem.onChange(LISTENER_ID, function (name) {
-		        if (
-		            name === null ||
-		            name === "monsters" ||
-		            name === "slots"
-		        ) {
-		            rebuild();
-		        }
-		    });
-		
-		    if (SaveSystem.isLoaded()) {
-		        rebuild();
-		    } else {
-		        SaveSystem.load().then(rebuild).catch(function (err) {
-		            console.error("Could not load monster screen:", err);
-		            showNotice(
-		                "Load failed",
-		                "Your monsters could not be loaded. Try reloading the game."
-		            );
-		        });
-		    }
-		
-		})(this);
 	}
 
 	// actions tween:
@@ -15926,9 +14432,9 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791649532236", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791649532236", id:"index_atlas_2"},
-		{src:"images/index_atlas_3.png?1791649532236", id:"index_atlas_3"}
+		{src:"images/index_atlas_.png?1791651153264", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791651153264", id:"index_atlas_2"},
+		{src:"images/index_atlas_3.png?1791651153265", id:"index_atlas_3"}
 	],
 	preloads: []
 };
