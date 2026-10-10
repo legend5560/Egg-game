@@ -4,7 +4,7 @@ var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
 		{name:"index_atlas_", frames: [[994,0,992,870],[0,0,992,870],[988,872,980,826],[0,872,986,832]]},
-		{name:"index_atlas_2", frames: [[944,770,939,519],[0,770,942,522],[944,1291,894,540],[770,0,768,768],[0,0,768,768],[0,1294,512,512]]},
+		{name:"index_atlas_2", frames: [[944,770,939,519],[0,770,942,522],[944,1291,894,540],[0,0,768,768],[770,0,768,768],[0,1294,512,512]]},
 		{name:"index_atlas_3", frames: [[514,470,398,398],[502,514,4,12],[81,842,29,21],[196,615,188,188],[416,514,84,117],[0,615,194,194],[0,811,51,51],[0,870,894,148],[0,1110,894,20],[196,805,62,62],[514,0,468,468],[53,842,26,26],[386,615,28,28],[0,514,414,99],[416,1020,414,7],[0,1020,414,88],[53,811,46,29],[0,0,512,512]]}
 ];
 
@@ -6278,6 +6278,151 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        eggLevel: getEggLevel()
 		    });
 		};
+		// ==================================================
+		// ADD STARN, TERRADON, AND SLUGGITY
+		// Uses the original registered species.
+		// Adds each monster to the player's save only once.
+		// ==================================================
+		
+		function addStarterMonsters() {
+		
+		    // --------------------------------------------------
+		    // GET THE ORIGINAL SPECIES
+		    // --------------------------------------------------
+		
+		    var starn = Monster.BY_ID[22];
+		    var terradon = Monster.BY_ID[1];
+		    var sluggity = Monster.BY_ID[13];
+		
+		    // --------------------------------------------------
+		    // VERIFY THAT ALL SPECIES EXIST
+		    // --------------------------------------------------
+		
+		    if (!starn || !terradon || !sluggity) {
+		
+		        console.error(
+		            "Starter monsters could not be added. " +
+		            "One or more species are missing from Monster.BY_ID.",
+		            {
+		                Starn: !!starn,
+		                Terradon: !!terradon,
+		                Sluggity: !!sluggity
+		            }
+		        );
+		
+		        return;
+		    }
+		
+		    var starters = [
+		        starn,
+		        terradon,
+		        sluggity
+		    ];
+		
+		    // --------------------------------------------------
+		    // WAIT FOR THE PLAYER'S SAVE TO LOAD
+		    // --------------------------------------------------
+		
+		    SaveSystem.load()
+		        .then(function (data) {
+		
+		            if (
+		                !SaveSystem.isLoaded ||
+		                !SaveSystem.isLoaded()
+		            ) {
+		                console.error(
+		                    "Cannot add starter monsters: " +
+		                    "the player save has not loaded."
+		                );
+		
+		                return;
+		            }
+		
+		            // --------------------------------------------------
+		            // ADD EACH MONSTER IF IT IS NOT ALREADY OWNED
+		            // --------------------------------------------------
+		
+		            starters.forEach(function (species) {
+		
+		                var owned = SaveSystem.getAllMonsters() || [];
+		
+		                // Check by species ID, not monster name.
+		                var alreadyOwned = owned.some(function (record) {
+		
+		                    return (
+		                        Number(record.monsterId) ===
+		                        Number(species.monsterId)
+		                    );
+		
+		                });
+		
+		                if (alreadyOwned) {
+		
+		                    console.log(
+		                        species.name +
+		                        " is already in the player's save."
+		                    );
+		
+		                    return;
+		                }
+		
+		                // Add the existing species to the player's save.
+		                var uid = SaveSystem.addMonster(
+		                    species.monsterId,
+		                    {
+		                        level: 1,
+		                        experience: 0,
+		                        shiny: false
+		                    }
+		                );
+		
+		                if (!uid) {
+		
+		                    console.error(
+		                        "Failed to add " + species.name,
+		                        {
+		                            monsterId: species.monsterId,
+		                            registeredSpecies:
+		                                Monster.BY_ID[species.monsterId]
+		                        }
+		                    );
+		
+		                    return;
+		                }
+		
+		                console.log(
+		                    species.name +
+		                    " added successfully. UID:",
+		                    uid
+		                );
+		
+		            });
+		
+		            // --------------------------------------------------
+		            // VERIFY THE FINAL SAVE CONTENTS
+		            // --------------------------------------------------
+		
+		            console.log(
+		                "Final saved monster records:",
+		                SaveSystem.getAllMonsters()
+		            );
+		
+		        })
+		        .catch(function (error) {
+		
+		            console.error(
+		                "Failed to load the player's save:",
+		                error
+		            );
+		
+		        });
+		}
+		
+		// --------------------------------------------------
+		// RUN THE FUNCTION
+		// --------------------------------------------------
+		
+		addStarterMonsters();
 	}
 	this.frame_1 = function() {
 		var self = this;
@@ -17300,9 +17445,9 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791513015887", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791513015887", id:"index_atlas_2"},
-		{src:"images/index_atlas_3.png?1791513015887", id:"index_atlas_3"}
+		{src:"images/index_atlas_.png?1791647415249", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791647415249", id:"index_atlas_2"},
+		{src:"images/index_atlas_3.png?1791647415250", id:"index_atlas_3"}
 	],
 	preloads: []
 };
