@@ -4,7 +4,7 @@ var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
 		{name:"index_atlas_", frames: [[994,0,992,870],[0,0,992,870],[988,872,980,826],[0,872,986,832]]},
-		{name:"index_atlas_2", frames: [[944,770,939,519],[0,770,942,522],[944,1291,894,540],[0,0,768,768],[0,1294,512,512],[770,0,768,768]]},
+		{name:"index_atlas_2", frames: [[944,770,939,519],[0,770,942,522],[944,1291,894,540],[770,0,768,768],[0,0,768,768],[0,1294,512,512]]},
 		{name:"index_atlas_3", frames: [[514,470,398,398],[502,514,4,12],[81,842,29,21],[196,615,188,188],[416,514,84,117],[0,615,194,194],[0,811,51,51],[0,870,894,148],[0,1110,894,20],[196,805,62,62],[514,0,468,468],[53,842,26,26],[386,615,28,28],[0,514,414,99],[416,1020,414,7],[0,1020,414,88],[53,811,46,29],[0,0,512,512]]}
 ];
 
@@ -189,22 +189,22 @@ lib.ssMetadata = [
 
 
 (lib.eggsketches2 = function() {
-	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(4);
+	this.initialize(ss["index_atlas_3"]);
+	this.gotoAndStop(17);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.SLUGGITY = function() {
 	this.initialize(ss["index_atlas_2"]);
-	this.gotoAndStop(5);
+	this.gotoAndStop(4);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.terratortleegg = function() {
-	this.initialize(ss["index_atlas_3"]);
-	this.gotoAndStop(17);
+	this.initialize(ss["index_atlas_2"]);
+	this.gotoAndStop(5);
 }).prototype = p = new cjs.Sprite();
 // helper functions:
 
@@ -2042,6 +2042,23 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                        )
 		                    };
 		
+		                    // Typing comes from the species data.
+		                    // type2 must always be present (null for single-type).
+		                    var species =
+		                        window.Monster &&
+		                        Monster.BY_ID &&
+		                        Monster.BY_ID[monster.monsterId];
+		
+		                    fields.type1 = {
+		                        stringValue: String(
+		                            (species && species.type1) || ""
+		                        )
+		                    };
+		
+		                    fields.type2 = species && species.type2 ?
+		                        { stringValue: String(species.type2) } :
+		                        { nullValue: null };
+		
 		                    // Create-only write: never overwrite an existing slot.
 		                    return {
 		                        update: {
@@ -2125,6 +2142,81 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        }
 		
 		        // --------------------------------------------------
+		        // IMPORT MONSTERS FROM ACCOUNT
+		        // --------------------------------------------------
+		
+		        function importMonsters(slots) {
+		            if (!loaded) {
+		                return Promise.reject(new Error("not-loaded"));
+		            }
+		
+		            var startOwner = owner;
+		
+		            return readExported().then(function (current) {
+		                if (owner !== startOwner) {
+		                    throw new Error("player-changed");
+		                }
+		
+		                var picked = current.filter(function (e) {
+		                    return slots.indexOf(e.slot) >= 0;
+		                });
+		
+		                if (!picked.length) {
+		                    throw new Error("nothing-selected");
+		                }
+		
+		                var known = picked.every(function (e) {
+		                    return speciesName(e.rec.monsterId);
+		                });
+		
+		                if (!known) {
+		                    throw new Error("unknown-species");
+		                }
+		
+		                var prefix =
+		                    "projects/" + PROJECT_ID +
+		                    "/databases/(default)/documents/usernames/" +
+		                    exportName() + "/monsters/";
+		
+		                // Delete first so a failed request can never duplicate a monster.
+		                return fetch(FIRESTORE_ROOT + ":commit", {
+		                    method: "POST",
+		                    headers: authHeaders(),
+		                    body: JSON.stringify({
+		                        writes: picked.map(function (e) {
+		                            return {
+		                                delete: prefix + e.slot,
+		                                currentDocument: { exists: true }
+		                            };
+		                        })
+		                    })
+		                }).then(function (r) {
+		                    if (!r.ok) {
+		                        return r.text().then(function (body) {
+		                            throw new Error("HTTP " + r.status + ": " + body);
+		                        });
+		                    }
+		
+		                    picked.forEach(function (e) {
+		                        var m = e.rec;
+		
+		                        addMonster(m.monsterId, {
+		                            nickname: m.nickname,
+		                            shiny: m.shiny,
+		                            level: m.level,
+		                            experience: m.experience,
+		                            nature: m.nature,
+		                            gender: m.gender,
+		                            heldItem: m.heldItem
+		                        });
+		                    });
+		
+		                    return picked.length;
+		                });
+		            });
+		        }
+		
+		        // --------------------------------------------------
 		        // LISTENERS
 		        // --------------------------------------------------
 		
@@ -2156,6 +2248,8 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		            getExportInfo: getExportInfo,
 		            exportMonsters: exportMonsters,
+		            getExported: readExported,
+		            importMonsters: importMonsters,
 		
 		            onChange: onChange,
 		
@@ -9460,26 +9554,6 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		}
 		
 		
-		function importGame() {
-		
-		    var input = document.createElement("input");
-		
-		    input.type = "file";
-		    input.accept = ".json";
-		
-		    input.onchange = function () {
-		
-		        input.files[0].text().then(function (text) {
-		
-		            SaveSystem.importSave(text);
-		            showCurrencies();
-		        });
-		    };
-		
-		    input.click();
-		}
-		
-		
 		// --------------------------------------------------
 		// WHAT EACH OPTION DOES
 		// --------------------------------------------------
@@ -9504,6 +9578,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            break;
 		
 		        case "import":
+					showScreen("import");
 		            if (window.SaveSystem) importGame();
 		            break;
 		
@@ -9562,6 +9637,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    if (self.cleanupEggNavigation) self.cleanupEggNavigation();
 		    if (self.cleanupBottomBar) self.cleanupBottomBar();
 		    if (self.cleanupMonsters) self.cleanupMonsters();
+			if (self.cleanupImport) self.cleanupImport();
 		}
 		
 		
@@ -15897,11 +15973,880 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        });
 		    }
 		
+		})(this); //this was fixed
+	}
+	this.frame_4 = function() {
+		this.stop();
+		
+		(function (self) {
+		
+		    var W = lib.properties.width;
+		    var H = lib.properties.height;
+		    var portrait = H > W;
+		
+		    // --------------------------------------------------
+		    // CLEAN UP THE HOME SCREEN UI
+		    // --------------------------------------------------
+		
+		    if (self.cleanupBottomBar) self.cleanupBottomBar();
+		    if (self.cleanupCards) self.cleanupCards();
+		    if (self.cleanupEggNavigation) self.cleanupEggNavigation();
+		    if (self.cleanupEggs) self.cleanupEggs();
+		
+		    var eggUi = self.egg || null;
+		    var eggWasVisible = eggUi ? eggUi.visible : true;
+		
+		    if (eggUi) eggUi.visible = false;
+		
+		    // --------------------------------------------------
+		    // SETTINGS
+		    // --------------------------------------------------
+		
+		    var COLUMNS = portrait ? 2 : 4;
+		    var MAX_CONTENT_WIDTH = 1200;
+		    var SIDE_MARGIN = portrait ? 24 : 40;
+		    var CARD_GAP = portrait ? 14 : 24;
+		
+		    var HEADER_HEIGHT = portrait ? 84 : 72;
+		    var TITLE_SIZE = portrait ? 34 : 30;
+		    var COUNT_SIZE = portrait ? 22 : 18;
+		
+		    var TITLE_COLOR = "#dbeaf5";
+		    var COUNT_COLOR = "#8DBBD1";
+		
+		    var LINE_COLOR = "#8fd8ff";
+		    var LINE_ALPHA = 0.75;
+		    var LINE_THICKNESS = 2;
+		
+		    var SCROLL_PAD_TOP = 20;
+		    var SCROLL_PAD_BOTTOM = 40;
+		
+		    var DRAG_THRESHOLD = 10;
+		    var FRICTION = 0.92;
+		
+		    var TITLE = "Import monsters";
+		    var EMPTY_TEXT = "No monsters to import";
+		    var NO_TYPE = "NONE";
+		    var SEPARATOR = " \u00B7 ";
+		    var FONT_FAMILY = "'DM Sans'";
+		    var ART_FRAME = 1;
+		
+		    var HOVER_SCALE = 0.96;
+		    var PRESS_SCALE = 0.90;
+		    var REACT_TIME = 120;
+		
+		    var canHover = !!(
+		        window.matchMedia &&
+		        window.matchMedia("(hover: hover)").matches
+		    );
+		
+		    var BTN_H = portrait ? 76 : 48;
+		    var BTN_PAD = portrait ? 22 : 16;
+		    var BAR_H = BTN_H + BTN_PAD * 2;
+		
+		    var BTN_FILL = "#173b5d";
+		    var BTN_FILL_LIT = "#1d5381";
+		    var BTN_STROKE = "#527896";
+		    var BTN_STROKE_LIT = "#8fd8ff";
+		    var BTN_TEXT = "#cfe6f5";
+		    var BTN_TEXT_LIT = "#ffffff";
+		
+		    // --------------------------------------------------
+		    // CONTAINERS
+		    // --------------------------------------------------
+		
+		    var viewport = new createjs.Container();
+		    self.addChild(viewport);
+		
+		    var scrollHit = new createjs.Shape();
+		    viewport.addChild(scrollHit);
+		
+		    var content = new createjs.Container();
+		    viewport.addChild(content);
+		
+		    var viewMask = new createjs.Shape();
+		    viewport.mask = viewMask;
+		
+		    var header = new createjs.Container();
+		    self.addChild(header);
+		
+		    var titleText = new createjs.Text(TITLE, "30px 'Marcellus'", TITLE_COLOR);
+		    titleText.textAlign = "left";
+		    titleText.textBaseline = "middle";
+		    header.addChild(titleText);
+		
+		    var countText = new createjs.Text("", "bold 18px 'DM Sans'", COUNT_COLOR);
+		    countText.textAlign = "right";
+		    countText.textBaseline = "middle";
+		    header.addChild(countText);
+		
+		    var headerLine = new createjs.Shape();
+		    header.addChild(headerLine);
+		
+		    var emptyText = new createjs.Text("Loading...", "bold 22px 'DM Sans'", COUNT_COLOR);
+		    emptyText.textAlign = "center";
+		    emptyText.textBaseline = "middle";
+		    header.addChild(emptyText);
+		
+		    // --------------------------------------------------
+		    // STATE
+		    // --------------------------------------------------
+		
+		    var cards = [];
+		    var entries = [];
+		    var selected = {};
+		    var destroyed = false;
+		    var busy = false;
+		    var dialogOpen = false;
+		
+		    var viewTop = 0;
+		    var maxScroll = 0;
+		    var scrollY = 0;
+		
+		    var dragging = false;
+		    var dragMoved = false;
+		    var dragStartY = 0;
+		    var dragStartScroll = 0;
+		    var lastY = 0;
+		    var lastTime = 0;
+		    var velocity = 0;
+		
+		    var pressedObj = null;
+		
+		    function speciesOf(monsterId) {
+		        return (
+		            typeof Monster !== "undefined" &&
+		            Monster.BY_ID &&
+		            Monster.BY_ID[monsterId]
+		        ) || null;
+		    }
+		
+		    // --------------------------------------------------
+		    // BUTTON REACTIONS
+		    // --------------------------------------------------
+		
+		    function applyReact(o) {
+		        if (o.reactBase === undefined) return;
+		
+		        var s = o.reactBase * o.reactF;
+		
+		        o.scaleX = s;
+		        o.scaleY = s;
+		        o.x = o.reactCx - (o.reactLocalCx - o.regX) * s;
+		        o.y = o.reactCy - (o.reactLocalCy - o.regY) * s;
+		    }
+		
+		    function placeReactive(o, base, cx, cy, localCx, localCy) {
+		        o.reactBase = base;
+		        o.reactCx = cx;
+		        o.reactCy = cy;
+		        o.reactLocalCx = localCx;
+		        o.reactLocalCy = localCy;
+		
+		        if (o.reactF === undefined) o.reactF = 1;
+		
+		        applyReact(o);
+		    }
+		
+		    function refreshReact(o) {
+		        var f = o.pressed ? PRESS_SCALE : o.hovered ? HOVER_SCALE : 1;
+		
+		        createjs.Tween.get(o, {
+		            override: true,
+		            onChange: function () { applyReact(o); }
+		        }).to({ reactF: f }, REACT_TIME, createjs.Ease.quadOut);
+		
+		        if (o.onLit) o.onLit(o.hovered || o.pressed);
+		    }
+		
+		    function wireReactions(o) {
+		        o.reactF = 1;
+		        o.hovered = false;
+		        o.pressed = false;
+		
+		        if (canHover) {
+		            o.on("rollover", function () {
+		                o.hovered = true;
+		                refreshReact(o);
+		            });
+		
+		            o.on("rollout", function () {
+		                o.hovered = false;
+		                refreshReact(o);
+		            });
+		        }
+		
+		        o.on("mousedown", function () {
+		            o.pressed = true;
+		            pressedObj = o;
+		            refreshReact(o);
+		        });
+		
+		        o.on("pressup", function () {
+		            o.pressed = false;
+		            if (pressedObj === o) pressedObj = null;
+		            refreshReact(o);
+		        });
+		    }
+		
+		    // --------------------------------------------------
+		    // BUTTONS
+		    // --------------------------------------------------
+		
+		    function drawButton(b, lit) {
+		        b.bg.graphics.clear()
+		            .setStrokeStyle(lit ? 1.5 : 1)
+		            .beginStroke(lit ? BTN_STROKE_LIT : BTN_STROKE)
+		            .beginFill(lit ? BTN_FILL_LIT : BTN_FILL)
+		            .drawRoundRect(0, 0, b.bw, b.bh, b.bh * 0.28);
+		
+		        b.label.color = lit ? BTN_TEXT_LIT : BTN_TEXT;
+		    }
+		
+		    function centerLabel(b) {
+		        b.label.x = (b.bw - b.label.getMeasuredWidth()) / 2;
+		        b.label.y = b.bh / 2;
+		    }
+		
+		    function makeButton(text) {
+		        var b = new createjs.Container();
+		
+		        b.bw = 100;
+		        b.bh = 40;
+		
+		        b.bg = new createjs.Shape();
+		
+		        b.label = new createjs.Text(text, "bold 16px 'DM Sans'", BTN_TEXT);
+		        b.label.textAlign = "left";
+		        b.label.textBaseline = "middle";
+		        b.label.mouseEnabled = false;
+		
+		        b.addChild(b.bg, b.label);
+		        b.cursor = "pointer";
+		        b.onLit = function (lit) { drawButton(b, lit); };
+		
+		        wireReactions(b);
+		
+		        return b;
+		    }
+		
+		    function sizeButton(b, w, h, fontSize) {
+		        b.bw = w;
+		        b.bh = h;
+		        b.regX = w / 2;
+		        b.regY = h / 2;
+		        b.label.font = "bold " + fontSize + "px 'DM Sans'";
+		
+		        var hit = new createjs.Shape();
+		        hit.graphics.beginFill("#000").drawRect(0, 0, w, h);
+		        b.hitArea = hit;
+		
+		        drawButton(b, b.hovered || b.pressed);
+		        centerLabel(b);
+		    }
+		
+		    // --------------------------------------------------
+		    // ACTION BAR
+		    // --------------------------------------------------
+		
+		    var actionBar = new createjs.Container();
+		    self.addChild(actionBar);
+		
+		    var actionBg = new createjs.Shape();
+		    actionBar.addChild(actionBg);
+		
+		    var importBtn = makeButton("Import");
+		    actionBar.addChild(importBtn);
+		
+		    // --------------------------------------------------
+		    // NOTICE DIALOG
+		    // --------------------------------------------------
+		
+		    var dialog = new createjs.Container();
+		    dialog.visible = false;
+		    self.addChild(dialog);
+		
+		    var dim = new createjs.Shape();
+		    var panel = new createjs.Shape();
+		
+		    var dialogTitle = new createjs.Text("", "30px 'Marcellus'", TITLE_COLOR);
+		    dialogTitle.textAlign = "center";
+		    dialogTitle.textBaseline = "middle";
+		
+		    var dialogBody = new createjs.Text("", "bold 18px 'DM Sans'", BTN_TEXT);
+		    dialogBody.textAlign = "center";
+		    dialogBody.textBaseline = "top";
+		
+		    var okBtn = makeButton("OK");
+		
+		    dialog.addChild(dim, panel, dialogTitle, dialogBody, okBtn);
+		
+		    function layoutDialog() {
+		        var pw = portrait ? Math.min(W - 60, 640) : 480;
+		        var ph = portrait ? 400 : 270;
+		        var px = (W - pw) / 2;
+		        var py = (H - ph) / 2;
+		        var pad = portrait ? 32 : 24;
+		        var fs = portrait ? 28 : 17;
+		        var bh = portrait ? 72 : 46;
+		        var bw = Math.min(pw - pad * 2, portrait ? 320 : 200);
+		
+		        dim.graphics.clear()
+		            .beginFill("rgba(0, 0, 0, 0.62)")
+		            .drawRect(0, 0, W, H);
+		
+		        panel.graphics.clear()
+		            .setStrokeStyle(1.5)
+		            .beginStroke(BTN_STROKE)
+		            .beginLinearGradientFill(["#0d2f4d", "#071c31"], [0, 1], 0, py, 0, py + ph)
+		            .drawRoundRect(px, py, pw, ph, portrait ? 30 : 18);
+		
+		        dialogTitle.font = (portrait ? 40 : 28) + "px 'Marcellus'";
+		        dialogTitle.x = W / 2;
+		        dialogTitle.y = py + ph * 0.17;
+		
+		        dialogBody.font = "bold " + fs + "px 'DM Sans'";
+		        dialogBody.lineWidth = pw - pad * 2;
+		        dialogBody.lineHeight = fs * 1.35;
+		        dialogBody.x = W / 2;
+		        dialogBody.y = py + ph * 0.32;
+		
+		        sizeButton(okBtn, bw, bh, fs);
+		        placeReactive(okBtn, 1, W / 2, py + ph - pad - bh / 2, bw / 2, bh / 2);
+		    }
+		
+		    function showNotice(title, body) {
+		        dialogTitle.text = title;
+		        dialogBody.text = body;
+		        layoutDialog();
+		        dialogOpen = true;
+		        dialog.visible = true;
+		        self.addChild(dialog);
+		    }
+		
+		    function closeNotice() {
+		        dialogOpen = false;
+		        dialog.visible = false;
+		    }
+		
+		    // --------------------------------------------------
+		    // ERRORS
+		    // --------------------------------------------------
+		
+		    function errorText(err) {
+		        var code = String(err && err.message ? err.message : err);
+		
+		        if (code.indexOf("not-signed-in") >= 0) return "Sign in with your username before importing monsters.";
+		        if (code.indexOf("not-loaded") >= 0) return "Your save has not loaded yet. Try again in a moment.";
+		        if (code.indexOf("player-changed") >= 0) return "Your signed-in player changed. Nothing was imported. Try again.";
+		        if (code.indexOf("unknown-species") >= 0) return "One of the selected monsters isn't recognised by this version of the game. Nothing was imported.";
+		        if (code.indexOf("HTTP 401") >= 0) return "Your sign-in may have expired. Reload the game and sign in again.";
+		        if (code.indexOf("HTTP 403") >= 0) return "Firestore denied the request (HTTP 403). Check your Firestore rules.";
+		        if (code.indexOf("Failed to fetch") >= 0 || code.indexOf("NetworkError") >= 0) return "A network error interrupted the import. Check your connection and try again.";
+		
+		        console.error("Monster import error:", err);
+		
+		        return "Something went wrong. Check the browser console for details and try again.";
+		    }
+		
+		    // --------------------------------------------------
+		    // CARDS
+		    // --------------------------------------------------
+		
+		    function typeLabel(src) {
+		        var types = [];
+		
+		        if (src.type1) types.push(src.type1);
+		        if (src.type2) types.push(src.type2);
+		
+		        return types.length ? types.join(SEPARATOR).toUpperCase() : NO_TYPE;
+		    }
+		
+		    function removeEgg(node) {
+		        if (!node) return;
+		
+		        if (node.egg && node.egg.parent) {
+		            node.egg.parent.removeChild(node.egg);
+		        }
+		
+		        (node.children || []).slice().forEach(removeEgg);
+		    }
+		
+		    function showArt(card, def) {
+		        card.gotoAndStop(ART_FRAME);
+		
+		        var art = card.MonsterArt;
+		
+		        if (!art) {
+		            removeEgg(card);
+		            return;
+		        }
+		
+		        var name = def ? String(def.name || "").trim().toLowerCase() : "";
+		        var frame = "default";
+		        var labels = art.timeline && art.timeline.getLabels ? art.timeline.getLabels() : [];
+		
+		        for (var i = 0; i < labels.length; i++) {
+		            if (name && String(labels[i].label || "").trim().toLowerCase() === name) {
+		                frame = labels[i].label;
+		                break;
+		            }
+		        }
+		
+		        art.gotoAndStop(frame);
+		        removeEgg(card);
+		    }
+		
+		    function ensureMark(card) {
+		        if (card.selectMark) return;
+		
+		        var b = card.nominalBounds;
+		        if (!b) return;
+		
+		        var mark = new createjs.Container();
+		        mark.visible = false;
+		        mark.mouseEnabled = false;
+		        mark.mouseChildren = false;
+		
+		        var ring = new createjs.Shape();
+		        ring.graphics
+		            .setStrokeStyle(Math.max(3, b.width * 0.015))
+		            .beginStroke("#8fd8ff")
+		            .beginFill("rgba(143, 216, 255, 0.2)")
+		            .drawRoundRect(b.x, b.y, b.width, b.height, b.width * 0.06);
+		
+		        var r = b.width * 0.07;
+		        var cx = b.x + b.width - r * 1.7;
+		        var cy = b.y + r * 1.7;
+		
+		        var badge = new createjs.Shape();
+		        badge.graphics
+		            .beginFill("#8fd8ff")
+		            .drawCircle(cx, cy, r)
+		            .setStrokeStyle(Math.max(3, r * 0.22), "round")
+		            .beginStroke("#061a2d")
+		            .moveTo(cx - r * 0.45, cy)
+		            .lineTo(cx - r * 0.1, cy + r * 0.35)
+		            .lineTo(cx + r * 0.5, cy - r * 0.35);
+		
+		        mark.addChild(ring, badge);
+		        card.addChild(mark);
+		        card.selectMark = mark;
+		    }
+		
+		    function applyCard(card) {
+		        var rec = entries[card.entryIndex].rec;
+		        var def = speciesOf(rec.monsterId);
+		
+		        showArt(card, def);
+		
+		        if (card.type) {
+		            card.type.text = typeLabel(rec.type1 ? rec : def || {});
+		        }
+		
+		        if (card.MonsterName) {
+		            var nick = String(rec.nickname || "").trim();
+		            card.MonsterName.text = nick || (def ? def.name : rec.name || "???");
+		        }
+		
+		        if (card.guarding) {
+		            var m = /^(.*?\d+(?:\.\d+)?px)\s/.exec(card.guarding.font || "");
+		
+		            if (m) card.guarding.font = m[1] + " " + FONT_FAMILY;
+		
+		            card.guarding.visible = true;
+		            card.guarding.text = "Level " + (rec.level || 1);
+		        }
+		
+		        ensureMark(card);
+		
+		        if (card.cacheCanvas) card.updateCache();
+		    }
+		
+		    function clearCards() {
+		        cards.forEach(function (c) {
+		            createjs.Tween.removeTweens(c);
+		            c.removeAllEventListeners();
+		            content.removeChild(c);
+		        });
+		
+		        cards = [];
+		        pressedObj = null;
+		    }
+		
+		    function rebuild(list) {
+		        if (destroyed) return;
+		
+		        entries = list.slice().sort(function (a, b) { return a.slot - b.slot; });
+		        selected = {};
+		
+		        clearCards();
+		
+		        entries.forEach(function (e, i) {
+		            var card = new lib.MonsterContainer();
+		
+		            card.entryIndex = i;
+		            card.cursor = "pointer";
+		            card.addEventListener("click", onCardClick);
+		
+		            wireReactions(card);
+		            content.addChild(card);
+		            cards.push(card);
+		
+		            applyCard(card);
+		        });
+		
+		        emptyText.text = EMPTY_TEXT;
+		        emptyText.visible = !entries.length;
+		
+		        layout();
+		        refreshUI();
+		    }
+		
+		    // --------------------------------------------------
+		    // SELECTION / UI
+		    // --------------------------------------------------
+		
+		    function selectedSlots() {
+		        return Object.keys(selected).map(Number);
+		    }
+		
+		    function refreshUI() {
+		        if (destroyed) return;
+		
+		        var n = selectedSlots().length;
+		
+		        cards.forEach(function (card) {
+		            var on = !!selected[entries[card.entryIndex].slot];
+		
+		            if (card.selectMark && card.selectMark.visible !== on) {
+		                card.selectMark.visible = on;
+		
+		                if (card.cacheCanvas) card.updateCache();
+		            }
+		        });
+		
+		        countText.text = n
+		            ? n + " of " + entries.length + " selected"
+		            : entries.length + (entries.length === 1 ? " monster" : " monsters");
+		
+		        importBtn.label.text = busy ? "Importing..." : n ? "Import " + n : "Import";
+		        centerLabel(importBtn);
+		    }
+		
+		    function onCardClick(evt) {
+		        if (dragMoved || dialogOpen || busy) return;
+		
+		        var slot = entries[evt.currentTarget.entryIndex].slot;
+		
+		        if (selected[slot]) {
+		            delete selected[slot];
+		        } else {
+		            selected[slot] = true;
+		        }
+		
+		        refreshUI();
+		    }
+		
+		    // --------------------------------------------------
+		    // IMPORT
+		    // --------------------------------------------------
+		
+		    function doImport() {
+		        if (dialogOpen || busy) return;
+		
+		        var slots = selectedSlots();
+		
+		        if (!slots.length) {
+		            showNotice("Nothing selected", "Tap the monsters you want to import.");
+		            return;
+		        }
+		
+		        busy = true;
+		        refreshUI();
+		
+		        SaveSystem.importMonsters(slots).then(function (n) {
+		            if (destroyed) return;
+		
+		            busy = false;
+		
+		            rebuild(entries.filter(function (e) {
+		                return slots.indexOf(e.slot) < 0;
+		            }));
+		
+		            showNotice(
+		                "Imported!",
+		                n + (n === 1 ? " monster was" : " monsters were") + " added to your game."
+		            );
+		        }).catch(function (err) {
+		            if (destroyed) return;
+		
+		            busy = false;
+		            refreshUI();
+		            showNotice("Import failed", errorText(err));
+		        });
+		    }
+		
+		    importBtn.on("click", doImport);
+		    okBtn.on("click", closeNotice);
+		
+		    // --------------------------------------------------
+		    // SCROLLING
+		    // --------------------------------------------------
+		
+		    function setScroll(y) {
+		        scrollY = Math.max(0, Math.min(maxScroll, y));
+		        content.y = viewTop - scrollY;
+		    }
+		
+		    function onPress(evt) {
+		        dragging = true;
+		        dragMoved = false;
+		        velocity = 0;
+		        dragStartY = evt.stageY;
+		        dragStartScroll = scrollY;
+		        lastY = evt.stageY;
+		        lastTime = Date.now();
+		    }
+		
+		    function onDragMove(evt) {
+		        if (!dragging) return;
+		
+		        var y = evt.stageY;
+		
+		        if (!dragMoved) {
+		            if (Math.abs(y - dragStartY) <= DRAG_THRESHOLD) return;
+		
+		            dragMoved = true;
+		
+		            if (pressedObj) {
+		                pressedObj.pressed = false;
+		                refreshReact(pressedObj);
+		                pressedObj = null;
+		            }
+		
+		            dragStartY = y;
+		            dragStartScroll = scrollY;
+		            lastY = y;
+		            lastTime = Date.now();
+		
+		            return;
+		        }
+		
+		        setScroll(dragStartScroll - (y - dragStartY));
+		
+		        var now = Date.now();
+		        var dt = now - lastTime;
+		
+		        if (dt > 0) {
+		            velocity = velocity * 0.6 + ((lastY - y) / dt) * 0.4;
+		            lastY = y;
+		            lastTime = now;
+		        }
+		    }
+		
+		    function onRelease() {
+		        if (!dragging) return;
+		
+		        dragging = false;
+		
+		        if (Date.now() - lastTime > 100) velocity = 0;
+		    }
+		
+		    function scrollTick(evt) {
+		        if (dragging) return;
+		
+		        if (Math.abs(velocity) < 0.01) {
+		            velocity = 0;
+		            return;
+		        }
+		
+		        setScroll(scrollY + velocity * evt.delta);
+		
+		        velocity *= Math.pow(FRICTION, evt.delta / 16.67);
+		
+		        if (scrollY <= 0 || scrollY >= maxScroll) velocity = 0;
+		    }
+		
+		    var canvas = self.stage ? self.stage.canvas : null;
+		
+		    function onWheel(e) {
+		        e.preventDefault();
+		        velocity = 0;
+		
+		        if (dialogOpen) return;
+		
+		        var unitsPerPixel = canvas && canvas.clientWidth ? W / canvas.clientWidth : 1;
+		
+		        setScroll(scrollY + e.deltaY * (e.deltaMode === 1 ? 20 : 1) * unitsPerPixel);
+		    }
+		
+		    // --------------------------------------------------
+		    // LAYOUT
+		    // --------------------------------------------------
+		
+		    function layout() {
+		        var contentW = Math.min(W - SIDE_MARGIN * 2, MAX_CONTENT_WIDTH);
+		        var contentLeft = (W - contentW) / 2;
+		
+		        // Action bar
+		        var btnW = portrait ? contentW : Math.min(240, contentW);
+		
+		        actionBar.y = H - BAR_H;
+		
+		        actionBg.graphics.clear()
+		            .beginFill("rgba(6, 26, 45, 0.94)")
+		            .drawRect(0, 0, W, BAR_H)
+		            .beginFill(LINE_COLOR)
+		            .drawRect(0, 0, W, 1);
+		
+		        sizeButton(importBtn, btnW, BTN_H, portrait ? 30 : 18);
+		        placeReactive(importBtn, 1, W / 2, BAR_H / 2, btnW / 2, BTN_H / 2);
+		
+		        // Header
+		        var topOffset = portrait ? Math.max(82, H * 0.11) : Math.max(66, H * 0.09);
+		        var headerMiddle = topOffset + HEADER_HEIGHT / 2;
+		        var lineY = topOffset + HEADER_HEIGHT;
+		
+		        titleText.font = TITLE_SIZE + "px 'Marcellus'";
+		        titleText.x = contentLeft;
+		        titleText.y = headerMiddle;
+		
+		        countText.font = "bold " + COUNT_SIZE + "px 'DM Sans'";
+		        countText.x = contentLeft + contentW;
+		        countText.y = headerMiddle;
+		
+		        headerLine.graphics.clear()
+		            .beginFill(LINE_COLOR)
+		            .drawRect(contentLeft, lineY, contentW, LINE_THICKNESS);
+		
+		        headerLine.alpha = LINE_ALPHA;
+		        viewTop = lineY + LINE_THICKNESS;
+		
+		        var viewH = H - viewTop - BAR_H;
+		
+		        emptyText.x = W / 2;
+		        emptyText.y = viewTop + 90;
+		
+		        viewMask.graphics.clear().beginFill("#000").drawRect(0, viewTop, W, viewH);
+		        scrollHit.graphics.clear().beginFill("rgba(0, 0, 0, 0.02)").drawRect(0, viewTop, W, viewH);
+		
+		        if (!cards.length) {
+		            maxScroll = 0;
+		            setScroll(0);
+		            return;
+		        }
+		
+		        var b = cards[0].nominalBounds;
+		
+		        if (!b || !b.width || !b.height) {
+		            console.warn("MonsterContainer needs valid nominal bounds.");
+		            return;
+		        }
+		
+		        var cardW = (contentW - CARD_GAP * (COLUMNS - 1)) / COLUMNS;
+		        var scale = cardW / b.width;
+		        var cardH = b.height * scale;
+		        var rows = Math.ceil(cards.length / COLUMNS);
+		
+		        var cacheScale = scale * Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+		
+		        cards.forEach(function (c, i) {
+		            var left = contentLeft + (i % COLUMNS) * (cardW + CARD_GAP);
+		            var top = SCROLL_PAD_TOP + Math.floor(i / COLUMNS) * (cardH + CARD_GAP);
+		
+		            placeReactive(
+		                c,
+		                scale,
+		                left + cardW / 2,
+		                top + cardH / 2,
+		                b.x + b.width / 2,
+		                b.y + b.height / 2
+		            );
+		
+		            c.cache(b.x, b.y, b.width, b.height, cacheScale);
+		        });
+		
+		        maxScroll = Math.max(
+		            0,
+		            SCROLL_PAD_TOP + rows * cardH + (rows - 1) * CARD_GAP + SCROLL_PAD_BOTTOM - viewH
+		        );
+		
+		        setScroll(scrollY);
+		    }
+		
+		    // --------------------------------------------------
+		    // EVENTS
+		    // --------------------------------------------------
+		
+		    viewport.on("mousedown", onPress);
+		    viewport.on("pressmove", onDragMove);
+		    viewport.on("pressup", onRelease);
+		
+		    createjs.Ticker.addEventListener("tick", scrollTick);
+		
+		    if (canvas) {
+		        canvas.addEventListener("wheel", onWheel, { passive: false });
+		    }
+		
+		    if (self.stage) {
+		        createjs.Touch.enable(self.stage);
+		        self.stage.mouseMoveOutside = true;
+		
+		        if (canHover) self.stage.enableMouseOver(20);
+		    }
+		
+		    // --------------------------------------------------
+		    // CLEANUP
+		    // --------------------------------------------------
+		
+		    self.cleanupImport = function () {
+		        destroyed = true;
+		
+		        if (eggUi) eggUi.visible = eggWasVisible;
+		
+		        createjs.Ticker.removeEventListener("tick", scrollTick);
+		
+		        if (canvas) canvas.removeEventListener("wheel", onWheel);
+		
+		        clearCards();
+		
+		        [importBtn, okBtn].forEach(function (btn) {
+		            createjs.Tween.removeTweens(btn);
+		            btn.removeAllEventListeners();
+		        });
+		
+		        viewport.removeAllEventListeners();
+		
+		        self.removeChild(viewport, header, actionBar, dialog);
+		
+		        self.cleanupImport = null;
+		    };
+		
+		    // --------------------------------------------------
+		    // START
+		    // --------------------------------------------------
+		
+		    layout();
+		    refreshUI();
+		
+		    Promise.resolve(SaveSystem.isLoaded() ? null : SaveSystem.load())
+		        .then(function () {
+		            return SaveSystem.getExported();
+		        })
+		        .then(rebuild)
+		        .catch(function (err) {
+		            if (destroyed) return;
+		
+		            emptyText.text = EMPTY_TEXT;
+		            showNotice("Load failed", errorText(err));
+		        });
+		
 		})(this);
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1).call(this.frame_2).wait(1).call(this.frame_3).wait(7));
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1).call(this.frame_2).wait(1).call(this.frame_3).wait(1).call(this.frame_4).wait(6));
 
 	// Layer_4
 	this.Hatch = new lib.Hatch();
@@ -15932,9 +16877,9 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791733780421", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791733780421", id:"index_atlas_2"},
-		{src:"images/index_atlas_3.png?1791733780422", id:"index_atlas_3"}
+		{src:"images/index_atlas_.png?1791740379100", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791740379100", id:"index_atlas_2"},
+		{src:"images/index_atlas_3.png?1791740379101", id:"index_atlas_3"}
 	],
 	preloads: []
 };
