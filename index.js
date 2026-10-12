@@ -3,8 +3,8 @@
 var p; // shortcut to reference prototypes
 var lib={};var ss={};var img={};
 lib.ssMetadata = [
-		{name:"index_atlas_", frames: [[994,0,992,870],[0,0,992,870],[988,872,980,826],[0,872,986,832]]},
-		{name:"index_atlas_2", frames: [[944,770,939,519],[0,770,942,522],[944,1291,894,540],[770,0,768,768],[0,0,768,768],[0,1294,512,512]]},
+		{name:"index_atlas_", frames: [[0,0,992,870],[994,0,992,870],[988,872,980,826],[0,872,986,832]]},
+		{name:"index_atlas_2", frames: [[944,770,939,519],[0,770,942,522],[944,1291,894,540],[0,0,768,768],[770,0,768,768],[0,1294,512,512]]},
 		{name:"index_atlas_3", frames: [[514,470,398,398],[502,514,4,12],[81,842,29,21],[196,615,188,188],[416,514,84,117],[0,615,194,194],[0,811,51,51],[0,870,894,148],[0,1110,894,20],[196,805,62,62],[514,0,468,468],[53,842,26,26],[386,615,28,28],[0,514,414,99],[416,1020,414,7],[0,1020,414,88],[53,811,46,29],[0,0,512,512]]}
 ];
 
@@ -9792,12 +9792,21 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		var DESKTOP_CARDS_RAISE = 0.09;
 		
+		// Moves the cards down on mobile (portrait) only.
+		// Fraction of the screen height. 0.06 is about 6% of the height.
+		// 0 = no change.
+		var MOBILE_CARDS_LOWER  = 0.06;
+		
 		
 		// --------------------------------------------------
 		// MONSTER SELECTION SCREEN
 		// --------------------------------------------------
 		
 		var MONSTER_MENU_LABEL = "monsters";
+		
+		// Name this screen uses when it listens for save changes.
+		// (SaveSystem keeps one listener per name.)
+		var SAVE_LISTENER_ID = "monsterCards";
 		
 		
 		// --------------------------------------------------
@@ -9877,10 +9886,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// DISABLE BROWSER RIGHT-CLICK MENU
 		// --------------------------------------------------
 		
-		if (
-		    self.stage &&
-		    self.stage.canvas
-		) {
+		if (self.stage && self.stage.canvas) {
 		
 		    self.stage.canvas.addEventListener(
 		        "contextmenu",
@@ -9905,19 +9911,14 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		function getCurrentEggIndex() {
 		
-		    if (
-		        typeof window.CurrentEggIndex ===
-		        "number"
-		    ) {
+		    if (typeof window.CurrentEggIndex === "number") {
 		
 		        if (
 		            window.CurrentEggIndex >= 0 &&
 		            window.CurrentEggIndex < 5
 		        ) {
 		
-		            return Math.floor(
-		                window.CurrentEggIndex
-		            );
+		            return Math.floor(window.CurrentEggIndex);
 		        }
 		    }
 		
@@ -9941,19 +9942,11 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		function getGlobalMonsterSlot(localSlot) {
 		
-		    var eggIndex =
-		        getCurrentEggIndex();
+		    var eggIndex = getCurrentEggIndex();
 		
+		    var slotsPerEgg = 5;
 		
-		    var slotsPerEgg =
-		        5;
-		
-		
-		    return (
-		        eggIndex *
-		        slotsPerEgg
-		    ) +
-		    localSlot;
+		    return (eggIndex * slotsPerEgg) + localSlot;
 		}
 		
 		
@@ -9980,28 +9973,18 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		    for (var i = 0; i < CARD_COUNT; i++) {
 		
-		        var card =
-		            new lib.MonsterCard();
+		        var card = new lib.MonsterCard();
 		
 		
 		        // --------------------------------------------------
 		        // CARD DATA
 		        // --------------------------------------------------
 		
-		        card.slotIndex =
-		            i;
-		
-		        card.monster =
-		            null;
-		
-		        card.introDone =
-		            false;
-		
-		        card.cursor =
-		            null;
-		
-		        card.isPointerInside =
-		            false;
+		        card.slotIndex = i;
+		        card.monster = null;
+		        card.introDone = false;
+		        card.cursor = null;
+		        card.isPointerInside = false;
 		
 		
 		        // --------------------------------------------------
@@ -10012,13 +9995,11 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		            if (i === GOLD_INDEX) {
 		
-		                card.label.text =
-		                    "Select a legend";
+		                card.label.text = "Select a legend";
 		
 		            } else {
 		
-		                card.label.text =
-		                    "Select a monster";
+		                card.label.text = "Select a monster";
 		            }
 		        }
 		
@@ -10031,11 +10012,9 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		            card.MonsterArt.stop();
 		
-		            card.MonsterArt.visible =
-		                false;
+		            card.MonsterArt.visible = false;
 		
-		            card.MonsterArt.alpha =
-		                0;
+		            card.MonsterArt.alpha = 0;
 		        }
 		
 		
@@ -10043,20 +10022,14 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        // LEFT CLICK
 		        // --------------------------------------------------
 		
-		        card.addEventListener(
-		            "click",
-		            onCardClick
-		        );
+		        card.addEventListener("click", onCardClick);
 		
 		
 		        // --------------------------------------------------
 		        // RIGHT CLICK
 		        // --------------------------------------------------
 		
-		        card.addEventListener(
-		            "contextmenu",
-		            onCardRightClick
-		        );
+		        card.addEventListener("contextmenu", onCardRightClick);
 		
 		
 		        // --------------------------------------------------
@@ -10065,15 +10038,9 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		        if (canHover) {
 		
-		            card.addEventListener(
-		                "rollover",
-		                onCardOver
-		            );
+		            card.addEventListener("rollover", onCardOver);
 		
-		            card.addEventListener(
-		                "rollout",
-		                onCardOut
-		            );
+		            card.addEventListener("rollout", onCardOut);
 		        }
 		
 		
@@ -10081,43 +10048,27 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        // PRESS
 		        // --------------------------------------------------
 		
-		        card.addEventListener(
-		            "mousedown",
-		            onCardPress
-		        );
+		        card.addEventListener("mousedown", onCardPress);
 		
-		        card.addEventListener(
-		            "pressup",
-		            onCardRelease
-		        );
+		        card.addEventListener("pressup", onCardRelease);
 		
 		
 		        // --------------------------------------------------
 		        // TOUCH
 		        // --------------------------------------------------
 		
-		        card.addEventListener(
-		            "touchstart",
-		            onCardPress
-		        );
+		        card.addEventListener("touchstart", onCardPress);
 		
-		        card.addEventListener(
-		            "touchend",
-		            onCardRelease
-		        );
+		        card.addEventListener("touchend", onCardRelease);
 		
 		
 		        // --------------------------------------------------
 		        // ADD TO STAGE
 		        // --------------------------------------------------
 		
-		        self.addChild(
-		            card
-		        );
+		        self.addChild(card);
 		
-		        cards.push(
-		            card
-		        );
+		        cards.push(card);
 		    }
 		}
 		
@@ -10145,10 +10096,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    var monsters =
-		        SaveSystem.get(
-		            "monsters"
-		        );
+		    var monsters = SaveSystem.get("monsters");
 		
 		
 		    if (!Array.isArray(monsters)) {
@@ -10157,14 +10105,9 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    for (
-		        var i = 0;
-		        i < monsters.length;
-		        i++
-		    ) {
+		    for (var i = 0; i < monsters.length; i++) {
 		
-		        var entry =
-		            monsters[i];
+		        var entry = monsters[i];
 		
 		
 		        if (!entry) {
@@ -10172,18 +10115,12 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        }
 		
 		
-		        if (
-		            typeof entry.slot !== "number"
-		        ) {
-		
+		        if (typeof entry.slot !== "number") {
 		            continue;
 		        }
 		
 		
-		        if (
-		            entry.slot !== globalSlot
-		        ) {
-		
+		        if (entry.slot !== globalSlot) {
 		            continue;
 		        }
 		
@@ -10197,16 +10134,9 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            entry.monsterId !== null
 		        ) {
 		
-		            if (
-		                window.Monster &&
-		                Monster.registry
-		            ) {
+		            if (window.Monster && Monster.registry) {
 		
-		                var found =
-		                    Monster.registry[
-		                        entry.monsterId
-		                    ];
-		
+		                var found = Monster.registry[entry.monsterId];
 		
 		                if (found) {
 		
@@ -10254,25 +10184,16 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		    if (
 		        monsterArt.timeline &&
-		        typeof monsterArt.timeline.getLabels ===
-		        "function"
+		        typeof monsterArt.timeline.getLabels === "function"
 		    ) {
 		
-		        labels =
-		            monsterArt.timeline.getLabels();
+		        labels = monsterArt.timeline.getLabels();
 		    }
 		
 		
-		    for (
-		        var i = 0;
-		        i < labels.length;
-		        i++
-		    ) {
+		    for (var i = 0; i < labels.length; i++) {
 		
-		        var labelName =
-		            String(
-		                labels[i].label || ""
-		            ).trim();
+		        var labelName = String(labels[i].label || "").trim();
 		
 		
 		        if (
@@ -10280,9 +10201,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            DEFAULT_MONSTER_ART_FRAME.toLowerCase()
 		        ) {
 		
-		            monsterArt.gotoAndStop(
-		                labels[i].position
-		            );
+		            monsterArt.gotoAndStop(labels[i].position);
 		
 		            monsterArt.stop();
 		
@@ -10291,9 +10210,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    monsterArt.gotoAndStop(
-		        0
-		    );
+		    monsterArt.gotoAndStop(0);
 		
 		    monsterArt.stop();
 		
@@ -10311,10 +10228,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		function refreshCardCache(card) {
 		
-		    if (
-		        !card ||
-		        !card.nominalBounds
-		    ) {
+		    if (!card || !card.nominalBounds) {
 		
 		        return;
 		    }
@@ -10326,8 +10240,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    var b =
-		        card.nominalBounds;
+		    var b = card.nominalBounds;
 		
 		
 		    var scale =
@@ -10336,8 +10249,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		            : 1;
 		
 		
-		    var cacheScale =
-		        scale * 2;
+		    var cacheScale = scale * 2;
 		
 		
 		    card.uncache();
@@ -10364,8 +10276,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    var monsterArt =
-		        card.MonsterArt;
+		    var monsterArt = card.MonsterArt;
 		
 		
 		    if (!monsterArt) {
@@ -10382,18 +10293,13 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // GOLDEN LEGEND CARD
 		    // --------------------------------------------------
 		
-		    if (
-		        card.slotIndex ===
-		        GOLD_INDEX
-		    ) {
+		    if (card.slotIndex === GOLD_INDEX) {
 		
 		        monsterArt.stop();
 		
-		        monsterArt.visible =
-		            false;
+		        monsterArt.visible = false;
 		
-		        monsterArt.alpha =
-		            0;
+		        monsterArt.alpha = 0;
 		
 		        return;
 		    }
@@ -10407,16 +10313,12 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		        monsterArt.stop();
 		
-		        monsterArt.visible =
-		            false;
+		        monsterArt.visible = false;
 		
-		        monsterArt.alpha =
-		            0;
+		        monsterArt.alpha = 0;
 		
 		
-		        refreshCardCache(
-		            card
-		        );
+		        refreshCardCache(card);
 		
 		        return;
 		    }
@@ -10426,10 +10328,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // MONSTER NAME
 		    // --------------------------------------------------
 		
-		    var monsterName =
-		        String(
-		            card.monster.name || ""
-		        ).trim();
+		    var monsterName = String(card.monster.name || "").trim();
 		
 		
 		    // --------------------------------------------------
@@ -10440,22 +10339,16 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		        monsterArt.stop();
 		
-		        goToDefaultMonsterArt(
-		            monsterArt
-		        );
+		        goToDefaultMonsterArt(monsterArt);
 		
 		        monsterArt.stop();
 		
-		        monsterArt.visible =
-		            true;
+		        monsterArt.visible = true;
 		
-		        monsterArt.alpha =
-		            1;
+		        monsterArt.alpha = 1;
 		
 		
-		        refreshCardCache(
-		            card
-		        );
+		        refreshCardCache(card);
 		
 		        return;
 		    }
@@ -10470,31 +10363,23 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		    if (
 		        monsterArt.timeline &&
-		        typeof monsterArt.timeline.getLabels ===
-		        "function"
+		        typeof monsterArt.timeline.getLabels === "function"
 		    ) {
 		
-		        labels =
-		            monsterArt.timeline.getLabels();
+		        labels = monsterArt.timeline.getLabels();
 		    }
 		
 		
-		    var frameFound =
-		        false;
+		    var frameFound = false;
 		
 		
 		    // --------------------------------------------------
 		    // FIND MONSTER FRAME
 		    // --------------------------------------------------
 		
-		    for (
-		        var i = 0;
-		        i < labels.length;
-		        i++
-		    ) {
+		    for (var i = 0; i < labels.length; i++) {
 		
-		        var label =
-		            labels[i];
+		        var label = labels[i];
 		
 		
 		        if (!label) {
@@ -10502,30 +10387,18 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        }
 		
 		
-		        var labelName =
-		            String(
-		                label.label || ""
-		            ).trim();
+		        var labelName = String(label.label || "").trim();
 		
 		
-		        if (
-		            labelName.toLowerCase() ===
-		            monsterName.toLowerCase()
-		        ) {
+		        if (labelName.toLowerCase() === monsterName.toLowerCase()) {
 		
 		            monsterArt.stop();
 		
-		
-		            monsterArt.gotoAndStop(
-		                label.position
-		            );
-		
+		            monsterArt.gotoAndStop(label.position);
 		
 		            monsterArt.stop();
 		
-		
-		            frameFound =
-		                true;
+		            frameFound = true;
 		
 		            break;
 		        }
@@ -10545,9 +10418,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        );
 		
 		
-		        goToDefaultMonsterArt(
-		            monsterArt
-		        );
+		        goToDefaultMonsterArt(monsterArt);
 		    }
 		
 		
@@ -10557,20 +10428,16 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		    monsterArt.stop();
 		
-		    monsterArt.visible =
-		        true;
+		    monsterArt.visible = true;
 		
-		    monsterArt.alpha =
-		        1;
+		    monsterArt.alpha = 1;
 		
 		
 		    // --------------------------------------------------
 		    // REFRESH EXISTING CACHE
 		    // --------------------------------------------------
 		
-		    refreshCardCache(
-		        card
-		    );
+		    refreshCardCache(card);
 		}
 		
 		
@@ -10589,25 +10456,18 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // GOLDEN LEGEND CARD
 		    // --------------------------------------------------
 		
-		    if (
-		        card.slotIndex ===
-		        GOLD_INDEX
-		    ) {
+		    if (card.slotIndex === GOLD_INDEX) {
 		
-		        card.monster =
-		            null;
+		        card.monster = null;
 		
 		
 		        if (card.label) {
 		
-		            card.label.text =
-		                "Select a legend";
+		            card.label.text = "Select a legend";
 		        }
 		
 		
-		        updateMonsterArt(
-		            card
-		        );
+		        updateMonsterArt(card);
 		
 		        return;
 		    }
@@ -10617,24 +10477,17 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // GET GLOBAL MONSTER SLOT
 		    // --------------------------------------------------
 		
-		    var globalSlot =
-		        getGlobalMonsterSlot(
-		            card.slotIndex
-		        );
+		    var globalSlot = getGlobalMonsterSlot(card.slotIndex);
 		
 		
-		    card.globalMonsterSlot =
-		        globalSlot;
+		    card.globalMonsterSlot = globalSlot;
 		
 		
 		    // --------------------------------------------------
 		    // GET MONSTER
 		    // --------------------------------------------------
 		
-		    card.monster =
-		        getMonsterForSlot(
-		            globalSlot
-		        );
+		    card.monster = getMonsterForSlot(globalSlot);
 		
 		
 		    // --------------------------------------------------
@@ -10645,10 +10498,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		        if (card.monster) {
 		
-		            var monsterName =
-		                String(
-		                    card.monster.name || ""
-		                ).trim();
+		            var monsterName = String(card.monster.name || "").trim();
 		
 		
 		            card.label.text =
@@ -10658,8 +10508,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		        } else {
 		
-		            card.label.text =
-		                "Select a monster";
+		            card.label.text = "Select a monster";
 		        }
 		    }
 		
@@ -10668,9 +10517,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // UPDATE ART
 		    // --------------------------------------------------
 		
-		    updateMonsterArt(
-		        card
-		    );
+		    updateMonsterArt(card);
 		}
 		
 		
@@ -10685,15 +10532,9 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    for (
-		        var i = 0;
-		        i < cards.length;
-		        i++
-		    ) {
+		    for (var i = 0; i < cards.length; i++) {
 		
-		        updateCardMonster(
-		            cards[i]
-		        );
+		        updateCardMonster(cards[i]);
 		    }
 		}
 		
@@ -10727,25 +10568,20 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // REPLAY CARD INTRO
 		    // --------------------------------------------------
 		
-		    var direction =
-		        1;
+		    var direction = 1;
 		
 		
 		    if (
 		        evt &&
 		        evt.detail &&
-		        typeof evt.detail.direction ===
-		        "number"
+		        typeof evt.detail.direction === "number"
 		    ) {
 		
-		        direction =
-		            evt.detail.direction;
+		        direction = evt.detail.direction;
 		    }
 		
 		
-		    animateCardsIn(
-		        direction
-		    );
+		    animateCardsIn(direction);
 		}
 		
 		
@@ -10753,15 +10589,9 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// REGISTER GLOBAL EGG CHANGE LISTENER
 		// --------------------------------------------------
 		
-		if (
-		    typeof window.addEventListener ===
-		    "function"
-		) {
+		if (typeof window.addEventListener === "function") {
 		
-		    window.addEventListener(
-		        "eggChanged",
-		        onGlobalEggChanged
-		    );
+		    window.addEventListener("eggChanged", onGlobalEggChanged);
 		}
 		
 		
@@ -10771,8 +10601,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		function onCardClick(evt) {
 		
-		    var card =
-		        evt.currentTarget;
+		    var card = evt.currentTarget;
 		
 		
 		    if (!card.introDone) {
@@ -10784,15 +10613,9 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // LEGEND CARD
 		    // --------------------------------------------------
 		
-		    if (
-		        card.slotIndex ===
-		        GOLD_INDEX
-		    ) {
+		    if (card.slotIndex === GOLD_INDEX) {
 		
-		        console.log(
-		            "Legend card tapped:",
-		            card.slotIndex
-		        );
+		        console.log("Legend card tapped:", card.slotIndex);
 		
 		        return;
 		    }
@@ -10802,10 +10625,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // GET GLOBAL SLOT
 		    // --------------------------------------------------
 		
-		    var globalSlot =
-		        getGlobalMonsterSlot(
-		            card.slotIndex
-		        );
+		    var globalSlot = getGlobalMonsterSlot(card.slotIndex);
 		
 		
 		    if (card.monster) {
@@ -10838,40 +10658,26 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    window.MonsterPlacement.active =
-		        true;
+		    window.MonsterPlacement.active = true;
 		
+		    window.MonsterPlacement.slot = globalSlot;
 		
-		    window.MonsterPlacement.slot =
-		        globalSlot;
+		    window.MonsterPlacement.eggIndex = getCurrentEggIndex();
 		
-		
-		    window.MonsterPlacement.eggIndex =
-		        getCurrentEggIndex();
-		
-		
-		    window.MonsterPlacement.localSlot =
-		        card.slotIndex;
+		    window.MonsterPlacement.localSlot = card.slotIndex;
 		
 		
 		    // --------------------------------------------------
 		    // OPEN MONSTER SELECTION
 		    // --------------------------------------------------
 		
-		    if (
-		        typeof self.showScreen ===
-		        "function"
-		    ) {
+		    if (typeof self.showScreen === "function") {
 		
-		        self.showScreen(
-		            MONSTER_MENU_LABEL
-		        );
+		        self.showScreen(MONSTER_MENU_LABEL);
 		
 		    } else {
 		
-		        self.gotoAndStop(
-		            MONSTER_MENU_LABEL
-		        );
+		        self.gotoAndStop(MONSTER_MENU_LABEL);
 		    }
 		}
 		
@@ -10888,8 +10694,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    var card =
-		        evt.currentTarget;
+		    var card = evt.currentTarget;
 		
 		
 		    if (!card.introDone) {
@@ -10897,10 +10702,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    if (
-		        card.slotIndex ===
-		        GOLD_INDEX
-		    ) {
+		    if (card.slotIndex === GOLD_INDEX) {
 		
 		        return;
 		    }
@@ -10911,10 +10713,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    var globalSlot =
-		        getGlobalMonsterSlot(
-		            card.slotIndex
-		        );
+		    var globalSlot = getGlobalMonsterSlot(card.slotIndex);
 		
 		
 		    console.log(
@@ -10924,55 +10723,41 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    );
 		
 		
-		    var monsters =
-		        SaveSystem.get(
-		            "monsters"
-		        );
+		    var monsters = SaveSystem.get("monsters");
 		
 		
 		    if (Array.isArray(monsters)) {
 		
-		        var nextMonsters =
-		            monsters.map(
-		                function(entry) {
+		        var nextMonsters = monsters.map(
+		            function(entry) {
 		
-		                    if (!entry) {
-		                        return entry;
-		                    }
-		
-		
-		                    var copy =
-		                        Object.assign(
-		                            {},
-		                            entry
-		                        );
-		
-		
-		                    if (
-		                        typeof copy.slot ===
-		                        "number" &&
-		                        copy.slot ===
-		                        globalSlot
-		                    ) {
-		
-		                        copy.slot =
-		                            -1;
-		                    }
-		
-		
-		                    return copy;
+		                if (!entry) {
+		                    return entry;
 		                }
-		            );
+		
+		
+		                var copy = Object.assign({}, entry);
+		
+		
+		                if (
+		                    typeof copy.slot === "number" &&
+		                    copy.slot === globalSlot
+		                ) {
+		
+		                    copy.slot = -1;
+		                }
+		
+		
+		                return copy;
+		            }
+		        );
 		
 		
 		        // --------------------------------------------------
 		        // ONLY SAVE MONSTERS
 		        // --------------------------------------------------
 		
-		        SaveSystem.set(
-		            "monsters",
-		            nextMonsters
-		        );
+		        SaveSystem.set("monsters", nextMonsters);
 		    }
 		
 		
@@ -10980,20 +10765,16 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    // CLEAR CARD IMMEDIATELY
 		    // --------------------------------------------------
 		
-		    card.monster =
-		        null;
+		    card.monster = null;
 		
 		
 		    if (card.label) {
 		
-		        card.label.text =
-		            "Select a monster";
+		        card.label.text = "Select a monster";
 		    }
 		
 		
-		    updateMonsterArt(
-		        card
-		    );
+		    updateMonsterArt(card);
 		}
 		
 		
@@ -11003,8 +10784,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		function onCardPress(evt) {
 		
-		    var card =
-		        evt.currentTarget;
+		    var card = evt.currentTarget;
 		
 		
 		    if (!card.introDone) {
@@ -11012,27 +10792,17 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    createjs.Tween.removeTweens(
-		        card
-		    );
+		    createjs.Tween.removeTweens(card);
 		
 		
-		    if (
-		        typeof card.cardScale ===
-		        "number"
-		    ) {
+		    if (typeof card.cardScale === "number") {
 		
-		        card.normalScale =
-		            card.cardScale;
+		        card.normalScale = card.cardScale;
 		
 		
-		        card.scaleX =
-		            card.cardScale *
-		            PRESS_SCALE;
+		        card.scaleX = card.cardScale * PRESS_SCALE;
 		
-		        card.scaleY =
-		            card.cardScale *
-		            PRESS_SCALE;
+		        card.scaleY = card.cardScale * PRESS_SCALE;
 		    }
 		}
 		
@@ -11043,8 +10813,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		function onCardRelease(evt) {
 		
-		    var card =
-		        evt.currentTarget;
+		    var card = evt.currentTarget;
 		
 		
 		    if (!card.introDone) {
@@ -11052,35 +10821,21 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    if (
-		        typeof card.cardScale ===
-		        "number"
-		    ) {
+		    if (typeof card.cardScale === "number") {
 		
-		        card.scaleX =
-		            card.cardScale;
+		        card.scaleX = card.cardScale;
 		
-		        card.scaleY =
-		            card.cardScale;
+		        card.scaleY = card.cardScale;
 		    }
 		
 		
-		    if (
-		        canHover &&
-		        card.isPointerInside
-		    ) {
+		    if (canHover && card.isPointerInside) {
 		
-		        moveCard(
-		            card,
-		            true
-		        );
+		        moveCard(card, true);
 		
 		    } else {
 		
-		        moveCard(
-		            card,
-		            false
-		        );
+		        moveCard(card, false);
 		    }
 		}
 		
@@ -11091,8 +10846,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		function onCardOver(evt) {
 		
-		    var card =
-		        evt.currentTarget;
+		    var card = evt.currentTarget;
 		
 		
 		    if (!card.introDone) {
@@ -11100,14 +10854,10 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    card.isPointerInside =
-		        true;
+		    card.isPointerInside = true;
 		
 		
-		    moveCard(
-		        card,
-		        true
-		    );
+		    moveCard(card, true);
 		}
 		
 		
@@ -11117,8 +10867,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		function onCardOut(evt) {
 		
-		    var card =
-		        evt.currentTarget;
+		    var card = evt.currentTarget;
 		
 		
 		    if (!card.introDone) {
@@ -11126,14 +10875,10 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    card.isPointerInside =
-		        false;
+		    card.isPointerInside = false;
 		
 		
-		    moveCard(
-		        card,
-		        false
-		    );
+		    moveCard(card, false);
 		}
 		
 		
@@ -11150,8 +10895,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		    var targetY =
 		        up
-		            ? card.homeY -
-		              card.hoverDist
+		            ? card.homeY - card.hoverDist
 		            : card.homeY;
 		
 		
@@ -11179,8 +10923,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		function layoutCards() {
 		
-		    var n =
-		        cards.length;
+		    var n = cards.length;
 		
 		
 		    if (!n) {
@@ -11188,31 +10931,23 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    var b =
-		        cards[0].nominalBounds;
+		    var b = cards[0].nominalBounds;
 		
 		
-		    var cardW =
-		        W *
-		        CARD_SIZE;
+		    var cardW = W * CARD_SIZE;
 		
 		
-		    var scale =
-		        cardW /
-		        b.width;
+		    var scale = cardW / b.width;
 		
 		
-		    var cardH =
-		        b.height *
-		        scale;
+		    var cardH = b.height * scale;
 		
 		
 		    // --------------------------------------------------
 		    // EGG POSITION
 		    // --------------------------------------------------
 		
-		    var activeEgg =
-		        self.egg;
+		    var activeEgg = self.egg;
 		
 		
 		    if (!activeEgg) {
@@ -11220,27 +10955,19 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    var eggX =
-		        activeEgg.eggRestX;
+		    var eggX = activeEgg.eggRestX;
 		
 		
 		    var restY =
-		        (
-		            typeof activeEgg.eggRestY ===
-		            "number"
-		        )
+		        (typeof activeEgg.eggRestY === "number")
 		            ? activeEgg.eggRestY
 		
-		            : (
-		                typeof self.eggRestY ===
-		                "number"
-		            )
+		            : (typeof self.eggRestY === "number")
 		                ? self.eggRestY
 		                : activeEgg.y;
 		
 		
-		    var eb =
-		        activeEgg.nominalBounds;
+		    var eb = activeEgg.nominalBounds;
 		
 		
 		    var eggScaleY =
@@ -11252,12 +10979,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        restY +
 		        (
 		            eb
-		                ? (
-		                    eb.y +
-		                    eb.height
-		                ) *
-		                eggScaleY
-		
+		                ? (eb.y + eb.height) * eggScaleY
 		                : 130
 		        );
 		
@@ -11269,8 +10991,17 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    var desktopRaise =
 		        portrait
 		            ? 0
-		            : H *
-		              DESKTOP_CARDS_RAISE;
+		            : H * DESKTOP_CARDS_RAISE;
+		
+		
+		    // --------------------------------------------------
+		    // MOBILE CARD OFFSET (lowers the cards)
+		    // --------------------------------------------------
+		
+		    var mobileLower =
+		        portrait
+		            ? H * MOBILE_CARDS_LOWER
+		            : 0;
 		
 		
 		    // --------------------------------------------------
@@ -11280,13 +11011,10 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    var baseY =
 		        Math.min(
 		            eggBottom +
-		            H *
-		            (
-		                GAP_BELOW_EGG -
-		                CARDS_RAISE
-		            ) +
+		            H * (GAP_BELOW_EGG - CARDS_RAISE) +
 		            cardH / 2 -
-		            desktopRaise,
+		            desktopRaise +
+		            mobileLower,
 		
 		            H -
 		            cardH / 2 -
@@ -11294,115 +11022,71 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        );
 		
 		
-		    var lift =
-		        cardH *
-		        LIFT;
+		    var lift = cardH * LIFT;
 		
 		
 		    // --------------------------------------------------
 		    // CENTERED ROW
 		    // --------------------------------------------------
 		
-		    var rowWidth =
-		        W *
-		        ROW_SPAN;
+		    var rowWidth = W * ROW_SPAN;
 		
 		
-		    var leftX =
-		        eggX -
-		        rowWidth / 2 +
-		        cardW / 2;
+		    var leftX = eggX - rowWidth / 2 + cardW / 2;
 		
 		
-		    var rightX =
-		        eggX +
-		        rowWidth / 2 -
-		        cardW / 2;
+		    var rightX = eggX + rowWidth / 2 - cardW / 2;
 		
 		
 		    // --------------------------------------------------
 		    // POSITION EACH CARD
 		    // --------------------------------------------------
 		
-		    for (
-		        var i = 0;
-		        i < n;
-		        i++
-		    ) {
+		    for (var i = 0; i < n; i++) {
 		
-		        var c =
-		            cards[i];
+		        var c = cards[i];
 		
 		
-		        c.cardScale =
-		            scale;
+		        c.cardScale = scale;
 		
 		
-		        c.scaleX =
-		            scale;
+		        c.scaleX = scale;
 		
-		        c.scaleY =
-		            scale;
+		        c.scaleY = scale;
 		
 		
-		        c.regX =
-		            b.x +
-		            b.width / 2;
+		        c.regX = b.x + b.width / 2;
 		
-		        c.regY =
-		            b.y +
-		            b.height / 2;
+		        c.regY = b.y + b.height / 2;
 		
 		
 		        var normalized =
 		            n > 1
-		                ? i /
-		                  (n - 1)
+		                ? i / (n - 1)
 		                : 0.5;
 		
 		
-		        c.x =
-		            leftX +
-		            (
-		                rightX -
-		                leftX
-		            ) *
-		            normalized;
+		        c.x = leftX + (rightX - leftX) * normalized;
 		
 		
 		        var centerOffset =
 		            n > 1
-		                ? (
-		                    i -
-		                    (n - 1) / 2
-		                ) /
-		                (
-		                    (n - 1) / 2
-		                )
+		                ? (i - (n - 1) / 2) / ((n - 1) / 2)
 		                : 0;
 		
 		
-		        c.y =
-		            baseY -
-		            lift *
-		            centerOffset *
-		            centerOffset;
+		        c.y = baseY - lift * centerOffset * centerOffset;
 		
 		
-		        c.homeX =
-		            c.x;
+		        c.homeX = c.x;
 		
-		        c.homeY =
-		            c.y;
+		        c.homeY = c.y;
 		
 		
-		        c.hoverDist =
-		            cardH *
-		            HOVER_LIFT;
+		        c.hoverDist = cardH * HOVER_LIFT;
 		
 		
-		        var hit =
-		            new createjs.Shape();
+		        var hit = new createjs.Shape();
 		
 		
 		        hit.graphics
@@ -11411,14 +11095,11 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		                b.x,
 		                b.y,
 		                b.width,
-		                b.height +
-		                c.hoverDist /
-		                scale
+		                b.height + c.hoverDist / scale
 		            );
 		
 		
-		        c.hitArea =
-		            hit;
+		        c.hitArea = hit;
 		
 		
 		        if (
@@ -11437,9 +11118,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		
 		            c.filters = [
-		                new createjs.ColorMatrixFilter(
-		                    m
-		                )
+		                new createjs.ColorMatrixFilter(m)
 		            ];
 		        }
 		
@@ -11475,65 +11154,45 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    for (
-		        var i = 0;
-		        i < cards.length;
-		        i++
-		    ) {
+		    for (var i = 0; i < cards.length; i++) {
 		
-		        var card =
-		            cards[i];
+		        var card = cards[i];
 		
 		
-		        card.introDone =
-		            false;
+		        card.introDone = false;
 		
-		        card.cursor =
-		            null;
+		        card.cursor = null;
 		
 		
-		        var targetX =
-		            card.homeX;
+		        var targetX = card.homeX;
 		
 		
-		        var targetY =
-		            card.homeY;
+		        var targetY = card.homeY;
 		
 		
-		        var startX =
-		            targetX -
-		            dir *
-		            INTRO_DISTANCE;
+		        var startX = targetX - dir * INTRO_DISTANCE;
 		
 		
-		        card.x =
-		            startX;
+		        card.x = startX;
 		
 		
-		        card.y =
-		            targetY;
+		        card.y = targetY;
 		
 		
 		        if (INTRO_FADE) {
 		
-		            card.alpha =
-		                0;
+		            card.alpha = 0;
 		
 		        } else {
 		
-		            card.alpha =
-		                1;
+		            card.alpha = 1;
 		        }
 		
 		
-		        createjs.Tween.removeTweens(
-		            card
-		        );
+		        createjs.Tween.removeTweens(card);
 		
 		
-		        var delay =
-		            i *
-		            INTRO_DELAY;
+		        var delay = i * INTRO_DELAY;
 		
 		
 		        var tweenProperties = {
@@ -11543,17 +11202,12 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		        if (INTRO_FADE) {
 		
-		            tweenProperties.alpha =
-		                1;
+		            tweenProperties.alpha = 1;
 		        }
 		
 		
-		        createjs.Tween.get(
-		            card
-		        )
-		        .wait(
-		            delay
-		        )
+		        createjs.Tween.get(card)
+		        .wait(delay)
 		        .to(
 		            tweenProperties,
 		            INTRO_TIME,
@@ -11562,11 +11216,9 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		        .call(
 		            function(card) {
 		
-		                card.introDone =
-		                    true;
+		                card.introDone = true;
 		
-		                card.cursor =
-		                    "pointer";
+		                card.cursor = "pointer";
 		
 		            },
 		            [card]
@@ -11579,9 +11231,16 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		// SAVE SYSTEM CHANGE LISTENER
 		// --------------------------------------------------
 		
-		function onSaveSystemChange() {
+		function onSaveSystemChange(name) {
 		
 		    if (!alive) {
+		        return;
+		    }
+		
+		
+		    // null means the whole save was just loaded or replaced
+		    if (name !== null && name !== "monsters") {
+		
 		        return;
 		    }
 		
@@ -11598,28 +11257,14 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		    if (
 		        !window.SaveSystem ||
-		        typeof SaveSystem.on !==
-		        "function"
+		        typeof SaveSystem.onChange !== "function"
 		    ) {
 		
 		        return;
 		    }
 		
 		
-		    try {
-		
-		        SaveSystem.on(
-		            "change",
-		            onSaveSystemChange
-		        );
-		
-		    } catch (e) {
-		
-		        console.warn(
-		            "Could not register SaveSystem change listener.",
-		            e
-		        );
-		    }
+		    SaveSystem.onChange(SAVE_LISTENER_ID, onSaveSystemChange);
 		}
 		
 		
@@ -11645,8 +11290,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		
 		    if (
-		        typeof SaveSystem.isLoaded ===
-		        "function" &&
+		        typeof SaveSystem.isLoaded === "function" &&
 		        SaveSystem.isLoaded()
 		    ) {
 		
@@ -11656,21 +11300,16 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		    }
 		
 		
-		    if (
-		        typeof SaveSystem.load ===
-		        "function"
-		    ) {
+		    if (typeof SaveSystem.load === "function") {
 		
 		        try {
 		
-		            var loadResult =
-		                SaveSystem.load();
+		            var loadResult = SaveSystem.load();
 		
 		
 		            if (
 		                loadResult &&
-		                typeof loadResult.then ===
-		                "function"
+		                typeof loadResult.then === "function"
 		            ) {
 		
 		                loadResult.then(
@@ -11716,10 +11355,7 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		
 		function buildOnce() {
 		
-		    createjs.Ticker.removeEventListener(
-		        "tick",
-		        buildOnce
-		    );
+		    createjs.Ticker.removeEventListener("tick", buildOnce);
 		
 		
 		    if (!alive) {
@@ -11770,121 +11406,109 @@ p.nominalBounds = new cjs.Rectangle(0,-21.8,496,456.90000000000003);
 		}
 		
 		
-		createjs.Ticker.addEventListener(
-		    "tick",
-		    buildOnce
-		);
+		createjs.Ticker.addEventListener("tick", buildOnce);
 		
 		
 		// --------------------------------------------------
 		// EXPOSE TO EGG SCRIPT
 		// --------------------------------------------------
 		
-		self.layoutCards =
-		    layoutCards;
+		self.layoutCards = layoutCards;
 		
 		
-		self.updateAllCardMonsters =
-		    updateAllCardMonsters;
+		self.updateAllCardMonsters = updateAllCardMonsters;
 		
 		
-		self.replayCardsIntro =
-		    animateCardsIn;
+		self.replayCardsIntro = animateCardsIn;
 		
 		
-		self.fadeOutCards =
-		    function(time) {
+		self.fadeOutCards = function(time) {
 		
-		        cards.forEach(
-		            function(c) {
+		    cards.forEach(
+		        function(c) {
 		
-		                c.introDone =
-		                    false;
+		            c.introDone = false;
 		
-		                c.cursor =
-		                    null;
+		            c.cursor = null;
 		
-		                c.isPointerInside =
-		                    false;
+		            c.isPointerInside = false;
 		
 		
-		                createjs.Tween.get(
-		                    c,
-		                    {
-		                        override: true
-		                    }
-		                )
-		                .to(
-		                    {
-		                        alpha: 0
-		                    },
-		                    time,
-		                    createjs.Ease.quadOut
-		                );
-		            }
-		        );
-		    };
+		            createjs.Tween.get(
+		                c,
+		                {
+		                    override: true
+		                }
+		            )
+		            .to(
+		                {
+		                    alpha: 0
+		                },
+		                time,
+		                createjs.Ease.quadOut
+		            );
+		        }
+		    );
+		};
 		
 		
 		// --------------------------------------------------
 		// CLEANUP
 		// --------------------------------------------------
 		
-		self.cleanupCards =
-		    function() {
+		self.cleanupCards = function() {
 		
-		        alive =
-		            false;
+		    alive = false;
 		
 		
-		        createjs.Ticker.removeEventListener(
-		            "tick",
-		            buildOnce
-		        );
+		    createjs.Ticker.removeEventListener("tick", buildOnce);
 		
 		
-		        // --------------------------------------------------
-		        // REMOVE EGG CHANGE LISTENER
-		        // --------------------------------------------------
+		    // --------------------------------------------------
+		    // REMOVE EGG CHANGE LISTENER
+		    // --------------------------------------------------
 		
-		        if (
-		            typeof window.removeEventListener ===
-		            "function"
-		        ) {
+		    if (typeof window.removeEventListener === "function") {
 		
-		            window.removeEventListener(
-		                "eggChanged",
-		                onGlobalEggChanged
-		            );
-		        }
+		        window.removeEventListener("eggChanged", onGlobalEggChanged);
+		    }
 		
 		
-		        cards.forEach(
-		            function(c) {
+		    // --------------------------------------------------
+		    // STOP LISTENING TO THE SAVE
+		    // --------------------------------------------------
 		
-		                createjs.Tween.removeTweens(
-		                    c
-		                );
+		    if (
+		        window.SaveSystem &&
+		        typeof SaveSystem.onChange === "function"
+		    ) {
 		
-		
-		                c.removeAllEventListeners();
-		
-		
-		                if (c.cacheCanvas) {
-		
-		                    c.uncache();
-		                }
+		        SaveSystem.onChange(SAVE_LISTENER_ID, function() {});
+		    }
 		
 		
-		                self.removeChild(
-		                    c
-		                );
+		    cards.forEach(
+		        function(c) {
+		
+		            createjs.Tween.removeTweens(c);
+		
+		
+		            c.removeAllEventListeners();
+		
+		
+		            if (c.cacheCanvas) {
+		
+		                c.uncache();
 		            }
-		        );
 		
 		
-		        cards = [];
-		    };
+		            self.removeChild(c);
+		        }
+		    );
+		
+		
+		    cards = [];
+		};
 		
 		
 		})(this);
@@ -16877,9 +16501,9 @@ lib.properties = {
 	color: "#0099CC",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_.png?1791740379100", id:"index_atlas_"},
-		{src:"images/index_atlas_2.png?1791740379100", id:"index_atlas_2"},
-		{src:"images/index_atlas_3.png?1791740379101", id:"index_atlas_3"}
+		{src:"images/index_atlas_.png?1791764986989", id:"index_atlas_"},
+		{src:"images/index_atlas_2.png?1791764986990", id:"index_atlas_2"},
+		{src:"images/index_atlas_3.png?1791764986990", id:"index_atlas_3"}
 	],
 	preloads: []
 };
